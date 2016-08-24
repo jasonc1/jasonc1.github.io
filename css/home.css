@@ -7,6 +7,11 @@ FONTS
 	src: url(fonts/LANENAR_.ttf);
 }
 
+@font-face{
+	font-family: Raleway;
+	src: url(fonts/Raleway-Light.ttf);
+}
+
 
 /*===============================================
 General
@@ -211,10 +216,11 @@ h1{
 
 	display: inline-block;
 	padding-right: .125em;
-	padding-left: .125em;
-	border: .05em solid white;
-	font-family: Lane ;
-	letter-spacing: .15em;
+	padding-left: .25em;
+	border: 3px solid white;
+	font-family: Lane;
+	font-weight: 0;
+	letter-spacing: .25em;
 }
 
 
@@ -231,10 +237,8 @@ h1{
 div#blurbHolder{
 	text-align: center;
 	position: relative;
-
 	width: 100%;
 	height: auto;
-
 	margin-top: 20%;
 }
 
@@ -286,7 +290,7 @@ span.num{
 	min-width: 250px;
 	display:inline-block; 
 	text-align: left;
-	font-family: Consolas;
+	font-family: Monospace;
 	font-size: 1em;
 	background-color: #383737;
 	color: white;
