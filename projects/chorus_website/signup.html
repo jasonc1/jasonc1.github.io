@@ -1,0 +1,97 @@
+<html>
+	<head>
+		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+
+		<link rel="stylesheet" href="css/signup.css" type="text/css" charset="utf-8">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+      <script src="js/validate.js"></script>
+
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	    <title>Chorus | Sign Up</title>
+
+	</head>
+
+
+    <body> 
+    	
+   		<div id = "outer">
+        <div id = "heading">
+          <div class = "center">
+          <span id = "title">Chorus</span> 
+
+          <div id = "reg">sign up</div>
+          </div>
+        </div>
+
+      <div id = "inner"> 
+        <form name = "signup" onsubmit="return validateSignUp(); return false; "method = "post">
+
+   			<div id = "sub-inner">
+            <h1>Create An Account!</h1>
+
+          <div class = "entry">
+            <div>First Name:</div>
+            <div class = "blankEntry" id = "firstnameblank">//Required</div>
+            <div class = "inputError" id = "invalidFirstName">//Invalid First Name</div>
+            <input type="text" class = "login_info" name = "firstname" placeholder = " John">
+          </div>
+
+          <div class = "entry">
+            <div>Last Name:</div> 
+            <div class = "BlankEntry" id = "lastnameblank">//Required</div>
+            <div class = "inputError" id = "invalidLastName">//Invalid Last Name</div>
+
+             <input type="text" class = "login_info" name = "lastname" placeholder = " Doe">
+          </div>
+            
+          <div class = "entry">
+            <div>Email:</div>
+            <div class = "inputError" id = "Invalid_Email">//Invalid Email</div>
+            <div class = "BlankEntry" id = "blankEmail">//Required</div>
+
+            <input type="text" class = "login_info" name = "email" placeholder = " JohnDoe@legionchorus.com">
+          </div>
+          
+          <div class = "entry">
+            <div>Username:</div>
+            <div class = "inputError" id = "UserTaken">//Username taken</div>
+            <div class = "BlankEntry" id = "blankUser">//Required</div>
+
+             <input type="text" class = "login_info" name = "username" placeholder = " JohnD123">
+          </div>
+          
+
+          <div class = "entry">
+            <div>Password:</div>
+
+            <div class = "inputError" id = "PassNotMatch">//Passwords Do Not Match!</div>
+            <div class = "BlankEntry" id = "blankPassword">//Required</div>
+
+            <input type="password" class = "login_info" name = "password1" placeholder=" Password">
+          </div>
+
+          <div class = "entry">
+            <div>Confirm Password:</div>
+
+             <div class = "inputError" id = "PassNotMatch">//Passwords Do Not Match!</div>
+             
+             <div class = "BlankEntry" id = "blankPassword">//Required</div>
+
+            <input type="password" class = "login_info" name = "password2" placeholder=" Password">
+            <p></p>
+          </div>
+
+          <input type="submit" id="Login-button" value="SUBMIT">
+
+        </div>
+      </form>
+        </div>
+      </div>
+
+
+
+  </body>
+
+</html>

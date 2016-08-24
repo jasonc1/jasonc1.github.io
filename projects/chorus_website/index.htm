@@ -1,0 +1,370 @@
+<html><head>
+    <!-- for fonts~ -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+	<title>Chorus | Welcome</title>
+	
+	<!-- Icon -->
+	<link rel="shortcut icon" href="image/favicon.ico">
+	
+	<!-- PHP Javascript Print -->
+	<script type="text/javascript">
+		var sessionId = "2c3vmd0ts000mumlpiesfcrjp1";
+	</script>
+    
+    <!-- variables config -->
+    <!--
+	<script src="js/_config.js" type="text/javascript"></script><style type="text/css"></style>
+    -->
+	
+    <!-- External Lib -->
+	<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+	-->
+	
+	<!-- Internal Lib -->
+	<!--
+	<script src="js/lib/gup.js" type="text/javascript"></script>
+    <script type="text/javascript" src="sm2/soundmanager2.js"></script>
+    -->
+    
+    <!-- Chorus JS Class -->
+    <!--
+	<script src="js/Class/MTurk.js" type="text/javascript"></script>
+    <script src="js/Class/Chat.js" type="text/javascript"></script>
+    <script src="js/Class/Chat.requester.js" type="text/javascript"></script>
+    -->
+	
+	<!-- Page JS -->    
+	<!--
+	<script src="js/requester.js" type="text/javascript"></script>
+	-->
+    
+    
+    <!--  
+<script type="text/javascript">var sess_id = "c0rl1hmovalb738e05c0j5g8j6";
+	var embed_video=true;
+</script>
+-->
+
+    <!-- Libraries -->
+    <!-- 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script><style type="text/css"></style>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+<script type="text/javascript" src="scripts/embed_fms.js"></script><style type="text/css" media="screen">#audioSWF {visibility:hidden}</style>
+<script src="sm2/soundmanager2.js" type="text/javascript"></script>
+<script src="scripts/gup.js" type="text/javascript"></script>
+<script src="partP.js" type="text/javascript"></script>
+<script src="partV.js" type="text/javascript"></script>
+-->
+
+    <!-- 
+<script type="text/javascript">
+var task = gup("task");
+var part = gup("part"); // Current: should be 'm' for memory or 'c' for chat  #//should be 'p' for poster or 'v' for voter
+var role = gup('role') ? gup('role') : '';
+</script>
+-->
+
+    <!--
+<script src="../retainer/scripts/getMoneyOwed.js" type="text/javascript"></script>
+<script src="../../LegionTools/Retainer/scripts/getMoneyOwed.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="css/checkProgressBar.css">
+-->
+
+    <link rel="stylesheet" type="text/css" href="legion/legion.css">
+
+    <!--
+<script src="legion/legion.js" type="text/javascript"></script>
+-->
+
+    <!--
+///Chorus/chorus/legion/legion.js 
+<script src="../../LegionTools/Retainer/scripts/vars.js" type="text/javascript"></script>
+<script src="../../LegionTools/Retainer/scripts/legion.js" type="text/javascript"></script>
+-->
+
+    <!-- 
+/LegionTools/Retainer/scripts/legion.js
+ -->
+    <!-- For tooltips and instructions; If possible, insert before "chat.js"  -->
+    <!--
+<script type="text/javascript" src="scripts/jquery.balloon.min.js"></script>
+<script type="text/javascript" src="scripts/instructionHelper.js"></script>
+-->
+
+    <!-- Chat Scripts -->
+    <!--
+<script src="scripts/chat2.js" type="text/javascript"></script>
+-->
+
+    <!-- Style 
+/Chorus/chorus/tutorials/bigRetainer/css/bigRetainer.css
+-->
+    <link rel="stylesheet" type="text/css" href="css/chat.css">
+    <link rel="stylesheet" type="text/css" href="css/requester.css">
+    
+
+
+</head>
+
+<body data-feedly-mini="yes">
+
+    <ul class = "navBar">
+        <!-- referenced to http://www.sitepoint.com/pure-css-off-screen-navigation-menu/-->
+        <li id = "welcome"><p>LEGION<br> <span id = "chorus">Chorus</span></p></li>
+        <li class = "nav-item"><a href = "#">//Home</a></li>
+        <li class = "nav-item"><a href = "#">//About Us</a></li>
+        <li class = "nav-item"><a href = "#">//Misc</a></li>
+        <li class = "nav-item"><a href = "#">//Other</a></li>
+
+<!--===========================================================================================================
+    SIDEBAR
+============================================================================================================-->
+         
+            <div id="sidebar">
+                
+                <div id="statusPanel">
+                    <h3>Active Workers: <span id="activeWorkerNum">2</span></h3>
+                    Worker Timeout: <span id="workerTimeoutNum">5</span> sec<br>
+                    Chat Timeout: <span id="chatTimeoutNum">300</span> sec<br>
+                    Agreement Threshold: <span id="agreementThresh">40</span>%
+                </div>
+                
+                <div id="soundNoticeConf">
+                    <h3>Sound Notification</h3>
+                    <input type="radio" name="sound" value="none">Silent<br>
+                    <input id="beep" type="radio" name="sound" value="beep">Beep<br>
+                    <span id="tts"><input type="radio" name="sound" value="tts" checked="checked">TTS<br></span>
+                </div>
+                
+                <div id="newMessageNoticeConf">
+                    <h3>Visual Notification</h3>
+                    <input type="radio" name="newChat" value="scroll" checked="checked">Always Scroll to the Bottom<br>
+                    <input type="radio" name="newChat" value="notice">Notice Message<br>
+                </div>
+            
+                
+
+        
+            </div>
+    </ul>
+
+    <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+    <label for="nav-trigger"></label>
+  <div class = "site-wrap">
+
+    <div id="main-interface">
+
+        <div id="chat-done"></div>
+
+        <div id="chat-accepted-container">
+            <div id="chat-accepted">
+                Chat Accepted!
+            </div>
+        </div>
+
+<!--===========================================================================================================
+    CHAT BOX
+============================================================================================================-->
+  
+        <div id="outer-container">
+            
+            <div id="container">
+
+                <div id="header">
+                    <h1>
+					<!--<img width="197" height="58" src="image/chorus.png" alt="Legion Buddy">
+					<span style="position: absolute; left: -10000px;">LegionBuddy</span>-->
+				</h1>
+                    <div id="newMessages">
+                        <span class="number"></span>New Message(s). Please click to check.
+                    </div>
+                </div>
+
+
+                <div id="chat-container">
+                    <h3 id = "mobile-title">LEGION: <span id = "chorus">Chorus</span>
+                    </h3>
+                    <div class = "mobileBar">
+                        <div class = "mobileButton">Home</div>
+                        <div class = "mobileButton">About Us</div>
+                        <div class = "mobileButton">Misc</div>
+                        <div class = "mobileButton">Other</div>
+
+                    </div>
+                    <ul id="chat-area">
+
+                        <!--
+					messages: layout
+					requester/crowd: role
+					voted: clicked button
+					confirmed/inplay: accepted (not button) / button 
+					-->
+					<!--  
+                        <li votes="0" class="messages requester confirmed" chat_id="14073" id="chat_14073" status="1" rejected="0">
+                            <span class="role">requester</span> 
+                            <span class="username">ni7dkoc4o9j1ssce090j2ssc12</span>:
+                            <span class="message">Hello</span>
+                            <span class="visible">visible</span>
+                            
+                        </li>
+                        <li votes="0" class="messages crowd inplay" chat_id="14073" id="chat_14073" status="0" rejected="0">
+                            <span class="role">crowd</span>
+                            <span class="username">ni7dkoc4o9j1ssce090j2ssc12</span>:
+                            <span class="message">Hello</span>
+                            <span class="visible">visible</span>
+                           
+                        </li>
+                    
+                    -->
+                    
+                    <li status="1" rejected="0" chat_id="889" id="chat_889" class="confirmed">
+                        <span class="username">prr4v6sq687kpsk3rrvp80te02</span>
+                                                            <span class="role REQUEST">R</span>
+                        <span class="messages requester">How are you?</span>
+                                    
+
+
+                    </li>
+
+
+
+
+                                                                    
+                    <li status="1" rejected="0" chat_id="890" id="chat_890" class="confirmed">
+                        <span class="username">prr4v6sq687kpsk3rrvp80te02</span> 
+                        <span class="role" id = "crowd">C</span>
+                        <span class="messages crowd">I'm fine. And you?</span>
+                    </li>        
+
+
+
+                    <li status="1" rejected="0" chat_id="891" id="chat_891" class="confirmed">
+                        <span class="username">prr4v6sq687kpsk3rrvp80te02</span> 
+                        <span class="role REQUEST">R</span>
+
+                        <span class="messages requester">I'm ok.</span>
+
+
+                    </li>
+
+                    <li status="1" rejected="0" chat_id="892" id="chat_892" class="confirmed">
+                        <span class="username">prr4v6sq687kpsk3rrvp80te02</span>
+                        <span class="role REQUEST">R</span>
+
+                         <span class="messages requester">What's the meaning of life?</span>
+                     </li>
+
+
+
+                    <li status="1" rejected="0" chat_id="893" id="chat_893" class=" confirmed">
+                        <span class="role" id = "crowd">C</span>
+                        <span class="username">prr4v6sq687kpsk3rrvp80te02</span>
+                        <span class="messages crowd">Life is a gift that we wake up everyday.</span></li>
+
+
+                    <li status="1" rejected="0" chat_id="894" id="chat_894" class="confirmed">
+                        <span class="username">prr4v6sq687kpsk3rrvp80te02</span>
+                        <span class="role REQUEST">R</span>
+
+                        <span class="messages requester">Hi</span></li>
+
+
+                    <li status="1" rejected="0" chat_id="895" id="chat_895" class="confirmed">
+                        <span class="role" id = "crowd">C</span>
+                        <span class="username">1</span>
+                        <span class="messages crowd">Hello</span></li>
+
+                    <li status="1" rejected="0" chat_id="896" id="chat_896" class="confirmed">
+                        <span class="role" id = "crowd">C</span>
+                        <span class="username">3</span>
+                        <span class="messages crowd">Hi!!!</span></li>
+
+                    <li status="1" rejected="0" chat_id="897" id="chat_897" class="confirmed">                        <span class="role" id = "crowd">C</span>
+<span class="username">2</span>
+<span class="messages crowd">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
+
+                    <li status="1" rejected="0" chat_id="898" id="chat_898" class="confirmed">                        <span class="role" id = "crowd">C</span>
+<span class="username">1</span><span class="messages crowd">What?</span></li>
+
+                    <li status="1" rejected="0" chat_id="900" id="chat_900" class="confirmed">                        <span class="role" id = "crowd">C</span>
+<span class="username">2c3vmd0ts000mumlpiesfcrjp1</span>
+<span class="messages crowd">oooooooooo</span></li>
+
+                    <li status="1" rejected="0" chat_id="901" id="chat_901" class="confirmed">
+                         <span class="role" id = "crowd">C</span>
+                        <span class="username">2c3vmd0ts000mumlpiesfcrjp1</span>
+                        <span class="messages crowd"><a target="_blank" href="http://chorus.local.net/Chorus-New/chat.php?task=201412131652">http://chorus.local.net/Chorus-New/chat.php?task=201412131652</a></span></li>
+
+                    <li status="1" rejected="0" chat_id="902" id="chat_902" class="messages confirmed requester"><span class="role">requester</span><span class="username">2c3vmd0ts000mumlpiesfcrjp1</span>: <span class="message">Hi</span></li>
+
+                    <li status="1" rejected="0" chat_id="903" id="chat_903" class="messages confirmed requester"><span class="role">requester</span><span class="username">2c3vmd0ts000mumlpiesfcrjp1</span>: <span class="message">ok</span></li>
+
+                    <li status="1" rejected="0" chat_id="904" id="chat_904" class="messages confirmed requester"><span class="role">requester</span><span class="username">2c3vmd0ts000mumlpiesfcrjp1</span>: <span class="message">oops</span></li>
+
+                    <li status="1" rejected="0" chat_id="905" id="chat_905" class="messages confirmed crowd"><span class="role">crowd</span><span class="username">1</span>: <span class="message">ok</span></li>
+
+                    <li status="1" rejected="0" chat_id="906" id="chat_906" class="messages confirmed crowd"><span class="role">crowd</span><span class="username">worker1</span>: <span class="message">Ha!</span></li>
+
+                    <li status="1" rejected="0" chat_id="907" id="chat_907" class="messages confirmed requester"><span class="role">requester</span><span class="username">2c3vmd0ts000mumlpiesfcrjp1</span>: <span class="message">ok</span></li>
+
+                    <li status="1" rejected="0" chat_id="908" id="chat_908" class="messages confirmed crowd"><span class="role">crowd</span><span class="username">worker1</span>: <span class="message">What are you talking about?</span></li>
+
+                    <li status="1" rejected="0" chat_id="909" id="chat_909" class="messages confirmed crowd"><span class="role">crowd</span><span class="username">worker1</span>: <span class="message">Oops</span></li>
+
+                    <li status="1" rejected="0" chat_id="910" id="chat_910" class="messages confirmed crowd"><span class="role">crowd</span><span class="username">2c3vmd0ts000mumlpiesfcrjp1</span>: <span class="message">ok</span></li>
+
+                    <li status="1" rejected="0" chat_id="911" id="chat_911" class="messages confirmed crowd"><span class="role">crowd</span><span class="username">2c3vmd0ts000mumlpiesfcrjp1</span>: <span class="message">Haha</span></li>
+
+                    <li status="1" rejected="0" chat_id="912" id="chat_912" class="messages confirmed requester"><span class="role">requester</span><span class="username">2c3vmd0ts000mumlpiesfcrjp1</span>: <span class="message">Hi</span></li><li status="1" rejected="0" chat_id="913" id="chat_913" class="messages confirmed requester"><span class="role">requester</span><span class="username">2c3vmd0ts000mumlpiesfcrjp1</span>: <span class="message">Hi</span></li><li status="1" rejected="0" chat_id="914" id="chat_914" class="messages confirmed crowd"><span class="role">crowd</span><span class="username">2</span>: <span class="message">Hello</span></li><li status="1" rejected="0" chat_id="915" id="chat_915" class="messages confirmed crowd"><span class="role">crowd</span><span class="username">1</span>: <span class="message">Hi</span></li></ul>
+
+<!--===========================================================================================================
+USER INPUT
+============================================================================================================-->
+
+                    <div id="typing"></div>
+                    
+                    <div id="entry_wrapper">
+                        <form>
+                            <textarea id="txt" cols="30" rows="3" class="chat-box defaultText defaultTextActive" title="(read the chat history above before contributing - you are participating as the 'crowd' user)"></textarea>
+                            <input type="button" class="submit-button" id="submit-chat" value="Send">
+                        </form>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+            
+        </div>
+
+		
+
+        
+    </div>
+
+    <!-- Sound Manager Div -->
+    <div id="sm2-container" class="movieContainer" style="z-index: 10000; position: absolute; width: 6px; height: 6px; top: -9999px; left: -9999px;">
+        <!--
+		<embed name="sm2movie" id="sm2movie" src="sm2/soundmanager2.swf" quality="high" allowscriptaccess="always" bgcolor="#ffffff" pluginspage="www.macromedia.com/go/getflashplayer" title="JS/Flash audio component (SoundManager 2)" type="application/x-shockwave-flash" haspriority="true">
+		-->
+	</div>
+
+    <!-- TTS Plugin -->
+    <!--  
+    <script type="text/javascript" src="https://rawgithub.com/hiddentao/google-tts/master/google-tts.min.js"></script>
+	-->
+	<!--
+	<script src="tts/requesterTTS.js" type="text/javascript"></script>
+    -->
+    </div>
+</div>
+
+
+</body></html>

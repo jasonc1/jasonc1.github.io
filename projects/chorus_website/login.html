@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+
+		<link rel="stylesheet" href="css/login.css" type="text/css" charset="utf-8">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+      <script src="js/validate.js"></script>
+
+
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	    <title>Chorus | Login</title>
+
+	</head>
+
+
+    <body> 
+    	<div id = "register">
+    		<div id = "plus">+</div>
+    		<a href = "signup.html"><div class = "create_acc">Sign Up!</div></a>
+    		
+   		</div>
+   		<div id = "outer">
+   			
+
+   			<div id = "inner">
+
+   				<h1 id = "title">Chorus</h1>
+          <p id = "quote">"Talk with the crowd like it's a single person."</p>
+
+
+<form name = "login" onsubmit="return validateLogin(); return false;"method = "post">
+          <p class = "inputError">Invalid username or password!</p>
+
+
+          <input type="text" class = "login_info" placeholder = "Username" name = "username" >	
+
+   		 		
+
+   				<input type="password" class = "login_info" placeholder="Password" name = "password">
+			
+
+   				<input type="submit" id="Login-button" value="Login" name="submit"/>
+          <!-- how to link to index.htm???!??!?!? -->
+
+				  <a href = "account_help.html">
+            <div id = "help">
+   					<div id = "question">?</div>
+   				</div>
+          </a>
+</form>
+   			</div>
+   		</div>
+
+    </body>
+
+</html>
