@@ -1,0 +1,331 @@
+@font-face{
+	font-family: Lane;
+	src: url(LANENAR_.ttf);
+}
+a:visited{
+	text-decoration: none;
+
+}
+
+a{text-decoration: none;}
+
+body{
+	  margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;  
+}
+
+h1{
+    color: white;
+    font-family: Lane;
+    font-weight: 100;
+    font-size: 3em;
+    margin-top: .125em;
+}
+
+
+#outer{
+	background-color: #6FC0F3;
+}
+
+#heading{
+	width: 100%;
+	height: 25%;
+	padding-left: 3em;
+	background-color: white;
+	display: inline-block;
+	color: #6FC0F3;
+	font-family: Lane;
+
+}
+
+#inner{
+	text-align: center;
+}
+
+#sub-inner{
+	width: 600px;
+	display: inline-block;
+	text-align: left;
+	margin-top: 2em;
+	font-family: Roboto;
+}
+
+#sub-inner div{
+	display: inline-block;
+	text-align: left;
+	font-size: 12pt;
+	margin-right: .25em;
+	margin-bottom: .25em;
+	display: inline-block;
+}
+.entry{
+	width: 100%;
+	margin-bottom: 1.5em;
+}
+.inputError{
+	color: red;
+	display:none;
+	float: right;
+}
+.BlankEntry{
+	font-weight: 600;
+}
+.inputError{
+	font-weight: 600;
+}
+
+.BlankEntry#required{
+    color: red;
+    display:none;
+    float: right;
+}
+
+.BlankEntry#firstnameblank{
+    color: red;
+    display:none;
+    float: right;
+}
+
+.inputError#invalidFirstName{
+    color: red;
+    display:none;
+    float: right;
+}
+
+.BlankEntry#lastnameblank{
+    color: red;
+    display:none;
+    float: right;
+}
+.inputError#invalidLastName{
+    color: red;
+    display:none;
+    float: right;
+}
+
+.BlankEntry#blankEmail{
+    color: red;
+    display:none;
+    float: right;
+}
+.inputError#Invalid_Email{
+    color: red;
+    display:none;
+    float: right;
+}
+
+.inputError#UserTaken{
+    color: red;
+    display:none;
+    float: right;
+}
+
+.BlankEntry#blankUser{
+    color: red;
+    display:none;
+    float: right;
+}
+
+
+.BlankEntry#blankPassword{
+    color: red;
+    display:none;
+    float: right;
+}
+.inputError#PassNotMatch{
+    color: red;
+    display:none;
+    float: right;
+}
+
+.login_info{
+  resize: none;
+  font-family: Roboto;
+  width: 100%;
+  font-size: 20pt;
+  border: none;
+  padding-bottom: .125em;
+  margin-bottom: .2em;
+  	color: black;
+  	background-color: rgba(256,256,256);
+}
+
+
+#Login-button{
+	width: 100%;
+	font-size: 24pt;
+	font-family: Lane;
+	font-weight:  bold;
+	text-align: center;
+	padding: 0;
+	transition: background-color 0.75s, color 0.75s ease;
+	color: white;
+	background-color: #34D9B8;
+	letter-spacing: .1em;
+	cursor: pointer;
+	margin-bottom: 2em;
+	border:none;
+	  padding-bottom: .125em;
+
+}
+
+#Login-button:hover{
+	background-color: #1FDA9A;
+	color: white;
+}
+
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #ccc;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #ccc;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color: #ccc;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+   color:    #ccc
+}
+
+.center{
+	 position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+
+}
+span#title{
+	font-size: 6em;
+	margin-left: .25em;
+	display: inline-block;
+	letter-spacing: .100em;
+	font-weight: bold;
+	
+}
+
+#reg{
+	display: inline-block;
+	font-size: 6em;
+	padding-left: .125em;
+	border-left: 2px solid #AAC9E2;
+
+}
+
+/*======================================================================================================
+MEDIA QUERIES
+======================================================================================================*/
+
+/*general*/
+
+@media only screen and (max-height: 760px){
+
+}
+
+
+/*smaller screens*/
+@media only screen and (max-height: 600px) {
+
+
+}
+
+@media only screen and (max-height: 450px) {
+
+  
+}
+
+
+/*tablet*/
+
+  @media only screen and (max-device-width: 1024px) and (orientation: landscape){
+  	#outer{
+			width: 100%;
+			margin: 0 auto;
+			padding: 0;
+		}
+
+		
+		#heading{
+		width: 100%;
+		background-color: white;
+		display: inline-block;
+		color: #6FC0F3;
+		font-family: Lane;
+
+}
+
+  }
+
+
+
+/*mobile*/
+
+@media only screen and (max-device-width: 768px) and (orientation: portrait){
+	
+  h1{
+        font-size: 5.5em;
+        margin-bottom: .25em;
+
+    }
+
+	#heading{
+		height: 20%;
+		text-align: center;
+		padding-left: 0;
+
+	}
+		span#title{
+	font-size: 8em;
+	margin-left: 0em;
+
+}
+
+#reg{
+	font-size: 8em;
+}
+
+
+#sub-inner{
+	width: 750px;
+	display: inline-block;
+	text-align: left;
+	margin-top: 2em;
+	font-family: Roboto;
+}
+
+#sub-inner div{
+	display: inline-block;
+	text-align: left;
+	font-size: 24pt;
+	margin-right: .25em;
+	margin-bottom: .25em;
+	display: inline-block;
+}
+.entry{
+	width: 100%;
+	margin-bottom: 1.5em;
+}
+
+#outer{
+	height: 100%;
+}
+
+
+.login_info{
+	font-size: 36pt;
+}
+#Login-button{
+	font-size: 36pt;
+}
+
+}
+
+@media only screen and (max-device-width: 768px) and (orientation: landscape){
+	#outer{
+		height: auto;
+		padding: auto;
+		margin: auto;
+	}
+
+	}

@@ -1,0 +1,25 @@
+{
+  "name": "jasonc1",
+  "version": "0.0.1",
+  "description": "website",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jasonc1/jasonc1.github.io.git"
+  },
+  "keywords": [
+    "portfolio",
+    "website"
+  ],
+  "author": "jasonc1",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jasonc1/jasonc1.github.io/issues"
+  },
+  "devDependencies": {
+    "gulp-util": "~3.0.7"
+  }
+}
