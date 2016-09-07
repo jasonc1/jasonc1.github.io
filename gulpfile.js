@@ -13,12 +13,8 @@ var ghPages = require('gulp-gh-pages');
 
 
 // define the default task and add the watch task to it
-gulp.task('default', ['html', 'projects', 'minify-css', 'fonts', 'images', 'pdf', 'deploy']);
+gulp.task('default', ['html', 'projects', 'minify-css', 'fonts', 'images', 'pdf']);
 
-gulp.task('deploy', function() {
-  return gulp.src('./dist/**/*')
-    .pipe(ghPages("master"));
-});
 
 
 gulp.task('html', function(){
