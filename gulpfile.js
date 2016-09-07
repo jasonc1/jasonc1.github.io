@@ -1,27 +1,59 @@
-// grab our gulp packages
-var gulp  = require('gulp'),
-    jshint = require('gulp-jshint'),
+var gulp   = require('gulp');
+var useref = require('gulp-useref');
+var uglify = require('gulp-uglify');
+var gulpIf = require('gulp-if');
+var cleanCSS = require('gulp-clean-css');
+var imagemin = require('gulp-imagemin');
+var cache = require('gulp-cache');
+var del = require('del');
 
 
-gulp.task('default', ['watch']);
 
-// configure the jshint task
-gulp.task('jshint', function() {
-  return gulp.src('app/js/*.js')
-    .pipe(jshint())
-    .pipe(jshint.reporter('jshint-stylish'));
+
+// define the default task and add the watch task to it
+gulp.task('default', ['html', 'projects', 'minify-css', 'fonts', 'images', 'pdf']);
+
+
+gulp.task('html', function(){
+  return gulp.src('app/*.html')
+    .pipe(useref())
+    .pipe(gulpIf('*.js', uglify()))
+    .pipe(gulp.dest('dist'))
 });
 
-// configure which files to watch and what tasks to use on file changes
-gulp.task('watch', function() {
-  gulp.watch('source/javascript/**/*.js', ['jshint']);
+
+gulp.task('projects', function(){
+  return gulp.src('app/projects/*.html')
+  .pipe(useref())
+  .pipe(gulpIf('*.js', uglify()))
+  .pipe(gulp.dest('dist/projects'))
+})
+
+gulp.task('minify-css', function() {
+  return gulp.src('app/css/*.css')
+    .pipe(cleanCSS({compatibility: 'ie8'}))
+    .pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('copyHtml', function() {
-  // copy any html files in source/ to public/
-  gulp.src('app/*.html').pipe(gulp.dest('dist'));
-  gulp.src('app/projects/*html').pipe(gulp.dest('dist/projects'))
+gulp.task('images', function(){
+  return gulp.src('app/img/**/*.+(png|jpg|gif|svg)')
+  .pipe(cache(imagemin({
+      interlaced: true
+    })))
+  .pipe(gulp.dest('dist/img'))
 });
 
+gulp.task('fonts', function() {
+  return gulp.src('app/fonts/**/*')
+  .pipe(gulp.dest('dist/fonts'))
+})
 
-gulp.watch('source/javascript/**/*.js', ['jshint']);
+
+gulp.task('pdf', function(){
+  return gulp.src('app/projects/*.pdf')
+  .pipe(gulp.dest('dist/projects'))
+})
+
+gulp.task('clean:dist', function() {
+  return del.sync('dist');
+})
