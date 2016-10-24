@@ -57,6 +57,11 @@ gulp.task('pdf', function(){
   .pipe(gulp.dest('dist/projects'))
 })
 
+gulp.task('misc', function(){
+  return gulp.src('app/misc/resume_2016.pdf')
+  .pipe(gulp.dest('dist/misc'))
+})
+
 gulp.task('clean:dist', function() {
   return del.sync('dist');
 })
