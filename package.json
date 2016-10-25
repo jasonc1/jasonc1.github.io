@@ -20,17 +20,17 @@
     "url": "https://github.com/jasonc1/jasonc1.github.io/issues"
   },
   "devDependencies": {
-    "gulp-util": "~3.0.7",
-    "jshint-stylish": "~2.2.1",
-    "jshint": "~2.9.3",
-    "gulp-jshint": "~2.0.1",
-    "gulp-useref": "~3.1.2",
-    "gulp-uglify": "~2.0.0",
-    "gulp-if": "~2.0.1",
-    "gulp-clean-css": "~2.0.12",
-    "gulp-imagemin": "~3.0.3",
     "del": "~2.2.2",
     "gulp-cache": "~0.4.5",
-    "gulp-gh-pages": "~0.5.4"
+    "gulp-clean-css": "^2.0.13",
+    "gulp-gh-pages": "~0.5.4",
+    "gulp-if": "~2.0.1",
+    "gulp-imagemin": "~3.0.3",
+    "gulp-jshint": "~2.0.1",
+    "gulp-uglify": "^2.0.0",
+    "gulp-useref": "^3.1.2",
+    "gulp-util": "~3.0.7",
+    "jshint": "~2.9.3",
+    "jshint-stylish": "~2.2.1"
   }
 }
