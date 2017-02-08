@@ -192,7 +192,7 @@ PANORAMA
 ===============================================*/
 
 #transparency{
-	background-color: rgba(113,165, 207,0.8);
+	background-color: rgba(00,00,00,0.3);
 	height: 100vh;
 	width: auto;
 	overflow: hidden;
@@ -210,14 +210,13 @@ PANORAMA
 
 
 h1{
-	font-size: 8em;
+	font-size: 4em;
 	text-align: center;
 	color:white;
-
+	line-height: 4em;
 	display: inline-block;
 	padding-right: .125em;
 	padding-left: .25em;
-	border: 3px solid white;
 	font-family: Lane;
 	font-weight: 0;
 	letter-spacing: .25em;

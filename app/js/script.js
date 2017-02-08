@@ -13,7 +13,7 @@ $( document ).ready(function() {
             },
 
         function(){
-            $(this).animate({'backgroundColor': 'rgba(113,165, 207,0.8)'},250);
+            $(this).animate({'backgroundColor': 'rgba(00,00,00,0.3)'},250);
             $('#blurb').animate({'color': '#000'}, 250);
             });
 
