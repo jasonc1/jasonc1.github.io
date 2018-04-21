@@ -58,7 +58,7 @@ gulp.task('pdf', function(){
 })
 
 gulp.task('misc', function(){
-  return gulp.src('app/misc/resume_2016.pdf')
+  return gulp.src('app/misc/jason_chen_resume_2017.pdf')
   .pipe(gulp.dest('dist/misc'))
 })
 
