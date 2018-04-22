@@ -10,3 +10,11 @@ $(window).scroll(function(){
       $('.header').css('width', '25%');
   }   
 });
+
+$( document ).ready(function() {
+
+    $("#about").click(
+        function(){
+            $('html, body').animate({ scrollTop: $('#scrollAbout').offset().top -284 }, 'slow');
+        });
+});

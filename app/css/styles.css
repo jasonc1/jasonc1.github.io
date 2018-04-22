@@ -156,6 +156,12 @@ MENU
 }
 .menu li {
   margin-bottom: 1em;
+  cursor: pointer;
+}
+
+img{
+    width:100%;
+    height:auto;
 }
 
 /*===============================================
@@ -184,12 +190,21 @@ MEDIA QUERIES
 
 @media only screen and (max-width: 1100px) {
   .container{
-      width: 85%;
+      width: auto;
   }
 }
 
 
 @media only screen and (max-width: 1100px) {
+  .metaContainer {
+      margin-left:0px;
+      width:100%;
+      padding-top:0px;
+  }
+  .about{
+    padding: 25px 25px 0px 25px;
+  }
+
   .column, .columns {
      grid-column-end: span 12;
   }
@@ -205,7 +220,8 @@ MEDIA QUERIES
   }
   .test{
     margin-left:0px;
-    padding-top:1em;
+    padding: 25px 25px 0px 25px;
+
   }
   .wrap{
     margin: 0 2em 0 2em;
