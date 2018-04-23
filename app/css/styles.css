@@ -13,7 +13,6 @@ GRID
 ===============================================*/
 .container{
   position: relative;
-  max-width: 1560px;
   margin: 0 auto;
   padding: 0px 25px 0px 25px
 }
@@ -188,11 +187,11 @@ COVER
 
 .metaContainer{
 	height: 100vh;
-	background-position: 100% 0%;
+	background-position: 0% 100%;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
-	background-size: auto;
-    background-image: url(../img/pink.jpg);
+	background-size: cover;
+    background-image: url(../img/pink.png);
     margin-left:25%;
     display:block;
     padding-top:100vh;
