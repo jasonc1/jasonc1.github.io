@@ -129,22 +129,34 @@ a:visited {
     margin-bottom:25px;
 }
 
-.description{
-    margin-top:0px
+.project-description{
+    margin-top:0px;
+    margin-left: 25px;
 }
 .project-logo{
-    max-height: 400px;
+    height: 180px;
     width: auto;
     margin: 0 auto;
+    margin-bottom: 50px;
+}
+.project-title{
+  margin: 0px 0px 0px 25px;
+  letter-spacing: .2em;
+  line-height:20px;
+}
+.text-logo{
+  padding-top:60px;
+  height:auto;
 }
 
 .section{
-    margin-bottom:50px;
+    margin-bottom:100px;
 }
 footer{
     text-align: left;
     margin: 50px 0px 50px 0px
 }
+
 /*===============================================
 MENU
 ===============================================*/
@@ -181,6 +193,7 @@ img{
     width:100%;
     height:auto;
     display: inline-block;
+    margin-bottom: 25px;
 }
 
 /*===============================================
@@ -213,6 +226,12 @@ MEDIA QUERIES
 @media only screen and (max-width: 1100px) {
   .container{
       width: auto;
+  }
+  .project-title{
+    margin-left: 0px;
+  }
+  .project-description{
+    margin-left:0px;
   }
 }
 
