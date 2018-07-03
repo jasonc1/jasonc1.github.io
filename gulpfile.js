@@ -1,36 +1,35 @@
 var gulp   = require('gulp');
-var useref = require('gulp-useref');
 var uglify = require('gulp-uglify');
 var gulpIf = require('gulp-if');
 var cleanCSS = require('gulp-clean-css');
 var imagemin = require('gulp-imagemin');
 var cache = require('gulp-cache');
 var del = require('del');
-var ghPages = require('gulp-gh-pages');
+var rename = require('gulp-rename');
+var concat = require('gulp-concat');
 
 
 
 
 
 // define the default task and add the watch task to it
-gulp.task('default', ['html', 'projects', 'minify-css', 'fonts', 'images', 'pdf']);
+gulp.task('default', ['html', 'js', 'minify-css', 'fonts', 'images', 'misc']);
 
 
 
 gulp.task('html', function(){
   return gulp.src('app/*.html')
-    .pipe(useref())
-    .pipe(gulpIf('*.js', uglify()))
-    .pipe(gulp.dest('dist'))
+  .pipe(gulp.dest('dist/'))
 });
 
 
-gulp.task('projects', function(){
-  return gulp.src('app/projects/*.html')
-  .pipe(useref())
-  .pipe(gulpIf('*.js', uglify()))
-  .pipe(gulp.dest('dist/projects'))
+gulp.task('js', function() {
+  return gulp.src('app/js/*.js')
+  .pipe(concat('script.js'))
+  .pipe(uglify())
+  .pipe(gulp.dest('dist/js'));
 })
+
 
 gulp.task('minify-css', function() {
   return gulp.src('app/css/*.css')
@@ -52,13 +51,13 @@ gulp.task('fonts', function() {
 })
 
 
-gulp.task('pdf', function(){
-  return gulp.src('app/projects/*.pdf')
-  .pipe(gulp.dest('dist/projects'))
-})
+// gulp.task('pdf', function(){
+//   return gulp.src('app/projects/*.pdf')
+//   .pipe(gulp.dest('dist/projects'))
+// })
 
 gulp.task('misc', function(){
-  return gulp.src('app/misc/jason_chen_resume_2017.pdf')
+  return gulp.src('app/misc/jason_chen_resume_2017.*')
   .pipe(gulp.dest('dist/misc'))
 })
 

@@ -1,149 +1,191 @@
-
 <!DOCTYPE html>
 <html>
-  <head>
 
-    <link rel="icon" type="image/png" href="img/icon.png">
-    <title>Jason Chen | Photography, Code, and Web Design</title>
-    <meta name="author(s)" content="Jason Chen"/>
+<head>
+  <link rel="icon" type="image/png" href="img/icon.png">
+  <title>Jason Chen | some sort of design engineer</title>
+  <meta name="author(s)" content="Jason Chen" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/styles.css" type="text/css" charset="utf-8">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="js/script.js"></script>
+</head>
 
-    <!--=======================================================
-    THINGS TO LOAD
-    ========================================================-->
+<body>
 
-  <link rel="stylesheet" href="css/home.css" type="text/css" charset="utf-8">
-
-<script src="js/main.min.js"></script>
-
-
-
-  <script type="text/javascript">
-      $(document).ready(function() {
-      $(".fancybox").fancybox();
-    });
-  </script>
-
-  </head>
-
-  <body>
-
-    <div id = "topbar1">
-      <a href = "#" id = "buttonHead">Jason Chen</a>
-
-
-      <div class = "menu">
-        <a href = "#" class = "menuItem" id = "About">About</a>
-        <a href = "#" class = "menuItem" id = "Projects">Projects</a>
-        <a href = "#" class = "menuItem" id = "Photography">Photography</a>
-        <a href = "#" class = "menuItem" id = "Resume">Resume</a>
-      </div>
-
-     </div>
-     
-    <div id="metaContainer">
-      
-      <div id="transparency">
-          <div id = "blurbHolder">
-            <h1 id="yolo">welcome</h1>
+  <div class="header">
+    <div class="wrap">
+      <h1 class="title">JASONCHEN</h1>
+      <ul class="menu">
+        <li id="about">About</li>
+        <li id="projects">Projects</li>
+        <li id="photography">Photography</li>
+        <li id="resume">Resume</li>
+      </ul>
+    </div>
+  </div>
+  <div class="cover">
+    <div class="about container">
+      <div class="row">
+        <div class="twelve columns">
+          <div class="row">
+            <div class="twelve columns">
+              <h1 id="scroll-about">ABOUT</h1>
+            </div>
           </div>
+          <div class="row">
+            <div class="twelve columns">
+              <p>
+                Hi, I'm Jason, and this is my portfolio. I'm more or less some sort of developer that is passionate about building things
+                fast and turning design mocks into prototypes.
+              </p>
+              <p>
+                I graduated from Carnegie Mellon University in 2017 with a B.S. in Information Systems and a B.S. in Human Computer Interaction.
+                I am currently a Software Engineer at Intuit stationed in Mountain View, CA. I work on the the UI for getting
+                Quickbooks customers signed up for Payments. You can find my resume
+                <a href="misc/jason_chen_resume_2017.pdf"
+                  target="_blank">here</a> or scroll down.
+              </p>
+              <p>
+                Some of my hobbies include analog photography, music, design, and working out. You can checkout my instagram
+                <a
+                  href="https://www.instagram.com/me.dium/" target="_blank">here</a>. Feel free to shoot me an email at
+                  <u>jasonc1@alumni.cmu.edu</u> to talk anything about code, UI/UX, photography (both digital and analog), or
+                  anything else.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-
-
-
-
-    <div class = "basic_info_Container editor">
-      <h2 id = "scrollAbout"><b>About Me</b></h2>
-      <div id = "basic_info">
-
-        <div>&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;<span class = "selector">.info</span>{</div>
-        <div>&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class = "def">name</span>:&nbsp;Jason&nbsp;Chen;</div>
-        <div>&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class = "def">home</span>:&nbsp;Cupertino,&nbsp;California;</div>
-        <div>&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class = "def">email</span>:&nbsp;<span class = "def">url</span>(<span class = "url">jasonc1@andrew.cmu.edu</span>);</div>
-        <div>&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class = "def">resume</span>:&nbsp;<span class = "def">url</span>(<a href = "misc/jason_chen_resume_2017.pdf"><span class = "url">resume.pdf</span></a>);</div>
-      <div>&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;}</div>
-
-        <div>&nbsp;7</div>
-
-        <div>&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;<span class = "selector">.education</span>{</div>
-        <div>&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class = "def">background</span>:&nbsp;Carnegie&nbsp;Mellon&nbsp;University;</div>
-        <div>10&nbsp;&nbsp;&nbsp;&nbsp;}</div>
-
-        <div>11</div>
-
-        <div>12&nbsp;&nbsp;&nbsp;&nbsp;<span class = "selector">.major</span>{</div>
-        <div>13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class = "def">Primary</span>:&nbsp;Information&nbsp;Systems;</div>
-        <div>14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class = "def">Secondary</span>:&nbsp;Human&nbsp;Computer&nbsp;Interaction;</div>
-        <div>15&nbsp;&nbsp;&nbsp;&nbsp;}</div>
-
-        <div>16</div>
-
-        <div>17&nbsp;&nbsp;&nbsp;&nbsp;<span class = "selector">.graduation</span>{</div>
-        <div>18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class = "def">expected</span>:&nbsp;July&nbsp;<span class = "num">2017</span>;</div>
-        <div>19&nbsp;&nbsp;&nbsp;&nbsp;}</div>
-
-        <div>20</div>
-
-        <div>21&nbsp;&nbsp;&nbsp;&nbsp;<span class = "selector">.interests</span>{</div>
-        <div>22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class = "def">skills</span>:&nbsp;<span class = "def">Design</span>,&nbsp;<span class = "def">Code</span>,&nbsp;<span class = "def">Photography</span>;</div>
-        <div>23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class = "def">hobbies</span>:&nbsp;<span class = "def">Weightlifting</span>,&nbsp;<span class = "def">Counter&nbsp;Strike</span>,&nbsp;<span class = "def">Music</span></div>
-        <div>24&nbsp;&nbsp;&nbsp;&nbsp;}</div>
-
+  </div>
+  <div class="content container pink">
+    <div class="row section">
+      <div class="twelve columns">
+        <div class="row">
+          <div class="twelve columns">
+            <h1 id="scroll-projects">Projects</h1>
+          </div>
+          <br>
+        </div>
+        <div class="row">
+          <div class="four columns">
+            <img class="project-logo text-logo" src="img/intuit_logo.png" />
+          </div>
+          <div class="eight columns">
+            <h2 class="project-title">INTUIT</h2>
+            <p class="project-description">
+              I currently work at Intuit as a Software Engineer primarily focused on React with Redux + Redux Saga. My team focuses on Payments Onboarding, where we maintain the sign up flows for QuickBooks customers to get set up with Payments. I spent my time at Intuit driving my own projects not only on the user experience but also the technical implementation. Click here to read more about my projects: DocUploader, Intuit Design Systems Accordion, and more.
+            </p>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="four columns">
+            <img class="project-logo" src="img/sr_logo.png" />
+          </div>
+          <div class="eight columns">
+            <h2 class="project-title">STRATROULETTE</h2>
+            <p class="project-description">
+              StratRoulette [SR] is a project created by my good friend Justin Chen from CMU. SR essentially rolls the dice for you and randomly decides, based on community sourced plays or strats, how you should play each round of CounterStrike. What was first a weekend project eventually grew and gained a huge amount of traction, and now we are working on re-skinning the whole website as well as adding new features. I work primarily as his designer, and I oversee the front end development of the site. We are currently working towards making StratRoulette live soon and we are aiming to gather more community engagement towards gaming and having fun.
+            </p>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="four columns">
+            <img class="project-logo" src="img/chartly_icon.png" />
+          </div>
+          <div class="eight columns">
+            <h2 class="project-title">CHARTLY</h2>
+            <p class="project-description">
+              Chartly was a several week exercise where I took the option of making a unique tool for UX designers to help users simply generate charts (bar graphs, line graphs, pie charts, and maybe a few more common ones) so that they would not have to come up with fake data but more importantly not have to design a graphic to display data. Essentially, the user would choose what type of chart he/she would want, put in labels for the chart and axis ranges, and the application would do the rest. Specifically, the user would go through a step by step process of configuring their chart and the application would generate it using Chart.js
+            </p>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="four columns">
+            <img class="project-logo" src="img/viewfinder_logo.png" />
+          </div>
+          <div class="eight columns">
+            <h2 class="project-title">VIEWFINDER</h2>
+            <p class="project-description">
+              Viewfinder is small exercise that was created based on my own experiences as a photographer: people kept asking me for camera recommendations, and I loved giving feedback and advice to others, but I found myself asking the same set of questions: what's your budget? what type of photography are you interested in? etc. I wanted to delve into what was first a cool looking icon that I made but then became a tool where I could help my friends and others get into photography. I wanted to make something that could be interactive and somewhat specific enough that could be tailored towards helping someone find a camera that suits their needs without breaking their wallet.
+            </p>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="four columns">
+            <img class="project-logo text-logo" src="img/manna_logo.png" />
+          </div>
+          <div class="eight columns">
+            <h2 class="project-title">MANNA</h2>
+            <p class="project-description">
+              Manna was a semester long project that I had the pleasure of working with Prof H as an independent study during my last semester of college in effort to help alleviate the painful paper based process that his church went through to provide aid for fellow members. We simplified the process of countless email threads and attachments to a system where Deacons of the church could open cases to provide aid for someone and attach relevant documents so that other Deacons could vote and discuss. I designed the mobile-first UI and implemented a system in Ruby on Rails in a matter of months to deliver to Prof H's church. 
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row section">
+      <div class="twelve columns">
+        <div class="row">
+          <div class="twelve columns">
+            <h1 id="scroll-photography">Photography</h1>
+          </div>
+        </div>
+        <p>
+          After years of shooting digital, I really enjoy shooting medium format film photography. Here are a few shots that I am particularly
+          fond of.
+        </p>
+        <div class="row">
+          <div class="twelve columns">
+            <img src="img/photos/resting_places_1.jpg" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="twelve columns">
+            <img src="img/photos/justin_forest.png" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="twelve columns">
+            <img src="img/photos/pdx2.png" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="twelve columns">
+            <img src="img/photos/trail_fog1.png" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="twelve columns">
+            <img src="img/photos/blend.jpg" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="twelve columns">
+            <img src="img/photos/residential.png" />
+          </div>
+        </div>
 
       </div>
-     </div>  
-    <div class= "container3"><div class = "inner">
-      <h2 id = "scrollProjects">What I do</h2><br><br>
-        
-        <div class= "content contentBig">
-            <img src = "img/Portfolio/legion_chorus.jpg"/></a>
-            <p>
-              <a href="projects.html" target="_blank"><b class = "hover">Projects </b></a><br><br>
-              As a growing designer and programmer, I am beginning my journey in creating various projects, apps and websites. This is my cumulation of various projects that I have done so far.
-            </p>
-        </div>
-      
-    
-
-        
-          <div id = "scrollPhotography" class= "content contentBig">
-            <img src = "img/skyline.jpg"/>
-            <p>
-              <a href="https://www.flickr.com/photos/jasonclaws/" target="_blank"><b class = "hover">Photo</b></a><br><br>I also enjoy shooting sports photography, landscapes, and anything interesting I find. 
-              Check out my <a href= "https://www.flickr.com/photos/jasonclaws/" target="_blank" id = "Social">Flickr</a>!
-            </p> 
-
-          </div>
-
-
-          <div class = "content resume">
-          <a href = "misc/jason_chen_resume_2017.pdf" target="_blank"><img src = "img/designs/resume-icon.png"/></a>
-            <p>
-              <a href="misc/jason_chen_resume_2017.pdf" target="_blank"><!--<div id = "resume" class="moon"></div>--><b class= "hover">Resume</b></a><br><br>
-              <span>You can find out about my work experience, extracurricular activities, and scholarly achievements. I'm also on <a href= "https://www.linkedin.com/pub/jason-chen/92/70a/b83" target="_blank" id = "Social">LinkedIn</a>.</span>
-            </p>
-
-        </div>
-
-        <div class = "content small">
-          <img src = "img/profile.jpg"/></a>
-            <p>
-              <b class= "nonhover">Contact</b></a><br><br>
-              <span><b>Phone</b>: (408) 931-5510<br><b>Email</b>: jasonc1@andrew.cmu.edu</span>
-            </p> 
-              
-          </div> 
-
-        </div>
-
-    </div>      
-
-      <footer>
-        <p>&copy; 2014 Jason Chen.</p>
-        <div id = "triangle-down"></div>
+    </div>
+    <div class="row section">
+      <div class="twelve columns">
+        <h1 id="scroll-resume">RESUME</h1>
+        <img class="resume-image" src="misc/jason_chen_resume_2017.png" />
+      </div>
+    </div>
+    <div class="row">
+      <footer class="twelve columns">
+        <p>// Designed &amp; implemented by jason chen
+          <br> &copy; 2018 jason chen.</p>
       </footer>
-
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
