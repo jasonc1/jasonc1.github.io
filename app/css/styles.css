@@ -91,6 +91,11 @@ PROJECTS
 .container.project-text ul li{
   margin: 10px;
 }
+.container.project-text .project-page-image {
+  width: 70%;
+  margin: 0 auto;
+  text-align: center;
+}
 h3.projects {
   margin-top: 0;
   margin-bottom: 20px;
