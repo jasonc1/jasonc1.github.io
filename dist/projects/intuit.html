@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="icon" type="image/png" href="../img/icon.png">
+  <title>Jason Chen | some sort of design engineer</title>
+  <meta name="author(s)" content="Jason Chen" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/styles.css" type="text/css" charset="utf-8">
+</head>
+
+<body class="pink">
+  <div class="container project-text">
+    <div class="row">
+      <div class="twelve columns">
+        <h1>Intuit</h1>
+      </div>
+      <div class="twelve columns">
+        <h3 class="projects">Role: Software Engineer</h3>
+      </div>
+      <div class="twelve columns">
+        <h3 class="projects">Duration: August 2017 - Present</h3>
+      </div>
+      <div class="twelve columns">
+        <h3 class="projects-label">Overview</h3>
+        <p> At Intuit, my team works on the onboarding flow for getting Quickbooks customers signed up with Payments, so essentially
+          we deal with everything related to a sign up page. My focus during my time at intuit is to learn as much as I can
+          about React + Redux, but also be a driver in providing a good user experience.
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="twelve columns">
+        <h3 class="projects-label">DocUploader</h3>
+        <p>DocUploader is one of the first ‘big’ contributions towards Intuit within my first year. I had roughly 4 weeks to
+          develop the UI from scratch, and this was my first project that I owned.</p>
+        <p>As part of the onboarding process, about 10% of customers sign up need to verify their identity by providing a form
+          of Identification Document (Passport, Driver License, etc). The previous process was that the customer had to call
+          customer care and fax/email their documentation, which took roughly 24-48 hours to complete, depending on what
+          was needed. With DocUploader, the customer was able to attach a picture and send it online without having to talk
+          to a care agent. This significantly reduced the time, as a process that took 24-48 hours was cut down to about
+          10 minutes. Roughly 200+ uploads were made within the first month, and that saved Intuit about at least $5,000
+          at $25 per care call. However, the most important part was that we were able to save the user’s time as well as
+          care agents’ time.
+        </p>
+        <p>Creating the UI took roughly 1.5 weeks, but testing the UI took the other 2.5 weeks. For the most part, everything
+          was self explanatory, but as I developed, I really wanted to make sure that this was a usable product, so I tried
+          to engage myself in discussions with the designers. </p>
+        <img src="../img/projects/docupload.png" />
+
+        <p>Design issues that surfaced during development:</p>
+        <ul>
+          <li>
+            Dragging and dropping was a feature that was requested, but I realized that there was nothing in place with the design/prototype
+            to reflect to a user that as they are dragging their file, they need to know where the file is going to drop.
+          </li>
+          <ul>
+            <li>
+              This was mainly a problem for driver licenses since there needed to be a front and a back, thus creating two drop areas.
+            </li>
+          </ul>
+          <li>
+            Another issue was that only one error message was provided in the design spec: if the file selected was too big.
+          </li>
+          <ul>
+            <li>
+              We needed to account for things like invalid file types and drag/dropping multiple files.
+            </li>
+            <li>
+              This was not so much an engineering issue, so the fix was just to provide a proper error message to let the user know what
+              they did wrong.
+            </li>
+          </ul>
+        </ul>
+
+        <p>A valuable thing that I learned from this project was to not only be able to manage expectations between my PM and
+          manager but also be able to develop the leadership skills to collaborate with my team and designers to get this
+          out to production.
+        </p>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="twelve columns">
+        <h3 class="projects-label">Intuit Design Systems [IDS] Accordion Component</h3>
+        <p>Initially, I volunteered to take up a task to research what it would take to make an accordion component for a new
+          onboarding flow my team was going to work on. After doing all the research and having countless meetings with the
+          designers to figure out every single edge case that the accordion would have, I really wanted to build that component.
+          Due to my NDA, I cannot show what it looks like just yet, as it is not officially released even within Intuit,
+          but stay tuned!
+        </p>
+        <p>My ultimate goal was to not only make a component that my team can use, but also make a component that could be potentially
+          used by other teams. As I found out, this accordion design is a design pattern that would be used throughout all
+          of Quickbooks, and there was a bare bones version of an accordion that I could build on top of.
+        </p>
+        <p>Key Features:</p>
+        <ul>
+          <li>
+            Utilize a version of an existing accordion and modify it so that it is customizable for the consumer
+          </li>
+          <li>
+            Collaboration with motion designers to be consistent with Intuit’s new motion design guidelines
+          </li>
+          <li>
+            Customizable to different themes to match Intuit’s respective products
+          </li>
+          <li>
+            Working towards graduation for officially being a part of Intuit Design Systems
+          </li>
+          <ul>
+            <li>
+              Upgraded project to React 16
+            </li>
+            <li>
+              Collaboration with Accessibility team to meet Intuit’s standards=
+            </li>
+            <li>
+              Provide help and information externally to other teams for consumption
+            </li>
+          </ul>
+        </ul>
+
+        <p>My initial thought was to not use the existing accordion, but the more I did my research the more it made sense:
+          the bare bones version would be a part of the intuit design system, it was made so that it could be customizable
+          (with a few improvements), and it would not require to make something from scratch. This was something I only found
+          out after going back and forth as to if should make a component from scratch, or leverage something that has the
+          basic functionality in place. The bare bones accordion was definitely not an exact match, but after collaborating
+          with the developer, we were able to make it so that the consumers of the accordion had full control as to what
+          the header and body components would have. My further contributions were to pass in props in the react component
+          to be able to provide the styling for the Quickbooks wide accordion. I also developed a theme provider so that
+          this accordion style could take up different themes based on whatever product it was used for: mint, quickbooks,
+          turbo tax, etc.
+        </p>
+        <p>
+          At the end of the contribution, I was able to make something that could be used throughout Intuit, as I felt that it would
+          be ultimately inefficient for another team to develop the same thing. In fact, multiple teams were designing new
+          UIs with the accordion style that my team was using. This accordion currently sits as a lab component, but once
+          two teams use it and it meets proper code coverage, it will be graduated into IDS officially, and it will be packaged
+          into every project automatically as currently it is available in Intuit’s npm registry meaning developers have
+          to install it manually.
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

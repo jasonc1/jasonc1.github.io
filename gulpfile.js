@@ -13,7 +13,7 @@ var concat = require('gulp-concat');
 
 
 // define the default task and add the watch task to it
-gulp.task('default', ['html', 'js', 'minify-css', 'fonts', 'images', 'misc']);
+gulp.task('default', ['html', 'js', 'minify-css', 'fonts', 'images', 'misc', 'projects']);
 
 
 
@@ -59,6 +59,11 @@ gulp.task('fonts', function() {
 gulp.task('misc', function(){
   return gulp.src('app/misc/jason_chen_resume_2017.*')
   .pipe(gulp.dest('dist/misc'))
+})
+
+gulp.task('projects', function() {
+  return gulp.src('app/projects/*.html')
+  .pipe(gulp.dest('dist/projects'))
 })
 
 gulp.task('clean:dist', function() {
