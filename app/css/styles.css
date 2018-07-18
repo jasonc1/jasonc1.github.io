@@ -73,6 +73,32 @@ GRID
 .twelve{
   grid-column: auto / span 12
 }
+/*===============================================
+PROJECTS
+===============================================*/
+.container.project-text {
+  color: black;
+  width: 70%;
+  background-color: white;
+  padding: 15em 3em 3em 3em;
+}
+.container.project-text p{
+  font-variant: none;
+}
+.container.project-text ul {
+  list-style-type: square;
+}
+.container.project-text ul li{
+  margin: 10px;
+}
+h3.projects {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+h3.projects-label {
+  margin-top: 0;
+  margin-bottom: 0;
+}
 
 /*===============================================
 GENERAL
@@ -94,6 +120,9 @@ body {
 
 .pink{
     background-color: #E1C1C0;
+}
+.white{
+  background-color: white;
 }
 
 p {
