@@ -108,6 +108,14 @@ h3.projects-label {
   background-color: #1D2123;
   padding:10px;
 }
+a.project-link, a.project-link:visited {
+  text-decoration: underline;
+  color: black;
+}
+img.white-image {
+  border: 1px solid black;
+  padding:10px;
+}
 /*===============================================
 GENERAL
 ===============================================*/
@@ -294,8 +302,8 @@ MEDIA QUERIES
     min-width:100%;
     position: relative;
     padding-top: 50%;
-    padding-left: 1em;
-    padding-right: 1em;
+    /* padding-left: 1em;
+    padding-right: 1em; */
   }
   h1 {
     font-size: 24pt;
