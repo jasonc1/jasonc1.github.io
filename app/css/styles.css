@@ -104,7 +104,10 @@ h3.projects-label {
   margin-top: 0;
   margin-bottom: 0;
 }
-
+.viewfinder-black {
+  background-color: #1D2123;
+  padding:10px;
+}
 /*===============================================
 GENERAL
 ===============================================*/
