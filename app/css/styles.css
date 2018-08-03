@@ -84,9 +84,11 @@ PROJECTS
 }
 .container.project-text p{
   font-variant: none;
+  line-height: 1.5em;
 }
 .container.project-text ul {
   list-style-type: square;
+  margin-top:0;
 }
 .container.project-text ul li{
   margin: 10px;
@@ -101,7 +103,7 @@ h3.projects {
   margin-bottom: 20px;
 }
 h3.projects-label {
-  margin-top: 0;
+  margin-top: 1.5em;
   margin-bottom: 0;
 }
 .viewfinder-black {
