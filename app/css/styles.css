@@ -86,11 +86,12 @@ PROJECTS
   font-variant: none;
   line-height: 1.5em;
 }
-.container.project-text ul {
+.container.project-text ul, ol {
   list-style-type: square;
   margin-top:0;
+  font-variant: none;
 }
-.container.project-text ul li{
+.container.project-text ul, ol li{
   margin: 10px;
 }
 .container.project-text .project-page-image {
@@ -117,6 +118,15 @@ a.project-link, a.project-link:visited {
 img.white-image {
   border: 1px solid black;
   padding:10px;
+}
+.caption {
+  margin-top: -10px;
+  text-align: center;
+  font-style: italic;
+  font-weight: 700;
+}
+#intuit {
+  margin-top: -45px;
 }
 /*===============================================
 GENERAL
