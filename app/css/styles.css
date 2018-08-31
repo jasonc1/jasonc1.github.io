@@ -86,8 +86,12 @@ PROJECTS
   font-variant: none;
   line-height: 1.5em;
 }
-.container.project-text ul, ol {
+.container.project-text ul {
   list-style-type: square;
+  margin-top:0;
+  font-variant: none;
+}
+.container.project-text ol {
   margin-top:0;
   font-variant: none;
 }
@@ -95,7 +99,7 @@ PROJECTS
   margin: 10px;
 }
 .container.project-text .project-page-image {
-  width: 70%;
+  width: 100%;
   margin: 0 auto;
   text-align: center;
 }
@@ -126,7 +130,9 @@ img.white-image {
   font-weight: 700;
 }
 #intuit {
-  margin-top: -45px;
+  margin-top: -30px;
+  line-height: 1em;
+
 }
 /*===============================================
 GENERAL
