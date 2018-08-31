@@ -36,9 +36,9 @@
           </div>
           <div class="ten columns">
             <p>Deacons provide monetary aid to members in the church through writing an application and having other deacons
-              discuss and vote on whether or not the aid should be granted. This process happened all over email or text,
+              discuss and vote on whether or not the aid should be granted. <strong>This process happened all over email or text,
               thus causing a rift in organization as discussions and votes were clouded by countless emails all under one
-              thread. Furthermore, requesting documents or follow ups to a topic made it impossible to track for users. Each
+              thread.</strong> Furthermore, requesting documents or follow ups to a topic made it impossible to track for users. Each
               case needed Deacon's to vote on, and ensuring that every deacon was not only informed but also involved with
               the discussion was crucial. With numerous cases being presented weekly, sometimes cases fell out of the spotlight
               as more cases came in, so keeping deacons on top of what cases needed attention was also a huge pain point.
@@ -124,8 +124,8 @@
 
             <p>A big ask was that whenever a case was created, there needed to be a comments or discussion section as well as
               a voting portion. The basis for this application was so that deacons could not only create cases for people,
-              but also vote and discuss about them so that they did not have to meet up in person. In order to further cut
-              down implementation time, I leveraged Disqus’ platform, as they had a package built for Ruby on Rails. With
+              but also vote and discuss about them so that they did not have to meet up in person. <strong>In order to further cut
+              down implementation time, I leveraged Disqus’ platform</strong>, as they had a package built for Ruby on Rails. With
               that, I was able to attach a thread to each case, but not have to worry about managing and adding more to the
               database design, as well as creating a whole content system that involves with editing, replying to, etc.
             </p>
@@ -153,7 +153,7 @@
 
             </p>
             <h3 class="projects-label">Selecting Deacons &amp; clients</h3>
-            <p>Creating a case was also the main focus of this project, as it needed to be easy to fill out. I wanted to streamline this process so that time could be spent discussing cases more so drafting or creating a case. Thus, the case creation page was rather reduced to the bare minimum: subject, client, deacon, description, and files attached. One quality of life improvement was that the deacon section would be autofilled based on account, and it would exist as a dropdown menu: there were only about 10-15 deacons, thus the list was manageable. The drop down was necessary so that deacons could also help create cases for other deacons, which was common due to time constraints. Clients, on the other hand, were harder to manage, and due to the interest of time, they were kept as just a normal text box. We wanted to minimize collisions with clients with the same name, so we kept it up to the deacon to provide a proper name that could identify a client properly. 
+            <p>Creating a case was also the main focus of this project, as it needed to be easy to fill out. I wanted to streamline this process so that time could be spent discussing cases more so drafting or creating a case. Thus, the case creation page was rather reduced to the bare minimum: subject, client, deacon, description, and files attached. One quality of life improvement was that the <strong>deacon section would be autofilled based on account</strong>, and it would exist as a dropdown menu: there were only about 10-15 deacons, thus the list was manageable. The drop down was necessary so that deacons could also help create cases for other deacons, which was common due to time constraints. Clients, on the other hand, were harder to manage, and due to the interest of time, they were kept as just a normal text box. We wanted to minimize collisions with clients with the same name, so we kept it up to the deacon to provide a proper name that could identify a client properly. 
             </p>
 
             <div class="row">
@@ -169,9 +169,9 @@
 
             <p>Another challenging aspect of this project was actually attaching a file or multiple files to each case. First
               off, I never really had any experience with attaching files and making sure they get sent to a database: at
-              most, it was just attaching a file to an input tag and calling it a day. With this project, I had to make sure
+              most, it was just attaching a file to an input tag and calling it a day. With this project, <strong>I had to make sure
               there was a way to attach multiple files, and provide a way to show what was attached and a way to remove it
-              if needed. As anyone would say, styling input tags is quite tricky because usually there’s a “choose button”
+              if needed.</strong> As anyone would say, styling input tags is quite tricky because usually there’s a “choose button”
               and a section that shows a file type. However, I had to have a button that triggered the file selector if there
               were no files attached, and for each file that was attached, a user could either delete it by clicking “X”
               or change it by clicking on the file name itself. When it came to actually viewing a case, a list of underlined
