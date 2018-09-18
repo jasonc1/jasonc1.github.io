@@ -4,10 +4,17 @@
 FONTS
 ===============================================*/
 @font-face{
-	font-family: AvenirNextLTPro-Regular;
-	src: url(../fonts/AvenirNextLTPro-Regular.otf);
+	font-family: AvenirLTStd-Light;
+	src: url(../fonts/AvenirLTStd-Light.otf);
+}
+@font-face{
+  font-family: AvenirLTStd-Medium;
+  src: url(../fonts/AvenirLTStd-Medium.otf);
 }
 
+strong {
+  font-family: AvenirLTStd-Medium;
+}
 /*===============================================
 GRID
 ===============================================*/
@@ -140,7 +147,7 @@ GENERAL
 body {
 	margin-left: auto;
 	margin-right: auto;
-	font-family: AvenirNextLTPro-Regular;
+	font-family: AvenirLTStd-Light;
   font-size: 14pt;
   font-weight: 100;
 	vertical-align: center;
