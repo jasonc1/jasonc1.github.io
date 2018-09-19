@@ -102,7 +102,10 @@ PROJECTS
   margin-top:0;
   font-variant: none;
 }
-.container.project-text ul, ol li{
+.container.project-text ol li {
+  margin: 10px;
+}
+.container.project-text ul li {
   margin: 10px;
 }
 .container.project-text .project-page-image {
