@@ -23,6 +23,9 @@ GRID
   margin: 0 auto;
   padding: 0px 25px 0px 25px
 }
+hr {
+  width: 70%;
+}
 
 .row{
   width: 100%;
@@ -114,8 +117,11 @@ PROJECTS
   text-align: center;
 }
 h3.projects {
-  margin-top: 0;
+  margin-top: -20px;
   margin-bottom: 20px;
+}
+h4.projects {
+  margin-top: 0;
 }
 h3.projects-label {
   margin-top: 1.5em;
@@ -157,7 +163,6 @@ body {
   overflow-x: hidden;
   margin: 0 auto;
   color: white;
-  letter-spacing: .1em;
   font-variant: small-caps;
   /* background-color: #E1C1C0; */
 }
@@ -200,6 +205,11 @@ a:visited {
 .about {
     padding-left:75px;
 }
+
+.about p {
+  letter-spacing: .1em;
+}
+
 .resume-image{
     margin-bottom:25px;
 }
@@ -207,7 +217,11 @@ a:visited {
 .project-description{
     margin-top:0px;
     margin-left: 25px;
+    min-height:200px;
+    font-size: 14pt;
+    list-style-type: square;
 }
+
 .project-logo{
     height: 180px;
     width: auto;
@@ -319,10 +333,11 @@ MEDIA QUERIES
       background: #E1C1C0;
       height: 100%;
     }
+
   .about{
     padding: 25px 25px 0px 25px;
   }
-
+  
   .column, .columns {
      grid-column-end: span 12;
   }
