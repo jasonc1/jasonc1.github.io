@@ -37,10 +37,11 @@
           </div>
           <div class="ten columns">
             <p>As part of the onboarding process, about 10% of customers sign up need to verify their identity by providing
-              a form of Identification Document (Passport, Driver License, etc). <strong>The previous process was that the customer
-              had to call customer care and fax/email their documentation, which took roughly 24-48 hours to complete, depending
-              on what was needed.</strong> This is a huge pain point for the customer: calling customer care is never fun, and sending
-              over sensitive information over the phone can be difficult.</p>
+              a form of Identification Document (Passport, Driver License, etc).
+              <strong>The previous process was that the customer had to call customer care and fax/email their documentation, which
+                took roughly 24-48 hours to complete, depending on what was needed.</strong> This is a huge pain point for
+              the customer: calling customer care is never fun, and sending over sensitive information over the phone can
+              be difficult.</p>
             <img src="../img/projects/docupload_pre.png" />
             <span class="caption">Documentation Needed state: message displayed to user to call customer care to resolve ID verification</span>
           </div>
@@ -86,33 +87,37 @@
               made within the first month, and that saved Intuit about at least $5,000 at $25 per care call. However, the
               most important part was that we were able to save the user’s time as well as care agents’ time.
             </p>
+            <p>Design issues that surfaced during development:</p>
+            <ul>
+              <li>
+                <strong>Dragging and dropping</strong> was a feature that was requested, but I realized that
+                <strong>there was nothing in place with the design/prototype to reflect to a user that as they are dragging their
+                  file</strong>, they need to know where the file is going to drop.
+              </li>
+              <ul>
+                <li>
+                  This was mainly a problem for driver licenses since there needed to be a front and a back, thus creating two drop areas.
+                </li>
+              </ul>
+              <li>
+                Another issue was that
+                <strong>only one error message was provided in the design spec</strong>: if the file selected was too big.
+              </li>
+              <ul>
+                <li>
+                  We needed to account for things like
+                  <strong>invalid file types and drag/dropping multiple files</strong>.
+                </li>
+                <li>
+                  This was not so much an engineering issue, so the fix was just to provide a proper error message to let the user know what
+                  they did wrong.
+                </li>
+              </ul>
+            </ul>
           </div>
         </div>
 
-        <p>Design issues that surfaced during development:</p>
-        <ul>
-          <li>
-            <strong>Dragging and dropping</strong> was a feature that was requested, but I realized that <strong>there was nothing in place with the design/prototype
-            to reflect to a user that as they are dragging their file</strong>, they need to know where the file is going to drop.
-          </li>
-          <ul>
-            <li>
-              This was mainly a problem for driver licenses since there needed to be a front and a back, thus creating two drop areas.
-            </li>
-          </ul>
-          <li>
-            Another issue was that <strong>only one error message was provided in the design spec</strong>: if the file selected was too big.
-          </li>
-          <ul>
-            <li>
-              We needed to account for things like <strong>invalid file types and drag/dropping multiple files</strong>.
-            </li>
-            <li>
-              This was not so much an engineering issue, so the fix was just to provide a proper error message to let the user know what
-              they did wrong.
-            </li>
-          </ul>
-        </ul>
+
 
       </div>
     </div>
@@ -131,7 +136,13 @@
             </p>
           </div>
           <div class="ten columns">
-            <p>A new UI component is introduced to Quickbooks Online: the accordion + container-like features. This component would be used throughout quickbooks for various onboarding flows. There are no existing components from Intuit's proprietary component library, and furthermore, the current component library would also be deprecated. The designs presented were simply done through sketch; thus, <strong>things like easing (animation) as well as accessbility were not thought of during the intial design process.</strong> Current onboarding flows would either be too long or broken into multiple pages, thus forcing a user with a very rigid flow.
+            <p>A new UI component is introduced to Quickbooks Online: the accordion + container-like features. This component
+              would be used throughout quickbooks for various onboarding flows. There are no existing components from Intuit's
+              proprietary component library, and furthermore, the current component library would also be deprecated. The
+              designs presented were simply done through sketch; thus,
+              <strong>things like easing (animation) as well as accessbility were not thought of during the intial design process.</strong>
+              Current onboarding flows would either be too long or broken into multiple pages, thus forcing a user with a
+              very rigid flow.
             </p>
           </div>
         </div>
@@ -143,8 +154,13 @@
             </p>
           </div>
           <div class="ten columns">
-            <p>The ultimate goal was to not only make a component that my team can use, but also make a component that could be potentially
-                used by other teams. This accordion was a crucial component in a sense that it could provide users flexibility when it came to filling out forms: a form broken down to sections that could not only summarize each section but also provide the user the freedom to preview what they need to accomplish and to start wherever they desired. This accordion was made so that custom header and body content could be used so that consumers of this component had full control as to what they want to display to the user. This is powerful so that the accordion could be dynamic: different states of the accordion could show different content. 
+            <p>The ultimate goal was to not only make a component that my team can use, but also make a component that could
+              be potentially used by other teams. This accordion was a crucial component in a sense that it could provide
+              users flexibility when it came to filling out forms: a form broken down to sections that could not only summarize
+              each section but also provide the user the freedom to preview what they need to accomplish and to start wherever
+              they desired. This accordion was made so that custom header and body content could be used so that consumers
+              of this component had full control as to what they want to display to the user. This is powerful so that the
+              accordion could be dynamic: different states of the accordion could show different content.
             </p>
             <p>Key Features:</p>
             <ul>
@@ -177,23 +193,23 @@
           </div>
         </div>
         <div class="row">
-            <div class="two columns">
-              <p>
-                <strong>Impact</strong>
-              </p>
-            </div>
-            <div class="ten columns">
-              <p>At the end of the contribution, I was able to make something that could be used throughout Intuit, as I felt that it would
-                  be ultimately inefficient for another team to develop the same thing. In fact, multiple teams were designing new
-                  UIs with the accordion style that my team was using. This accordion currently sits as a lab component, but once
-                  two teams use it and it meets proper code coverage, it will be graduated into IDS officially, and it will be packaged
-                  into every project automatically as currently it is available in Intuit’s npm registry meaning developers have
-                  to install it manually.
-              </p>
-              <img src="../img/projects/accordion_tron.gif" />
-              <span class="caption">The Accordion as seen in Payments Onboarding with Chase in production</span>
-            </div>
+          <div class="two columns">
+            <p>
+              <strong>Impact</strong>
+            </p>
           </div>
+          <div class="ten columns">
+            <p>At the end of the contribution, I was able to make something that could be used throughout Intuit, as I felt
+              that it would be ultimately inefficient for another team to develop the same thing. In fact, multiple teams
+              were designing new UIs with the accordion style that my team was using. This accordion currently sits as a
+              lab component, but once two teams use it and it meets proper code coverage, it will be graduated into IDS officially,
+              and it will be packaged into every project automatically as currently it is available in Intuit’s npm registry
+              meaning developers have to install it manually.
+            </p>
+            <img src="../img/projects/accordion_tron.gif" />
+            <span class="caption">The Accordion as seen in Payments Onboarding with Chase in production</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
