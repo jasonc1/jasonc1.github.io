@@ -57,7 +57,7 @@ gulp.task('fonts', function() {
 // })
 
 gulp.task('misc', function(){
-  return gulp.src('app/misc/jason_chen_resume_2017.*')
+  return gulp.src('app/misc/jason_chen_resume_2018.*')
   .pipe(gulp.dest('dist/misc'))
 })
 
