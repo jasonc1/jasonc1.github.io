@@ -135,10 +135,7 @@ a.project-link, a.project-link:visited {
   text-decoration: underline;
   color: black;
 }
-img.white-image {
-  padding:10px;
-  box-shadow:0 4px 8px 0 rgba(0,0,0,.1);
-}
+
 .caption {
   margin-top: 0px;
   text-align: center;
@@ -228,6 +225,7 @@ a:visited {
     width: auto;
     margin: 0 auto;
     margin-bottom: 50px;
+    box-shadow: none;
 }
 .project-title{
   margin: 0px 0px 0px 25px;
@@ -279,10 +277,11 @@ MENU
 }
 
 img{
-    width:100%;
-    height:auto;
-    display: inline-block;
-    margin-bottom: 25px;
+  width:100%;
+  height:auto;
+  display: inline-block;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1);
 }
 
 /*===============================================
