@@ -136,8 +136,8 @@ a.project-link, a.project-link:visited {
   color: black;
 }
 img.white-image {
-  border: 1px solid black;
   padding:10px;
+  box-shadow:0 4px 8px 0 rgba(0,0,0,.1);
 }
 .caption {
   margin-top: 0px;
@@ -232,7 +232,6 @@ a:visited {
 .project-title{
   margin: 0px 0px 0px 25px;
   letter-spacing: .2em;
-  line-height:20px;
 }
 .text-logo{
   padding-top:60px;
