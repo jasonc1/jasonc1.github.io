@@ -193,6 +193,13 @@ a:visited {
   color:white;
 }
 
+a.projects-link {
+  text-decoration: underline;
+  color: black;
+}
+a.projects-link:visited {
+  color: black;
+}
 .content {
   margin-left:25%;
   padding-left: 75px;
