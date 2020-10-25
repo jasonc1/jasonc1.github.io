@@ -1,0 +1,41 @@
+@import './theme.scss';
+@import './styles/grid.scss';
+
+@font-face {
+  font-family: 'Inter-Medium';
+  src: local('Inter-Medium'),
+    url(./assets/fonts/Inter-Medium.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'DM Serif Display-Regular';
+  src: local('DM Serif Display-Regular'),
+    url(./assets/fonts/DMSerifDisplay-Regular.ttf) format('truetype');
+}
+
+body {
+  background-color: $primary;
+  margin: 0;
+  font-family: 'Inter-Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  cursor: pointer;
+}
+
+.link {
+  text-decoration: none;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
