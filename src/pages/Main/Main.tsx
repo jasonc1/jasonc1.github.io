@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from '../../components/text/text.component';
 import './main.scss';
-import theme from '../../theme.scss';
+import { theme } from '../../colors.js';
 
 export const Main = () => {
   console.log(theme);
