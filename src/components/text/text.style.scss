@@ -1,0 +1,40 @@
+@import '../../theme.scss';
+
+@mixin link {
+  color: $accent;
+}
+
+.text {
+  display: inline-flex;
+}
+
+.display-1 {
+  @include display-1;
+}
+
+.display-2 {
+  @include display-2;
+}
+
+.header-1 {
+  @include header-1;
+}
+
+.subheader-1 {
+  @include subheader-1;
+}
+
+.body-1 {
+  @include body-1;
+}
+.body-2 {
+  @include body-2;
+}
+
+.link-1 {
+  @include link-1;
+}
+
+.link-2 {
+  @include link-2;
+}
