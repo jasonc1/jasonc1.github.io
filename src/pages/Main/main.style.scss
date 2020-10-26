@@ -10,6 +10,13 @@
   width: 100%;
   display: inline-flex;
   flex-flow: column;
+
+  .main-container {
+    margin-left: 25%;
+    padding-left: 40px;
+    padding-top: 15rem;
+    min-height: 100vh;
+  }
 }
 
 .about {
@@ -17,6 +24,14 @@
   margin-top: 100vh;
   display: inline-flex;
   flex-flow: column;
+
+  .about-content {
+    max-width: 800px;
+  }
+}
+
+.projects {
+  background-color: $primary;
 }
 
 @media only screen and (max-width: 550px) {

@@ -4,25 +4,37 @@ import './main.style.scss';
 import { theme } from '../../colors.js';
 import { Nav } from '../../components/nav/nav.component';
 
-const headline = "I'll be back shortly!";
-const blurb =
-  'My portfolio is currently under construction. Please come back soon.';
-
 export const Main = () => {
   return (
     <div className="main">
       <Nav />
-      <div className="about">
+      <div className="about main-container">
+        <div className="about-content">
+          <Text
+            size="display-1"
+            color={theme.accent}
+            text="I’m a design technologist, sneakerhead, mechanical keyboard enthusiast, and photographer."
+            marginBottom={32}
+          />
+          <Text
+            size="body-1"
+            color={theme.accent}
+            text="Hi, I’m Jason. I used to be a developer, but now I sit at the intersection of design and code. My passion is building and maintaining design systems at the moment, and on the side I sometimes create tools for design ops, create high fidelity prototypes, contribute documentation, evangelize Figma features, and much more. "
+            marginBottom={24}
+          />
+          <Text
+            size="body-1"
+            color={theme.accent}
+            text="I currently work at Blend as a Design Technologist frontlining the Alchemy Design Systems effort. I graduated from  Carnegie Mellon University with a B.S in Information Systems and an additional B.S. in  Human Computer Interaction. "
+          />
+        </div>
+      </div>
+      <div className="projects main-container">
         <Text
-          size="body-1"
+          size="display-1"
           color={theme.accent}
-          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum"
+          text="I’m a design technologist, sneakerhead, mechanical keyboard enthusiast, and photographer."
+          marginBottom={32}
         />
       </div>
     </div>

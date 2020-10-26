@@ -6,13 +6,12 @@
   width: 50%;
   display: inline-flex;
   flex-flow: column;
-  justify-content: center;
   background-color: $white;
-  min-width: 450px;
+  min-width: 300px;
   z-index: 1000;
 
   .nav-content {
-    margin-top: -240px;
+    margin-top: 15rem;
     flex-flow: column;
     padding-right: 40px;
     text-align: right;
@@ -24,19 +23,6 @@
     li {
       margin-top: 16px;
     }
-  }
-
-  .menu {
-    margin-top: 1.25em;
-    float: right;
-    position: relative;
-    margin-right: 25px;
-    font-family: AvenirNextLTPro-Regular;
-  }
-
-  .menuItem {
-    display: inline-block;
-    margin-left: 1em;
   }
 }
 

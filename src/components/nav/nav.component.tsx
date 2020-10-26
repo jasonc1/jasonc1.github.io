@@ -3,8 +3,6 @@ import { Text } from '../../components/text/text.component';
 import './nav.style.scss';
 import { theme } from '../../colors.js';
 
-const headerText = 'Jason Chen';
-
 export const Nav = () => {
   return (
     <div className="nav">
