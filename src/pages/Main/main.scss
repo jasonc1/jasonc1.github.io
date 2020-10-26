@@ -10,4 +10,18 @@
   -webkit-justify-content: center;
   align-items: center;
   -webkit-align-items: center;
+
+  @media only screen and (max-width: 550px) {
+    padding: 24px;
+  }
+
+  .content {
+    margin-top: -160px;
+    max-width: 500px;
+    display: inline-flex;
+    flex-flow: column;
+  }
+}
+
+@media (max-width: 800) {
 }
