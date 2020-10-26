@@ -1,0 +1,35 @@
+@import '../../theme.scss';
+
+.main {
+  background-image: url(../../assets/images/landing.jpg);
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  min-height: 100vh;
+  width: 100%;
+  display: inline-flex;
+  flex-flow: column;
+}
+
+.about {
+  height: 100vh;
+  margin-top: 100vh;
+  display: inline-flex;
+  flex-flow: column;
+}
+
+@media only screen and (max-width: 550px) {
+  .main {
+    margin-left: 0px;
+    width: 100%;
+    padding-top: 0px;
+    background: $primary;
+    height: 100%;
+  }
+
+  .about {
+    padding: 24px 24px 0px 24px;
+    margin-top: 0;
+  }
+}
