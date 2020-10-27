@@ -33,7 +33,7 @@ export const Main = () => {
         <Text
           size="display-1"
           color={theme.accent}
-          text="I’m a design technologist, sneakerhead, mechanical keyboard enthusiast, and photographer."
+          text="Design Systems"
           marginBottom={32}
         />
       </div>
