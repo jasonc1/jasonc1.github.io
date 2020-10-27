@@ -20,16 +20,27 @@ export const Nav = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   });
 
+  const clickProjects = () => {
+    document
+      .getElementById('scroll-projects')
+      ?.scrollIntoView({ behavior: 'smooth' });
+  };
+  const clickAbout = () => {
+    document
+      .getElementById('scroll-about')
+      ?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="nav" id="nav-selector">
       <div className="nav-content">
         <Text size="display-1" color={theme.primary} text="Jason Chen" />
 
         <ul className="nav-menu">
-          <li id="about">
+          <li id="about" onClick={clickAbout}>
             <Text size="subheader-1" color={theme.primary} text="About" />
           </li>
-          <li id="projects">
+          <li id="projects" onClick={clickProjects}>
             <Text size="subheader-1" color={theme.primary} text="Projects" />
           </li>
           <li id="photography">

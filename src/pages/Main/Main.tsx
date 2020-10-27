@@ -8,7 +8,7 @@ export const Main = () => {
   return (
     <div className="main" id="main-selector">
       <Nav />
-      <div className="about main-container">
+      <div className="about main-container" id="scroll-about">
         <div className="about-content">
           <Text
             size="display-1"
@@ -29,7 +29,7 @@ export const Main = () => {
           />
         </div>
       </div>
-      <div className="projects main-container">
+      <div className="projects main-container" id="scroll-projects">
         <Text
           size="display-1"
           color={theme.accent}
