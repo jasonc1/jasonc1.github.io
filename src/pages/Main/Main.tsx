@@ -6,7 +6,7 @@ import { Nav } from '../../components/nav/nav.component';
 
 export const Main = () => {
   return (
-    <div className="main">
+    <div className="main" id="main-selector">
       <Nav />
       <div className="about main-container">
         <div className="about-content">

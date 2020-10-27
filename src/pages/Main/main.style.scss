@@ -1,7 +1,8 @@
 @import '../../theme.scss';
 
 .main {
-  background-image: url(../../assets/images/landing.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.33), rgba(0, 0, 0, 0.33)),
+    url(../../assets/images/landing.jpg);
   background-position: 0% 100%;
   background-repeat: no-repeat;
   background-attachment: fixed;

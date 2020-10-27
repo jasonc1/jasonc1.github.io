@@ -1,11 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text } from '../../components/text/text.component';
 import './nav.style.scss';
 import { theme } from '../../colors.js';
 
 export const Nav = () => {
+  useEffect(() => {
+    const handleScroll = () => {
+      const navRate = window.scrollY / 20;
+      const nav = document.getElementById('nav-selector');
+      if (nav) {
+        if (window.scrollY < 500) {
+          nav.style.width = 50 - navRate + '%';
+        } else {
+          nav.style.width = '25%';
+        }
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  });
+
   return (
-    <div className="nav">
+    <div className="nav" id="nav-selector">
       <div className="nav-content">
         <Text size="display-1" color={theme.primary} text="Jason Chen" />
 
