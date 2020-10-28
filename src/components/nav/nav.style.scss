@@ -7,13 +7,13 @@
   display: inline-flex;
   flex-flow: column;
   background-color: $white;
-  min-width: 300px;
+  min-width: 360px;
   z-index: 1000;
 
   .nav-content {
-    margin-top: 15rem;
+    margin-top: $nav-spacer-L;
     flex-flow: column;
-    padding-right: 40px;
+    padding-right: $scale5;
     text-align: right;
   }
 
@@ -22,19 +22,31 @@
     margin: 0;
     li {
       cursor: pointer;
-      margin-top: 16px;
+      margin-top: $scale2;
     }
+  }
+}
+
+@media only screen and (max-width: 1440px) {
+  .nav .nav-content {
+    margin-top: $nav-spacer-M;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .nav {
+    min-width: 100%;
+    position: relative;
+  }
+
+  .nav-content {
+    margin-top: $nav-spacer-M;
+    padding-right: 0px;
   }
 }
 
 @media only screen and (max-width: 550px) {
   .nav {
-    min-width: 100%;
-    position: relative;
     align-items: center;
-
-    .nav-content {
-      padding-right: 0px;
-    }
   }
 }

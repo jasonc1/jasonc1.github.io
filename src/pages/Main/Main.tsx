@@ -37,6 +37,22 @@ export const Main = () => {
           marginBottom={32}
         />
       </div>
+      <div className="photography main-container" id="scroll-photography">
+        <Text
+          size="display-1"
+          color={theme.accent}
+          text="Photography"
+          marginBottom={32}
+        />
+      </div>
+      <div className="contact main-container" id="scroll-contact">
+        <Text
+          size="display-1"
+          color={theme.accent}
+          text="Contact"
+          marginBottom={32}
+        />
+      </div>
     </div>
   );
 };

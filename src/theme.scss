@@ -3,11 +3,42 @@ $accent: #feda7b;
 $black: #393939;
 $white: #ffffff;
 
+// base unit
+$scale0: 4px;
+$scale1: 8px;
+$scale2: 16px;
+$scale3: 24px;
+$scale4: 32px;
+$scale5: 40px;
+$scale6: 48px;
+$scale7: 56px;
+$scale8: 64px;
+$scale9: 72px;
+$scale10: 80px;
+
+$nav-spacer-L: 240px;
+$nav-spacer-M: 128px;
+$nav-spacer-S: $scale6;
+
 :export {
   primary: $primary;
   accent: $accent;
   black: $black;
   white: $white;
+  scale0: $scale0;
+  scale1: $scale1;
+  scale2: $scale2;
+  scale3: $scale3;
+  scale4: $scale4;
+  scale5: $scale5;
+  scale6: $scale6;
+  scale7: $scale7;
+  scale8: $scale8;
+  scale9: $scale9;
+  scale10: $scale10;
+  nav-spacer-L: $nav-spacer-L;
+  nav-spacer-M: $nav-spacer-M;
+  nav-spacer-S: $nav-spacer-S;
 }
 
 @mixin display-1 {

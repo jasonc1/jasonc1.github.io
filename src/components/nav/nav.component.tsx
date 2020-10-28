@@ -30,6 +30,16 @@ export const Nav = () => {
       .getElementById('scroll-about')
       ?.scrollIntoView({ behavior: 'smooth' });
   };
+  const clickPhotography = () => {
+    document
+      .getElementById('scroll-photography')
+      ?.scrollIntoView({ behavior: 'smooth' });
+  };
+  const clickContact = () => {
+    document
+      .getElementById('scroll-contact')
+      ?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <div className="nav" id="nav-selector">
@@ -43,11 +53,11 @@ export const Nav = () => {
           <li id="projects" onClick={clickProjects}>
             <Text size="subheader-1" color={theme.primary} text="Projects" />
           </li>
-          <li id="photography">
+          <li id="photography" onClick={clickPhotography}>
             <Text size="subheader-1" color={theme.primary} text="Photography" />
           </li>
-          <li id="resume">
-            <Text size="subheader-1" color={theme.primary} text="Resume" />
+          <li id="resume" onClick={clickContact}>
+            <Text size="subheader-1" color={theme.primary} text="Contact" />
           </li>
         </ul>
       </div>
