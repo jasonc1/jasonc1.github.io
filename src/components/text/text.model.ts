@@ -17,7 +17,7 @@ export interface ITextProps {
   marginRight?: number | string;
 }
 
-export interface IStyles {
+export interface ITextStyles {
   color?: string;
   textAlign?: 'left' | 'center' | 'right';
   marginLeft?: number | string;

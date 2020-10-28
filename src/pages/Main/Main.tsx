@@ -4,6 +4,7 @@ import './main.style.scss';
 import { theme } from '../../colors.js';
 import { Nav } from '../../components/nav/nav.component';
 import { Rule } from '../../components/rule/rule.component';
+import { Footer } from '../../components/footer/footer.component';
 
 export const Main = () => {
   return (
@@ -48,12 +49,16 @@ export const Main = () => {
         />
       </div>
       <div className="contact main-container" id="scroll-contact">
-        <Text
-          size="display-1"
-          color={theme.accent}
-          text="Contact"
-          marginBottom={32}
-        />
+        <div>
+          <Text
+            size="display-1"
+            color={theme.accent}
+            text="Contact"
+            marginBottom={32}
+          />
+        </div>
+
+        <Footer color={theme.accent} />
       </div>
     </div>
   );

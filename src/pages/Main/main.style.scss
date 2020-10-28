@@ -11,14 +11,14 @@
   width: 100%;
   display: inline-flex;
   flex-flow: column;
+}
 
-  .main-container {
-    padding-left: $scale5;
-    padding-top: 360px;
-    padding-bottom: $scale8;
-    margin-left: 25%;
-    min-height: 100vh;
-  }
+.main-container {
+  padding-left: $scale5;
+  padding-top: 360px;
+  padding-bottom: $scale8;
+  margin-left: 25%;
+  min-height: 100vh;
 }
 
 .about {
@@ -37,6 +37,11 @@
 .photography,
 .contact {
   background-color: $primary;
+}
+.contact {
+  display: inline-flex;
+  flex-flow: column;
+  justify-content: space-between;
 }
 
 @media only screen and (max-height: 1200px) {
