@@ -1,0 +1,14 @@
+@import '../../theme.scss';
+
+.rule {
+  background-image: linear-gradient(
+    to right,
+    #fff 33%,
+    rgba(255, 255, 255, 0) 0%
+  );
+  background-position: top;
+  background-size: 10px 3px;
+  background-repeat: repeat-x;
+  width: 300px;
+  height: 1px;
+}

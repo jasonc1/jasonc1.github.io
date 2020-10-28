@@ -3,6 +3,7 @@ import { Text } from '../../components/text/text.component';
 import './main.style.scss';
 import { theme } from '../../colors.js';
 import { Nav } from '../../components/nav/nav.component';
+import { Rule } from '../../components/rule/rule.component';
 
 export const Main = () => {
   return (
@@ -36,6 +37,7 @@ export const Main = () => {
           text="Design Systems"
           marginBottom={32}
         />
+        <Rule />
       </div>
       <div className="photography main-container" id="scroll-photography">
         <Text
