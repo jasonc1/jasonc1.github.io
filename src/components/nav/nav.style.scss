@@ -11,7 +11,7 @@
   z-index: 1000;
 
   .nav-content {
-    margin-top: $nav-spacer-L;
+    padding-top: 360px;
     flex-flow: column;
     padding-right: $scale5;
     text-align: right;
@@ -27,9 +27,15 @@
   }
 }
 
-@media only screen and (max-width: 1440px) {
+@media only screen and (max-height: 1200px) {
   .nav .nav-content {
-    margin-top: $nav-spacer-M;
+    padding-top: $nav-spacer-L;
+  }
+}
+
+@media only screen and (max-height: 800px) {
+  .nav .nav-content {
+    padding-top: $nav-spacer-M;
   }
 }
 
@@ -40,7 +46,7 @@
   }
 
   .nav-content {
-    margin-top: $nav-spacer-M;
+    padding-top: $nav-spacer-M;
     padding-right: 0px;
   }
 }

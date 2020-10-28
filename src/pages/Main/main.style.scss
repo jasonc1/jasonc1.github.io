@@ -14,7 +14,7 @@
 
   .main-container {
     padding-left: $scale5;
-    padding-top: $nav-spacer-L;
+    padding-top: 360px;
     padding-bottom: $scale8;
     margin-left: 25%;
     min-height: 100vh;
@@ -39,10 +39,21 @@
   background-color: $primary;
 }
 
+@media only screen and (max-height: 1200px) {
+  .main .main-container {
+    padding-top: $nav-spacer-L;
+  }
+}
+
+@media only screen and (max-height: 800px) {
+  .main .main-container {
+    padding-top: $nav-spacer-M;
+  }
+}
+
 @media only screen and (max-width: 1440px) {
   .main .main-container {
     margin-left: 360px;
-    padding-top: $nav-spacer-M;
   }
 }
 
