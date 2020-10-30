@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text } from '../../components/text/text.component';
-import { theme } from '../../colors.js';
 import { Subject } from '../../components/subject/subject.component';
 import { Link } from 'react-router-dom';
 import { SubjectLinks } from '../../components/subject-links/subject-links.component';

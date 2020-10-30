@@ -5,22 +5,7 @@ import { theme } from '../../colors.js';
 import { Nav } from '../../components/nav/nav.component';
 import { Rule } from '../../components/rule/rule.component';
 import { Footer } from '../../components/footer/footer.component';
-import { Subject } from '../../components/subject/subject.component';
-import { Link } from 'react-router-dom';
-import { SubjectLinks } from '../../components/subject-links/subject-links.component';
 import { DesignSystems } from '../../components/sections/design-systems.component';
-
-const intuitAccordionLink = (
-  <Link className="action-link" to="/accordion">
-    <Text size="link-1" text="accordion" marginBottom={24} />
-  </Link>
-);
-const designSystemsDescription: JSX.Element = (
-  <div>
-    By clicking 'Register', you agree to StratRoulette LLC's{' '}
-    {intuitAccordionLink}.
-  </div>
-);
 
 export const Main = () => {
   return (
