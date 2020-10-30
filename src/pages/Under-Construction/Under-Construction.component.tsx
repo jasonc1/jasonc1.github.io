@@ -3,9 +3,9 @@ import { Text } from '../../components/text/text.component';
 import './Under-Construction.style.scss';
 import { theme } from '../../colors.js';
 
-const headline = 'Under Construction';
+const headline = 'Under Construction!';
 const blurb =
-  "I'm currently working on this part of my portfolio. Please come back soon! If you want to chat specifically about a certain topic, please contact me directly in the meantime!";
+  "I'm currently working on this part of my portfolio, and this content is not yet ready. In the meantime, if you want to chat specifically about a certain topic, please contact me at jasonc1@alumni.cmu.edu directly!";
 
 export const UnderConstruction = () => {
   return (
@@ -15,9 +15,14 @@ export const UnderConstruction = () => {
           size="display-1"
           color={theme.accent}
           text={headline}
-          marginBottom={8}
+          marginBottom={16}
         />
-        <Text size="body-1" color={theme.accent} text={blurb} />
+        <Text
+          size="body-1"
+          color={theme.accent}
+          text={blurb}
+          marginBottom={16}
+        />
       </div>
     </div>
   );
