@@ -11,13 +11,31 @@ export const SubjectLinks = ({ projects }: ISubjectLinksProps) => {
       {projects.map((project) => {
         console.log(project);
         if (project.link) {
-          return (
-            <div className="project-link">
-              <Link to={project.link}>
-                <Text size="link-1" color={theme.accent} text={project.name} />
-              </Link>
-            </div>
-          );
+          if (project.external) {
+            return (
+              <div className="project-link">
+                <a target="_blank" rel="noreferrer" href={project.link}>
+                  <Text
+                    size="link-1"
+                    color={theme.accent}
+                    text={project.name}
+                  />
+                </a>
+              </div>
+            );
+          } else {
+            return (
+              <div className="project-link">
+                <Link to={project.link}>
+                  <Text
+                    size="link-1"
+                    color={theme.accent}
+                    text={project.name}
+                  />
+                </Link>
+              </div>
+            );
+          }
         } else {
           return (
             <Text size="link-1" color={theme.accent} text={project.name} />

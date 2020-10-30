@@ -50,9 +50,23 @@ export const DesignSystems = () => {
     <Subject title="Design Systems" description={designSystemsDescription}>
       <SubjectLinks
         projects={[
-          { name: 'Alchemy', link: '/alchemy' },
-          { name: 'StratRoulette', link: 'sr' },
-          { name: 'Intuit Design Systems Accordion', link: 'accordion' },
+          {
+            name: 'Alchemy',
+            link:
+              'https://meetflo.zendesk.com/hc/en-us/articles/230425728-Privacy-Policies',
+            external: true,
+          },
+          {
+            name: 'StratRoulette',
+            link:
+              'https://meetflo.zendesk.com/hc/en-us/articles/230425728-Privacy-Policies',
+            external: true,
+          },
+          {
+            name: 'Intuit Design Systems Accordion',
+            link: 'accordion',
+            external: false,
+          },
         ]}
       />
     </Subject>
