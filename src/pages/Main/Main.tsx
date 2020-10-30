@@ -8,6 +8,7 @@ import { Footer } from '../../components/footer/footer.component';
 import { Subject } from '../../components/subject/subject.component';
 import { Link } from 'react-router-dom';
 import { SubjectLinks } from '../../components/subject-links/subject-links.component';
+import { DesignSystems } from '../../components/sections/design-systems.component';
 
 const intuitAccordionLink = (
   <Link className="action-link" to="/accordion">
@@ -47,33 +48,17 @@ export const Main = () => {
         </div>
       </div>
       <div className="projects main-container" id="scroll-projects">
-        <Subject title="Design Systems" description={designSystemsDescription}>
-          <SubjectLinks
-            projects={[
-              { name: 'Alchemy', link: '/alchemy' },
-              { name: 'StratRoulette', link: 'sr' },
-              { name: 'Intuit Design Systems Accordion', link: 'accordion' },
-            ]}
-          />
-        </Subject>
+        <DesignSystems />
+        <DesignSystems />
+        <DesignSystems />
         <Rule />
       </div>
       <div className="photography main-container" id="scroll-photography">
-        <Text
-          size="display-1"
-          color={theme.accent}
-          text="Photography"
-          marginBottom={32}
-        />
+        <DesignSystems />
       </div>
       <div className="contact main-container" id="scroll-contact">
         <div>
-          <Text
-            size="display-1"
-            color={theme.accent}
-            text="Contact"
-            marginBottom={32}
-          />
+          <DesignSystems />
         </div>
 
         <Footer color={theme.accent} />

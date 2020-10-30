@@ -1,0 +1,19 @@
+@import '../../theme.scss';
+
+.subject-links {
+  width: 100%;
+  display: inline-block;
+  margin-bottom: $scale5;
+
+  .project-link {
+    width: 50%;
+    padding: $scale1 0px;
+    display: inline-flex;
+  }
+}
+
+@media only screen and (max-height: 550px) {
+  .subject-links .project-link {
+    width: 100%;
+  }
+}

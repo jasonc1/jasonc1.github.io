@@ -12,9 +12,11 @@ export const SubjectLinks = ({ projects }: ISubjectLinksProps) => {
         console.log(project);
         if (project.link) {
           return (
-            <Link className="link" to={project.link}>
-              <Text size="link-1" color={theme.accent} text={project.name} />
-            </Link>
+            <div className="project-link">
+              <Link to={project.link}>
+                <Text size="link-1" color={theme.accent} text={project.name} />
+              </Link>
+            </div>
           );
         } else {
           return (

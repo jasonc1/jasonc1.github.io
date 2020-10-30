@@ -25,9 +25,10 @@ body {
 
 a {
   cursor: pointer;
+  text-decoration: none;
 }
 
-.link {
+.action-link {
   text-decoration: none;
   @include link;
 }
