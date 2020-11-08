@@ -1,31 +1,37 @@
 import React from 'react';
-import { Text } from '../../components/text/text.component';
-import { Subject } from '../../components/subject/subject.component';
+import { Text } from '../text/text.component';
+import { Subject } from '../subject/subject.component';
 import { Link } from 'react-router-dom';
-import { SubjectLinks } from '../../components/subject-links/subject-links.component';
+import { SubjectLinks } from '../subject-links/subject-links.component';
 
+// TODO add proper links to project pages
 const intuitAccordionLink = (
-  <Link className="action-link" to="/accordion">
+  <Link className="action-link" to="/underconstruction">
     <Text size="link-1" text="accordion" />
   </Link>
 );
 
 const AlchemyLink = (
-  <Link className="action-link" to="/alchemy">
-    <Text size="link-1" text="Alchemy Design systmes" />
+  <Link className="action-link" to="/underconstruction">
+    <Text size="link-1" text="Alchemy Design system" />
   </Link>
 );
 
 const designSystemsAtBlendLink = (
-  <Link className="action-link" to="/designSystemsAtBlend">
+  <Link className="action-link" to="/underconstruction">
     <Text size="link-1" text="here" />
   </Link>
 );
 
 const StratRouletteLink = (
-  <Link className="action-link" to="/sr">
+  <a
+    className="action-link"
+    target="_blank"
+    rel="noreferrer"
+    href={'https://www.stratroulette.com'}
+  >
     <Text size="link-1" text="StratRoulette" />
-  </Link>
+  </a>
 );
 
 const designSystemsDescription: JSX.Element = (
@@ -44,6 +50,7 @@ const designSystemsDescription: JSX.Element = (
   </div>
 );
 
+// TODO add proper links to external pages ie stratroulette.com
 export const DesignSystems = () => {
   return (
     <Subject title="Design Systems" description={designSystemsDescription}>
@@ -51,19 +58,17 @@ export const DesignSystems = () => {
         projects={[
           {
             name: 'Alchemy',
-            link:
-              'https://meetflo.zendesk.com/hc/en-us/articles/230425728-Privacy-Policies',
-            external: true,
+            link: 'underconstruction',
+            external: false,
           },
           {
             name: 'StratRoulette',
-            link:
-              'https://meetflo.zendesk.com/hc/en-us/articles/230425728-Privacy-Policies',
-            external: true,
+            link: 'underconstruction',
+            external: false,
           },
           {
             name: 'Intuit Design Systems Accordion',
-            link: 'accordion',
+            link: 'underconstruction',
             external: false,
           },
         ]}
@@ -71,3 +76,5 @@ export const DesignSystems = () => {
     </Subject>
   );
 };
+
+export default DesignSystems;

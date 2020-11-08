@@ -1,6 +1,6 @@
 import React from 'react';
 import './photography.style.scss';
-import UnderConstruction from '../Under-Construction/Under-Construction.component';
+import UnderConstruction from '../UnderConstruction/UnderConstruction.component';
 
 export const Photography = () => {
   return <UnderConstruction />;

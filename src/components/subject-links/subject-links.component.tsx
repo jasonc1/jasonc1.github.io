@@ -26,7 +26,7 @@ export const SubjectLinks = ({ projects }: ISubjectLinksProps) => {
           } else {
             return (
               <div className="project-link">
-                <Link to={project.link}>
+                <Link to={project.link as string}>
                   <Text
                     size="link-1"
                     color={theme.accent}

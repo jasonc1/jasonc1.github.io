@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from '../../components/text/text.component';
-import './Under-Construction.style.scss';
+import './UnderConstruction.style.scss';
 import { theme } from '../../colors.js';
 
 const headline = 'Under Construction!';
