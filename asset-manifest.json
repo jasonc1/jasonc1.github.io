@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.7cdaab02.chunk.css",
+    "main.css": "/static/css/main.d37d34f5.chunk.css",
     "main.js": "/static/js/main.79e5d20e.chunk.js",
     "main.js.map": "/static/js/main.79e5d20e.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.3f9de061.js",
@@ -10,7 +10,7 @@
     "static/js/3.e2b6e858.chunk.js": "/static/js/3.e2b6e858.chunk.js",
     "static/js/3.e2b6e858.chunk.js.map": "/static/js/3.e2b6e858.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.7cdaab02.chunk.css.map": "/static/css/main.7cdaab02.chunk.css.map",
+    "static/css/main.d37d34f5.chunk.css.map": "/static/css/main.d37d34f5.chunk.css.map",
     "static/js/2.638ffa0a.chunk.js.LICENSE.txt": "/static/js/2.638ffa0a.chunk.js.LICENSE.txt",
     "static/media/index.scss": "/static/media/Inter-Medium.ddf01184.otf",
     "static/media/jason_chen_resume_2020.0a7e21c6.pdf": "/static/media/jason_chen_resume_2020.0a7e21c6.pdf",
@@ -19,7 +19,7 @@
   "entrypoints": [
     "static/js/runtime-main.3f9de061.js",
     "static/js/2.638ffa0a.chunk.js",
-    "static/css/main.7cdaab02.chunk.css",
+    "static/css/main.d37d34f5.chunk.css",
     "static/js/main.79e5d20e.chunk.js"
   ]
 }
