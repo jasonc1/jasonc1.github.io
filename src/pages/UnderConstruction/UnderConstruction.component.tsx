@@ -5,7 +5,7 @@ import { theme } from '../../colors.js';
 
 const headline = 'Under Construction!';
 const blurb =
-  "I'm currently working on this part of my portfolio, and this content is not yet ready. If you want to chat specifically about a certain topic, please contact me!";
+  "This content is coming soon, and I am currently hard at work writing it. If you'd like to chat specifically about a certain topic, please contact me.";
 
 export const UnderConstruction = () => {
   return (

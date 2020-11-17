@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { SubjectLinks } from '../subject-links/subject-links.component';
 
 const saplingLink = (
-  <Link className="action-link" to="/underconstruction">
+  <Link className="action-link" to="/underconstruction" target="_blank">
     <Text size="link-1" text="Sapling" />
   </Link>
 );

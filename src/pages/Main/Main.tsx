@@ -27,7 +27,7 @@ export const Main = () => {
           <Text
             size="body-1"
             color={theme.accent}
-            text="Hi, I’m Jason. I used to be a developer, but now I sit at the intersection of design and code. My passion is building and maintaining design systems at the moment, and on the side I sometimes create tools for design ops, create high fidelity prototypes, contribute documentation, evangelize Figma features, and much more. "
+            text="Hi, I’m Jason. I used to be a developer, but now I sit at the intersection of design and code. My passion is building and maintaining design systems at the moment, and on the side I create tools for design ops, create high fidelity prototypes, contribute documentation, and much more. "
             marginBottom={24}
           />
           <Text

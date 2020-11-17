@@ -5,20 +5,15 @@ import { Link } from 'react-router-dom';
 import { SubjectLinks } from '../subject-links/subject-links.component';
 
 // TODO add proper links to project pages
-const intuitAccordionLink = (
-  <Link className="action-link" to="/underconstruction">
-    <Text size="link-1" text="accordion" />
-  </Link>
-);
 
 const AlchemyLink = (
-  <Link className="action-link" to="/underconstruction">
+  <Link className="action-link" to="/underconstruction" target="_blank">
     <Text size="link-1" text="Alchemy Design system" />
   </Link>
 );
 
 const designSystemsAtBlendLink = (
-  <Link className="action-link" to="/underconstruction">
+  <Link className="action-link" to="/underconstruction" target="_blank">
     <Text size="link-1" text="here" />
   </Link>
 );
@@ -38,15 +33,15 @@ const designSystemsDescription: JSX.Element = (
   <div>
     Design systems is currently my passion. In one way or another, I got my
     first taste of design systems while I was at Intuit, where I owned and
-    contributed to an {intuitAccordionLink} component. Then, I moved to Blend,
-    where I helped bring forth to light {AlchemyLink}, a themeable design system
-    to support Blend’s various products. Before working on Alchemy, I helped
-    create and maintain Figma libraries, write documentation, address design
-    debt, and host UI reviews for our fellow product designers. You can read
-    more about my journey to design systems {designSystemsAtBlendLink}. On the
-    side, I work on a side project called {StratRouletteLink} where I’ve led the
-    design systems effort by designing and coding the UI library and several
-    main features of the application.
+    contributed to an accordion component. Then, I moved to Blend, where I
+    helped bring forth to light {AlchemyLink}, a themeable design system to
+    support Blend’s various products. Before working on Alchemy, I helped create
+    and maintain Figma libraries, write documentation, address design debt, and
+    host UI reviews for our fellow product designers. You can read more about my
+    journey to design systems {designSystemsAtBlendLink}. On the side, I work on
+    a side project called {StratRouletteLink} where I’ve led the design systems
+    effort by designing and coding the UI library and several main features of
+    the application.
   </div>
 );
 
@@ -63,8 +58,8 @@ export const DesignSystems = () => {
           },
           {
             name: 'StratRoulette',
-            link: 'underconstruction',
-            external: false,
+            link: 'https://www.stratroulette.com/',
+            external: true,
           },
           {
             name: 'Intuit Design Systems Accordion',

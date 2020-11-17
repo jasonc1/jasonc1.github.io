@@ -20,8 +20,8 @@
     max-width: 500px;
     display: inline-flex;
     flex-flow: column;
+    @media only screen and (max-height: 800px) {
+      margin-top: -80px;
+    }
   }
-}
-
-@media (max-width: 800) {
 }
