@@ -1,7 +1,9 @@
 import React from 'react';
-import { IProjectsProps } from './projects.model';
+import { IProjectsProps } from './prose.model';
 import { Text } from '../../text/text.component';
+import { Footer } from '../../footer/footer.component';
 import { theme } from '../../../colors.js';
+import './prose.style.scss';
 
 export const Prose = ({ content, date, summary, title }: IProjectsProps) => {
   return (
@@ -59,6 +61,7 @@ export const Prose = ({ content, date, summary, title }: IProjectsProps) => {
           return null;
         }
       })}
+      <Footer color={theme.black} marginTop={80} />
     </div>
   );
 };

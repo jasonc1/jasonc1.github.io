@@ -88,15 +88,15 @@ const OTMContent = [
   },
 ];
 
-export const OTM = () => {
+export const DesignSystemsAtBlend = () => {
   return (
     <Projects
-      title="One-Tap Mobile"
-      date="Aug 2019 - Sept 2020"
+      title="Design Systems @ Blend"
+      date="November 2020"
       summary={summaryText}
       content={OTMContent}
     />
   );
 };
 
-export default OTM;
+export default DesignSystemsAtBlend;
