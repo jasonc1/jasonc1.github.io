@@ -9,7 +9,6 @@ export const SubjectLinks = ({ projects }: ISubjectLinksProps) => {
   return (
     <div className="subject-links">
       {projects.map((project) => {
-        console.log(project);
         if (project.link) {
           if (project.external) {
             return (
