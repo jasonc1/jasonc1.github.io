@@ -1,5 +1,7 @@
 import React from 'react';
 import Projects from '../../components/templates/prose/prose.component';
+import pgh from '../../assets/images/pgh.jpg';
+
 const summaryText = (
   <div>
     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
@@ -38,6 +40,7 @@ const OTMContent = [
         occaecat cupidatat non proident, sunt in culpa qui officia deserunt
         mollit anim id est laborum
       </div>,
+      <img src={pgh} alt="test" />,
     ],
   },
   {

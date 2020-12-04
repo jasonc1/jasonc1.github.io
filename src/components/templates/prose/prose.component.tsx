@@ -41,8 +41,8 @@ export const Prose = ({ content, date, summary, title }: IProjectsProps) => {
                 marginBottom={16}
               />
               {c.content.map((contentBlock) => {
-                console.log(contentBlock);
-                if (contentBlock) {
+                console.log(contentBlock.type);
+                if (contentBlock && contentBlock.type === 'div') {
                   return (
                     <Text
                       size="body-1"
@@ -51,6 +51,8 @@ export const Prose = ({ content, date, summary, title }: IProjectsProps) => {
                       marginBottom={8}
                     />
                   );
+                } else if (contentBlock && contentBlock.type === 'img') {
+                  return contentBlock;
                 } else {
                   return null;
                 }
