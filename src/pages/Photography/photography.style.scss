@@ -3,6 +3,7 @@
   align-items: center;
   max-width: 1440px;
   margin: 0 auto;
+  height: 100%;
   i {
     display: block;
   }
@@ -10,5 +11,14 @@
     margin-bottom: 80px;
     width: 100%;
     height: auto;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .photography-page {
+    padding: 120px 24px 80px 24px;
+    img {
+      margin-bottom: 24px;
+    }
   }
 }

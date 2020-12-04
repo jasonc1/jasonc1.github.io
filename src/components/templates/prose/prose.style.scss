@@ -11,3 +11,9 @@
 .prose-block {
   margin-bottom: 16px;
 }
+
+@media only screen and (max-width: 1000px) {
+  .prose {
+    padding: 120px 24px 80px 24px;
+  }
+}
