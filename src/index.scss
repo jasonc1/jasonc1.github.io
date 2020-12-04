@@ -2,9 +2,9 @@
 @import './styles/grid.scss';
 
 @font-face {
-  font-family: 'Inter-Medium';
-  src: local('Inter-Medium'),
-    url(./assets/fonts/Inter-Medium.otf) format('opentype');
+  font-family: 'Inter';
+  src: local('Inter-Regular'),
+    url(./assets/fonts/Inter-Regular.otf) format('opentype');
 }
 
 @font-face {
@@ -16,9 +16,9 @@
 body {
   background-color: $white;
   margin: 0;
-  font-family: 'Inter-Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-    'Helvetica Neue', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
