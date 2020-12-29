@@ -1,14 +1,15 @@
+export type typeSizes =
+  | 'display-1'
+  | 'display-2'
+  | 'header-1'
+  | 'subheader-1'
+  | 'body-1'
+  | 'body-2'
+  | 'link-1'
+  | 'link-2';
 export interface ITextProps {
   color?: string;
-  size:
-    | 'display-1'
-    | 'display-2'
-    | 'header-1'
-    | 'subheader-1'
-    | 'body-1'
-    | 'body-2'
-    | 'link-1'
-    | 'link-2';
+  size: typeSizes;
   text: string | JSX.Element;
   textAlign?: 'left' | 'center' | 'right';
   marginTop?: number | string;

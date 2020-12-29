@@ -1,3 +1,5 @@
+@import '../../../theme.scss';
+
 .prose {
   padding: 320px 240px 240px 240px;
   align-items: center;
@@ -5,6 +7,9 @@
   margin: 0 auto;
   i {
     display: block;
+  }
+  a {
+    color: $primary;
   }
 }
 img {

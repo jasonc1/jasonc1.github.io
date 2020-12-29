@@ -41,7 +41,7 @@ export const Prototyping = () => {
         projects={[
           {
             name: 'One Tap Mobile (OTM)',
-            link: 'underconstruction',
+            link: 'OTM',
             external: false,
           },
           {

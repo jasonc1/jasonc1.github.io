@@ -1,0 +1,11 @@
+ol,
+ul {
+  margin-block-end: unset;
+  margin-block-start: unset;
+  padding-inline-start: 40px;
+
+  li {
+    list-style-type: disc;
+    margin-bottom: 8px;
+  }
+}
