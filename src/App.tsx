@@ -7,6 +7,7 @@ import NotFound from './pages/NotFound/NotFound.component';
 import OTM from './pages/Projects/OTM';
 import IDSAccordion from './pages/Projects/IDSAccordion';
 import DocUploader from './pages/Projects/DocUploader';
+import SRLegacy from './pages/Projects/SRLegacy';
 
 // import DesignSystemsAtBlend from './pages/Blog/designSystemsAtBlend';
 
@@ -21,6 +22,7 @@ export const App = () => {
           <Route path="/OTM" component={OTM} />
           <Route path="/IDSAccordion" component={IDSAccordion} />
           <Route path="/DocUploader" component={DocUploader} />
+          <Route path="/SRLegacy" component={SRLegacy} />
           <Route path="/404" component={NotFound} />
           <Redirect from="*" to="/404" />
           {/* <Route path="/dsystemsAtBlend" component={DesignSystemsAtBlend} /> */}
