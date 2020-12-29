@@ -1,11 +1,14 @@
-ol,
-ul {
-  margin-block-end: unset;
-  margin-block-start: unset;
-  padding-inline-start: 40px;
-
-  li {
-    list-style-type: disc;
-    margin-bottom: 8px;
+.text-list {
+  ol,
+  ul {
+    margin-block-end: unset;
+    margin-block-start: unset;
+    padding-inline-start: 40px;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    li {
+      list-style-type: disc;
+      margin-bottom: 8px;
+    }
   }
 }

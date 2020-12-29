@@ -63,7 +63,7 @@ export const DesignSystems = () => {
           },
           {
             name: 'Intuit Design Systems Accordion',
-            link: 'underconstruction',
+            link: 'IDSAccordion',
             external: false,
           },
         ]}

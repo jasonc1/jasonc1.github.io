@@ -28,7 +28,7 @@ export const List = ({ ordered = false, listItems, size }: IListProps) => {
     </ul>
   );
 
-  return <div className="list">{ordered ? ol : ul}</div>;
+  return <div className="text-list">{ordered ? ol : ul}</div>;
 };
 
 export default List;
