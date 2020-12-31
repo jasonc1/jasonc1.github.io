@@ -3,7 +3,17 @@
   margin-top: 8px;
   margin-bottom: 16px;
   text-align: center;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
   img {
     margin-bottom: 8px;
   }
+}
+
+.iphone-img {
+  width: 375px;
+  display: inline-block;
 }
