@@ -1,0 +1,34 @@
+@import '../../../theme.scss';
+
+.prose {
+  padding: 320px 240px 240px 240px;
+  align-items: center;
+  max-width: 1440px;
+  margin: 0 auto;
+  i {
+    display: block;
+  }
+  a {
+    color: $primary;
+  }
+}
+img {
+  margin-bottom: 16px;
+  width: 100%;
+  height: auto;
+}
+
+.img-caption {
+  font-style: italic;
+  margin-bottom: 16px;
+}
+
+.prose-block {
+  margin-bottom: 16px;
+}
+
+@media only screen and (max-width: 1000px) {
+  .prose {
+    padding: 120px 24px 80px 24px;
+  }
+}

@@ -1,0 +1,84 @@
+@import '../../theme.scss';
+
+.main {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.33), rgba(0, 0, 0, 0.33)),
+    url(../../assets/images/landing.jpg);
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  min-height: 100vh;
+  width: 100%;
+  display: inline-flex;
+  flex-flow: column;
+}
+
+.main-container {
+  padding-left: $scale5;
+  padding-top: 360px;
+  padding-bottom: $scale8;
+  margin-left: 25%;
+  min-height: 100vh;
+}
+
+.about {
+  height: 100%;
+  margin-top: 100vh;
+  display: inline-flex;
+  flex-flow: column;
+
+  .about-content {
+    max-width: 872px;
+  }
+}
+
+.projects,
+.photography,
+.contact {
+  background-color: $primary;
+}
+.contact {
+  display: inline-flex;
+  flex-flow: column;
+  justify-content: space-between;
+}
+
+@media only screen and (max-height: 1200px) {
+  .main .main-container {
+    padding-top: $nav-spacer-L;
+  }
+}
+
+@media only screen and (max-height: 800px) {
+  .main .main-container {
+    padding-top: $nav-spacer-M;
+  }
+}
+
+@media only screen and (max-width: 1440px) {
+  .main .main-container {
+    margin-left: 360px;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .main {
+    margin-left: 0px;
+    width: 100%;
+    padding-top: 0px;
+    background: $primary;
+    height: 100%;
+
+    .main-container {
+      margin-left: 0px;
+      padding: $scale3;
+      padding-top: $nav-spacer-S;
+      height: 100%;
+      min-height: 800px;
+    }
+  }
+
+  .about {
+    margin-top: 0;
+  }
+}
