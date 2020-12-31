@@ -37,12 +37,12 @@ export const ToolsAndOps = () => {
             external: false,
           },
           {
-            name: 'StratRoulette',
+            name: 'Abstract Migrate Tool',
             link: 'underconstruction',
             external: false,
           },
           {
-            name: 'Intuit Design Systems Accordion',
+            name: 'Haven',
             link: 'underconstruction',
             external: false,
           },
