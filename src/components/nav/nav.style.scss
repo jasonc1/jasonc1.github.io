@@ -1,0 +1,61 @@
+@import '../../theme.scss';
+
+.nav {
+  position: fixed;
+  height: 100vh;
+  width: 50%;
+  display: inline-flex;
+  flex-flow: column;
+  background-color: $white;
+  min-width: 360px;
+  z-index: 1000;
+
+  .nav-content {
+    padding-top: 360px;
+    flex-flow: column;
+    padding-right: $scale5;
+    text-align: right;
+  }
+
+  ul.nav-menu {
+    list-style-type: none;
+    margin: 0;
+    li {
+      cursor: pointer;
+      margin-top: $scale2;
+    }
+  }
+}
+
+@media only screen and (max-height: 1200px) {
+  .nav .nav-content {
+    padding-top: $nav-spacer-L;
+  }
+}
+
+@media only screen and (max-height: 800px) {
+  .nav .nav-content {
+    padding-top: $nav-spacer-M;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .nav {
+    min-width: 100%;
+    position: relative;
+  }
+
+  .nav-content {
+    padding-top: $nav-spacer-M;
+    padding-right: 0px;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .nav {
+    align-items: center;
+    .nav-content {
+      padding-right: 0px;
+    }
+  }
+}

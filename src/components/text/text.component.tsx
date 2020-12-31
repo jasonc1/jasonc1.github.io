@@ -1,8 +1,7 @@
 import React from 'react';
-import { ITextProps, IStyles } from './text.model';
+import { ITextProps, ITextStyles } from './text.model';
 import './text.style.scss';
 import classNames from 'classnames';
-import '../../theme.scss';
 
 export const Text = ({
   textAlign = 'left',
@@ -14,7 +13,7 @@ export const Text = ({
   marginBottom,
   marginLeft,
 }: ITextProps) => {
-  const textStyles: IStyles = {
+  const textStyles: ITextStyles = {
     textAlign,
     color,
     marginTop,
