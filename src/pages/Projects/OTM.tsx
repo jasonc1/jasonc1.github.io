@@ -1,6 +1,5 @@
 import React from 'react';
 import Projects from '../../components/templates/prose/prose.component';
-import pgh from '../../assets/images/pgh.jpg';
 import { Text } from '../../components/text/text.component';
 import { List } from '../../components/list/list.component';
 import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
@@ -55,6 +54,7 @@ export const OTM = () => {
   );
   const summaryText = (
     <div>
+      <ImageWithCaption src={OTMBanner} caption="One-tap Mobile aka OTM" />
       One-tap Mobile aka OTM has been {OTMMarketingLink}, and it was an honor to
       be put on the project as the prototyper for such a high profile project.
       My goal was to leverage production level components to build the highest
@@ -65,7 +65,9 @@ export const OTM = () => {
       the project ranging from sales demos and prototypes for user studies
       leveraging mostly ReactJS but also exploring alternative prototyping
       tooling solutions like FramerX and ProtoPie.
-      <ImageWithCaption src={OTMBanner} caption="One-tap Mobile aka OTM" />
+      <br />
+      <br />
+      Check out the {ForumDemo}!
     </div>
   );
 

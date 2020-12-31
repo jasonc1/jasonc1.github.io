@@ -15,6 +15,10 @@ export const IDSAccordion = () => {
   );
   const summaryText = (
     <div>
+      <ImageWithCaption
+        src={accordion_tron}
+        caption="The Intuit Design Systems Accordion seen in Payments Onboarding with Chase in production"
+      />
       During my time as a software engineer at {Intuit}, I came across an
       opportunity to contribute to an upcoming design system: Intuit Design
       System [IDS]. This was one of my first experience in design systems: what
@@ -108,10 +112,6 @@ export const IDSAccordion = () => {
           project automatically as currently it is available in Intuit’s npm
           registry meaning developers have to install it manually.
         </div>,
-        <ImageWithCaption
-          src={accordion_tron}
-          caption="The Intuit Design Systems Accordion seen in Payments Onboarding with Chase in production"
-        />,
       ],
     },
   ];

@@ -8,6 +8,7 @@ import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCap
 export const DocUploader = () => {
   const summaryText = (
     <div>
+      <ImageWithCaption src={docupload} caption="DocUploader in production" />
       DocUploader was a feature that was created based on a huge customer pain
       point: providing ID documentation so that the customer could be verified
       for using Payments with Quickbooks. This project took roughly 4 weeks to
@@ -81,10 +82,6 @@ export const DocUploader = () => {
             'Customer Care & Risk evaluate and verify image.',
           ]}
         ></List>,
-        <ImageWithCaption
-          src={docupload}
-          caption="DocUploader in production"
-        />,
         <div>
           With DocUploader, a process that took 24-48 hours was cut down to
           about 10 minutes. Roughly 200+ uploads were made within the first

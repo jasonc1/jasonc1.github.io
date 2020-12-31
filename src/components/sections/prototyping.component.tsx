@@ -46,7 +46,7 @@ export const Prototyping = () => {
           },
           {
             name: 'Wait Task V2',
-            link: 'underconstruction',
+            link: 'WaitTaskV2',
             external: false,
           },
         ]}
