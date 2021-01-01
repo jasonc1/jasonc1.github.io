@@ -9,6 +9,7 @@ import IDSAccordion from './pages/Projects/IDSAccordion';
 import DocUploader from './pages/Projects/DocUploader';
 import SRLegacy from './pages/Projects/SRLegacy';
 import WaitTAskV2 from './pages/Projects/WaitTaskV2';
+import AbstractMigrate from './pages/Projects/AbstractMigrate';
 // import DesignSystemsAtBlend from './pages/Blog/designSystemsAtBlend';
 
 export const App = () => {
@@ -25,6 +26,7 @@ export const App = () => {
           <Route path="/SRLegacy" component={SRLegacy} />
           <Route path="/404" component={NotFound} />
           <Route path="/WaitTaskV2" component={WaitTAskV2} />
+          <Route path="AbstractMigrate" component={AbstractMigrate} />
           <Redirect from="*" to="/404" />
           {/* <Route path="/dsystemsAtBlend" component={DesignSystemsAtBlend} /> */}
         </Switch>
