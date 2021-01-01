@@ -1,17 +1,31 @@
 import React from 'react';
 import Projects from '../../components/templates/prose/prose.component';
 import { List } from '../../components/list/list.component';
+import { Text } from '../../components/text/text.component';
+import AbstractMigrateDefine from '../../assets/images/projects/AbstractMigrate/AbstractMigrateDefine.png';
+import AbstractMigrateTimeline from '../../assets/images/projects/AbstractMigrate/AbstractMigrateTimeline.png';
+import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
 
 export const AbstractMigrate = () => {
+  const AbstractAPI = (
+    <a
+      className="action-link"
+      target="_blank"
+      rel="noreferrer"
+      href={'https://sdk.goabstract.com/docs/abstract-api/'}
+    >
+      <Text size="link-1" text="Abstract's API" />
+    </a>
+  );
   const summaryText = (
     <div>
-      Wait Task V2 is a project where prototyping was leveraged to flesh out a
-      loading experience through code. A hi-fi prototype was made in a matter of
-      days to help the Design team figure out transitions, content, and
-      technical constraints. The prototype was coded in ReactJS and served as a
-      not only a working sandbox for designers to see the experience in real
-      time but also a handoff item for engineering and thus saving several weeks
-      of development time.
+      This was a quarter long initiative where the design technology team fully
+      sunset Abstract in roughly a quarter by leveraging {AbstractAPI}. Over my
+      first year at blend, the Product Design team slowly moved onto Figma, and
+      in Q1 of 2020, we set out to migrate all of the legacy Sketch files into
+      Box. I created a script that helped save 100s of hours of each product
+      designer's time that would have been spent manually moving the files to
+      Box. Over 750 sketch files were migrated with the script.
     </div>
   );
 
@@ -22,10 +36,10 @@ export const AbstractMigrate = () => {
         <List
           size="body-1"
           listItems={[
-            'Created a hi-fi prototype with ReactJS',
-            'Collaborated with Design to work through step by step transitions',
-            'Collaborated with Engineering for hand off and walked through code',
-            'Aided Engineering in making code production ready',
+            'Created rollout plan fo sunsetting Abstract',
+            'Created a node.js script leveraging Abstract’s API to programmatically download files',
+            'Defined structure for labelling files',
+            'Held monthly power hours to tag and archive legacy sketch files',
           ]}
         ></List>,
       ],
@@ -34,64 +48,81 @@ export const AbstractMigrate = () => {
       section: 'Problem',
       content: [
         <div>
-          The original Wait Task experience was simply a spinner with some text
-          that lasted somewhere around 30 seconds, and the home insurance team
-          wanted to make the experience more dynamic and informative for the
-          user.
+          When I joined Blend around February 2019, Figma was gaining traction
+          within the product design team, and it became the unofficial design
+          tool that everyone started using. However, we spent about the next
+          year floating between old files in Sketch and creating new files in
+          Figma.
         </div>,
 
         <div>
-          I was presented a few screens in Figma, and there were three ‘stages’
-          of the wait task. However, many of the transitions were not figured
-          out and there seemed to be a lot of moving pieces between each
-          ‘stage.’ Thus, we figured it would be small enough scope but yet
-          worthwhile to invest time to coding a hi-fi prototype in order to work
-          through all the transitions and intricate interactions.
+          For those not familiar with Abstract, in theory it serves as something
+          similar to a git repository but for sketch files. Thus, it houses all
+          of Blend’s Sketch projects in the following manner: A project can have
+          many branches (like master/main, explorations, etc). Each branch is
+          essentially a Sketch file, and a project entails many branches (or
+          sketch files) like the following:
+        </div>,
+        <pre>
+          <code>blend-projects/</code>
+          <br />
+          <code>&nbsp;&nbsp;project-1/</code>
+          <br />
+          <code>&nbsp;&nbsp;&nbsp;&nbsp;branch-A/</code>
+          <br />
+          <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file-A.sketch</code>
+          <br />
+          <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file-B.sketch</code>
+          <br />
+          <code>&nbsp;&nbsp;&nbsp;&nbsp;branch-B/</code>
+          <br />
+          <code>&nbsp;&nbsp;project-2/</code>
+          <br />
+          <code>...</code>
+        </pre>,
+        <div>
+          Throughout that year, we tried to sunset Abstract twice. We failed to
+          do so the first time (roughly October 2019) because Abstract’s API
+          only let us list files in our Abstract ‘repo,’ but we could not
+          download at that time. On top of that, we had what turned out to be
+          roughly 100 projects (750+ files sketch files) in Abstract. The team
+          eventually abandoned the plan to sunset Abstract because of the sheer
+          amount of manual labor it would entail: downloading each branch from
+          each project and then moving the files to Box.
         </div>,
       ],
     },
     {
       section: 'Solution & Deliverables',
       content: [
+        <ImageWithCaption
+          src={AbstractMigrateDefine}
+          caption="Defining what success looks like for the roll out plan."
+        />,
         <div>
-          As mentioned, the prototype that I was able to produce with the Design
-          team served as a deliverable for hand off for the engineering team.
-          The prototype came to be a useful addition to the design mocks since
-          the engineers could see exactly what was happening frame by frame, but
-          most importantly, the engineers could also reference my code.
-        </div>,
-      ],
-    },
-    {
-      section: 'Process',
-      content: [
-        <div>
-          This project happened over the course of a few days, but my process
-          was quite simple: with most prototypes I make. The first step was to
-          look at the mocks and ask questions and figure out what goes where.
-          Since I knew this was a loading experience that was supposed to be
-          dynamic based on service requests returning data, I mainly used
-          setTimeouts to mock all the timings for the prototype.
+          In March 2020, the PD team decided to revisit sunsetting Abstract as
+          the team found that most designers are now designing in Figma and
+          spending roughly 10% of their time in Sketch. For the most part, most
+          of the tasks being done in Sketch were simply referencing old files
+          less so designing.
         </div>,
         <div>
-          Moreover, I found it extremely helpful to draw everything out frame by
-          frame in figma to highlight every ‘delta’ between each transition
-          between the stages. This helped serve as a blueprint for the prototype
-          so that I could figure out every single element that I needed to show
-          or hide. It was also helpful to just workshop the frames with the
-          primary designer on the project and provide insight as to what could
-          be done or what would be out of scope.
+          Thus, the design technology team set out to create a quarter long plan
+          to roll out sunsetting Abstract. The first task at hand was to create
+          a plan that would factor in the amount of time it require to have
+          designers manually migrate their files each at a bi-weekly or monthly
+          cadence. However, we decided to revisit the Abstract API to see if
+          they made any feature updates. Much to our surprise, they added
+          support to download files programmatically. we devised a plan that
+          determined when product designers should stop using Abstract, batch
+          download files, labelling, and thus fully sunsetting Abstract and
+          ending the subscription. Below, you can see what the overall timeline
+          was.
         </div>,
-        <div>
-          Considerations were made to use other prototyping tools at the time,
-          and even Adobe AE was considered. However, we felt that it would be
-          easier for handoff if we had a code solution. Additionally, it served
-          to be easier to update and tweak timings on the code side as opposed
-          to Adobe AE. Overall, we felt that it would be too cumbersome to
-          animate every single item manually in Adobe AE, and code helped
-          streamline this with the use of CSS and javascript to programmatically
-          animate or transition elements.
-        </div>,
+        <ImageWithCaption
+          src={AbstractMigrateTimeline}
+          caption="Timeline of rollout plan"
+        />,
       ],
     },
   ];
@@ -99,7 +130,7 @@ export const AbstractMigrate = () => {
   return (
     <Projects
       title="Abstract Migrate Tool"
-      date="March 2019 - July 2019"
+      date="March 2020 - July 2020"
       summary={summaryText}
       content={AbstractMigrateContent}
     />

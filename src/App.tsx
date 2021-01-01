@@ -26,7 +26,7 @@ export const App = () => {
           <Route path="/SRLegacy" component={SRLegacy} />
           <Route path="/404" component={NotFound} />
           <Route path="/WaitTaskV2" component={WaitTAskV2} />
-          <Route path="AbstractMigrate" component={AbstractMigrate} />
+          <Route path="/AbstractMigrate" component={AbstractMigrate} />
           <Redirect from="*" to="/404" />
           {/* <Route path="/dsystemsAtBlend" component={DesignSystemsAtBlend} /> */}
         </Switch>

@@ -38,7 +38,7 @@ export const ToolsAndOps = () => {
           },
           {
             name: 'Abstract Migrate Tool',
-            link: 'underconstruction',
+            link: 'AbstractMigrate',
             external: false,
           },
           {
