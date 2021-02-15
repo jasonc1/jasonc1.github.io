@@ -249,7 +249,7 @@ export const OTM = () => {
   return (
     <Projects
       title="One-Tap Mobile"
-      date="March 2019 - Sept 2019"
+      date="Mar 2019 - Sept 2019"
       summary={summaryText}
       content={OTMContent}
     />

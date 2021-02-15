@@ -96,7 +96,7 @@ export const DocUploader = () => {
   return (
     <Projects
       title="DocUploader"
-      date="March 2017 - April 2017"
+      date="Mar 2017 - Apr 2017"
       summary={summaryText}
       content={DocUploaderContent}
     />

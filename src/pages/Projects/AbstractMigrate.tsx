@@ -130,7 +130,7 @@ export const AbstractMigrate = () => {
   return (
     <Projects
       title="Abstract Migrate Tool"
-      date="March 2020 - July 2020"
+      date="Mar 2020 - Jul 2020"
       summary={summaryText}
       content={AbstractMigrateContent}
     />

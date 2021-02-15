@@ -58,8 +58,8 @@ export const DesignSystems = () => {
           },
           {
             name: 'StratRoulette',
-            link: 'https://www.stratroulette.com/',
-            external: true,
+            link: 'StratRoulette',
+            external: false,
           },
           {
             name: 'Intuit Design Systems Accordion',

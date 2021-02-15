@@ -10,6 +10,10 @@ import DocUploader from './pages/Projects/DocUploader';
 import SRLegacy from './pages/Projects/SRLegacy';
 import WaitTAskV2 from './pages/Projects/WaitTaskV2';
 import AbstractMigrate from './pages/Projects/AbstractMigrate';
+import Sapling from './pages/Projects/Sapling';
+import Haven from './pages/Projects/Haven';
+import StratRoulette from './pages/Projects/StratRoulette';
+
 // import DesignSystemsAtBlend from './pages/Blog/designSystemsAtBlend';
 
 export const App = () => {
@@ -27,6 +31,9 @@ export const App = () => {
           <Route path="/404" component={NotFound} />
           <Route path="/WaitTaskV2" component={WaitTAskV2} />
           <Route path="/AbstractMigrate" component={AbstractMigrate} />
+          <Route path="/Sapling" component={Sapling} />
+          <Route path="/Haven" component={Haven} />
+          <Route path="/StratRoulette" component={StratRoulette} />
           <Redirect from="*" to="/404" />
           {/* <Route path="/dsystemsAtBlend" component={DesignSystemsAtBlend} /> */}
         </Switch>
