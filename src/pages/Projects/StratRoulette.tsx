@@ -11,7 +11,6 @@ import landing_info from '../../assets/images/projects/StratRoulette/landing_inf
 import roulette_form_inputs from '../../assets/images/projects/StratRoulette/roulette_form_inputs.png';
 import typography from '../../assets/images/projects/StratRoulette/typography.png';
 import SRLegacy_alpha from '../../assets/images/projects/SRLegacy/SRLegacy_alpha.png';
-
 import { Link } from 'react-router-dom';
 
 export const StratRoulette = () => {
@@ -124,10 +123,6 @@ export const StratRoulette = () => {
           Thus, I wanted to be able to pick out colors, typeface, and other
           design elements.
         </div>,
-        <ImageWithCaption
-          src={colors}
-          caption="StratRoulette's color system"
-        />,
         <div>
           Once the colors, typeface, and design elements were figured out, I
           decided to create a logo. I tried to stick with something simple with
@@ -140,6 +135,18 @@ export const StratRoulette = () => {
           and yellow, really did not vibe with me since they reflect error,
           success, and warning colors respectively.
         </div>,
+        <ImageWithCaption
+          src={colors}
+          caption="StratRoulette's color system"
+        />,
+        <ImageWithCaption
+          src={typography}
+          caption="StratRoulette's type ramp showcasing Voyage for Display text Inter for body and subheaders"
+        />,
+        <ImageWithCaption
+          src={roulette_form_inputs}
+          caption="Roulette design system's form inputs."
+        />,
         <div>
           For most of the project, SR’s design and product decisions were driven
           by Justin and me. Justin created various product specs, and during the
@@ -149,10 +156,7 @@ export const StratRoulette = () => {
           Before designing screens/flows, I first created a base set of
           components
         </div>,
-        <ImageWithCaption
-          src={typography}
-          caption="StratRoulette's type ramp showcasing Voyage for Display text Inter for body and subheaders"
-        />,
+
         <div>
           I explored concepts for the type ramp since I knew that the main focus
           of the application was the strat card. This was the whole basis of SR
@@ -165,10 +169,7 @@ export const StratRoulette = () => {
           decided to go with the standard 8px grid to create most of our
           elements.
         </div>,
-        <ImageWithCaption
-          src={roulette_form_inputs}
-          caption="Roulette design system's form inputs."
-        />,
+
         <div>
           Once the fundamental design elements were created, I then started
           designing basic inputs like buttons, radio, and others to thus have

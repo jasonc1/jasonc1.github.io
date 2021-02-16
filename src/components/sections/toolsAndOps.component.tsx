@@ -33,7 +33,7 @@ export const ToolsAndOps = () => {
         projects={[
           {
             name: 'Sapling',
-            link: 'underconstruction',
+            link: 'Sapling',
             external: false,
           },
           {
@@ -43,7 +43,7 @@ export const ToolsAndOps = () => {
           },
           {
             name: 'Haven',
-            link: 'underconstruction',
+            link: 'Haven',
             external: false,
           },
         ]}
