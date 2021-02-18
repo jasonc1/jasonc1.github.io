@@ -2,29 +2,70 @@ import React from 'react';
 import Projects from '../../components/templates/prose/prose.component';
 import { Text } from '../../components/text/text.component';
 import { Link } from 'react-router-dom';
+import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
+import FigmaAutolayoutPDF from '../../assets/misc/figma_autolayout_2020.pdf';
+import FigmaVariantsPDF from '../../assets/misc/figma_variants.pdf';
+import DesignSystemProcessPDF from '../../assets/misc/Design_systems_process.pdf';
+import BDS from '../../assets/images/projects/misc/BDS.png';
+import consumer_storybook from '../../assets/images/projects/misc/consumer_storybook.png';
+import design_systems_process from '../../assets/images/projects/misc/design_systems_process.png';
 
 export const DesignSystemsAtBlend = () => {
-  // const Voyage = (
-  //   <a
-  //     className="action-link"
-  //     target="_blank"
-  //     rel="noreferrer"
-  //     href={'https://vj-type.com/family/voyage/'}
-  //   >
-  //     <Text size="link-1" text="we used Voyage" />
-  //   </a>
-  // );
-  // const SRLegacy = (
-  //   <Link className="action-link" to="/SRLegacy" target="_blank">
-  //     <Text size="link-1" text="a previous attempt in 2017 was made" />
-  //   </Link>
-  // );
+  const FigmaAutolayout = (
+    <a
+      className="action-link"
+      target="_blank"
+      rel="noreferrer"
+      href={FigmaAutolayoutPDF}
+    >
+      <Text size="link-1" text="Figma's 2020 Autolayout features" />
+    </a>
+  );
+  const FigmaVariants = (
+    <a
+      className="action-link"
+      target="_blank"
+      rel="noreferrer"
+      href={FigmaVariantsPDF}
+    >
+      <Text size="link-1" text="Figma Variants" />
+    </a>
+  );
+  const dsystemProcess = (
+    <a
+      className="action-link"
+      target="_blank"
+      rel="noreferrer"
+      href={DesignSystemProcessPDF}
+    >
+      <Text size="link-1" text="proposed a process/pipeline" />
+    </a>
+  );
+  const prototypingAtBlend = (
+    <Link className="action-link" to="/PrototypingAtBlend" target="_blank">
+      <Text size="link-1" text="a year of prototyping at Blend" />
+    </Link>
+  );
+  const IDSAccordion = (
+    <Link className="action-link" to="/IDSAccordion" target="_blank">
+      <Text size="link-1" text="accordion" />
+    </Link>
+  );
+  const OTM = (
+    <Link className="action-link" to="/OTM" target="_blank">
+      <Text size="link-1" text="One-Tap Mobile (aka OTM)" />
+    </Link>
+  );
+  const Alchemy = (
+    <Link className="action-link" to="/Alchemy" target="_blank">
+      <Text size="link-1" text="Alchemy Design System" />
+    </Link>
+  );
   const summaryText = (
     <div>
       As of writing this post, I currently work on Blend’s design system,
       Alchemy, as one of the founding members of the design system. I found
-      myself finding a passion towards designs after about a year of bringing
-      prototyping to Blend.
+      myself finding a passion towards designs after about {prototypingAtBlend}.
     </div>
   );
 
@@ -34,8 +75,8 @@ export const DesignSystemsAtBlend = () => {
       content: [
         <div>
           Prior to blend, I got a small glimpse of design systems when I
-          contributed to an accordion component for Intuit Design System. During
-          my stint working on the accordion component, I got a high level
+          contributed to an {IDSAccordion} component for Intuit Design System.
+          During my stint working on the accordion component, I got a high level
           understanding of what the benefit is of a component library. I found
           that bigger companies have the resourcing to power a whole team that
           owns a design system with tens of engineers and designers.
@@ -60,12 +101,16 @@ export const DesignSystemsAtBlend = () => {
         <div>
           Continuing my path forward with a passion for prototyping, I joined
           Blend and embarked on a journey to bring prototyping onto Blend’s
-          radar. I prototyped One-Tap Mobile (aka OTM) and thus discovered that
-          Blend really could use some work on the design systems front. By
-          creating high fidelity prototypes via ReactJS, I found the need for a
-          design system: being able to use a component library really saves me
-          time from recreating already existing components.
+          radar. I prototyped {OTM} and thus discovered that Blend really could
+          use some work on the design systems front. By creating high fidelity
+          prototypes via ReactJS, I found the need for a design system: being
+          able to use a component library really saves me time from recreating
+          already existing components.
         </div>,
+        <ImageWithCaption
+          src={consumer_storybook}
+          caption="Blend's storybook for consumer-components in 2020"
+        />,
         <div>
           However, I soon found that there was much more required for a
           component library: we lacked consistency between design and
@@ -108,10 +153,17 @@ export const DesignSystemsAtBlend = () => {
           have grown to become a huge advocate for Figma for not only my own day
           to day but also almost acting like a mini ambassador to our design
           team as I wanted to share the knowledge that I learned through using
-          Figma for design systems. However, before that all happened, I felt
-          that my time spent in Figma was still quite lacking since I only used
-          it to whiteboard prototyping flows and interactions.
+          Figma for design systems. Over time, I’ve been able to gain product
+          designers’ trust and have the opportunity to teach and inform others
+          about {FigmaAutolayout} as well as {FigmaVariants}. However, before
+          that all happened, I felt that my time spent in Figma was still quite
+          lacking since I only used it to whiteboard prototyping flows and
+          interactions.
         </div>,
+        <ImageWithCaption
+          src={BDS}
+          caption="Borrower design system was one of the first few libraries we migrated from Sketch to Figma"
+        />,
         <div>
           An opportunity arose when I found that we were leaning towards
           migrating most of our files to Figma, and two quarters later, we
@@ -136,27 +188,33 @@ export const DesignSystemsAtBlend = () => {
           birthed Borrower Design System (in Figma), and it slowly became the
           system that I maintained to the best of my abilities as a one man
           team. I spent time uncovering design debt, adding documentation to
-          components, learned how Figma components worked, and much much more.
-          Over the course of a few quarters, I feel that my time spent migrating
-          and maintaining Borrower Design System was put to good use since it
-          helped me understand design systems on the design side.
+          components, {dsystemProcess} for creating and maintaining components,
+          learned how Figma components worked, and much much more. Over the
+          course of a few quarters, I feel that my time spent migrating and
+          maintaining Borrower Design System was put to good use since it helped
+          me understand design systems on the design side.
         </div>,
+        <ImageWithCaption
+          src={design_systems_process}
+          white
+          caption="We created a process to help design and engineering work closely together to either add or edit components."
+        />,
         <div>
           From Borrower Design System, I found my passion to work on design
-          systems. Fast forward to now, I’m working on Alchemy Design System.
-          All the work I did leading up to Alchemy really helped set me up to be
-          able to work on creating a design system for Blend. All the time spent
-          auditing, prototyping, and messing around in Figma really paid off
-          since it gave me a whole lot of contextual knowledge of our products,
-          component libraries, and design files. I would argue that had I not
-          started out with prototyping, I would have had much less empathy and
-          passion towards design systems. I wouldn’t have been able to
-          experience the pain, ask all the annoying questions of “Do we have
-          ____ component?” or even “Why is this color different?,” and most
-          importantly, I wouldn’t have been able to experience what life is like
-          without a proper design system. Keep in mind, prior to blend, I had
-          the luxury of consuming a fully staffed and support design system as
-          well as the opportunity to contribute to a design system.
+          systems. Fast forward to now, I’m working on {Alchemy}. All the work I
+          did leading up to Alchemy really helped set me up to be able to work
+          on creating a design system for Blend. All the time spent auditing,
+          prototyping, and messing around in Figma really paid off since it gave
+          me a whole lot of contextual knowledge of our products, component
+          libraries, and design files. I would argue that had I not started out
+          with prototyping, I would have had much less empathy and passion
+          towards design systems. I wouldn’t have been able to experience the
+          pain, ask all the annoying questions of “Do we have ____ component?”
+          or even “Why is this color different?,” and most importantly, I
+          wouldn’t have been able to experience what life is like without a
+          proper design system. Keep in mind, prior to blend, I had the luxury
+          of consuming a fully staffed and support design system as well as the
+          opportunity to contribute to a design system.
         </div>,
         <div>
           At Blend, I gained a whole lot of empathy and understanding the pains
@@ -174,7 +232,7 @@ export const DesignSystemsAtBlend = () => {
   return (
     <Projects
       title="Design Systems @ Blend"
-      date="November 29th, 2021"
+      date="November 29th, 2020"
       summary={summaryText}
       content={Content}
     />

@@ -36,6 +36,8 @@ export const App = () => {
           <Route path="/Sapling" component={Sapling} />
           <Route path="/Haven" component={Haven} />
           <Route path="/StratRoulette" component={StratRoulette} />
+          <Route path="/Alchemy" component={UnderConstruction} />
+
           <Route
             path="/DesignSystemsAtBlend"
             component={DesignSystemsAtBlend}
