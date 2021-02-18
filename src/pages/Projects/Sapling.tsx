@@ -54,6 +54,7 @@ export const Sapling = () => {
       section: 'Solution & Deliverables',
       content: [
         <ImageWithCaption
+          white
           src={sapling_example}
           caption="Sapling used in a Figma file"
         />,

@@ -3,8 +3,10 @@ import Projects from '../../components/templates/prose/prose.component';
 import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
 import accordion_tron from '../../assets/images/projects/intuit/accordion_tron.gif';
 import OTMBanner from '../../assets/images/projects/OTM/OTMBanner.png';
+import OTMProtopie from '../../assets/images/projects/OTM/OTMProtopie.png';
 import intake_form from '../../assets/images/projects/misc/intake_form.png';
-
+import prototypingWithFidelityInMind from '../../assets/images/projects/misc/prototypingWithFidelityInMind.png';
+import prototypingWithFidelityInMindPDF from '../../assets/misc/Prototyping_with_functional_fidelity_in_mind.pdf';
 import { Text } from '../../components/text/text.component';
 import { Link } from 'react-router-dom';
 
@@ -22,15 +24,36 @@ export const PrototypingAtBlend = () => {
       />
     </a>
   );
+
+  const prototypingPDF = (
+    <a
+      className="action-link"
+      target="_blank"
+      rel="noreferrer"
+      href={prototypingWithFidelityInMindPDF}
+    >
+      <Text size="link-1" text="webinar" />
+    </a>
+  );
   const IDSAccordion = (
     <Link className="action-link" to="/IDSAccordion" target="_blank">
-      <Text size="link-1" text="accordion" />
+      <Text size="link-1" text="accordion component for Intuit design system" />
     </Link>
   );
   const OTM = (
     <Link className="action-link" to="/OTM" target="_blank">
       <Text size="link-1" text="One Tap Mobile (OTM)" />
     </Link>
+  );
+  const OTMProtopieLink = (
+    <a
+      className="action-link"
+      target="_blank"
+      rel="noreferrer"
+      href="https://cloud.protopie.io/p/390140da1d"
+    >
+      <Text size="link-1" text="user study for OTM" />
+    </a>
   );
   const WaitTaskV2 = (
     <Link className="action-link" to="/WaitTaskV2" target="_blank">
@@ -76,21 +99,21 @@ export const PrototypingAtBlend = () => {
         />,
         <div>
           During my time at Intuit, I found an opportunity to prototype: I was
-          working on an {IDSAccordion} component for Intuit design system and
-          when I was given the mocks from design, all I saw was the ‘expanded’
-          and ‘collapsed’ states. My initial thought was to sit with the
-          designers and just ask all the questions I could think of. What
-          happens in between the expand/collapse states? How long is the
-          transition? What fades in and what fades out? So on and so forth. I
-          felt that this would be a good time to try out Framer Classic since
-          that was the ‘best’ tool on the market out there, and I wanted to mock
-          the experience before coding it. It proved to be helpful since I could
-          figure out all the transitions, timings, and overall experience in
-          Framer Classic while not having to code the real thing. I could easily
-          change values as well to workshop the interaction in real time with
-          the designers. This process of working collaboratively with designers
-          and rapidly iterating on an interaction got me excited, and I wanted
-          to do more of that.
+          working on an {IDSAccordion} and when I was given the mocks from
+          design, all I saw was the ‘expanded’ and ‘collapsed’ states. My
+          initial thought was to sit with the designers and just ask all the
+          questions I could think of. What happens in between the
+          expand/collapse states? How long is the transition? What fades in and
+          what fades out? So on and so forth. I felt that this would be a good
+          time to try out Framer Classic since that was the ‘best’ tool on the
+          market out there, and I wanted to mock the experience before coding
+          it. It proved to be helpful since I could figure out all the
+          transitions, timings, and overall experience in Framer Classic while
+          not having to code the real thing. I could easily change values as
+          well to workshop the interaction in real time with the designers. This
+          process of working collaboratively with designers and rapidly
+          iterating on an interaction got me excited, and I wanted to do more of
+          that.
         </div>,
         <div>
           Fast forward a year, I embarked on my journey as a design technologist
@@ -131,9 +154,9 @@ export const PrototypingAtBlend = () => {
           prod level components with their interactions. I felt that high
           fidelity prototypes should feel as real as possible, and I wanted to
           use my technical background to make that a reality. I was able to
-          produce various prototypes like One Tap Mobile (OTM), a prototype used
-          for sales demos and user tests for Blend’s one tap mortgage
-          pre-approval solution, or Wait Task V2, an interactive loading state.
+          produce various prototypes like {OTM}, a prototype used for sales
+          demos and user tests for Blend’s one tap mortgage pre-approval
+          solution, or {WaitTaskV2}, an interactive loading state.
         </div>,
         <div>
           Over time, I was able to leverage Blend’s component library (in code)
@@ -180,7 +203,6 @@ export const PrototypingAtBlend = () => {
           src={intake_form}
           caption="Prototyping intake form for our XFN partners"
         />,
-
         <div>
           My manager and I created an intake form for both XFN partners as well
           as designers to send in prototyping requests when needed. On top of
@@ -204,11 +226,16 @@ export const PrototypingAtBlend = () => {
           as the company about what the capabilities of prototyping are as well
           as what kinds of solutions and prototypes are available.
         </div>,
+        <ImageWithCaption
+          src={prototypingWithFidelityInMind}
+          white
+          caption="After participating in the seminar, I had a chance to share my learnings with the Product Design team."
+        />,
         <div>
           From there, I felt that I wanted to empower the design team and help
           make prototyping a bit more self serve. I had an opportunity to listen
-          in on a webinar created by the Nielsen Norman Group called
-          “Prototyping with Functional Fidelity in Mind”. The goal was to
+          in on a {prototypingPDF} created by the Nielsen Norman Group called
+          'Prototyping with Functional Fidelity in Mind'. The goal was to
           ultimately help me learn more about prototyping and how to refine and
           improve my process when it comes to working with partners for a
           prototype. However, I felt that this could be a great way to further
@@ -221,6 +248,11 @@ export const PrototypingAtBlend = () => {
           tools for prototyping as well as characteristics of what a high
           functional fidelity prototype entails.
         </div>,
+        <ImageWithCaption
+          src={OTMProtopie}
+          white
+          caption="Piloting Protopie for One Tap Mobile (OTM) to prototype sign-in and prefill experiences"
+        />,
         <div>
           Beyond the seminar, my goal for prototyping at blend was to also help
           empower product designers to prototype on their own. Continuing my
@@ -229,8 +261,8 @@ export const PrototypingAtBlend = () => {
           prototypes with high functional fidelity. ProtoPie ultimately lets you
           create/store variables and have textInput fields and custom inputs
           without having to write a single line of code. I thus tried using
-          ProtoPie for a user study for OTM and found it quite straightforward
-          to use. From that, my manager and I set out to pilot ProtoPie for the
+          ProtoPie for a {OTMProtopieLink} and found it quite straightforward to
+          use. From that, my manager and I set out to pilot ProtoPie for the
           product design team as we found it to be a good avenue for product
           designers at Blend to try and prototype on their own. If they required
           help, I could help consult, and that would thus free up my time to

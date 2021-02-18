@@ -225,6 +225,7 @@ export const OTM = () => {
         </div>,
         <ImageWithCaption
           src={OTMProtopie}
+          white
           caption="Authentication and Prefill prototypes for user testing"
         />,
         <div>

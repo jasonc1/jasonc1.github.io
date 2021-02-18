@@ -21,6 +21,7 @@ export const WaitTaskV2 = () => {
     <div>
       <ImageWithCaption
         src={WaitTask}
+        white
         caption="Wait Task V2 is a dynamic yet informative loading experience for home insurance customers"
       />
       Wait Task V2 is a project where prototyping was leveraged to flesh out a
