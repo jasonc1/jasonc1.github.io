@@ -119,7 +119,7 @@ export const IDSAccordion = () => {
   return (
     <Projects
       title="Intuit Design Systems Accordion"
-      date="June 2017 - Aug 2017"
+      date="Jun 2017 - Aug 2017"
       summary={summaryText}
       content={IDSContent}
     />

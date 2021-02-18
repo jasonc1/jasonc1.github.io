@@ -47,7 +47,7 @@ export const Prose = ({ content, date, summary, title }: IProjectsProps) => {
                       size="body-1"
                       color={theme.black}
                       text={contentBlock}
-                      marginBottom={8}
+                      marginBottom={16}
                     />
                   );
                 } else if (contentBlock && contentBlock.type === 'img') {

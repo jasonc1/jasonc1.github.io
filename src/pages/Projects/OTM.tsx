@@ -29,7 +29,7 @@ export const OTM = () => {
       rel="noreferrer"
       href={'https://otm-forum-demo.netlify.app/'}
     >
-      <Text size="link-1" text="prototype (please view on a mobile device)" />
+      <Text size="link-1" text="prototype" />
     </a>
   );
   const RBCDemo = (
@@ -39,7 +39,7 @@ export const OTM = () => {
       rel="noreferrer"
       href={'https://otm-rbc-demo.netlify.app/'}
     >
-      <Text size="link-1" text="here (please view on a mobile device)" />
+      <Text size="link-1" text="here" />
     </a>
   );
   const FramerXDemo = (
@@ -67,7 +67,7 @@ export const OTM = () => {
       tooling solutions like FramerX and ProtoPie.
       <br />
       <br />
-      Check out the {ForumDemo}!
+      Check out the {ForumDemo}! Please view on mobile.
     </div>
   );
 
@@ -170,7 +170,8 @@ export const OTM = () => {
           showcases at conventions, and other marketing material. Thus, the
           prototype was architected in a way so that the demo could be tailor
           made to simulate a branded experience for Blend’s high profile
-          clients. You can check out one of the demos for RBC {RBCDemo}.
+          clients. You can check out one of the demos for RBC {RBCDemo} please
+          view on a mobile device.
         </div>,
         <ImageWithCaption
           src={OTMRBC}
@@ -224,6 +225,7 @@ export const OTM = () => {
         </div>,
         <ImageWithCaption
           src={OTMProtopie}
+          white
           caption="Authentication and Prefill prototypes for user testing"
         />,
         <div>
@@ -248,7 +250,7 @@ export const OTM = () => {
   return (
     <Projects
       title="One-Tap Mobile"
-      date="March 2019 - Sept 2019"
+      date="Mar 2019 - Sept 2019"
       summary={summaryText}
       content={OTMContent}
     />
