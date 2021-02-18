@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { SubjectLinks } from '../subject-links/subject-links.component';
 
 const prototypingAtBlendLink = (
-  <Link className="action-link" to="/underconstruction" target="_blank">
+  <Link className="action-link" to="/PrototypingAtBlend" target="_blank">
     <Text size="link-1" text="here" />
   </Link>
 );

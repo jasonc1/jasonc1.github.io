@@ -13,7 +13,7 @@ const AlchemyLink = (
 );
 
 const designSystemsAtBlendLink = (
-  <Link className="action-link" to="/underconstruction" target="_blank">
+  <Link className="action-link" to="/DesignSystemsAtBlend" target="_blank">
     <Text size="link-1" text="here" />
   </Link>
 );
@@ -58,8 +58,8 @@ export const DesignSystems = () => {
           },
           {
             name: 'StratRoulette',
-            link: 'https://www.stratroulette.com/',
-            external: true,
+            link: 'StratRoulette',
+            external: false,
           },
           {
             name: 'Intuit Design Systems Accordion',
