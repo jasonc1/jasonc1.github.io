@@ -15,6 +15,7 @@ import Haven from './pages/Projects/Haven';
 import DesignSystemsAtBlend from './pages/Blog/DesignSystemsAtBlend';
 import PrototypingAtBlend from './pages/Blog/PrototypingAtBlend';
 import StratRoulette from './pages/Projects/StratRoulette';
+import Alchemy from './pages/Projects/Alchemy';
 
 // import DesignSystemsAtBlend from './pages/Blog/designSystemsAtBlend';
 
@@ -36,7 +37,8 @@ export const App = () => {
           <Route path="/Sapling" component={Sapling} />
           <Route path="/Haven" component={Haven} />
           <Route path="/StratRoulette" component={StratRoulette} />
-          <Route path="/Alchemy" component={UnderConstruction} />
+          <Route path="/Alchemy" component={Alchemy} />
+          <Route path="/ProductIllustrations" component={UnderConstruction} />
 
           <Route
             path="/DesignSystemsAtBlend"

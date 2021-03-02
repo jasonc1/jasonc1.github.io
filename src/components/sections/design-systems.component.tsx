@@ -53,7 +53,7 @@ export const DesignSystems = () => {
         projects={[
           {
             name: 'Alchemy',
-            link: 'underconstruction',
+            link: 'Alchemy',
             external: false,
           },
           {
