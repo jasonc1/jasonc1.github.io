@@ -57,6 +57,11 @@ export const DesignSystems = () => {
             external: false,
           },
           {
+            name: 'Product Illustrations in Figma',
+            link: 'ProductIllustrations',
+            external: false,
+          },
+          {
             name: 'StratRoulette',
             link: 'StratRoulette',
             external: false,
