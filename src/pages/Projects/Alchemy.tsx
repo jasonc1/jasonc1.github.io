@@ -8,6 +8,9 @@ import Alchemy_theming from '../../assets/images/projects/Alchemy/Alchemy_themin
 import Alchemy_checkbox from '../../assets/images/projects/Alchemy/Alchemy_checkbox.png';
 import Alchemy_reference_site_color from '../../assets/images/projects/Alchemy/Alchemy_reference_site_color.svg';
 import Alchemy_reference_site_component from '../../assets/images/projects/Alchemy/Alchemy_reference_site_component.svg';
+import Alchemy_theme_object from '../../assets/images/projects/Alchemy/Alchemy_theme_object.png';
+import Alchemy_icons_example from '../../assets/images/projects/Alchemy/Alchemy_icons_example.png';
+
 import Checkbox_documentation from '../../assets/images/projects/Alchemy/Checkbox_documentation.pdf';
 import { Text } from '../../components/text/text.component';
 
@@ -63,6 +66,11 @@ export const Alchemy = () => {
     {
       section: 'Problem',
       content: [
+        <ImageWithCaption
+          white
+          src={Alchemy_foundations}
+          caption="A brief overview of Alchemy's foundations"
+        />,
         <div>
           The problem at hand was that Blend was facing two issues: there were
           separate component libraries for each product and that some products
@@ -89,6 +97,12 @@ export const Alchemy = () => {
     {
       section: 'Process',
       content: [
+        <ImageWithCaption
+          white
+          src={Alchemy_theme_object}
+          caption="An example of Alchemy's theme object with three tiers: primitives, semantics, and component level overrides."
+        />,
+
         <div>
           Our first two quarters for Alchemy was dedicated towards understanding
           the problem and subsequently synthesizing the vision for the project.
@@ -102,15 +116,10 @@ export const Alchemy = () => {
           Brad Frost, we were able to define how we want to support theming,
           establish a north star, and thus begin establishing our foundations.
         </div>,
-        <ImageWithCaption
-          white
-          src={Alchemy_foundations}
-          caption="A brief overview of Alchemy's foundations"
-        />,
 
         <div>
           We defined a theme to be a json object (with the help of json
-          templating) so that we could define primitives, semantics, and
+          templating) so that we could define tiers: primitives, semantics, and
           overrides. We defined primitives to be the ‘raw’ styles for things
           like hex codes for color, font declarations for type, spacing units
           for padding/margins, and more. From there, the semantic declarations
@@ -197,12 +206,17 @@ export const Alchemy = () => {
           “palette.” We decided to opt for maximum flexibility since we found
           that all of our products ranged in various numbers of color styles.
           Our consumer app had something like 12 colors (mainly also due to the
-          fact that it’s white-label) while our enterprise app had upwards of 50
+          fact that it’s white-label) while our enterprise app had upwards of 36
           colors. We discovered that with the use of primitives and overrides,
           and due to the fact that visual language/branding is involved, color
           needed to be flexible. Unlike type, color usage warranted flexibility
           due to the complexity and variance of our product families.
         </div>,
+        <ImageWithCaption
+          white
+          src={Alchemy_icons_example}
+          caption="An example of product specific icons vs core icons"
+        />,
         <div>
           As for icons, we only had enough time to audit and clean up our icon
           sets for our product families, but we never got around to establishing
