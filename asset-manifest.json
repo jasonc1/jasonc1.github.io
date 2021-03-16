@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/static/css/main.7c9543a5.chunk.css",
-    "main.js": "/static/js/main.eb651dce.chunk.js",
-    "main.js.map": "/static/js/main.eb651dce.chunk.js.map",
+    "main.js": "/static/js/main.b263c9bc.chunk.js",
+    "main.js.map": "/static/js/main.b263c9bc.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.f51812ad.js",
     "runtime-main.js.map": "/static/js/runtime-main.f51812ad.js.map",
     "static/js/2.6f761478.chunk.js": "/static/js/2.6f761478.chunk.js",
@@ -17,8 +17,10 @@
     "static/media/Alchemy_checkbox.808f8e52.png": "/static/media/Alchemy_checkbox.808f8e52.png",
     "static/media/Alchemy_cover.77b928c2.png": "/static/media/Alchemy_cover.77b928c2.png",
     "static/media/Alchemy_foundations.61e7cf01.png": "/static/media/Alchemy_foundations.61e7cf01.png",
+    "static/media/Alchemy_icons_example.349d7803.png": "/static/media/Alchemy_icons_example.349d7803.png",
     "static/media/Alchemy_reference_site_color.ca3b22f7.svg": "/static/media/Alchemy_reference_site_color.ca3b22f7.svg",
     "static/media/Alchemy_reference_site_component.79746a6c.svg": "/static/media/Alchemy_reference_site_component.79746a6c.svg",
+    "static/media/Alchemy_theme_object.1c3e63ed.png": "/static/media/Alchemy_theme_object.1c3e63ed.png",
     "static/media/Alchemy_theming.6acde987.png": "/static/media/Alchemy_theming.6acde987.png",
     "static/media/BDS.14b3e618.png": "/static/media/BDS.14b3e618.png",
     "static/media/Checkbox_documentation.c4be8cdf.pdf": "/static/media/Checkbox_documentation.c4be8cdf.pdf",
@@ -81,6 +83,6 @@
     "static/js/runtime-main.f51812ad.js",
     "static/js/2.6f761478.chunk.js",
     "static/css/main.7c9543a5.chunk.css",
-    "static/js/main.eb651dce.chunk.js"
+    "static/js/main.b263c9bc.chunk.js"
   ]
 }
