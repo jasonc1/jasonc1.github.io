@@ -109,10 +109,6 @@ export const OTM = () => {
     {
       section: 'Solution & Deliverables',
       content: [
-        <ImageWithCaption
-          src={OTMFastCo}
-          caption="OTM featured on FastCompany"
-        />,
         <div>
           This was a brand new experience that Blend was setting out to test
           out, so I was brought on the Design team as the dedicated prototyper
@@ -135,54 +131,32 @@ export const OTM = () => {
             'Provide methods for a user to edit or add information to increase their buying power or modify the preapproval letter',
           ]}
         ></List>,
+      ],
+    },
+    {
+      section: 'Process',
+      content: [
+        <ImageWithCaption
+          src={OTMFramerX}
+          iphone
+          caption="OTM in its early days, built with FramerX"
+        />,
         <ImageWithCaption
           src={OTMEmblem}
           iphone
           caption="OTM is a whitelabel solution"
         />,
-        <div>
-          One of the biggest features of OTM was how everything was done behind
-          the scenes, but that meant that there would be possibly a gap of time
-          where the user had to wait for OTM to process data and crunch numbers.
-          Thus, we had to design a loading experience that ranged from 15 to 30
-          seconds that was meaningful to the user - not just some spinner going
-          infinitely. Using Lottie, we were able to successfully deliver an
-          experience to Engineering as well as use it in our prototype in the
-          early stages of design and ideation.
-        </div>,
+        <ImageWithCaption
+          src={OTMRBC}
+          iphone
+          caption="OTM branded for a demo for RBC"
+        />,
         <ImageWithCaption src={OTMLoading} caption="Loading states for OTM" />,
-        <div>
-          On top of having to produce a brand new experience, we needed to be
-          able to verify the experience through user testing, and we found that
-          a click through mock up wasn’t enough: in order to user test the
-          experience, the information provided to a user needed to be dynamic.
-          Furthermore, we not only wanted to see if this experience was
-          feasible, but we wanted to test for user comprehension. The OTM
-          experience was going to not only provide a preapproval letter on
-          demand, but the hope was to also educate and simplify the home buying
-          process for new home buyers as well. Instances of user testing
-          include: Authentication and Prefill explorations and Buying Power
-          comprehension.
-        </div>,
 
         <ImageWithCaption
           src={OTMProtopie}
           white
           caption="Authentication and Prefill prototypes for user testing"
-        />,
-        <div>
-          Lastly, since this was a flagship project, the Design department found
-          itself having to produce collateral/demos for sales pitches, product
-          showcases at conventions, and other marketing material. Thus, the
-          prototype was architected in a way so that the demo could be tailor
-          made to simulate a branded experience for Blend’s high profile
-          clients. You can check out one of the demos for RBC {RBCDemo} please
-          view on a mobile device.
-        </div>,
-        <ImageWithCaption
-          src={OTMRBC}
-          iphone
-          caption="OTM branded for a demo for RBC"
         />,
       ],
     },

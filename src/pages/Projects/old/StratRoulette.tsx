@@ -1,16 +1,16 @@
 import React from 'react';
-import Projects from '../../components/templates/prose/prose.component';
-import { Text } from '../../components/text/text.component';
-import { List } from '../../components/list/list.component';
-import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
-import SR_cover from '../../assets/images/projects/StratRoulette/SR_cover.png';
-import roll_strat from '../../assets/images/projects/StratRoulette/roll_strat.png';
-import roll_strat_mobile from '../../assets/images/projects/StratRoulette/roll_strat_mobile.png';
-import colors from '../../assets/images/projects/StratRoulette/colors.png';
-import landing_info from '../../assets/images/projects/StratRoulette/landing_info.png';
-import roulette_form_inputs from '../../assets/images/projects/StratRoulette/roulette_form_inputs.png';
-import typography from '../../assets/images/projects/StratRoulette/typography.png';
-import SRLegacy_alpha from '../../assets/images/projects/SRLegacy/SRLegacy_alpha.png';
+import Projects from '../../../components/templates/prose/prose.component';
+import { Text } from '../../../components/text/text.component';
+import { List } from '../../../components/list/list.component';
+import { ImageWithCaption } from '../../../components/ImageWithCaption/ImageWithCaption.component';
+import SR_cover from '../../../assets/images/projects/StratRoulette/SR_cover.png';
+import roll_strat from '../../../assets/images/projects/StratRoulette/roll_strat.png';
+import roll_strat_mobile from '../../../assets/images/projects/StratRoulette/roll_strat_mobile.png';
+import colors from '../../../assets/images/projects/StratRoulette/colors.png';
+import landing_info from '../../../assets/images/projects/StratRoulette/landing_info.png';
+import roulette_form_inputs from '../../../assets/images/projects/StratRoulette/roulette_form_inputs.png';
+import typography from '../../../assets/images/projects/StratRoulette/typography.png';
+import SRLegacy_alpha from '../../../assets/images/projects/SRLegacy/SRLegacy_alpha.png';
 import { Link } from 'react-router-dom';
 
 export const StratRoulette = () => {

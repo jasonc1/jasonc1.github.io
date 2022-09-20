@@ -6,17 +6,17 @@ import UnderConstruction from './pages/UnderConstruction/UnderConstruction.compo
 import NotFound from './pages/NotFound/NotFound.component';
 import OTM from './pages/Projects/OTM';
 import IDSAccordion from './pages/Projects/IDSAccordion';
-import DocUploader from './pages/Projects/DocUploader';
-import SRLegacy from './pages/Projects/SRLegacy';
+import DocUploader from './pages/Projects/old/DocUploader';
+import SRLegacy from './pages/Projects/old/SRLegacy';
 import WaitTAskV2 from './pages/Projects/WaitTaskV2';
 import AbstractMigrate from './pages/Projects/AbstractMigrate';
 import Sapling from './pages/Projects/Sapling';
 import Haven from './pages/Projects/Haven';
 import DesignSystemsAtBlend from './pages/Blog/DesignSystemsAtBlend';
 import PrototypingAtBlend from './pages/Blog/PrototypingAtBlend';
-import StratRoulette from './pages/Projects/StratRoulette';
+import StratRoulette from './pages/Projects/old/StratRoulette';
 import Alchemy from './pages/Projects/Alchemy';
-import ProductIllustrations from './pages/Projects/ProductIllustrations';
+import ProductIllustrations from './pages/Projects/old/ProductIllustrations';
 
 export const App = () => {
   return (

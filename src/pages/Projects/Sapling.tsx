@@ -1,18 +1,11 @@
 import React from 'react';
 import Projects from '../../components/templates/prose/prose.component';
-import { Text } from '../../components/text/text.component';
 import { List } from '../../components/list/list.component';
 import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
 import sapling_example from '../../assets/images/projects/Sapling/sapling_example.png';
 import sapling from '../../assets/images/projects/Sapling/sapling.png';
-import { Link } from 'react-router-dom';
 
 export const Sapling = () => {
-  const Haven = (
-    <Link className="action-link" to="/Haven" target="_blank">
-      <Text size="link-1" text="Blend's first internal Figma plugin, Haven" />
-    </Link>
-  );
   const summaryText = (
     <div>
       <ImageWithCaption src={sapling} caption="Sapling overview image" />

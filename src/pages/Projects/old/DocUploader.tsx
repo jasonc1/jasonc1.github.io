@@ -1,9 +1,9 @@
 import React from 'react';
-import Projects from '../../components/templates/prose/prose.component';
-import docupload_pre from '../../assets/images/projects/intuit/docupload_pre.png';
-import docupload from '../../assets/images/projects/intuit/docupload.gif';
-import { List } from '../../components/list/list.component';
-import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
+import Projects from '../../../components/templates/prose/prose.component';
+import docupload_pre from '../../../assets/images/projects/intuit/docupload_pre.png';
+import docupload from '../../../assets/images/projects/intuit/docupload.gif';
+import { List } from '../../../components/list/list.component';
+import { ImageWithCaption } from '../../../components/ImageWithCaption/ImageWithCaption.component';
 
 export const DocUploader = () => {
   const summaryText = (
