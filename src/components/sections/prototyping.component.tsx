@@ -24,13 +24,13 @@ const oneTapLink = (
 const prototypingDescription: JSX.Element = (
   <div>
     At Blend, I was fortunate enough to create a whole process around
-    prototyping and make it a reality for Engineering, Product, and Design. You
-    can read more about my journey {prototypingAtBlendLink}. One project that I
-    hold dear to my heart is {oneTapLink}, as I’ve been able to leverage the
+    prototyping and make it a reality for Engineering, Product, and Design. A
+    notable project would be {oneTapLink}, as I’ve been able to leverage the
     prototype for user studies, sales demos, and exploratory concepts to help
-    product designers design faster. My high fidelity prototypes (especially in
-    React) have seen to be useful for both design and engineering, as they serve
-    as an addition to mocks.
+    product designers design faster. At Carta, I built roughly 1-2 prototypes
+    each quarter for user testing as well as proof of concept testing, where I
+    collaborated with designers to elevate their designs through providing
+    feedback around ui/components, edge cases, and more.
   </div>
 );
 
@@ -42,6 +42,16 @@ export const Prototyping = () => {
           {
             name: 'One Tap Mobile (OTM)',
             link: 'OTM',
+            external: false,
+          },
+          {
+            name: 'Exercise Status',
+            link: 'Exercise Status',
+            external: false,
+          },
+          {
+            name: 'Employee Onboarding',
+            link: 'Employee Onboarding',
             external: false,
           },
           {

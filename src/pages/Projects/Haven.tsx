@@ -85,48 +85,6 @@ export const Haven = () => {
         </div>,
       ],
     },
-    {
-      section: 'Process',
-      content: [
-        <div>
-          One of my goals for 2020 was to help the Product Design team more with
-          tooling and applications of code. Thus, one application of code was to
-          create a Figma Plugin since I spent a huge amount of time in Figma
-          advocating for design systems, new features, cleaning up design debt,
-          and more. However, I did not have a tangible use for a Figma Plugin,
-          and I wanted it to be worthwhile. After a few chats with the team as
-          well as a survey, I thus landed on a problem to try to solve for, and
-          thus embarked on a journey to create Haven.
-        </div>,
-        <div>
-          At first, Haven’s first feature was simply just adding an overlay with
-          the word “EXPLORATION” in Figma. Since this was the first time I was
-          making a plugin, I spent a few days exploring just how things worked.
-          Figma has some great documentation as to how to get everything set up,
-          but the project was just in plain html, css, and js.
-        </div>,
-        <div>
-          Once I figured out how to programmatically ‘draw’ a frame with text
-          and color, my goal was to then use webpack and react to speed up my
-          development workflow. I actually found that using React made the
-          plugin run slower so I removed that. However, webpack was used so that
-          I didn’t have to manually refresh the application. I felt that such a
-          simple app should be fast to render and did not warrant the use of
-          React.
-        </div>,
-        <div>
-          A few other features were added to add more customizability for the
-          plugin. An additional overlay screen was made to call out ‘Archive’
-          screens to differentiate explorations vs legacy screens. On top of
-          that, I just played around with the idea to create two tags to aid
-          with our review process: “NEEDS REVIEW” and “PROD READY.” These tags
-          were to created to help with the handoff process and to further
-          compliment the “EXPLORATIONS” and “ARCHIVE” overlays. These were made
-          as tags since tags are less invasive and do not obscure the content of
-          the frame.
-        </div>,
-      ],
-    },
   ];
 
   return (
