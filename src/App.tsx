@@ -16,6 +16,11 @@ import DesignSystemsAtBlend from './pages/Blog/DesignSystemsAtBlend';
 import PrototypingAtBlend from './pages/Blog/PrototypingAtBlend';
 import StratRoulette from './pages/Projects/old/StratRoulette';
 import Alchemy from './pages/Projects/Alchemy';
+import ExerciseStatus from './pages/Projects/ExerciseStatus';
+import EmployeeOnboarding from './pages/Projects/EmployeeOnboarding';
+import Vesta from './pages/Projects/Vesta';
+import Ink from './pages/Projects/Ink';
+
 import ProductIllustrations from './pages/Projects/old/ProductIllustrations';
 
 export const App = () => {
@@ -37,6 +42,11 @@ export const App = () => {
           <Route path="/Haven" component={Haven} />
           <Route path="/StratRoulette" component={StratRoulette} />
           <Route path="/Alchemy" component={Alchemy} />
+          <Route path="/ExerciseStatus" component={ExerciseStatus} />
+          <Route path="/EmployeeOnboarding" component={EmployeeOnboarding} />
+          <Route path="/Ink" component={Ink} />
+          <Route path="/Vesta" component={Vesta} />
+
           <Route
             path="/ProductIllustrations"
             component={ProductIllustrations}

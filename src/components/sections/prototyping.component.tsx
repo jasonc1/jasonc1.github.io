@@ -1,14 +1,13 @@
 import React from 'react';
 import { Text } from '../text/text.component';
 import { Subject } from '../subject/subject.component';
-import { Link } from 'react-router-dom';
 import { SubjectLinks } from '../subject-links/subject-links.component';
 
-const prototypingAtBlendLink = (
-  <Link className="action-link" to="/PrototypingAtBlend" target="_blank">
-    <Text size="link-1" text="here" />
-  </Link>
-);
+// const prototypingAtBlendLink = (
+//   <Link className="action-link" to="/PrototypingAtBlend" target="_blank">
+//     <Text size="link-1" text="here" />
+//   </Link>
+// );
 
 const oneTapLink = (
   <a
@@ -40,23 +39,23 @@ export const Prototyping = () => {
       <SubjectLinks
         projects={[
           {
-            name: 'One Tap Mobile (OTM)',
+            name: 'Blend One Tap Mobile',
             link: 'OTM',
             external: false,
           },
           {
-            name: 'Exercise Status',
-            link: 'Exercise Status',
-            external: false,
-          },
-          {
-            name: 'Employee Onboarding',
-            link: 'Employee Onboarding',
-            external: false,
-          },
-          {
-            name: 'Wait Task V2',
+            name: 'Blend Insurance Wait Task V2',
             link: 'WaitTaskV2',
+            external: false,
+          },
+          {
+            name: 'Carta Exercise Status',
+            link: 'ExerciseStatus',
+            external: false,
+          },
+          {
+            name: 'Carta Employee Onboarding',
+            link: 'EmployeeOnboarding',
             external: false,
           },
         ]}

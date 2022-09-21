@@ -9,22 +9,21 @@ import Alchemy_checkbox from '../../assets/images/projects/Alchemy/Alchemy_check
 import Alchemy_reference_site_color from '../../assets/images/projects/Alchemy/Alchemy_reference_site_color.svg';
 import Alchemy_reference_site_component from '../../assets/images/projects/Alchemy/Alchemy_reference_site_component.svg';
 import Alchemy_theme_object from '../../assets/images/projects/Alchemy/Alchemy_theme_object.png';
-import Alchemy_icons_example from '../../assets/images/projects/Alchemy/Alchemy_icons_example.png';
 
-import Checkbox_documentation from '../../assets/images/projects/Alchemy/Checkbox_documentation.pdf';
-import { Text } from '../../components/text/text.component';
+// import Checkbox_documentation from '../../assets/images/projects/Alchemy/Checkbox_documentation.pdf';
+// import { Text } from '../../components/text/text.component';
 
 export const Alchemy = () => {
-  const componentDocumentation = (
-    <a
-      className="action-link"
-      target="_blank"
-      rel="noreferrer"
-      href={Checkbox_documentation}
-    >
-      <Text size="link-1" text="component documentation" />
-    </a>
-  );
+  // const componentDocumentation = (
+  //   <a
+  //     className="action-link"
+  //     target="_blank"
+  //     rel="noreferrer"
+  //     href={Checkbox_documentation}
+  //   >
+  //     <Text size="link-1" text="component documentation" />
+  //   </a>
+  // );
 
   const summaryText = (
     <div>

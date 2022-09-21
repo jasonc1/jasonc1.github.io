@@ -3,7 +3,6 @@ import Projects from '../../components/templates/prose/prose.component';
 import { Text } from '../../components/text/text.component';
 import { List } from '../../components/list/list.component';
 import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
-import OTMFastCo from '../../assets/images/projects/OTM/OTMFastCo.png';
 import OTMBanner from '../../assets/images/projects/OTM/OTMBanner.png';
 import OTMEmblem from '../../assets/images/projects/OTM/OTMEmblem.png';
 import OTMFramerX from '../../assets/images/projects/OTM/OTMFramerX.png';
@@ -32,26 +31,26 @@ export const OTM = () => {
       <Text size="link-1" text="prototype" />
     </a>
   );
-  const RBCDemo = (
-    <a
-      className="action-link"
-      target="_blank"
-      rel="noreferrer"
-      href={'https://otm-rbc-demo.netlify.app/'}
-    >
-      <Text size="link-1" text="here" />
-    </a>
-  );
-  const FramerXDemo = (
-    <a
-      className="action-link"
-      target="_blank"
-      rel="noreferrer"
-      href={'https://cmu-otm-demo.netlify.app/'}
-    >
-      <Text size="link-1" text="early days of OTM" />
-    </a>
-  );
+  // const RBCDemo = (
+  //   <a
+  //     className="action-link"
+  //     target="_blank"
+  //     rel="noreferrer"
+  //     href={'https://otm-rbc-demo.netlify.app/'}
+  //   >
+  //     <Text size="link-1" text="here" />
+  //   </a>
+  // );
+  // const FramerXDemo = (
+  //   <a
+  //     className="action-link"
+  //     target="_blank"
+  //     rel="noreferrer"
+  //     href={'https://cmu-otm-demo.netlify.app/'}
+  //   >
+  //     <Text size="link-1" text="early days of OTM" />
+  //   </a>
+  // );
   const summaryText = (
     <div>
       <ImageWithCaption src={OTMBanner} caption="One-tap Mobile aka OTM" />
