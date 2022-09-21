@@ -1,7 +1,7 @@
 import React from 'react';
 import { Subject } from '../subject/subject.component';
 import { SubjectLinks } from '../subject-links/subject-links.component';
-import Resume from '../../assets/misc/jason_chen_resume_2020.pdf';
+import Resume from '../../assets/misc/jason_chen_resume.pdf';
 
 const contactDescription: JSX.Element = (
   <div>

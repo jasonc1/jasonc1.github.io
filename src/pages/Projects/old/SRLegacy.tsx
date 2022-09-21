@@ -1,17 +1,17 @@
 import React from 'react';
-import Projects from '../../components/templates/prose/prose.component';
-import { List } from '../../components/list/list.component';
-import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
-import { Text } from '../../components/text/text.component';
-import SRLegacy_Alpha from '../../assets/images/projects/SRLegacy/SRLegacy_alpha.png';
-import SRLegacy_landing from '../../assets/images/projects/SRLegacy/SRLegacy_landing.png';
-import SRLegacy_home from '../../assets/images/projects/SRLegacy/SRLegacy_home.png';
-import SRLegacy_spec from '../../assets/images/projects/SRLegacy/SRLegacy_spec.png';
-import SRLegacy_STRAT_card from '../../assets/images/projects/SRLegacy/SRLegacy_STRAT_card.png';
-import SRLegacy_logo_2 from '../../assets/images/projects/SRLegacy/SRLegacy_logo_2.svg';
-import SRLegacy_logo_4 from '../../assets/images/projects/SRLegacy/SRLegacy_logo_4.svg';
-import SRLegacy_logo_6 from '../../assets/images/projects/SRLegacy/SRLegacy_logo_6.svg';
-import SRLegacy_logo_final from '../../assets/images/projects/SRLegacy/SRLegacy_logo_final.svg';
+import Projects from '../../../components/templates/prose/prose.component';
+import { List } from '../../../components/list/list.component';
+import { ImageWithCaption } from '../../../components/ImageWithCaption/ImageWithCaption.component';
+import { Text } from '../../../components/text/text.component';
+import SRLegacy_Alpha from '../../../assets/images/projects/SRLegacy/SRLegacy_alpha.png';
+import SRLegacy_landing from '../../../assets/images/projects/SRLegacy/SRLegacy_landing.png';
+import SRLegacy_home from '../../../assets/images/projects/SRLegacy/SRLegacy_home.png';
+import SRLegacy_spec from '../../../assets/images/projects/SRLegacy/SRLegacy_spec.png';
+import SRLegacy_STRAT_card from '../../../assets/images/projects/SRLegacy/SRLegacy_STRAT_card.png';
+import SRLegacy_logo_2 from '../../../assets/images/projects/SRLegacy/SRLegacy_logo_2.svg';
+import SRLegacy_logo_4 from '../../../assets/images/projects/SRLegacy/SRLegacy_logo_4.svg';
+import SRLegacy_logo_6 from '../../../assets/images/projects/SRLegacy/SRLegacy_logo_6.svg';
+import SRLegacy_logo_final from '../../../assets/images/projects/SRLegacy/SRLegacy_logo_final.svg';
 
 export const SRLegacy = () => {
   const summaryText = (

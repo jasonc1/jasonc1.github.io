@@ -90,38 +90,6 @@ export const WaitTaskV2 = () => {
         </div>,
       ],
     },
-    {
-      section: 'Process',
-      content: [
-        <div>
-          This project happened over the course of a few days, but my process
-          was quite simple: with most prototypes I make. The first step was to
-          look at the mocks and ask questions and figure out what goes where.
-          Since I knew this was a loading experience that was supposed to be
-          dynamic based on service requests returning data, I mainly used
-          setTimeouts to mock all the timings for the prototype.
-        </div>,
-        <div>
-          Moreover, I found it extremely helpful to draw everything out frame by
-          frame in figma to highlight every ‘delta’ between each transition
-          between the stages. This helped serve as a blueprint for the prototype
-          so that I could figure out every single element that I needed to show
-          or hide. It was also helpful to just workshop the frames with the
-          primary designer on the project and provide insight as to what could
-          be done or what would be out of scope.
-        </div>,
-        <div>
-          Considerations were made to use other prototyping tools at the time,
-          and even Adobe AE was considered. However, we felt that it would be
-          easier for handoff if we had a code solution. Additionally, it served
-          to be easier to update and tweak timings on the code side as opposed
-          to Adobe AE. Overall, we felt that it would be too cumbersome to
-          animate every single item manually in Adobe AE, and code helped
-          streamline this with the use of CSS and javascript to programmatically
-          animate or transition elements.
-        </div>,
-      ],
-    },
   ];
 
   return (

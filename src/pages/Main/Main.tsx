@@ -21,7 +21,7 @@ export const Main = () => {
           <Text
             size="display-1"
             color={theme.accent}
-            text="I’m a design technologist, sneakerhead, mechanical keyboard enthusiast, and photographer."
+            text="I’m a design technologist, and I love design systems, mechanical keyboards, and analogue photography."
             marginBottom={32}
           />
           <Text
@@ -33,7 +33,7 @@ export const Main = () => {
           <Text
             size="body-1"
             color={theme.accent}
-            text="I currently work at Blend as a Design Technologist frontlining the Alchemy Design Systems effort. I graduated from  Carnegie Mellon University with a B.S in Information Systems and an additional B.S. in  Human Computer Interaction. "
+            text="Previously, I have worked at Carta and Blend as a design technologist and Intuit as a software developer. I graduated from  Carnegie Mellon University with a B.S in Information Systems and an additional B.S. in  Human Computer Interaction. "
           />
         </div>
       </div>

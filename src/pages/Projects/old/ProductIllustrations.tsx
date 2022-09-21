@@ -1,12 +1,12 @@
 import React from 'react';
-import Projects from '../../components/templates/prose/prose.component';
-import { List } from '../../components/list/list.component';
-import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
-import product_illustrations_blend_site from '../../assets/images/projects/ProductIllustrations/product_illustrations_blend_site.png';
-import product_illustrations_components from '../../assets/images/projects/ProductIllustrations/product_illustrations_components.png';
-import product_illustrations_lottie from '../../assets/images/projects/ProductIllustrations/product_illustrations_lottie.png';
-import product_illustrations_sample from '../../assets/images/projects/ProductIllustrations/product_illustrations_sample.png';
-import product_illustrations_type from '../../assets/images/projects/ProductIllustrations/product_illustrations_type.png';
+import Projects from '../../../components/templates/prose/prose.component';
+import { List } from '../../../components/list/list.component';
+import { ImageWithCaption } from '../../../components/ImageWithCaption/ImageWithCaption.component';
+import product_illustrations_blend_site from '../../../assets/images/projects/ProductIllustrations/product_illustrations_blend_site.png';
+import product_illustrations_components from '../../../assets/images/projects/ProductIllustrations/product_illustrations_components.png';
+import product_illustrations_lottie from '../../../assets/images/projects/ProductIllustrations/product_illustrations_lottie.png';
+import product_illustrations_sample from '../../../assets/images/projects/ProductIllustrations/product_illustrations_sample.png';
+import product_illustrations_type from '../../../assets/images/projects/ProductIllustrations/product_illustrations_type.png';
 
 export const ProductIllustrations = () => {
   // const AbstractMigrate = (

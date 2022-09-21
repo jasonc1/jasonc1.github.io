@@ -12,20 +12,20 @@ const AlchemyLink = (
   </Link>
 );
 
-const designSystemsAtBlendLink = (
-  <Link className="action-link" to="/DesignSystemsAtBlend" target="_blank">
-    <Text size="link-1" text="here" />
+const Vesta = (
+  <Link className="action-link" to="/Vesta" target="_blank">
+    <Text size="link-1" text="Vesta" />
   </Link>
 );
 
-const StratRouletteLink = (
+const Ink = (
   <a
     className="action-link"
     target="_blank"
     rel="noreferrer"
-    href={'https://www.stratroulette.com'}
+    href={'https://ink.carta.com/'}
   >
-    <Text size="link-1" text="StratRoulette" />
+    <Text size="link-1" text="Ink design system" />
   </a>
 );
 
@@ -33,15 +33,15 @@ const designSystemsDescription: JSX.Element = (
   <div>
     Design systems is currently my passion. In one way or another, I got my
     first taste of design systems while I was at Intuit, where I owned and
-    contributed to an accordion component. Then, I moved to Blend, where I
-    helped bring forth to light {AlchemyLink}, a themeable design system to
-    support Blend’s various products. Before working on Alchemy, I helped create
-    and maintain Figma libraries, write documentation, address design debt, and
-    host UI reviews for our fellow product designers. You can read more about my
-    journey to design systems {designSystemsAtBlendLink}. On the side, I work on
-    a side project called {StratRouletteLink} where I’ve led the design systems
-    effort by designing and coding the UI library and several main features of
-    the application.
+    contributed to an accordion component. Then, I moved to Blend, where I was a
+    founding member of {AlchemyLink}, a themeable design system to support
+    Blend’s various products. Before working on Alchemy, I helped create and
+    maintain Figma libraries, write documentation, address design debt, and host
+    UI reviews for our fellow product designers. Afterwards, I joined Carta to
+    continue my work around {Ink} where I lead the "Ink on Figma" effort,
+    contributed to Ink's codebase, and prototyped designs for the "Employee"
+    (aka "Shareholder") pillar. I have also worked as a contractor for {Vesta},
+    where I built out the whole design system from the ground up.
   </div>
 );
 
@@ -52,18 +52,18 @@ export const DesignSystems = () => {
       <SubjectLinks
         projects={[
           {
-            name: 'Alchemy',
+            name: 'Alchemy Design System',
             link: 'Alchemy',
             external: false,
           },
           {
-            name: 'Product Illustrations in Figma',
-            link: 'ProductIllustrations',
+            name: 'Ink Design System',
+            link: 'Ink',
             external: false,
           },
           {
-            name: 'StratRoulette',
-            link: 'StratRoulette',
+            name: 'Vesta ui-kit',
+            link: 'Vesta',
             external: false,
           },
           {

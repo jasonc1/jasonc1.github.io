@@ -1,18 +1,11 @@
 import React from 'react';
 import Projects from '../../components/templates/prose/prose.component';
-import { Text } from '../../components/text/text.component';
 import { List } from '../../components/list/list.component';
 import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
 import sapling_example from '../../assets/images/projects/Sapling/sapling_example.png';
 import sapling from '../../assets/images/projects/Sapling/sapling.png';
-import { Link } from 'react-router-dom';
 
 export const Sapling = () => {
-  const Haven = (
-    <Link className="action-link" to="/Haven" target="_blank">
-      <Text size="link-1" text="Blend's first internal Figma plugin, Haven" />
-    </Link>
-  );
   const summaryText = (
     <div>
       <ImageWithCaption src={sapling} caption="Sapling overview image" />
@@ -99,35 +92,6 @@ export const Sapling = () => {
           them. While they come and go in priority, the files they group
           generally stay together. We'll be matching Figma projects to our
           Initiatives.
-        </div>,
-      ],
-    },
-    {
-      section: 'Process',
-      content: [
-        <div>
-          In order to reach our File structure, we audited old sketch files, and
-          projects within each initiative/product within Blend. We were able to
-          map out common patterns and styles of organization across a handful of
-          files from all of our designers.
-        </div>,
-        <div>
-          As a team, we highlighted patterns that we saw, and that helped inform
-          us as to how product designers organized their pages and frames.
-          Furthermore, that helped us start a conversation with the product
-          design team to determine what page headers we wanted to include. We
-          felt that having consistent page headers was the first step to
-          fostering not only a better handoff experience for cross functional
-          partners but also onboarding new designers to existing projects since
-          it would ensure all designers to have similar file organization.
-        </div>,
-        <div>
-          Most importantly, we felt that we could automate the page headers and
-          cover page so that designers wouldn’t have to duplicate a file or
-          manually create the page headers within Figma. At that time, I also
-          recently learned how to develop a Figma plugin and thus publishing,
-          {Haven}. Thus, we created Sapling, a figma plugin that the brand and
-          product design teams could use to initiate a new figma file.
         </div>,
       ],
     },
