@@ -75,7 +75,7 @@ export const ExerciseStatus = () => {
           caption="A view of exercise history of a given grant"
         />,
         <div>
-          A {ExerciseStatusProto} (pw: 'abby')was thus created so that to test
+          A {ExerciseStatusProto} (pw: 'abby') was thus created so that to test
           compatibility and feasibility with the ink design system. We needed to
           ensure that we as a design team could confidently build the existing
           experience with the Tracker component made by the ink team. This

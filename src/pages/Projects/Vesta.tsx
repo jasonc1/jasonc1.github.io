@@ -21,12 +21,13 @@ export const Vesta = () => {
         white
         caption="Vesta's ui-kit cover in Figma, with a small legend for progress per page"
       />
-      Vesta is founded by ex-Blend folks, and I was fortunate enough to help
-      work on creating Vesta's very first design system! Luckily, there were
-      already some visual assets figured out like colors, type, and icons, but
-      they needed some organization so that they could be used to flesh out the
-      rest of the components. My time at Vesta so far has been to flesh out the
-      'v1' of the design system so that the rest of the product designers and
+      Vesta is an LOS (loan origination system) which is what loan officers use
+      to process loans and manage their work. I was asked to contract part time
+      to create Vesta's very first design system. Luckily, there were already
+      some visual assets figured out like colors, type, and icons, but they
+      needed some organization so that they could be used to flesh out the rest
+      of the components. My time at Vesta so far has been to flesh out the 'v1'
+      of the design system so that the rest of the product designers and
       frontend engineers can focus on building their product faster.
     </div>
   );
@@ -39,7 +40,7 @@ export const Vesta = () => {
           size="body-1"
           listItems={[
             'Audited product flows to document patterns',
-            'Created and maintined design system from the ground up: starting from basic icons, typography, colors, and grid',
+            'Created and maintained design system from the ground up: starting from basic icons, typography, colors, and grid',
             'Collaborated weekly with product design team for feedback and presentation of components',
             'Created inputs, modals, navigational elements, and more',
             'Documented patterns and working best practices within the figma library',

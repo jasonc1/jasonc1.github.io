@@ -27,7 +27,13 @@ export const EmployeeOnboarding = () => {
         caption="Employee onboarding V2, now with a 10% improvement in signups"
       />
       Prototyping played a crucial role in the design of the new onboarding
-      flow. Three prototypes were created so that
+      flow. Three prototypes were created so that we could validate the new flow
+      with the integration of 2FA upon account creation. The new onboarding flow
+      would also collect more data up front so that users wouldn't have to input
+      additional info when it came to do actions like exercising their stock
+      options. Thus an interactive prototype was created to test the feasibility
+      of the new experience, to iterate on different variations, and to user
+      test.
     </div>
   );
 
