@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.bbe27041.css",
-    "main.js": "/static/js/main.b7c5b92c.js",
+    "main.js": "/static/js/main.4e65fbfd.js",
     "static/js/377.33aa940a.chunk.js": "/static/js/377.33aa940a.chunk.js",
     "static/media/landing.jpg": "/static/media/landing.cd8466c763237f5372dc.jpg",
     "static/media/Design_systems_process.pdf": "/static/media/Design_systems_process.7d872d094f48026153f1.pdf",
@@ -98,11 +98,11 @@
     "static/media/SRLegacy_logo_final.svg": "/static/media/SRLegacy_logo_final.e1ca1c3f8fba5f8cf2118a9fbd2e474a.svg",
     "index.html": "/index.html",
     "main.bbe27041.css.map": "/static/css/main.bbe27041.css.map",
-    "main.b7c5b92c.js.map": "/static/js/main.b7c5b92c.js.map",
+    "main.4e65fbfd.js.map": "/static/js/main.4e65fbfd.js.map",
     "377.33aa940a.chunk.js.map": "/static/js/377.33aa940a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.bbe27041.css",
-    "static/js/main.b7c5b92c.js"
+    "static/js/main.4e65fbfd.js"
   ]
 }
