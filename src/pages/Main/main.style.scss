@@ -3,12 +3,18 @@
 .test {
   height: 1600px;
   width: 100%;
-  border: 2px solid black;
+  // border: 2px solid black;
   box-sizing: border-box;
+  border-bottom: 2px solid black;
+  padding-top: 72px;
+  &.last {
+    border: none;
+  }
 }
 
 .content {
-  margin-top: 72px;
+  width: 100%;
+  display: inline-flex;
 }
 
 nav.display-nav {
@@ -16,10 +22,41 @@ nav.display-nav {
   width: 100%;
   position: fixed;
   top: 0;
-  background: #eeeeee;
+  background: #fff;
   justify-content: center;
   display: inline-flex;
   align-items: center;
+  z-index: 1000;
+  border-bottom: 2px solid black;
+}
+
+.content-sidebar {
+  width: 25%;
+  height: auto;
+}
+
+#content-title {
+  padding-top: 72px;
+  color: black;
+  position: fixed;
+}
+
+.content-main {
+  width: 75%;
+  border-left: 2px solid black;
+  box-sizing: border-box;
+}
+
+footer {
+  width: 100%;
+  height: 72px;
+  padding-left: 24px;
+  padding-right: 24px;
+  justify-content: center;
+  display: inline-flex;
+  align-items: center;
+  border-top: 2px solid black;
+  margin-top: -4px;
 }
 
 // .main {

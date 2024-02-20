@@ -21,10 +21,11 @@ export const Main = () => {
   const elementInViewport = (element: HTMLElement) => {
     const bounding = element.getBoundingClientRect();
     const elementHeight = element.offsetHeight;
-    const elementWidth = element.offsetWidth;
+    const elementWidth = element.offsetWidth + window.screen.width / 4;
 
-    console.log(bounding.top);
-    console.log(elementHeight);
+    // console.log("bound.top: " + bounding.top);
+    // console.log("element height: " + elementHeight);
+    // console.log(element.textContent);
 
     if (
       bounding.top >= -elementHeight - window.screen.height / 3 &&
@@ -38,7 +39,9 @@ export const Main = () => {
           elementHeight +
           -window.screen.height / 3
     ) {
+      console.log(element.textContent);
       setNavDisplay(element.textContent ? element.textContent : "null");
+    } else {
     }
   };
 
@@ -65,26 +68,34 @@ export const Main = () => {
   // };
 
   return (
-    <div className="body">
-      <nav className="display-nav">{navDisplay}</nav>
-      <div className="content">
-        <div className="test" id="work">
-          {navItems[0]}
-        </div>
+    <>
+      <div className="body">
+        <nav className="display-nav">Design Systems / SF</nav>
+        <div className="content">
+          <div className="content-sidebar">
+            <div id="content-title">{navDisplay}</div>
+          </div>
+          <div className="content-main">
+            <div className="test" id="work">
+              {navItems[0]}
+            </div>
 
-        <div className="test" id="about">
-          {navItems[1]}
-        </div>
+            <div className="test" id="about">
+              {navItems[1]}
+            </div>
 
-        <div className="test" id="photography">
-          {navItems[2]}
-        </div>
+            <div className="test" id="photography">
+              {navItems[2]}
+            </div>
 
-        <div className="test" id="contact">
-          {navItems[3]}
+            <div className="test last" id="contact">
+              {navItems[3]}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+      <footer>test</footer>
+    </>
 
     // <div className="main" id="main-selector">
     //   <Nav />
