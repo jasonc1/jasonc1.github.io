@@ -1,9 +1,9 @@
-import React from 'react';
-import Projects from '../../components/templates/prose/prose.component';
-import { List } from '../../components/list/list.component';
-import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
-import sapling_example from '../../assets/images/projects/Sapling/sapling_example.png';
-import sapling from '../../assets/images/projects/Sapling/sapling.png';
+import React from "react";
+import Projects from "../../components/templates/prose/prose.component";
+import { List } from "../../components/list/list.component";
+import { ImageWithCaption } from "../../components/ImageWithCaption/ImageWithCaption.component";
+import sapling_example from "../../assets/images/projects/Sapling/sapling_example.png";
+import sapling from "../../assets/images/projects/Sapling/sapling.png";
 
 export const Sapling = () => {
   const summaryText = (
@@ -18,21 +18,21 @@ export const Sapling = () => {
 
   const SaplingContent = [
     {
-      section: 'Responsibilities',
+      section: "Responsibilities",
       content: [
         <List
-          size="body-1"
+          size="Body"
           listItems={[
-            'Project planned and set goals for the initiative',
-            'Audited existing files and highlighted areas of improvement',
-            'Created proposal for product design team',
-            'Created Figma plugin to automate & instantiate file structure',
+            "Project planned and set goals for the initiative",
+            "Audited existing files and highlighted areas of improvement",
+            "Created proposal for product design team",
+            "Created Figma plugin to automate & instantiate file structure",
           ]}
         ></List>,
       ],
     },
     {
-      section: 'Problem',
+      section: "Problem",
       content: [
         <div>
           As we moved away from Sketch + Abstract and thus on to Figma, the last
@@ -44,7 +44,7 @@ export const Sapling = () => {
       ],
     },
     {
-      section: 'Solution & Deliverables',
+      section: "Solution & Deliverables",
       content: [
         <ImageWithCaption
           white
@@ -62,15 +62,15 @@ export const Sapling = () => {
           new Figma File created would have the following:
         </div>,
         <List
-          size="body-1"
+          size="Body"
           listItems={[
-            '🖼 Cover page: project name, owner, and status',
-            '🚀 Production/shipped: screens that currently reflect prod',
-            '✅ Specs: handoff items/specs for eng',
-            '🔍  In Review [optional]: screens that need design or eng review',
-            '✍️ WIP: your working doc/explorations',
-            '🗄 Archive: outdated designs',
-            '⚡️ Demos [optional]: figma prototypes and demo screens',
+            "🖼 Cover page: project name, owner, and status",
+            "🚀 Production/shipped: screens that currently reflect prod",
+            "✅ Specs: handoff items/specs for eng",
+            "🔍  In Review [optional]: screens that need design or eng review",
+            "✍️ WIP: your working doc/explorations",
+            "🗄 Archive: outdated designs",
+            "⚡️ Demos [optional]: figma prototypes and demo screens",
           ]}
         ></List>,
         <div>

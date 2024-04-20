@@ -1,20 +1,20 @@
-import React from 'react';
-import Projects from '../../components/templates/prose/prose.component';
-import { Text } from '../../components/text/text.component';
-import { List } from '../../components/list/list.component';
-import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
-import Welcome from '../../assets/images/projects/EmployeeOnboarding/Welcome.png';
-import TwoFactor from '../../assets/images/projects/EmployeeOnboarding/TwoFactor.png';
-import PersonalInfo from '../../assets/images/projects/EmployeeOnboarding/PersonalInfo.png';
+import React from "react";
+import Projects from "../../components/templates/prose/prose.component";
+import { Text } from "../../components/text/text.component";
+import { List } from "../../components/list/list.component";
+import { ImageWithCaption } from "../../components/ImageWithCaption/ImageWithCaption.component";
+import Welcome from "../../assets/images/projects/EmployeeOnboarding/Welcome.png";
+import TwoFactor from "../../assets/images/projects/EmployeeOnboarding/TwoFactor.png";
+import PersonalInfo from "../../assets/images/projects/EmployeeOnboarding/PersonalInfo.png";
 
 const EmployeeOnboardingProto = (
   <a
     className="action-link"
     target="_blank"
     rel="noreferrer"
-    href={'https://employee-onboarding-poc-1.netlify.app/'}
+    href={"https://employee-onboarding-poc-1.netlify.app/"}
   >
-    <Text size="link-1" text="here" />
+    <Text size="Body-bold" text="here" />
   </a>
 );
 
@@ -39,23 +39,23 @@ export const EmployeeOnboarding = () => {
 
   const ExerciseStatusContent = [
     {
-      section: 'Responsibilities',
+      section: "Responsibilities",
       content: [
         <List
           ordered
-          size="body-1"
+          size="Body"
           listItems={[
-            'Built a total of 3 end to end hi-fidelity prototypes',
-            'Leveraged existing ink componets while providing suggestions for the UI',
-            'Pixel perfect attention to detail to call out one-offs or to clean up design spec',
-            'Validated designs through user testing as well as coding functionality',
-            'Design QA-ed for release',
+            "Built a total of 3 end to end hi-fidelity prototypes",
+            "Leveraged existing ink componets while providing suggestions for the UI",
+            "Pixel perfect attention to detail to call out one-offs or to clean up design spec",
+            "Validated designs through user testing as well as coding functionality",
+            "Design QA-ed for release",
           ]}
         ></List>,
       ],
     },
     {
-      section: 'Problem',
+      section: "Problem",
       content: [
         <div>
           As an employee accepts their option grant, at a certain point they
@@ -68,7 +68,7 @@ export const EmployeeOnboarding = () => {
       ],
     },
     {
-      section: 'Solution & Deliverables',
+      section: "Solution & Deliverables",
       content: [
         <div>
           Like most prototypes, one main goal of prototyping the onboarding flow
@@ -82,11 +82,11 @@ export const EmployeeOnboarding = () => {
 
         <List
           ordered
-          size="body-1"
+          size="Body"
           listItems={[
-            'option 1: 2FA → form (including equity education) → success,',
-            'option 2: NO 2FA → form (including equity education) → success,',
-            'option 3: 2FA → form → success → equity education,',
+            "option 1: 2FA → form (including equity education) → success,",
+            "option 2: NO 2FA → form (including equity education) → success,",
+            "option 3: 2FA → form → success → equity education,",
           ]}
         ></List>,
 
@@ -97,7 +97,7 @@ export const EmployeeOnboarding = () => {
       ],
     },
     {
-      section: 'Process',
+      section: "Process",
       content: [
         <ImageWithCaption
           src={TwoFactor}

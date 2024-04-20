@@ -1,11 +1,11 @@
-import React from 'react';
-import { ITextProps, ITextStyles } from './text.model';
-import './text.style.scss';
-import classNames from 'classnames';
+import React from "react";
+import { ITextProps, ITextStyles } from "./text.model";
+import "./text.style.scss";
+import classNames from "classnames";
 
 export const Text = ({
-  textAlign = 'left',
-  color = 'inherit',
+  textAlign = "left",
+  color = "inherit",
   size,
   text,
   marginTop,
@@ -22,20 +22,42 @@ export const Text = ({
     marginLeft,
   };
 
-  const textClass = classNames('text', {
-    'display-1': size === 'display-1',
-    'display-2': size === 'display-2',
-    'header-1': size === 'header-1',
-    'subheader-1': size === 'subheader-1',
-    'body-1': size === 'body-1',
-    'body-2': size === 'body-2',
-    'link-1': size === 'link-1',
-    'link-2': size === 'link-2',
+  const textClass = classNames("text", {
+    Display: size === "Display",
+    Header: size === "Header",
+    Body: size === "Body",
+    "Body-bold": size === "Body-bold",
+
+    // "display-1": size === "display-1",
+    // "display-2": size === "display-2",
+    // "header-1": size === "header-1",
+    // "subheader-1": size === "subheader-1",
+    // "body-1": size === "body-1",
+    // "body-2": size === "body-2",
+    // "link-1": size === "link-1",
+    // "link-2": size === "link-2",
   });
 
-  return (
-    <div className={textClass} style={textStyles}>
-      {text}
-    </div>
-  );
+  const renderText = (size: string) => {
+    if (size === "Display") {
+      return (
+        <h1 className={textClass} style={textStyles}>
+          {text}
+        </h1>
+      );
+    } else if (size === "Header") {
+      console.log("test");
+      return (
+        <h2 className={textClass} style={textStyles}>
+          {text}
+        </h2>
+      );
+    } else {
+      <p className={textClass} style={textStyles}>
+        {text}
+      </p>;
+    }
+  };
+
+  return <>{renderText(size)}</>;
 };

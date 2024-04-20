@@ -1,14 +1,14 @@
-import React from 'react';
-import Projects from '../../components/templates/prose/prose.component';
-import { Text } from '../../components/text/text.component';
-import { List } from '../../components/list/list.component';
-import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
-import OTMBanner from '../../assets/images/projects/OTM/OTMBanner.png';
-import OTMEmblem from '../../assets/images/projects/OTM/OTMEmblem.png';
-import OTMFramerX from '../../assets/images/projects/OTM/OTMFramerX.png';
-import OTMProtopie from '../../assets/images/projects/OTM/OTMProtopie.png';
-import OTMRBC from '../../assets/images/projects/OTM/OTMRBC.png';
-import OTMLoading from '../../assets/images/projects/OTM/OTMLoading.png';
+import React from "react";
+import Projects from "../../components/templates/prose/prose.component";
+import { Text } from "../../components/text/text.component";
+import { List } from "../../components/list/list.component";
+import { ImageWithCaption } from "../../components/ImageWithCaption/ImageWithCaption.component";
+import OTMBanner from "../../assets/images/projects/OTM/OTMBanner.png";
+import OTMEmblem from "../../assets/images/projects/OTM/OTMEmblem.png";
+import OTMFramerX from "../../assets/images/projects/OTM/OTMFramerX.png";
+import OTMProtopie from "../../assets/images/projects/OTM/OTMProtopie.png";
+import OTMRBC from "../../assets/images/projects/OTM/OTMRBC.png";
+import OTMLoading from "../../assets/images/projects/OTM/OTMLoading.png";
 
 export const OTM = () => {
   const OTMMarketingLink = (
@@ -16,9 +16,9 @@ export const OTM = () => {
       className="action-link"
       target="_blank"
       rel="noreferrer"
-      href={'https://blend.com/one-tap/'}
+      href={"https://blend.com/one-tap/"}
     >
-      <Text size="link-1" text="one of Blend's flagship products" />
+      <Text size="Body-bold" text="one of Blend's flagship products" />
     </a>
   );
   const ForumDemo = (
@@ -26,9 +26,9 @@ export const OTM = () => {
       className="action-link"
       target="_blank"
       rel="noreferrer"
-      href={'https://otm-forum-demo.netlify.app/'}
+      href={"https://otm-forum-demo.netlify.app/"}
     >
-      <Text size="link-1" text="prototype" />
+      <Text size="Body-bold" text="prototype" />
     </a>
   );
   // const RBCDemo = (
@@ -38,7 +38,7 @@ export const OTM = () => {
   //     rel="noreferrer"
   //     href={'https://otm-rbc-demo.netlify.app/'}
   //   >
-  //     <Text size="link-1" text="here" />
+  //     <Text size="Body-bold" text="here" />
   //   </a>
   // );
   // const FramerXDemo = (
@@ -48,7 +48,7 @@ export const OTM = () => {
   //     rel="noreferrer"
   //     href={'https://cmu-otm-demo.netlify.app/'}
   //   >
-  //     <Text size="link-1" text="early days of OTM" />
+  //     <Text size="Body-bold" text="early days of OTM" />
   //   </a>
   // );
   const summaryText = (
@@ -72,25 +72,25 @@ export const OTM = () => {
 
   const OTMContent = [
     {
-      section: 'Responsibilities',
+      section: "Responsibilities",
       content: [
         <List
           ordered
-          size="body-1"
+          size="Body"
           listItems={[
-            'Built a dynamic and end to end hi-fidelity prototype',
-            'Explored and designed loading state experience',
-            'Ideated new interactions',
-            'Produced tailor made sales demos for clients',
-            'Produced demos for user tests',
-            'Leveraged production level react components',
-            'Architected a system to change colors and branding for sales demos',
+            "Built a dynamic and end to end hi-fidelity prototype",
+            "Explored and designed loading state experience",
+            "Ideated new interactions",
+            "Produced tailor made sales demos for clients",
+            "Produced demos for user tests",
+            "Leveraged production level react components",
+            "Architected a system to change colors and branding for sales demos",
           ]}
         ></List>,
       ],
     },
     {
-      section: 'Problem',
+      section: "Problem",
       content: [
         <div>
           Blend's vision for 2019 was to drastically change how mortgages could
@@ -106,7 +106,7 @@ export const OTM = () => {
       ],
     },
     {
-      section: 'Solution & Deliverables',
+      section: "Solution & Deliverables",
       content: [
         <div>
           This was a brand new experience that Blend was setting out to test
@@ -120,20 +120,20 @@ export const OTM = () => {
         </div>,
         <List
           ordered
-          size="body-1"
+          size="Body"
           listItems={[
-            'Logging into their financial institution',
-            'Providing consent for OTM',
-            'Surfacing a potentially long loading state while OTM fetches and processes data',
+            "Logging into their financial institution",
+            "Providing consent for OTM",
+            "Surfacing a potentially long loading state while OTM fetches and processes data",
             "Showcasing and educating a user's buying power",
-            'Produce a preapproval letter',
-            'Provide methods for a user to edit or add information to increase their buying power or modify the preapproval letter',
+            "Produce a preapproval letter",
+            "Provide methods for a user to edit or add information to increase their buying power or modify the preapproval letter",
           ]}
         ></List>,
       ],
     },
     {
-      section: 'Process',
+      section: "Process",
       content: [
         <ImageWithCaption
           src={OTMFramerX}

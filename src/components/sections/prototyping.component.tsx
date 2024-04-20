@@ -1,11 +1,11 @@
-import React from 'react';
-import { Text } from '../text/text.component';
-import { Subject } from '../subject/subject.component';
-import { SubjectLinks } from '../subject-links/subject-links.component';
+import React from "react";
+import { Text } from "../text/text.component";
+import { Subject } from "../subject/subject.component";
+import { SubjectLinks } from "../subject-links/subject-links.component";
 
 // const prototypingAtBlendLink = (
 //   <Link className="action-link" to="/PrototypingAtBlend" target="_blank">
-//     <Text size="link-1" text="here" />
+//     <Text size="Body-bold" text="here" />
 //   </Link>
 // );
 
@@ -14,9 +14,9 @@ const oneTapLink = (
     className="action-link"
     target="_blank"
     rel="noreferrer"
-    href={'https://blend.com/one-tap/'}
+    href={"https://blend.com/one-tap/"}
   >
-    <Text size="link-1" text="One Tap Mobile" />
+    <Text size="Body-bold" text="One Tap Mobile" />
   </a>
 );
 
@@ -39,23 +39,23 @@ export const Prototyping = () => {
       <SubjectLinks
         projects={[
           {
-            name: 'Blend One Tap Mobile',
-            link: 'OTM',
+            name: "Blend One Tap Mobile",
+            link: "OTM",
             external: false,
           },
           {
-            name: 'Blend Insurance Wait Task V2',
-            link: 'WaitTaskV2',
+            name: "Blend Insurance Wait Task V2",
+            link: "WaitTaskV2",
             external: false,
           },
           {
-            name: 'Carta Exercise Status',
-            link: 'ExerciseStatus',
+            name: "Carta Exercise Status",
+            link: "ExerciseStatus",
             external: false,
           },
           {
-            name: 'Carta Employee Onboarding',
-            link: 'EmployeeOnboarding',
+            name: "Carta Employee Onboarding",
+            link: "EmployeeOnboarding",
             external: false,
           },
         ]}

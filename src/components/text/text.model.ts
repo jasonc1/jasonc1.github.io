@@ -1,17 +1,9 @@
-export type typeSizes =
-  | 'display-1'
-  | 'display-2'
-  | 'header-1'
-  | 'subheader-1'
-  | 'body-1'
-  | 'body-2'
-  | 'link-1'
-  | 'link-2';
+export type typeSizes = "Display" | "Header" | "Body" | "Body-bold";
 export interface ITextProps {
   color?: string;
   size: typeSizes;
   text: string | JSX.Element;
-  textAlign?: 'left' | 'center' | 'right';
+  textAlign?: "left" | "center" | "right";
   marginTop?: number | string;
   marginBottom?: number | string;
   marginLeft?: number | string;
@@ -20,7 +12,7 @@ export interface ITextProps {
 
 export interface ITextStyles {
   color?: string;
-  textAlign?: 'left' | 'center' | 'right';
+  textAlign?: "left" | "center" | "right";
   marginLeft?: number | string;
   marginRight?: number | string;
   marginTop?: number | string;

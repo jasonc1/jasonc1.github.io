@@ -1,14 +1,14 @@
-import React from 'react';
-import Projects from '../../components/templates/prose/prose.component';
-import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
-import accordion_tron from '../../assets/images/projects/intuit/accordion_tron.gif';
-import OTMBanner from '../../assets/images/projects/OTM/OTMBanner.png';
-import OTMProtopie from '../../assets/images/projects/OTM/OTMProtopie.png';
-import intake_form from '../../assets/images/projects/misc/intake_form.png';
-import prototypingWithFidelityInMind from '../../assets/images/projects/misc/prototypingWithFidelityInMind.png';
-import prototypingWithFidelityInMindPDF from '../../assets/misc/Prototyping_with_functional_fidelity_in_mind.pdf';
-import { Text } from '../../components/text/text.component';
-import { Link } from 'react-router-dom';
+import React from "react";
+import Projects from "../../components/templates/prose/prose.component";
+import { ImageWithCaption } from "../../components/ImageWithCaption/ImageWithCaption.component";
+import accordion_tron from "../../assets/images/projects/intuit/accordion_tron.gif";
+import OTMBanner from "../../assets/images/projects/OTM/OTMBanner.png";
+import OTMProtopie from "../../assets/images/projects/OTM/OTMProtopie.png";
+import intake_form from "../../assets/images/projects/misc/intake_form.png";
+import prototypingWithFidelityInMind from "../../assets/images/projects/misc/prototypingWithFidelityInMind.png";
+import prototypingWithFidelityInMindPDF from "../../assets/misc/Prototyping_with_functional_fidelity_in_mind.pdf";
+import { Text } from "../../components/text/text.component";
+import { Link } from "react-router-dom";
 
 export const PrototypingAtBlend = () => {
   const bankerProto = (
@@ -16,10 +16,10 @@ export const PrototypingAtBlend = () => {
       className="action-link"
       target="_blank"
       rel="noreferrer"
-      href={'https://cb-banker-v1.netlify.app/'}
+      href={"https://cb-banker-v1.netlify.app/"}
     >
       <Text
-        size="link-1"
+        size="Body-bold"
         text="deposit account prototype for bankers to user test"
       />
     </a>
@@ -32,17 +32,20 @@ export const PrototypingAtBlend = () => {
       rel="noreferrer"
       href={prototypingWithFidelityInMindPDF}
     >
-      <Text size="link-1" text="webinar" />
+      <Text size="Body-bold" text="webinar" />
     </a>
   );
   const IDSAccordion = (
     <Link className="action-link" to="/IDSAccordion" target="_blank">
-      <Text size="link-1" text="accordion component for Intuit design system" />
+      <Text
+        size="Body-bold"
+        text="accordion component for Intuit design system"
+      />
     </Link>
   );
   const OTM = (
     <Link className="action-link" to="/OTM" target="_blank">
-      <Text size="link-1" text="One Tap Mobile (OTM)" />
+      <Text size="Body-bold" text="One Tap Mobile (OTM)" />
     </Link>
   );
   const OTMProtopieLink = (
@@ -52,12 +55,12 @@ export const PrototypingAtBlend = () => {
       rel="noreferrer"
       href="https://cloud.protopie.io/p/390140da1d"
     >
-      <Text size="link-1" text="user study for OTM" />
+      <Text size="Body-bold" text="user study for OTM" />
     </a>
   );
   const WaitTaskV2 = (
     <Link className="action-link" to="/WaitTaskV2" target="_blank">
-      <Text size="link-1" text="Wait Task V2" />
+      <Text size="Body-bold" text="Wait Task V2" />
     </Link>
   );
   const summaryText = (

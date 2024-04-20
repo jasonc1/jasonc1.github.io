@@ -1,16 +1,16 @@
-import React from 'react';
-import { Text } from '../text/text.component';
-import { Subject } from '../subject/subject.component';
-import { SubjectLinks } from '../subject-links/subject-links.component';
+import React from "react";
+import { Text } from "../text/text.component";
+import { Subject } from "../subject/subject.component";
+import { SubjectLinks } from "../subject-links/subject-links.component";
 
 const RoninDivisionLink = (
   <a
     className="action-link"
     target="_blank"
     rel="noreferrer"
-    href={'https://www.ronindivision.com/'}
+    href={"https://www.ronindivision.com/"}
   >
-    <Text size="link-1" text="Ronin Division" />
+    <Text size="Body-bold" text="Ronin Division" />
   </a>
 );
 
@@ -33,19 +33,18 @@ export const EditorialAndLookbook = () => {
       <SubjectLinks
         projects={[
           {
-            name: 'Ronin Division FW20',
-            link: 'https://www.ronindivision.com/pages/fall2020-lookbook',
+            name: "Ronin Division FW20",
+            link: "https://www.ronindivision.com/pages/fall2020-lookbook",
             external: true,
           },
           {
-            name: 'Ronin Division Face Mask (COVID-19)',
-            link:
-              'https://www.instagram.com/p/CC_gBc7pbT2/?utm_source=ig_web_copy_link',
+            name: "Ronin Division Face Mask (COVID-19)",
+            link: "https://www.instagram.com/p/CC_gBc7pbT2/?utm_source=ig_web_copy_link",
             external: true,
           },
           {
-            name: 'Ronin Division FW18',
-            link: 'https://www.ronindivision.com/pages/fw18-lookbook',
+            name: "Ronin Division FW18",
+            link: "https://www.ronindivision.com/pages/fw18-lookbook",
             external: true,
           },
         ]}

@@ -1,66 +1,49 @@
-import React, { useEffect } from 'react';
-import { Text } from '../../components/text/text.component';
-import './nav.style.scss';
-import { theme } from '../../colors.js';
+import React, { useEffect } from "react";
+import { Text } from "../../components/text/text.component";
+import "./nav.style.scss";
+import { theme } from "../../colors.js";
 
 export const Nav = () => {
-  useEffect(() => {
-    const handleScroll = () => {
-      const navRate = window.scrollY / 20;
-      const nav = document.getElementById('nav-selector');
-      if (nav) {
-        if (window.scrollY < 500) {
-          nav.style.width = 50 - navRate + '%';
-        } else {
-          nav.style.width = '25%';
-        }
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  });
-
   const clickProjects = () => {
-    document
-      .getElementById('scroll-projects')
-      ?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
   };
   const clickAbout = () => {
-    document
-      .getElementById('scroll-about')
-      ?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
   };
   const clickPhotography = () => {
     document
-      .getElementById('scroll-photography')
-      ?.scrollIntoView({ behavior: 'smooth' });
+      .getElementById("photography")
+      ?.scrollIntoView({ behavior: "smooth" });
   };
   const clickContact = () => {
-    document
-      .getElementById('scroll-contact')
-      ?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <div className="nav" id="nav-selector">
-      <div className="nav-content">
-        <Text size="display-1" color={theme.primary} text="Jason Chen" />
-
-        <ul className="nav-menu">
-          <li id="about" onClick={clickAbout}>
-            <Text size="subheader-1" color={theme.primary} text="About" />
-          </li>
-          <li id="projects" onClick={clickProjects}>
-            <Text size="subheader-1" color={theme.primary} text="Projects" />
-          </li>
-          <li id="photography" onClick={clickPhotography}>
-            <Text size="subheader-1" color={theme.primary} text="Photography" />
-          </li>
-          <li id="resume" onClick={clickContact}>
-            <Text size="subheader-1" color={theme.primary} text="Contact" />
-          </li>
-        </ul>
+    <nav className="display-nav">
+      <Text
+        marginLeft={24}
+        size="Display"
+        color={theme.primary}
+        text="Jason Chen"
+      />
+      <div className="center-detail">
+        <Text size="Header" color={theme.primary} text="Design Systems / SF" />
       </div>
-    </div>
+      <ul className="nav-menu">
+        <li id="nav-projects" onClick={clickProjects}>
+          <Text size="Header" color={theme.primary} text="Work" />
+        </li>
+        <li id="nav-photography" onClick={clickPhotography}>
+          <Text size="Header" color={theme.primary} text="Photo" />
+        </li>
+        <li id="nav-about" onClick={clickAbout}>
+          <Text size="Header" color={theme.primary} text="About" />
+        </li>
+        <li id="nav-contact" onClick={clickContact}>
+          <Text size="Header" color={theme.primary} text="Contact" />
+        </li>
+      </ul>
+    </nav>
   );
 };

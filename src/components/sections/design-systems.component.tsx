@@ -1,20 +1,20 @@
-import React from 'react';
-import { Text } from '../text/text.component';
-import { Subject } from '../subject/subject.component';
-import { Link } from 'react-router-dom';
-import { SubjectLinks } from '../subject-links/subject-links.component';
+import React from "react";
+import { Text } from "../text/text.component";
+import { Subject } from "../subject/subject.component";
+import { Link } from "react-router-dom";
+import { SubjectLinks } from "../subject-links/subject-links.component";
 
 // TODO add proper links to project pages
 
 const AlchemyLink = (
   <Link className="action-link" to="/underconstruction" target="_blank">
-    <Text size="link-1" text="Alchemy Design system" />
+    <Text size="Body-bold" text="Alchemy Design system" />
   </Link>
 );
 
 const Vesta = (
   <Link className="action-link" to="/Vesta" target="_blank">
-    <Text size="link-1" text="Vesta" />
+    <Text size="Body-bold" text="Vesta" />
   </Link>
 );
 
@@ -23,9 +23,9 @@ const Ink = (
     className="action-link"
     target="_blank"
     rel="noreferrer"
-    href={'https://ink.carta.com/'}
+    href={"https://ink.carta.com/"}
   >
-    <Text size="link-1" text="Ink design system" />
+    <Text size="Body-bold" text="Ink design system" />
   </a>
 );
 
@@ -52,23 +52,23 @@ export const DesignSystems = () => {
       <SubjectLinks
         projects={[
           {
-            name: 'Alchemy Design System',
-            link: 'Alchemy',
+            name: "Alchemy Design System",
+            link: "Alchemy",
             external: false,
           },
           {
-            name: 'Ink Design System',
-            link: 'Ink',
+            name: "Ink Design System",
+            link: "Ink",
             external: false,
           },
           {
-            name: 'Vesta ui-kit',
-            link: 'Vesta',
+            name: "Vesta ui-kit",
+            link: "Vesta",
             external: false,
           },
           {
-            name: 'Intuit Design Systems Accordion',
-            link: 'IDSAccordion',
+            name: "Intuit Design Systems Accordion",
+            link: "IDSAccordion",
             external: false,
           },
         ]}

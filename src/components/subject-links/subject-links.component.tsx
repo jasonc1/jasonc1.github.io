@@ -1,9 +1,9 @@
-import React from 'react';
-import { ISubjectLinksProps } from './subject-links.model';
-import './subject-links.style.scss';
-import { Text } from '../text/text.component';
-import { theme } from '../../colors.js';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { ISubjectLinksProps } from "./subject-links.model";
+import "./subject-links.style.scss";
+import { Text } from "../text/text.component";
+import { theme } from "../../colors.js";
+import { Link } from "react-router-dom";
 
 export const SubjectLinks = ({ projects }: ISubjectLinksProps) => {
   return (
@@ -15,7 +15,7 @@ export const SubjectLinks = ({ projects }: ISubjectLinksProps) => {
               <div className="project-link">
                 <a target="_blank" rel="noreferrer" href={project.link}>
                   <Text
-                    size="link-1"
+                    size="Body-bold"
                     color={theme.accent}
                     text={project.name}
                   />
@@ -27,7 +27,7 @@ export const SubjectLinks = ({ projects }: ISubjectLinksProps) => {
               <div className="project-link">
                 <Link to={project.link as string} target="_blank">
                   <Text
-                    size="link-1"
+                    size="Body-bold"
                     color={theme.accent}
                     text={project.name}
                   />
@@ -37,7 +37,7 @@ export const SubjectLinks = ({ projects }: ISubjectLinksProps) => {
           }
         } else {
           return (
-            <Text size="link-1" color={theme.accent} text={project.name} />
+            <Text size="Body-bold" color={theme.accent} text={project.name} />
           );
         }
       })}

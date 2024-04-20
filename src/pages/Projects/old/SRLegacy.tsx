@@ -1,17 +1,17 @@
-import React from 'react';
-import Projects from '../../../components/templates/prose/prose.component';
-import { List } from '../../../components/list/list.component';
-import { ImageWithCaption } from '../../../components/ImageWithCaption/ImageWithCaption.component';
-import { Text } from '../../../components/text/text.component';
-import SRLegacy_Alpha from '../../../assets/images/projects/SRLegacy/SRLegacy_alpha.png';
-import SRLegacy_landing from '../../../assets/images/projects/SRLegacy/SRLegacy_landing.png';
-import SRLegacy_home from '../../../assets/images/projects/SRLegacy/SRLegacy_home.png';
-import SRLegacy_spec from '../../../assets/images/projects/SRLegacy/SRLegacy_spec.png';
-import SRLegacy_STRAT_card from '../../../assets/images/projects/SRLegacy/SRLegacy_STRAT_card.png';
-import SRLegacy_logo_2 from '../../../assets/images/projects/SRLegacy/SRLegacy_logo_2.svg';
-import SRLegacy_logo_4 from '../../../assets/images/projects/SRLegacy/SRLegacy_logo_4.svg';
-import SRLegacy_logo_6 from '../../../assets/images/projects/SRLegacy/SRLegacy_logo_6.svg';
-import SRLegacy_logo_final from '../../../assets/images/projects/SRLegacy/SRLegacy_logo_final.svg';
+import React from "react";
+import Projects from "../../../components/templates/prose/prose.component";
+import { List } from "../../../components/list/list.component";
+import { ImageWithCaption } from "../../../components/ImageWithCaption/ImageWithCaption.component";
+import { Text } from "../../../components/text/text.component";
+import SRLegacy_Alpha from "../../../assets/images/projects/SRLegacy/SRLegacy_alpha.png";
+import SRLegacy_landing from "../../../assets/images/projects/SRLegacy/SRLegacy_landing.png";
+import SRLegacy_home from "../../../assets/images/projects/SRLegacy/SRLegacy_home.png";
+import SRLegacy_spec from "../../../assets/images/projects/SRLegacy/SRLegacy_spec.png";
+import SRLegacy_STRAT_card from "../../../assets/images/projects/SRLegacy/SRLegacy_STRAT_card.png";
+import SRLegacy_logo_2 from "../../../assets/images/projects/SRLegacy/SRLegacy_logo_2.svg";
+import SRLegacy_logo_4 from "../../../assets/images/projects/SRLegacy/SRLegacy_logo_4.svg";
+import SRLegacy_logo_6 from "../../../assets/images/projects/SRLegacy/SRLegacy_logo_6.svg";
+import SRLegacy_logo_final from "../../../assets/images/projects/SRLegacy/SRLegacy_logo_final.svg";
 
 export const SRLegacy = () => {
   const summaryText = (
@@ -26,21 +26,21 @@ export const SRLegacy = () => {
 
   const SRLegacyContent = [
     {
-      section: 'Responsibilities',
+      section: "Responsibilities",
       content: [
         <List
           ordered
-          size="body-1"
+          size="Body"
           listItems={[
-            'Lead product designer',
-            'Designed all flows and interactions of the app',
-            'Created branding identity',
+            "Lead product designer",
+            "Designed all flows and interactions of the app",
+            "Created branding identity",
           ]}
         ></List>,
       ],
     },
     {
-      section: 'Problem',
+      section: "Problem",
       content: [
         <div>
           One of the obvious "problems" with StratRoulette was that it was
@@ -61,7 +61,7 @@ export const SRLegacy = () => {
       ],
     },
     {
-      section: 'Solution & Deliverables',
+      section: "Solution & Deliverables",
       content: [
         <div>
           StratRoulette took off around 2015, and in 2017 I was asked to do a
@@ -89,7 +89,7 @@ export const SRLegacy = () => {
       ],
     },
     {
-      section: 'Process',
+      section: "Process",
       content: [
         <div>
           My role for SR is two fold: I am in charge of developing and
@@ -99,7 +99,7 @@ export const SRLegacy = () => {
           so that we can expand SR.
         </div>,
         <Text
-          size="subheader-1"
+          size="Header"
           text="Identity &amp; Components"
           marginTop={16}
           marginBottom={16}
@@ -130,7 +130,7 @@ export const SRLegacy = () => {
           caption="StratRoulette initial component spec sheet"
         />,
         <Text
-          size="subheader-1"
+          size="Header"
           text="Logo designs"
           marginTop={16}
           marginBottom={16}
@@ -152,7 +152,7 @@ export const SRLegacy = () => {
         <img
           className="SR-logo"
           src={SRLegacy_logo_2}
-          alt={'sr logo attempt 1'}
+          alt={"sr logo attempt 1"}
         />,
         <div>
           Then, I tried more of a symmetric approach, as I tried to make the S
@@ -162,7 +162,7 @@ export const SRLegacy = () => {
         <img
           className="SR-logo"
           src={SRLegacy_logo_4}
-          alt={'sr logo attepmt 2'}
+          alt={"sr logo attepmt 2"}
         />,
         <div>
           Next was some sort of lightning bolt to convey the fast paced nature
@@ -172,7 +172,7 @@ export const SRLegacy = () => {
         <img
           className="SR-logo"
           src={SRLegacy_logo_6}
-          alt={'sr logo attempt 3'}
+          alt={"sr logo attempt 3"}
         />,
         <div>
           However, the last iteration was something completely unorthodox. I was
@@ -188,11 +188,11 @@ export const SRLegacy = () => {
         <img
           className="SR-logo"
           src={SRLegacy_logo_final}
-          alt={'sr logo final'}
+          alt={"sr logo final"}
         />,
 
         <Text
-          size="subheader-1"
+          size="Header"
           text="Product designs"
           marginTop={16}
           marginBottom={16}

@@ -1,14 +1,14 @@
-import React from 'react';
-import Projects from '../../components/templates/prose/prose.component';
-import { Text } from '../../components/text/text.component';
-import { Link } from 'react-router-dom';
-import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
-import FigmaAutolayoutPDF from '../../assets/misc/figma_autolayout_2020.pdf';
-import FigmaVariantsPDF from '../../assets/misc/figma_variants.pdf';
-import DesignSystemProcessPDF from '../../assets/misc/Design_systems_process.pdf';
-import BDS from '../../assets/images/projects/misc/BDS.png';
-import consumer_storybook from '../../assets/images/projects/misc/consumer_storybook.png';
-import design_systems_process from '../../assets/images/projects/misc/design_systems_process.png';
+import React from "react";
+import Projects from "../../components/templates/prose/prose.component";
+import { Text } from "../../components/text/text.component";
+import { Link } from "react-router-dom";
+import { ImageWithCaption } from "../../components/ImageWithCaption/ImageWithCaption.component";
+import FigmaAutolayoutPDF from "../../assets/misc/figma_autolayout_2020.pdf";
+import FigmaVariantsPDF from "../../assets/misc/figma_variants.pdf";
+import DesignSystemProcessPDF from "../../assets/misc/Design_systems_process.pdf";
+import BDS from "../../assets/images/projects/misc/BDS.png";
+import consumer_storybook from "../../assets/images/projects/misc/consumer_storybook.png";
+import design_systems_process from "../../assets/images/projects/misc/design_systems_process.png";
 
 export const DesignSystemsAtBlend = () => {
   const FigmaAutolayout = (
@@ -18,7 +18,7 @@ export const DesignSystemsAtBlend = () => {
       rel="noreferrer"
       href={FigmaAutolayoutPDF}
     >
-      <Text size="link-1" text="Figma's 2020 Autolayout features" />
+      <Text size="Body-bold" text="Figma's 2020 Autolayout features" />
     </a>
   );
   const FigmaVariants = (
@@ -28,7 +28,7 @@ export const DesignSystemsAtBlend = () => {
       rel="noreferrer"
       href={FigmaVariantsPDF}
     >
-      <Text size="link-1" text="Figma Variants" />
+      <Text size="Body-bold" text="Figma Variants" />
     </a>
   );
   const dsystemProcess = (
@@ -38,27 +38,27 @@ export const DesignSystemsAtBlend = () => {
       rel="noreferrer"
       href={DesignSystemProcessPDF}
     >
-      <Text size="link-1" text="proposed a process/pipeline" />
+      <Text size="Body-bold" text="proposed a process/pipeline" />
     </a>
   );
   const prototypingAtBlend = (
     <Link className="action-link" to="/PrototypingAtBlend" target="_blank">
-      <Text size="link-1" text="a year of prototyping at Blend" />
+      <Text size="Body-bold" text="a year of prototyping at Blend" />
     </Link>
   );
   const IDSAccordion = (
     <Link className="action-link" to="/IDSAccordion" target="_blank">
-      <Text size="link-1" text="accordion" />
+      <Text size="Body-bold" text="accordion" />
     </Link>
   );
   const OTM = (
     <Link className="action-link" to="/OTM" target="_blank">
-      <Text size="link-1" text="One-Tap Mobile (aka OTM)" />
+      <Text size="Body-bold" text="One-Tap Mobile (aka OTM)" />
     </Link>
   );
   const Alchemy = (
     <Link className="action-link" to="/Alchemy" target="_blank">
-      <Text size="link-1" text="Alchemy Design System" />
+      <Text size="Body-bold" text="Alchemy Design System" />
     </Link>
   );
   const summaryText = (
@@ -71,7 +71,7 @@ export const DesignSystemsAtBlend = () => {
 
   const Content = [
     {
-      section: 'My journey into design systems',
+      section: "My journey into design systems",
       content: [
         <div>
           Prior to blend, I got a small glimpse of design systems when I

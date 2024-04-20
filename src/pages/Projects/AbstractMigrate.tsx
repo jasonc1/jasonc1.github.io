@@ -1,10 +1,10 @@
-import React from 'react';
-import Projects from '../../components/templates/prose/prose.component';
-import { List } from '../../components/list/list.component';
-import { Text } from '../../components/text/text.component';
-import AbstractMigrateDefine from '../../assets/images/projects/AbstractMigrate/AbstractMigrateDefine.png';
-import AbstractMigrateTimeline from '../../assets/images/projects/AbstractMigrate/AbstractMigrateTimeline.png';
-import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
+import React from "react";
+import Projects from "../../components/templates/prose/prose.component";
+import { List } from "../../components/list/list.component";
+import { Text } from "../../components/text/text.component";
+import AbstractMigrateDefine from "../../assets/images/projects/AbstractMigrate/AbstractMigrateDefine.png";
+import AbstractMigrateTimeline from "../../assets/images/projects/AbstractMigrate/AbstractMigrateTimeline.png";
+import { ImageWithCaption } from "../../components/ImageWithCaption/ImageWithCaption.component";
 
 export const AbstractMigrate = () => {
   const AbstractAPI = (
@@ -12,9 +12,9 @@ export const AbstractMigrate = () => {
       className="action-link"
       target="_blank"
       rel="noreferrer"
-      href={'https://sdk.goabstract.com/docs/abstract-api/'}
+      href={"https://sdk.goabstract.com/docs/abstract-api/"}
     >
-      <Text size="link-1" text="Abstract's API" />
+      <Text size="Body-bold" text="Abstract's API" />
     </a>
   );
   const summaryText = (
@@ -31,21 +31,21 @@ export const AbstractMigrate = () => {
 
   const AbstractMigrateContent = [
     {
-      section: 'Responsibilities',
+      section: "Responsibilities",
       content: [
         <List
-          size="body-1"
+          size="Body"
           listItems={[
-            'Created rollout plan fo sunsetting Abstract',
-            'Created a node.js script leveraging Abstract’s API to programmatically download files',
-            'Defined structure for labelling files',
-            'Held monthly power hours to tag and archive legacy sketch files',
+            "Created rollout plan fo sunsetting Abstract",
+            "Created a node.js script leveraging Abstract’s API to programmatically download files",
+            "Defined structure for labelling files",
+            "Held monthly power hours to tag and archive legacy sketch files",
           ]}
         ></List>,
       ],
     },
     {
-      section: 'Problem',
+      section: "Problem",
       content: [
         <div>
           When I joined Blend around February 2019, Figma was gaining traction
@@ -93,7 +93,7 @@ export const AbstractMigrate = () => {
       ],
     },
     {
-      section: 'Solution & Deliverables',
+      section: "Solution & Deliverables",
       content: [
         <ImageWithCaption
           src={AbstractMigrateDefine}

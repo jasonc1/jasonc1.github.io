@@ -1,8 +1,8 @@
 export const theme = {
-  primary: '#11593f',
-  accent: '#feda7b',
-  black: '#000',
-  white: '#fff',
+  primary: "#393939",
+  accent: "#11593f",
+  black: "#393939",
+  white: "#ffffff",
 };
 
 export default theme;

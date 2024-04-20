@@ -1,9 +1,9 @@
-import React from 'react';
-import Projects from '../../../components/templates/prose/prose.component';
-import docupload_pre from '../../../assets/images/projects/intuit/docupload_pre.png';
-import docupload from '../../../assets/images/projects/intuit/docupload.gif';
-import { List } from '../../../components/list/list.component';
-import { ImageWithCaption } from '../../../components/ImageWithCaption/ImageWithCaption.component';
+import React from "react";
+import Projects from "../../../components/templates/prose/prose.component";
+import docupload_pre from "../../../assets/images/projects/intuit/docupload_pre.png";
+import docupload from "../../../assets/images/projects/intuit/docupload.gif";
+import { List } from "../../../components/list/list.component";
+import { ImageWithCaption } from "../../../components/ImageWithCaption/ImageWithCaption.component";
 
 export const DocUploader = () => {
   const summaryText = (
@@ -18,20 +18,20 @@ export const DocUploader = () => {
 
   const DocUploaderContent = [
     {
-      section: 'Responsibilities',
+      section: "Responsibilities",
       content: [
         <List
-          size="body-1"
+          size="Body"
           listItems={[
-            'Implement complete front end of feature',
-            'Collaborated with design, customer success, and back-end engineers to roll out feature',
-            'Spec-ed out interaction edge cases and error handling',
+            "Implement complete front end of feature",
+            "Collaborated with design, customer success, and back-end engineers to roll out feature",
+            "Spec-ed out interaction edge cases and error handling",
           ]}
         ></List>,
       ],
     },
     {
-      section: 'Problem',
+      section: "Problem",
       content: [
         <div>
           As part of the onboarding process, about 10% of customers sign up need
@@ -50,7 +50,7 @@ export const DocUploader = () => {
       ],
     },
     {
-      section: 'Solution & Deliverables',
+      section: "Solution & Deliverables",
       content: [
         <div>
           Docuploader was created with the intention of providing a faster way
@@ -72,14 +72,14 @@ export const DocUploader = () => {
         </div>,
         <List
           ordered
-          size="body-1"
+          size="Body"
           listItems={[
-            'As part of onboarding, user is prompted by signup to verify ID doc OR User is prompted by email sent through care agent to verify ID',
-            'User selects type of ID document they would like to upload',
-            'User drag and drops file on the drop area, or clicks browse button to upload image. Mobile users can take a picture and attach directly',
-            'UI displays thumbnail, file size, and link to enlarge image in new tab for verification.',
-            'User uploads picture and recieves confirmation that their image has been successfully uploaded.',
-            'Customer Care & Risk evaluate and verify image.',
+            "As part of onboarding, user is prompted by signup to verify ID doc OR User is prompted by email sent through care agent to verify ID",
+            "User selects type of ID document they would like to upload",
+            "User drag and drops file on the drop area, or clicks browse button to upload image. Mobile users can take a picture and attach directly",
+            "UI displays thumbnail, file size, and link to enlarge image in new tab for verification.",
+            "User uploads picture and recieves confirmation that their image has been successfully uploaded.",
+            "Customer Care & Risk evaluate and verify image.",
           ]}
         ></List>,
         <div>

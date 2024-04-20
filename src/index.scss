@@ -1,23 +1,29 @@
-@import './theme.scss';
-@import './styles/grid.scss';
+@import "./theme.scss";
+@import "./styles/grid.scss";
 
 @font-face {
-  font-family: 'Inter';
-  src: local('Inter-Regular'),
-    url(./assets/fonts/Inter-Regular.otf) format('opentype');
+  font-family: "Inter";
+  src: local("Inter-Regular"),
+    url(./assets/fonts/Inter-Regular.otf) format("opentype");
 }
 
 @font-face {
-  font-family: 'DM Serif Display-Regular';
-  src: local('DM Serif Display-Regular'),
-    url(./assets/fonts/DMSerifDisplay-Regular.ttf) format('truetype');
+  font-family: "Geo";
+  src: local("Geo-Oblique"),
+    url(./assets/fonts/Geo-Oblique.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "DM Serif Display-Regular";
+  src: local("DM Serif Display-Regular"),
+    url(./assets/fonts/DMSerifDisplay-Regular.ttf) format("truetype");
 }
 
 body {
   background-color: $white;
   margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -30,11 +36,11 @@ a {
 
 .action-link {
   text-decoration: none;
-  @include link;
+  // @include link;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -58,7 +64,7 @@ pre {
   border-radius: 8px;
   padding: 16px 24px;
   code {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Courier New", Courier, monospace;
   }
 }
 

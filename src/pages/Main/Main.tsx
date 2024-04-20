@@ -1,9 +1,9 @@
 import React from "react";
-// import { Text } from '../../components/text/text.component';
+import { Text } from "../../components/text/text.component";
 import "./main.style.scss";
 import { useState, useEffect } from "react";
-// import { theme } from '../../colors.js';
-// import { Nav } from '../../components/nav/nav.component';
+import { theme } from "../../colors.js";
+import { Nav } from "../../components/nav/nav.component";
 // import { Rule } from '../../components/rule/rule.component';
 // import { Footer } from '../../components/footer/footer.component';
 // import DesignSystems from '../../components/sections/design-systems.component';
@@ -70,31 +70,35 @@ export const Main = () => {
   return (
     <>
       <div className="body">
-        <nav className="display-nav">Design Systems / SF</nav>
+        <Nav />
         <div className="content">
           <div className="content-sidebar">
-            <div id="content-title">{navDisplay}</div>
+            <div id="content-title">
+              <Text size="Header" text={navDisplay} />
+            </div>
           </div>
           <div className="content-main">
             <div className="test" id="work">
-              {navItems[0]}
+              <Text size="Header" text={navItems[0]} />
             </div>
 
             <div className="test" id="about">
-              {navItems[1]}
+              <Text size="Header" text={navItems[1]} />
             </div>
 
             <div className="test" id="photography">
-              {navItems[2]}
+              <Text size="Header" text={navItems[2]} />
             </div>
 
             <div className="test last" id="contact">
-              {navItems[3]}
+              <Text size="Header" text={navItems[3]} />
             </div>
           </div>
         </div>
       </div>
-      <footer>test</footer>
+      <footer>
+        <Text size="Header" text="&copy; JASON CHEN 2020" />
+      </footer>
     </>
 
     // <div className="main" id="main-selector">
@@ -102,19 +106,19 @@ export const Main = () => {
     //   <div className="about main-container" id="scroll-about">
     //     <div className="about-content">
     //       <Text
-    //         size="display-1"
+    //         size="Display"
     //         color={theme.accent}
     //         text="I’m a design technologist, and I love design systems, mechanical keyboards, and analogue photography."
     //         marginBottom={32}
     //       />
     //       <Text
-    //         size="body-1"
+    //         size="Body"
     //         color={theme.accent}
     //         text="Hi, I’m Jason. I used to be a developer, but now I sit at the intersection of design and code. My passion is building and maintaining design systems at the moment, and on the side I create tools for design ops, create high fidelity prototypes, contribute documentation, and much more. "
     //         marginBottom={24}
     //       />
     //       <Text
-    //         size="body-1"
+    //         size="Body"
     //         color={theme.accent}
     //         text="Previously, I have worked at Carta and Blend as a design technologist and Intuit as a software developer. I graduated from  Carnegie Mellon University with a B.S in Information Systems and an additional B.S. in  Human Computer Interaction. "
     //       />

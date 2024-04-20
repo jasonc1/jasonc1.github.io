@@ -1,16 +1,16 @@
-import React from 'react';
-import { Text } from '../text/text.component';
-import { Subject } from '../subject/subject.component';
-import { SubjectLinks } from '../subject-links/subject-links.component';
+import React from "react";
+import { Text } from "../text/text.component";
+import { Subject } from "../subject/subject.component";
+import { SubjectLinks } from "../subject-links/subject-links.component";
 
 const InstagramLink = (
   <a
     className="action-link"
     target="_blank"
     rel="noreferrer"
-    href={'https://www.instagram.com/me.dium'}
+    href={"https://www.instagram.com/me.dium"}
   >
-    <Text size="link-1" text="Instagram" />
+    <Text size="Body-bold" text="Instagram" />
   </a>
 );
 
@@ -32,8 +32,8 @@ export const Photography = () => {
       <SubjectLinks
         projects={[
           {
-            name: 'Personal work',
-            link: 'photography',
+            name: "Personal work",
+            link: "photography",
             external: false,
           },
         ]}

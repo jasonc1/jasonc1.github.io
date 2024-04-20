@@ -1,17 +1,17 @@
-import React from 'react';
-import Projects from '../../../components/templates/prose/prose.component';
-import { List } from '../../../components/list/list.component';
-import { ImageWithCaption } from '../../../components/ImageWithCaption/ImageWithCaption.component';
-import product_illustrations_blend_site from '../../../assets/images/projects/ProductIllustrations/product_illustrations_blend_site.png';
-import product_illustrations_components from '../../../assets/images/projects/ProductIllustrations/product_illustrations_components.png';
-import product_illustrations_lottie from '../../../assets/images/projects/ProductIllustrations/product_illustrations_lottie.png';
-import product_illustrations_sample from '../../../assets/images/projects/ProductIllustrations/product_illustrations_sample.png';
-import product_illustrations_type from '../../../assets/images/projects/ProductIllustrations/product_illustrations_type.png';
+import React from "react";
+import Projects from "../../../components/templates/prose/prose.component";
+import { List } from "../../../components/list/list.component";
+import { ImageWithCaption } from "../../../components/ImageWithCaption/ImageWithCaption.component";
+import product_illustrations_blend_site from "../../../assets/images/projects/ProductIllustrations/product_illustrations_blend_site.png";
+import product_illustrations_components from "../../../assets/images/projects/ProductIllustrations/product_illustrations_components.png";
+import product_illustrations_lottie from "../../../assets/images/projects/ProductIllustrations/product_illustrations_lottie.png";
+import product_illustrations_sample from "../../../assets/images/projects/ProductIllustrations/product_illustrations_sample.png";
+import product_illustrations_type from "../../../assets/images/projects/ProductIllustrations/product_illustrations_type.png";
 
 export const ProductIllustrations = () => {
   // const AbstractMigrate = (
   //   <Link className="action-link" to="/AbstractMigrate" target="_blank">
-  //     <Text size="link-1" text="abstract-migrate" />
+  //     <Text size="Body-bold" text="abstract-migrate" />
   //   </Link>
   // );
   const summaryText = (
@@ -34,20 +34,20 @@ export const ProductIllustrations = () => {
 
   const ProductIllustrationsContent = [
     {
-      section: 'Responsibilities',
+      section: "Responsibilities",
       content: [
         <List
-          size="body-1"
+          size="Body"
           listItems={[
-            'Migrating SVG assets from Illustrator to Figma',
-            'Consolidating type styles and components',
-            'Assisting and verifying outcomes with the Brand design team',
+            "Migrating SVG assets from Illustrator to Figma",
+            "Consolidating type styles and components",
+            "Assisting and verifying outcomes with the Brand design team",
           ]}
         ></List>,
       ],
     },
     {
-      section: 'Problem',
+      section: "Problem",
       content: [
         <ImageWithCaption
           white
@@ -65,7 +65,7 @@ export const ProductIllustrations = () => {
       ],
     },
     {
-      section: 'Solution & Deliverables',
+      section: "Solution & Deliverables",
       content: [
         <ImageWithCaption
           white

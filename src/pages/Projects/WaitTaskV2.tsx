@@ -1,10 +1,10 @@
-import React from 'react';
-import Projects from '../../components/templates/prose/prose.component';
-import { Text } from '../../components/text/text.component';
-import { List } from '../../components/list/list.component';
-import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
-import WaitTask from '../../assets/images/projects/WaitTask/WaitTask.png';
-import WaitTaskScreens from '../../assets/images/projects/WaitTask/WaitTaskScreens.png';
+import React from "react";
+import Projects from "../../components/templates/prose/prose.component";
+import { Text } from "../../components/text/text.component";
+import { List } from "../../components/list/list.component";
+import { ImageWithCaption } from "../../components/ImageWithCaption/ImageWithCaption.component";
+import WaitTask from "../../assets/images/projects/WaitTask/WaitTask.png";
+import WaitTaskScreens from "../../assets/images/projects/WaitTask/WaitTaskScreens.png";
 
 export const WaitTaskV2 = () => {
   const prototype = (
@@ -12,9 +12,9 @@ export const WaitTaskV2 = () => {
       className="action-link"
       target="_blank"
       rel="noreferrer"
-      href={'https://wait-task-v2.netlify.app/'}
+      href={"https://wait-task-v2.netlify.app/"}
     >
-      <Text size="link-1" text="prototype" />
+      <Text size="Body-bold" text="prototype" />
     </a>
   );
   const summaryText = (
@@ -39,21 +39,21 @@ export const WaitTaskV2 = () => {
 
   const WaitTaskContent = [
     {
-      section: 'Responsibilities',
+      section: "Responsibilities",
       content: [
         <List
-          size="body-1"
+          size="Body"
           listItems={[
-            'Created a hi-fi prototype with ReactJS',
-            'Collaborated with Design to work through step by step transitions',
-            'Collaborated with Engineering for hand off and walked through code',
-            'Aided Engineering in making code production ready',
+            "Created a hi-fi prototype with ReactJS",
+            "Collaborated with Design to work through step by step transitions",
+            "Collaborated with Engineering for hand off and walked through code",
+            "Aided Engineering in making code production ready",
           ]}
         ></List>,
       ],
     },
     {
-      section: 'Problem',
+      section: "Problem",
       content: [
         <div>
           The original Wait Task experience was simply a spinner with some text
@@ -76,7 +76,7 @@ export const WaitTaskV2 = () => {
       ],
     },
     {
-      section: 'Solution & Deliverables',
+      section: "Solution & Deliverables",
       content: [
         <div>
           As mentioned, the prototype that I was able to produce with the Design

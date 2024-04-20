@@ -1,12 +1,12 @@
-import React from 'react';
-import { Text } from '../text/text.component';
-import { Subject } from '../subject/subject.component';
-import { Link } from 'react-router-dom';
-import { SubjectLinks } from '../subject-links/subject-links.component';
+import React from "react";
+import { Text } from "../text/text.component";
+import { Subject } from "../subject/subject.component";
+import { Link } from "react-router-dom";
+import { SubjectLinks } from "../subject-links/subject-links.component";
 
 const saplingLink = (
   <Link className="action-link" to="/underconstruction" target="_blank">
-    <Text size="link-1" text="Sapling" />
+    <Text size="Body-bold" text="Sapling" />
   </Link>
 );
 
@@ -32,18 +32,18 @@ export const ToolsAndOps = () => {
       <SubjectLinks
         projects={[
           {
-            name: 'Sapling',
-            link: 'Sapling',
+            name: "Sapling",
+            link: "Sapling",
             external: false,
           },
           {
-            name: 'Abstract Migrate Tool',
-            link: 'AbstractMigrate',
+            name: "Abstract Migrate Tool",
+            link: "AbstractMigrate",
             external: false,
           },
           {
-            name: 'Haven',
-            link: 'Haven',
+            name: "Haven",
+            link: "Haven",
             external: false,
           },
         ]}

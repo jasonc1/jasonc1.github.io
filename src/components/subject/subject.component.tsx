@@ -1,8 +1,8 @@
-import React from 'react';
-import { ISubjectProps, ISubjectStyles } from './subject.model';
-import './subject.style.scss';
-import { Text } from '../text/text.component';
-import { theme } from '../../colors.js';
+import React from "react";
+import { ISubjectProps, ISubjectStyles } from "./subject.model";
+import "./subject.style.scss";
+import { Text } from "../text/text.component";
+import { theme } from "../../colors.js";
 
 export const Subject = ({
   marginTop,
@@ -23,13 +23,13 @@ export const Subject = ({
   return (
     <div className="subject" style={subjectStyles}>
       <Text
-        size="display-1"
+        size="Display"
         text={title}
         color={theme.accent}
         marginBottom={32}
       />
       <Text
-        size="body-1"
+        size="Body"
         text={description}
         color={theme.white}
         marginBottom={8}
