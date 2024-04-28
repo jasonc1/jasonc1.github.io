@@ -27,7 +27,7 @@ export const Photography = () => {
       <img src={honolulu} alt="Honolulu, Hawaii" />
       <img src={halfmoon} alt="HalfMoon Bay, California" />
 
-      <Footer color={theme.black} />
+      {/* <Footer color={theme.black} /> */}
     </div>
   );
 };

@@ -52,7 +52,7 @@ export const Prose = ({ content, date, summary, title }: IProjectsProps) => {
           return null;
         }
       })}
-      <Footer color={theme.black} marginTop={80} />
+      {/* <Footer color={theme.black} marginTop={80} /> */}
     </div>
   );
 };

@@ -1,5 +1,21 @@
 @import "../../theme.scss";
 
+#display-name-gradient {
+  background-image: linear-gradient(
+    to left top,
+    #11593f,
+    #005252,
+    #224855,
+    #363f49,
+    #393939
+  );
+  background-size: 100% 100%;
+  min-width: 210px;
+  text-wrap: nowrap;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 nav.display-nav {
   height: 72px;
   width: 100%;

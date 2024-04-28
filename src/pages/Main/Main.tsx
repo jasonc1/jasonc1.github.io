@@ -4,6 +4,8 @@ import "./main.style.scss";
 import { useState, useEffect } from "react";
 import { theme } from "../../colors.js";
 import { Nav } from "../../components/nav/nav.component";
+import { Footer } from "../../components/footer/footer.component";
+
 // import { Rule } from '../../components/rule/rule.component';
 // import { Footer } from '../../components/footer/footer.component';
 // import DesignSystems from '../../components/sections/design-systems.component';
@@ -96,9 +98,7 @@ export const Main = () => {
           </div>
         </div>
       </div>
-      <footer>
-        <Text size="Header" text="&copy; JASON CHEN 2020" />
-      </footer>
+      <Footer />
     </>
 
     // <div className="main" id="main-selector">

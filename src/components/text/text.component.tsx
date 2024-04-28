@@ -6,6 +6,7 @@ import classNames from "classnames";
 export const Text = ({
   textAlign = "left",
   color = "inherit",
+  id,
   size,
   text,
   marginTop,
@@ -41,19 +42,19 @@ export const Text = ({
   const renderText = (size: string) => {
     if (size === "Display") {
       return (
-        <h1 className={textClass} style={textStyles}>
+        <h1 id={id} className={textClass} style={textStyles}>
           {text}
         </h1>
       );
     } else if (size === "Header") {
       console.log("test");
       return (
-        <h2 className={textClass} style={textStyles}>
+        <h2 id={id} className={textClass} style={textStyles}>
           {text}
         </h2>
       );
     } else {
-      <p className={textClass} style={textStyles}>
+      <p id={id} className={textClass} style={textStyles}>
         {text}
       </p>;
     }

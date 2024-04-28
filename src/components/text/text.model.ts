@@ -8,6 +8,7 @@ export interface ITextProps {
   marginBottom?: number | string;
   marginLeft?: number | string;
   marginRight?: number | string;
+  id?: string;
 }
 
 export interface ITextStyles {

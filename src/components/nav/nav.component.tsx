@@ -3,20 +3,34 @@ import { Text } from "../../components/text/text.component";
 import "./nav.style.scss";
 import { theme } from "../../colors.js";
 
+const customScrollTo = (id: string) => {
+  const element = document.getElementById(id);
+  const yOffset = -72;
+  if (element) {
+    const y =
+      element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    window.scrollTo({ top: y, behavior: "smooth" });
+  }
+};
+
 export const Nav = () => {
   const clickProjects = () => {
-    document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
+    // document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
+    customScrollTo("work");
   };
   const clickAbout = () => {
-    document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+    // document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+    customScrollTo("about");
   };
   const clickPhotography = () => {
-    document
-      .getElementById("photography")
-      ?.scrollIntoView({ behavior: "smooth" });
+    // document
+    //   .getElementById("photography")
+    //   ?.scrollIntoView({ behavior: "smooth" });
+    customScrollTo("photography");
   };
   const clickContact = () => {
-    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+    // document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+    customScrollTo("contact");
   };
 
   return (
@@ -26,6 +40,7 @@ export const Nav = () => {
         size="Display"
         color={theme.primary}
         text="Jason Chen"
+        id="display-name-gradient"
       />
       <div className="center-detail">
         <Text size="Header" color={theme.primary} text="Design Systems / SF" />
