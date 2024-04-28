@@ -1,19 +1,42 @@
 @import "../../theme.scss";
 
 #display-name-gradient {
+  // background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
   background-image: linear-gradient(
-    to left top,
+    -45deg,
     #11593f,
     #005252,
-    #224855,
+    #feda7b,
     #363f49,
     #393939
   );
-  background-size: 100% 100%;
+  background-size: 200% 200%;
   min-width: 210px;
   text-wrap: nowrap;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  animation: gradient 4s ease-in-out infinite;
+  animation-play-state: paused;
+  cursor: pointer;
+  :hover {
+    animation-play-state: running;
+  }
+}
+
+#display-name-gradient:hover {
+  animation-play-state: running;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 nav.display-nav {

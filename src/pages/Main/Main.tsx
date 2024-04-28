@@ -84,12 +84,12 @@ export const Main = () => {
               <Text size="Header" text={navItems[0]} />
             </div>
 
-            <div className="test" id="about">
-              <Text size="Header" text={navItems[1]} />
-            </div>
-
             <div className="test" id="photography">
               <Text size="Header" text={navItems[2]} />
+            </div>
+
+            <div className="test" id="about">
+              <Text size="Header" text={navItems[1]} />
             </div>
 
             <div className="test last" id="contact">
