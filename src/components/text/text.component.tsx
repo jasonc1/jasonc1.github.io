@@ -47,16 +47,17 @@ export const Text = ({
         </h1>
       );
     } else if (size === "Header") {
-      console.log("test");
       return (
         <h2 id={id} className={textClass} style={textStyles}>
           {text}
         </h2>
       );
     } else {
-      <p id={id} className={textClass} style={textStyles}>
-        {text}
-      </p>;
+      return (
+        <p id={id} className={textClass} style={textStyles}>
+          {text}
+        </p>
+      );
     }
   };
 

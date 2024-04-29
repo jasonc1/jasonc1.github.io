@@ -19,15 +19,24 @@ const navItems = ["Work", "About", "Photography", "Contact"];
 
 export const Main = () => {
   const [navDisplay, setNavDisplay] = useState(navItems[0]);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const elementInViewport = (element: HTMLElement) => {
     const bounding = element.getBoundingClientRect();
     const elementHeight = element.offsetHeight;
     const elementWidth = element.offsetWidth + window.screen.width / 4;
-
-    // console.log("bound.top: " + bounding.top);
-    // console.log("element height: " + elementHeight);
-    // console.log(element.textContent);
 
     if (
       bounding.top >= -elementHeight - window.screen.height / 3 &&
@@ -65,38 +74,64 @@ export const Main = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // const elementInViewport = () => {
-  //   console.log;
-  // };
+  const mobileContent = (
+    <>
+      <div className="mobile-navDisplay">
+        <Text size="Header" text={navDisplay} />
+      </div>
+
+      <div>
+        <div className="mobile-content-block" id="work">
+          <Text size="Body" text={navItems[0]} />
+        </div>
+
+        <div className="mobile-content-block" id="photography">
+          <Text size="Body" text={navItems[2]} />
+        </div>
+
+        <div className="mobile-content-block" id="about">
+          <Text size="Body" text={navItems[1]} />
+        </div>
+
+        <div className="mobile-content-block last" id="contact">
+          <Text size="Body" text={navItems[3]} />
+        </div>
+      </div>
+    </>
+  );
+
+  const content = (
+    <div className="content">
+      <div className="content-sidebar">
+        <div id="content-title">
+          <Text size="Header" text={navDisplay} />
+        </div>
+      </div>
+      <div className="content-main">
+        <div className="content-block" id="work">
+          <Text size="Header" text={navItems[0]} />
+        </div>
+
+        <div className="content-block" id="photography">
+          <Text size="Header" text={navItems[2]} />
+        </div>
+
+        <div className="content-block" id="about">
+          <Text size="Header" text={navItems[1]} />
+        </div>
+
+        <div className="content-block last" id="contact">
+          <Text size="Header" text={navItems[3]} />
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <>
       <div className="body">
-        <Nav />
-        <div className="content">
-          <div className="content-sidebar">
-            <div id="content-title">
-              <Text size="Header" text={navDisplay} />
-            </div>
-          </div>
-          <div className="content-main">
-            <div className="test" id="work">
-              <Text size="Header" text={navItems[0]} />
-            </div>
-
-            <div className="test" id="photography">
-              <Text size="Header" text={navItems[2]} />
-            </div>
-
-            <div className="test" id="about">
-              <Text size="Header" text={navItems[1]} />
-            </div>
-
-            <div className="test last" id="contact">
-              <Text size="Header" text={navItems[3]} />
-            </div>
-          </div>
-        </div>
+        <Nav screenWidth={screenWidth} />
+        {screenWidth >= 1200 ? content : mobileContent}
       </div>
       <Footer />
     </>

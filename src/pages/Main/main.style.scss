@@ -1,13 +1,33 @@
 @import "../../theme.scss";
 
-.test {
+.content-block {
   height: 1600px;
   width: 100%;
   padding-left: 24px;
-  // border: 2px solid black;
   box-sizing: border-box;
   border-bottom: 2px solid black;
-  // padding-top: 48px;
+  &.last {
+    border: none;
+  }
+}
+
+.mobile-navDisplay {
+  position: fixed;
+  margin-top: 72px;
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  border-bottom: 2px solid black;
+  background: $white;
+}
+
+.mobile-content-block {
+  padding-top: 120px;
+  height: 1600px;
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: 2px solid black;
+
   &.last {
     border: none;
   }

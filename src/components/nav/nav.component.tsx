@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Text } from "../../components/text/text.component";
 import "./nav.style.scss";
 import { theme } from "../../colors.js";
+import { INavProps } from "./nav.model";
 
 const customScrollTo = (id: string) => {
   const element = document.getElementById(id);
@@ -13,7 +14,7 @@ const customScrollTo = (id: string) => {
   }
 };
 
-export const Nav = () => {
+export const Nav = ({ screenWidth }: INavProps) => {
   const clickProjects = () => {
     // document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
     customScrollTo("work");
@@ -33,6 +34,31 @@ export const Nav = () => {
     customScrollTo("contact");
   };
 
+  const navMenu = (
+    <ul className="nav-menu">
+      <li id="nav-projects" onClick={clickProjects}>
+        <Text size="Header" color={theme.primary} text="Work" />
+      </li>
+      <li id="nav-photography" onClick={clickPhotography}>
+        <Text size="Header" color={theme.primary} text="Photo" />
+      </li>
+      <li id="nav-about" onClick={clickAbout}>
+        <Text size="Header" color={theme.primary} text="About" />
+      </li>
+      <li id="nav-contact" onClick={clickContact}>
+        <Text size="Header" color={theme.primary} text="Contact" />
+      </li>
+    </ul>
+  );
+
+  const mobileMenu = (
+    <ul className="nav-menu">
+      <li>
+        <Text size="Header" color={theme.primary} text="Menu" />
+      </li>
+    </ul>
+  );
+
   return (
     <nav className="display-nav">
       <Text
@@ -45,20 +71,8 @@ export const Nav = () => {
       <div className="center-detail">
         <Text size="Header" color={theme.primary} text="Design Systems / SF" />
       </div>
-      <ul className="nav-menu">
-        <li id="nav-projects" onClick={clickProjects}>
-          <Text size="Header" color={theme.primary} text="Work" />
-        </li>
-        <li id="nav-photography" onClick={clickPhotography}>
-          <Text size="Header" color={theme.primary} text="Photo" />
-        </li>
-        <li id="nav-about" onClick={clickAbout}>
-          <Text size="Header" color={theme.primary} text="About" />
-        </li>
-        <li id="nav-contact" onClick={clickContact}>
-          <Text size="Header" color={theme.primary} text="Contact" />
-        </li>
-      </ul>
+
+      {screenWidth >= 1200 ? navMenu : mobileMenu}
     </nav>
   );
 };
