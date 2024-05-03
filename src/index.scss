@@ -21,6 +21,7 @@
 
 body {
   background-color: $white;
+  z-index: 1;
   margin: 0;
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
     "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
@@ -72,4 +73,41 @@ code.inline {
   background-color: #eee;
   padding: 4px 8px;
   border-radius: 8px;
+}
+
+.mobile-menu {
+  position: fixed;
+  background-color: $white;
+  width: 100%;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  display: flex;
+  & > .menu-content {
+    list-style-type: none;
+    margin: 0;
+    width: 100%;
+    align-self: self-end;
+    margin-block-start: 0;
+    padding-inline-start: 0;
+
+    & > li {
+      width: 100%;
+      border-top: 2px solid $black;
+      height: 72px;
+      padding-left: 24px;
+      display: inline-flex;
+      align-items: center;
+
+      &.last {
+        justify-content: center;
+        padding-left: 0;
+      }
+
+      &.first {
+        border: none;
+      }
+    }
+  }
 }

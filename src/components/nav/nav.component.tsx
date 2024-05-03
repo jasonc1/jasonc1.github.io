@@ -3,18 +3,14 @@ import { Text } from "../../components/text/text.component";
 import "./nav.style.scss";
 import { theme } from "../../colors.js";
 import { INavProps } from "./nav.model";
+import { Link } from "react-router-dom";
 
-const customScrollTo = (id: string) => {
-  const element = document.getElementById(id);
-  const yOffset = -72;
-  if (element) {
-    const y =
-      element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-    window.scrollTo({ top: y, behavior: "smooth" });
-  }
-};
-
-export const Nav = ({ screenWidth }: INavProps) => {
+export const Nav = ({
+  screenWidth,
+  setShowMenu,
+  showMenu,
+  customScrollTo,
+}: INavProps) => {
   const clickProjects = () => {
     // document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
     customScrollTo("work");
@@ -37,6 +33,11 @@ export const Nav = ({ screenWidth }: INavProps) => {
   const navMenu = (
     <ul className="nav-menu">
       <li id="nav-projects" onClick={clickProjects}>
+        {/* this was just to test routing aka see if we could get to 404 
+        <Link to="/aaaaa">
+          <Text size="Header" color={theme.primary} text="Work" />
+        </Link> */}
+
         <Text size="Header" color={theme.primary} text="Work" />
       </li>
       <li id="nav-photography" onClick={clickPhotography}>
@@ -53,21 +54,28 @@ export const Nav = ({ screenWidth }: INavProps) => {
 
   const mobileMenu = (
     <ul className="nav-menu">
-      <li>
-        <Text size="Header" color={theme.primary} text="Menu" />
+      <li onClick={() => setShowMenu(!showMenu)}>
+        <Text
+          size="Header"
+          color={theme.primary}
+          text={showMenu ? "Close" : "Menu"}
+        />
       </li>
     </ul>
   );
 
   return (
     <nav className="display-nav">
-      <Text
-        marginLeft={24}
-        size="Display"
-        color={theme.primary}
-        text="Jason Chen"
-        id="display-name-gradient"
-      />
+      <Link to="/">
+        <Text
+          marginLeft={24}
+          size="Display"
+          color={theme.primary}
+          text="Jason Chen"
+          id="display-name-gradient"
+        />
+      </Link>
+
       <div className="center-detail">
         <Text size="Header" color={theme.primary} text="Design Systems / SF" />
       </div>

@@ -1,9 +1,9 @@
-import React from "react";
-import { HashRouter, Redirect, Route, Switch } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { Main } from "./pages/Main/Main";
 // import { Photography } from './pages/Photography/Photography';
 // import UnderConstruction from './pages/UnderConstruction/UnderConstruction.component';
-// import NotFound from './pages/NotFound/NotFound.component';
+import NotFound from "./pages/NotFound/NotFound.component";
 // import OTM from './pages/Projects/OTM';
 // import IDSAccordion from './pages/Projects/IDSAccordion';
 // import DocUploader from './pages/Projects/old/DocUploader';
@@ -22,16 +22,147 @@ import { Main } from "./pages/Main/Main";
 // import Ink from './pages/Projects/Ink';
 
 import ProductIllustrations from "./pages/Projects/old/ProductIllustrations";
+import { Nav } from "./components/nav/nav.component";
+import { Footer } from "./components/footer/footer.component";
+import theme from "./colors";
+import { Text } from "./components/text/text.component";
+
+const navItems = ["Work", "About", "Photography", "Contact"];
 
 export const App = () => {
-  return (
-    <div>
-      <HashRouter>
-        <Switch>
-          <Route exact path="/" component={Main} />
-          <Redirect from="*" to="/404" />
+  const [showMenu, setShowMenu] = useState(false);
+  const [navDisplay, setNavDisplay] = useState(navItems[0]);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
-          {/* <Route path="/photography" component={Photography} />
+  const elementInViewport = (element: HTMLElement, isMobile?: boolean) => {
+    const bBox = element.getBoundingClientRect();
+    const yOffset = isMobile ? 0 : -128;
+    // this gets the vertical center coordinate of your element
+    const elementCenter = bBox.top + yOffset + bBox.height / 2;
+    const windowCenter = window.innerHeight;
+
+    // console.log(windowCenter);
+    if (elementCenter < windowCenter && elementCenter >= 0) {
+      console.log("element: " + elementCenter);
+      console.log(element.textContent + ": IN VIEWPORT");
+      setNavDisplay(element.textContent ? element.textContent : "null");
+    }
+  };
+
+  const customScrollTo = (id: string, isMobile?: boolean) => {
+    const element = document.getElementById(id);
+    const yOffset = isMobile ? -128 : -72;
+    if (element) {
+      const y =
+        element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
+      elementInViewport(element, isMobile);
+    }
+  };
+
+  const mobileScrollProjects = () => {
+    // document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
+    setShowMenu(false);
+    customScrollTo("work", true);
+  };
+  const mobileScrollAbout = () => {
+    // document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+    setShowMenu(false);
+    customScrollTo("about", true);
+  };
+  const mobileScrollPhoto = () => {
+    // document
+    //   .getElementById("photography")
+    //   ?.scrollIntoView({ behavior: "smooth" });
+    setShowMenu(false);
+
+    customScrollTo("photography", true);
+  };
+  const mobileScrollContact = () => {
+    setShowMenu(false);
+
+    // document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+    customScrollTo("contact", true);
+  };
+
+  const MobileMenu = (
+    <div className="mobile-menu">
+      <ul role="menu" className="menu-content">
+        <li className="first" onClick={mobileScrollProjects}>
+          <Text size="Header" color={theme.primary} text="Work" />
+        </li>
+        <li onClick={mobileScrollPhoto}>
+          <Text size="Header" color={theme.primary} text="Photo" />
+        </li>
+        <li onClick={mobileScrollAbout}>
+          <Text size="Header" color={theme.primary} text="About" />
+        </li>
+        <li onClick={mobileScrollContact}>
+          <Text size="Header" color={theme.primary} text="Contact" />
+        </li>
+        <li className="last">
+          <Text size="Header" text="&copy; JASON CHEN 2024" />
+        </li>
+      </ul>
+    </div>
+  );
+
+  useEffect(() => {
+    const workElement = document.getElementById("work")!;
+    const aboutElement = document.getElementById("about")!;
+    const photographyElement = document.getElementById("photography")!;
+    const contactElement = document.getElementById("contact")!;
+    const handleScroll: EventListener = (event: Event) => {
+      elementInViewport(workElement);
+      elementInViewport(aboutElement);
+      elementInViewport(photographyElement);
+      elementInViewport(contactElement);
+    };
+
+    const win: Window = window;
+    win.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return (
+    <BrowserRouter>
+      <Nav
+        customScrollTo={customScrollTo}
+        screenWidth={screenWidth}
+        setShowMenu={setShowMenu}
+        showMenu={showMenu}
+      />
+      {showMenu ? MobileMenu : null}
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={(props) => (
+            <Main
+              screenWidth={screenWidth}
+              navDisplay={navDisplay}
+              navItems={navItems}
+            />
+          )}
+        />
+        <Route path="/404" render={NotFound} />
+
+        <Redirect from="*" to="/404" />
+
+        {/* <Route path="/photography" component={Photography} />
           <Route path="/underconstruction" component={UnderConstruction} />
           <Route path="/OTM" component={OTM} />
           <Route path="/IDSAccordion" component={IDSAccordion} />
@@ -59,10 +190,10 @@ export const App = () => {
             component={DesignSystemsAtBlend}
           />
           <Route path="/PrototypingAtBlend" component={PrototypingAtBlend} /> */}
-          {/* <Route path="/dsystemsAtBlend" component={DesignSystemsAtBlend} /> */}
-        </Switch>
-      </HashRouter>
-    </div>
+        {/* <Route path="/dsystemsAtBlend" component={DesignSystemsAtBlend} /> */}
+      </Switch>
+      <Footer />
+    </BrowserRouter>
   );
 };
 

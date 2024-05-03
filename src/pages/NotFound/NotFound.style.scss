@@ -1,27 +1,27 @@
-@import '../../theme.scss';
+@import "../../theme.scss";
 
-.not-found {
-  background-color: $primary;
-  height: 100vh;
-  width: 100%;
-  display: inline-flex;
-  flex-flow: column;
-  justify-content: center;
-  -webkit-justify-content: center;
-  align-items: center;
-  -webkit-align-items: center;
+// .not-found {
+//   background-color: $primary;
+//   height: 100vh;
+//   width: 100%;
+//   display: inline-flex;
+//   flex-flow: column;
+//   justify-content: center;
+//   -webkit-justify-content: center;
+//   align-items: center;
+//   -webkit-align-items: center;
 
-  @media only screen and (max-width: 550px) {
-    padding: 24px;
-  }
+//   @media only screen and (max-width: 550px) {
+//     padding: 24px;
+//   }
 
-  .not-found-content {
-    margin-top: -160px;
-    max-width: 500px;
-    display: inline-flex;
-    flex-flow: column;
-    @media only screen and (max-height: 800px) {
-      margin-top: -80px;
-    }
-  }
-}
+//   .not-found-content {
+//     margin-top: -160px;
+//     max-width: 500px;
+//     display: inline-flex;
+//     flex-flow: column;
+//     @media only screen and (max-height: 800px) {
+//       margin-top: -80px;
+//     }
+//   }
+// }

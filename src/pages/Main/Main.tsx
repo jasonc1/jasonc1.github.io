@@ -3,8 +3,7 @@ import { Text } from "../../components/text/text.component";
 import "./main.style.scss";
 import { useState, useEffect } from "react";
 import { theme } from "../../colors.js";
-import { Nav } from "../../components/nav/nav.component";
-import { Footer } from "../../components/footer/footer.component";
+import { IMainProps } from "./Main.model";
 
 // import { Rule } from '../../components/rule/rule.component';
 // import { Footer } from '../../components/footer/footer.component';
@@ -15,72 +14,14 @@ import { Footer } from "../../components/footer/footer.component";
 // import EditorialAndLookbook from '../../components/sections/editorialAndLookbook.component';
 // import Contact from '../../components/sections/contact.component';
 
-const navItems = ["Work", "About", "Photography", "Contact"];
-
-export const Main = () => {
-  const [navDisplay, setNavDisplay] = useState(navItems[0]);
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  const elementInViewport = (element: HTMLElement) => {
-    const bounding = element.getBoundingClientRect();
-    const elementHeight = element.offsetHeight;
-    const elementWidth = element.offsetWidth + window.screen.width / 4;
-
-    if (
-      bounding.top >= -elementHeight - window.screen.height / 3 &&
-      bounding.left >= -elementWidth - window.screen.height &&
-      bounding.right <=
-        (window.innerWidth || document.documentElement.clientWidth) +
-          elementWidth +
-          -window.screen.height &&
-      bounding.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight) +
-          elementHeight +
-          -window.screen.height / 3
-    ) {
-      console.log(element.textContent);
-      setNavDisplay(element.textContent ? element.textContent : "null");
-    } else {
-    }
-  };
-
-  useEffect(() => {
-    const workElement = document.getElementById("work")!;
-    const aboutElement = document.getElementById("about")!;
-    const photographyElement = document.getElementById("photography")!;
-    const contactElement = document.getElementById("contact")!;
-    const handleScroll: EventListener = (event: Event) => {
-      elementInViewport(workElement);
-      elementInViewport(aboutElement);
-      elementInViewport(photographyElement);
-      elementInViewport(contactElement);
-    };
-
-    const win: Window = window;
-    win.addEventListener("scroll", handleScroll);
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
+export const Main = ({ navDisplay, navItems, screenWidth }: IMainProps) => {
   const mobileContent = (
     <>
       <div className="mobile-navDisplay">
         <Text size="Header" text={navDisplay} />
       </div>
 
-      <div>
+      <div className="mobile-content-wrapper">
         <div className="mobile-content-block" id="work">
           <Text size="Body" text={navItems[0]} />
         </div>
@@ -130,10 +71,8 @@ export const Main = () => {
   return (
     <>
       <div className="body">
-        <Nav screenWidth={screenWidth} />
         {screenWidth >= 1200 ? content : mobileContent}
       </div>
-      <Footer />
     </>
 
     // <div className="main" id="main-selector">

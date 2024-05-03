@@ -9,17 +9,9 @@ const blurb =
 
 export const NotFound = () => {
   return (
-    <div className="not-found">
-      <div className="not-found-content">
-        <Text
-          size="Display"
-          color={theme.accent}
-          text={headline}
-          marginBottom={16}
-        />
-        <Text size="Body" color={theme.accent} text={blurb} marginBottom={16} />
-      </div>
-    </div>
+    <>
+      <p style={{ marginTop: 400 }}>this is a test</p>
+    </>
   );
 };
 
