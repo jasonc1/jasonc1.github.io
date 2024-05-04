@@ -4,7 +4,9 @@ import "./main.style.scss";
 import { useState, useEffect } from "react";
 import { theme } from "../../colors.js";
 import { IMainProps } from "./Main.model";
-
+import { WorkBlock } from "../../components/WorkBlock/WorkBlock.component";
+import { IWorkBlockProps } from "../../components/WorkBlock/WorkBlock.model";
+import BluebookLogo from "../../assets/images/Bluebook.png";
 // import { Rule } from '../../components/rule/rule.component';
 // import { Footer } from '../../components/footer/footer.component';
 // import DesignSystems from '../../components/sections/design-systems.component';
@@ -14,6 +16,19 @@ import { IMainProps } from "./Main.model";
 // import EditorialAndLookbook from '../../components/sections/editorialAndLookbook.component';
 // import Contact from '../../components/sections/contact.component';
 
+const bluebook: IWorkBlockProps = {
+  detail: {
+    project: "Bluebook design system",
+    company: "Everlaw",
+    role: "Lead product desinger",
+    duration: "2023 - present",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    img: BluebookLogo,
+    alt: "Bluebook logo",
+  },
+};
+
 export const Main = ({ navDisplay, navItems, screenWidth }: IMainProps) => {
   const mobileContent = (
     <>
@@ -22,19 +37,19 @@ export const Main = ({ navDisplay, navItems, screenWidth }: IMainProps) => {
       </div>
 
       <div className="mobile-content-wrapper">
-        <div className="mobile-content-block" id="work">
+        <div className="mobile-content-block" id="Work">
           <Text size="Body" text={navItems[0]} />
         </div>
 
-        <div className="mobile-content-block" id="photography">
+        <div className="mobile-content-block" id="Photography">
           <Text size="Body" text={navItems[2]} />
         </div>
 
-        <div className="mobile-content-block" id="about">
+        <div className="mobile-content-block" id="About">
           <Text size="Body" text={navItems[1]} />
         </div>
 
-        <div className="mobile-content-block last" id="contact">
+        <div className="mobile-content-block last" id="Contact">
           <Text size="Body" text={navItems[3]} />
         </div>
       </div>
@@ -50,7 +65,8 @@ export const Main = ({ navDisplay, navItems, screenWidth }: IMainProps) => {
       </div>
       <div className="content-main">
         <div className="content-block" id="work">
-          <Text size="Header" text={navItems[0]} />
+          {/* <Text size="Header" text={navItems[0]} /> */}
+          <WorkBlock detail={bluebook.detail} />
         </div>
 
         <div className="content-block" id="photography">
