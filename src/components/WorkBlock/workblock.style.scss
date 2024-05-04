@@ -1,6 +1,6 @@
 @import "../../theme.scss";
 
-.work-block-header {
+.block-header {
   width: 100%;
   display: inline-flex;
   justify-content: space-between;
@@ -38,5 +38,14 @@
         box-shadow: none;
       }
     }
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .work-block {
+    padding: 24px;
+  }
+  .work-block-body {
+    grid-template-columns: auto;
   }
 }

@@ -1,3 +1,5 @@
+import { JsxElement } from "typescript";
+
 export interface IWorkBlockProps {
   detail: {
     project: string;

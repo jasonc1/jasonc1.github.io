@@ -1,27 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { Main } from "./pages/Main/Main";
-// import { Photography } from './pages/Photography/Photography';
-// import UnderConstruction from './pages/UnderConstruction/UnderConstruction.component';
 import NotFound from "./pages/NotFound/NotFound.component";
-// import OTM from './pages/Projects/OTM';
-// import IDSAccordion from './pages/Projects/IDSAccordion';
-// import DocUploader from './pages/Projects/old/DocUploader';
-// import SRLegacy from './pages/Projects/old/SRLegacy';
-// import WaitTAskV2 from './pages/Projects/WaitTaskV2';
-// import AbstractMigrate from './pages/Projects/AbstractMigrate';
-// import Sapling from './pages/Projects/Sapling';
-// import Haven from './pages/Projects/Haven';
-// import DesignSystemsAtBlend from './pages/Blog/DesignSystemsAtBlend';
-// import PrototypingAtBlend from './pages/Blog/PrototypingAtBlend';
-// import StratRoulette from './pages/Projects/old/StratRoulette';
-// import Alchemy from './pages/Projects/Alchemy';
-// import ExerciseStatus from './pages/Projects/ExerciseStatus';
-// import EmployeeOnboarding from './pages/Projects/EmployeeOnboarding';
-// import Vesta from './pages/Projects/Vesta';
-// import Ink from './pages/Projects/Ink';
-
-import ProductIllustrations from "./pages/Projects/old/ProductIllustrations";
 import { Nav } from "./components/nav/nav.component";
 import { Footer } from "./components/footer/footer.component";
 import theme from "./colors";
@@ -61,28 +41,20 @@ export const App = () => {
   };
 
   const mobileScrollProjects = () => {
-    // document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
     setShowMenu(false);
-    customScrollTo("work", true);
+    customScrollTo("Work", true);
   };
   const mobileScrollAbout = () => {
-    // document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
     setShowMenu(false);
-    customScrollTo("about", true);
+    customScrollTo("About", true);
   };
   const mobileScrollPhoto = () => {
-    // document
-    //   .getElementById("photography")
-    //   ?.scrollIntoView({ behavior: "smooth" });
     setShowMenu(false);
-
-    customScrollTo("photography", true);
+    customScrollTo("Photography", true);
   };
   const mobileScrollContact = () => {
     setShowMenu(false);
-
-    // document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-    customScrollTo("contact", true);
+    customScrollTo("Contact", true);
   };
 
   const MobileMenu = (

@@ -13,21 +13,21 @@ export const Nav = ({
 }: INavProps) => {
   const clickProjects = () => {
     // document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
-    customScrollTo("work");
+    customScrollTo("Work");
   };
   const clickAbout = () => {
     // document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
-    customScrollTo("about");
+    customScrollTo("About");
   };
   const clickPhotography = () => {
     // document
     //   .getElementById("photography")
     //   ?.scrollIntoView({ behavior: "smooth" });
-    customScrollTo("photography");
+    customScrollTo("Photography");
   };
   const clickContact = () => {
     // document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-    customScrollTo("contact");
+    customScrollTo("Contact");
   };
 
   const navMenu = (
