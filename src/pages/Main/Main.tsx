@@ -64,20 +64,20 @@ export const Main = ({ navDisplay, navItems, screenWidth }: IMainProps) => {
         </div>
       </div>
       <div className="content-main">
-        <div className="content-block" id="work">
+        <div className="content-block" id="Work">
           {/* <Text size="Header" text={navItems[0]} /> */}
           <WorkBlock detail={bluebook.detail} />
         </div>
 
-        <div className="content-block" id="photography">
+        <div className="content-block" id="Photography">
           <Text size="Header" text={navItems[2]} />
         </div>
 
-        <div className="content-block" id="about">
+        <div className="content-block" id="About">
           <Text size="Header" text={navItems[1]} />
         </div>
 
-        <div className="content-block last" id="contact">
+        <div className="content-block last" id="Contact">
           <Text size="Header" text={navItems[3]} />
         </div>
       </div>

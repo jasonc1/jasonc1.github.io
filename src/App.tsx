@@ -108,10 +108,10 @@ export const App = () => {
   );
 
   useEffect(() => {
-    const workElement = document.getElementById("work")!;
-    const aboutElement = document.getElementById("about")!;
-    const photographyElement = document.getElementById("photography")!;
-    const contactElement = document.getElementById("contact")!;
+    const workElement = document.getElementById("Work")!;
+    const aboutElement = document.getElementById("About")!;
+    const photographyElement = document.getElementById("Photography")!;
+    const contactElement = document.getElementById("Contact")!;
     const handleScroll: EventListener = (event: Event) => {
       elementInViewport(workElement);
       elementInViewport(aboutElement);
