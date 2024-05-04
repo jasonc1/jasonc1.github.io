@@ -1,7 +1,6 @@
 import React from "react";
 import { Text } from "../../components/text/text.component";
 import "./NotFound.style.scss";
-import { theme } from "../../colors.js";
 
 const headline = "Page not found!";
 const blurb =
@@ -10,7 +9,9 @@ const blurb =
 export const NotFound = () => {
   return (
     <>
-      <p style={{ marginTop: 400 }}>this is a test</p>
+      <div className="not-found">
+        <Text size="Header" text="[ 404 ] You stepped out of bounds /" />
+      </div>
     </>
   );
 };
