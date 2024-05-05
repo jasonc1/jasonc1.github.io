@@ -1,7 +1,8 @@
-$primary: #11593f;
-$accent: #feda7b;
+$primary: #393939;
+$accent: #11593f;
 $black: #393939;
 $white: #ffffff;
+$yellow: #feda7b;
 
 // base unit
 $scale0: 4px;
@@ -41,71 +42,103 @@ $nav-spacer-S: $scale6;
   nav-spacer-S: $nav-spacer-S;
 }
 
-@mixin display-1 {
-  font-family: 'DM Serif Display-Regular';
-  font-weight: normal;
+@mixin Display {
+  font-family: "Geo";
+  font-weight: 400;
   font-size: 48px;
   line-height: 72px;
   letter-spacing: 0.02em;
 }
 
-@mixin display-2 {
-  font-family: 'DM Serif Display-Regular';
-  font-weight: normal;
-  font-size: 28px;
-  line-height: 42px;
-  letter-spacing: 0.02em;
-}
-
-@mixin header-1 {
-  font-family: 'Inter';
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 36px;
-  letter-spacing: 0.02em;
-}
-
-@mixin subheader-1 {
-  font-family: 'Inter';
+@mixin Header {
+  font-family: "Inter";
   font-weight: 600;
   font-size: 18px;
   line-height: 27px;
   letter-spacing: 0.02em;
 }
 
-@mixin body-1 {
-  font-family: 'Inter';
+@mixin Body {
+  font-family: "Inter";
   font-weight: normal;
   font-size: 16px;
   line-height: 24px;
   letter-spacing: 0.01em;
 }
 
-@mixin link-1 {
-  font-family: 'Inter';
+@mixin Body-bold {
+  font-family: "Inter";
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
   letter-spacing: 0.01em;
 }
 
-@mixin body-2 {
-  font-family: 'Inter';
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 18px;
-  letter-spacing: 0.01em;
-}
+// @mixin display-1 {
+//   font-family: "DM Serif Display-Regular";
+//   font-weight: normal;
+//   font-size: 48px;
+//   line-height: 72px;
+//   letter-spacing: 0.02em;
+// }
 
-@mixin link-2 {
-  font-family: 'Inter';
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 18px;
-  letter-spacing: 0.01em;
-}
+// @mixin display-2 {
+//   font-family: "DM Serif Display-Regular";
+//   font-weight: normal;
+//   font-size: 28px;
+//   line-height: 42px;
+//   letter-spacing: 0.02em;
+// }
 
-@mixin link {
-  color: $accent;
-  text-decoration: none;
-}
+// @mixin header-1 {
+//   font-family: "Inter";
+//   font-weight: 600;
+//   font-size: 24px;
+//   line-height: 36px;
+//   letter-spacing: 0.02em;
+// }
+
+// @mixin subheader-1 {
+//   font-family: "Inter";
+//   font-weight: 600;
+//   font-size: 18px;
+//   line-height: 27px;
+//   letter-spacing: 0.02em;
+// }
+
+// @mixin body-1 {
+//   font-family: "Inter";
+//   font-weight: normal;
+//   font-size: 16px;
+//   line-height: 24px;
+//   letter-spacing: 0.01em;
+// }
+
+// @mixin link-1 {
+//   font-family: "Inter";
+//   font-weight: 600;
+//   font-size: 16px;
+//   line-height: 24px;
+//   letter-spacing: 0.01em;
+// }
+
+// @mixin body-2 {
+//   font-family: "Inter";
+//   font-weight: normal;
+//   font-size: 12px;
+//   line-height: 18px;
+//   letter-spacing: 0.01em;
+// }
+
+// @mixin link-2 {
+//   font-family: "Inter";
+//   font-weight: 600;
+//   font-size: 12px;
+//   line-height: 18px;
+//   letter-spacing: 0.01em;
+// }
+
+// @mixin link {
+//   color: $accent;
+//   text-decoration: none;
+// }

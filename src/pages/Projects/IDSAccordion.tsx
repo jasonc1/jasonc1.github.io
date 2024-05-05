@@ -1,16 +1,16 @@
-import React from 'react';
-import Projects from '../../components/templates/prose/prose.component';
-import accordion_ids from '../../assets/images/projects/intuit/accordion_ids.gif';
-import accordion_tron from '../../assets/images/projects/intuit/accordion_tron.gif';
-import { Link } from 'react-router-dom';
-import { Text } from '../../components/text/text.component';
-import { List } from '../../components/list/list.component';
-import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
+import React from "react";
+import Projects from "../../components/templates/prose/prose.component";
+import accordion_ids from "../../assets/images/projects/intuit/accordion_ids.gif";
+import accordion_tron from "../../assets/images/projects/intuit/accordion_tron.gif";
+import { Link } from "react-router-dom";
+import { Text } from "../../components/text/text.component";
+import { List } from "../../components/list/list.component";
+import { ImageWithCaption } from "../../components/ImageWithCaption/ImageWithCaption.component";
 
 export const IDSAccordion = () => {
   const Intuit = (
     <Link className="action-link" to="/DocUploader" target="_blank">
-      <Text size="link-1" text="Intuit" />
+      <Text size="Body-bold" text="Intuit" />
     </Link>
   );
   const summaryText = (
@@ -31,24 +31,24 @@ export const IDSAccordion = () => {
 
   const IDSContent = [
     {
-      section: 'Responsibilities',
+      section: "Responsibilities",
       content: [
         <List
-          size="body-1"
+          size="Body"
           listItems={[
-            'Architected and Implemented component',
-            'Provide technical and interaction feedback',
-            'Created hi-fi prototypes',
-            'Implemented Accessibility support',
-            'Integrated component into IDS review process',
-            'Consumeed & implemented accordion in product',
-            'Worked with engineers from 2 external BUs to support and extend component',
+            "Architected and Implemented component",
+            "Provide technical and interaction feedback",
+            "Created hi-fi prototypes",
+            "Implemented Accessibility support",
+            "Integrated component into IDS review process",
+            "Consumeed & implemented accordion in product",
+            "Worked with engineers from 2 external BUs to support and extend component",
           ]}
         ></List>,
       ],
     },
     {
-      section: 'Problem',
+      section: "Problem",
       content: [
         <div>
           A new UI component is introduced to Quickbooks Online: the accordion +
@@ -56,7 +56,7 @@ export const IDSAccordion = () => {
           quickbooks for various onboarding flows. There are no existing
           components from Intuit's proprietary component library, and
           furthermore, the current component library would also be deprecated.
-          The designs presented were simply done through sketch; thus,{' '}
+          The designs presented were simply done through sketch; thus,{" "}
           <b>
             things like easing (animation) as well as accessbility were not
             thought of during the intial design process
@@ -67,7 +67,7 @@ export const IDSAccordion = () => {
       ],
     },
     {
-      section: 'Solution & Deliverables',
+      section: "Solution & Deliverables",
       content: [
         <div>
           The ultimate goal was to not only make a component that my team can
@@ -86,14 +86,14 @@ export const IDSAccordion = () => {
         </div>,
         <div>Key Features:</div>,
         <List
-          size="body-1"
+          size="Body"
           listItems={[
-            'Collaboration with motion designers to be consistent with Intuit’s new motion design guidelines',
-            'Customizable to different themes to match Intuit’s respective products',
-            'Working towards graduation for officially being a part of Intuit Design Systems',
-            'Upgraded project to React 16',
-            'Collaboration with Accessibility team to meet Intuit’s standards',
-            'Provide help and information externally to other teams for consumption',
+            "Collaboration with motion designers to be consistent with Intuit’s new motion design guidelines",
+            "Customizable to different themes to match Intuit’s respective products",
+            "Working towards graduation for officially being a part of Intuit Design Systems",
+            "Upgraded project to React 16",
+            "Collaboration with Accessibility team to meet Intuit’s standards",
+            "Provide help and information externally to other teams for consumption",
           ]}
         ></List>,
         <ImageWithCaption

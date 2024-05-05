@@ -1,19 +1,19 @@
-import React from 'react';
-import Projects from '../../components/templates/prose/prose.component';
-import { Text } from '../../components/text/text.component';
-import { List } from '../../components/list/list.component';
-import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
-import ExerciseStatus1 from '../../assets/images/projects/ExerciseStatus/ExerciseStatus1.png';
-import ExerciseStatus2 from '../../assets/images/projects/ExerciseStatus/ExerciseStatus2.png';
+import React from "react";
+import Projects from "../../components/templates/prose/prose.component";
+import { Text } from "../../components/text/text.component";
+import { List } from "../../components/list/list.component";
+import { ImageWithCaption } from "../../components/ImageWithCaption/ImageWithCaption.component";
+import ExerciseStatus1 from "../../assets/images/projects/ExerciseStatus/ExerciseStatus1.png";
+import ExerciseStatus2 from "../../assets/images/projects/ExerciseStatus/ExerciseStatus2.png";
 
 const ExerciseStatusProto = (
   <a
     className="action-link"
     target="_blank"
     rel="noreferrer"
-    href={'https://exercise-status-poc.netlify.app/'}
+    href={"https://exercise-status-poc.netlify.app/"}
   >
-    <Text size="link-1" text="prototype" />
+    <Text size="Body-bold" text="prototype" />
   </a>
 );
 
@@ -37,23 +37,23 @@ export const ExerciseStatus = () => {
 
   const ExerciseStatusContent = [
     {
-      section: 'Responsibilities',
+      section: "Responsibilities",
       content: [
         <List
           ordered
-          size="body-1"
+          size="Body"
           listItems={[
-            'Built a dynamic and end to end hi-fidelity prototype',
-            'Explored ways to customize the Tracker component provided by the design system',
-            'Collaborated with product designer to bring vision to life',
-            'Provided feedback around error states and edge cases',
-            'Provided ui feedback around tracker content and typography',
+            "Built a dynamic and end to end hi-fidelity prototype",
+            "Explored ways to customize the Tracker component provided by the design system",
+            "Collaborated with product designer to bring vision to life",
+            "Provided feedback around error states and edge cases",
+            "Provided ui feedback around tracker content and typography",
           ]}
         ></List>,
       ],
     },
     {
-      section: 'Problem',
+      section: "Problem",
       content: [
         <div>
           The main problem was that the current exercise flow would just show a
@@ -67,7 +67,7 @@ export const ExerciseStatus = () => {
       ],
     },
     {
-      section: 'Solution & Deliverables',
+      section: "Solution & Deliverables",
       content: [
         <ImageWithCaption
           src={ExerciseStatus2}

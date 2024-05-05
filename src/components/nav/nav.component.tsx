@@ -1,66 +1,86 @@
-import React, { useEffect } from 'react';
-import { Text } from '../../components/text/text.component';
-import './nav.style.scss';
-import { theme } from '../../colors.js';
+import React, { useEffect, useState } from "react";
+import { Text } from "../../components/text/text.component";
+import "./nav.style.scss";
+import { theme } from "../../colors.js";
+import { INavProps } from "./nav.model";
+import { Link } from "react-router-dom";
 
-export const Nav = () => {
-  useEffect(() => {
-    const handleScroll = () => {
-      const navRate = window.scrollY / 20;
-      const nav = document.getElementById('nav-selector');
-      if (nav) {
-        if (window.scrollY < 500) {
-          nav.style.width = 50 - navRate + '%';
-        } else {
-          nav.style.width = '25%';
-        }
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  });
-
+export const Nav = ({
+  screenWidth,
+  setShowMenu,
+  showMenu,
+  customScrollTo,
+}: INavProps) => {
   const clickProjects = () => {
-    document
-      .getElementById('scroll-projects')
-      ?.scrollIntoView({ behavior: 'smooth' });
+    // document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
+    customScrollTo("Work");
   };
   const clickAbout = () => {
-    document
-      .getElementById('scroll-about')
-      ?.scrollIntoView({ behavior: 'smooth' });
+    // document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+    customScrollTo("About");
   };
   const clickPhotography = () => {
-    document
-      .getElementById('scroll-photography')
-      ?.scrollIntoView({ behavior: 'smooth' });
+    // document
+    //   .getElementById("photography")
+    //   ?.scrollIntoView({ behavior: "smooth" });
+    customScrollTo("Photography");
   };
   const clickContact = () => {
-    document
-      .getElementById('scroll-contact')
-      ?.scrollIntoView({ behavior: 'smooth' });
+    // document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+    customScrollTo("Contact");
   };
 
-  return (
-    <div className="nav" id="nav-selector">
-      <div className="nav-content">
-        <Text size="display-1" color={theme.primary} text="Jason Chen" />
+  const navMenu = (
+    <ul className="nav-menu">
+      <li id="nav-projects" onClick={clickProjects}>
+        {/* this was just to test routing aka see if we could get to 404 
+        <Link to="/aaaaa">
+          <Text size="Header" color={theme.primary} text="Work" />
+        </Link> */}
 
-        <ul className="nav-menu">
-          <li id="about" onClick={clickAbout}>
-            <Text size="subheader-1" color={theme.primary} text="About" />
-          </li>
-          <li id="projects" onClick={clickProjects}>
-            <Text size="subheader-1" color={theme.primary} text="Projects" />
-          </li>
-          <li id="photography" onClick={clickPhotography}>
-            <Text size="subheader-1" color={theme.primary} text="Photography" />
-          </li>
-          <li id="resume" onClick={clickContact}>
-            <Text size="subheader-1" color={theme.primary} text="Contact" />
-          </li>
-        </ul>
+        <Text size="Header" color={theme.primary} text="Work" />
+      </li>
+      <li id="nav-photography" onClick={clickPhotography}>
+        <Text size="Header" color={theme.primary} text="Photo" />
+      </li>
+      <li id="nav-about" onClick={clickAbout}>
+        <Text size="Header" color={theme.primary} text="About" />
+      </li>
+      <li id="nav-contact" onClick={clickContact}>
+        <Text size="Header" color={theme.primary} text="Contact" />
+      </li>
+    </ul>
+  );
+
+  const mobileMenu = (
+    <ul className="nav-menu">
+      <li onClick={() => setShowMenu(!showMenu)}>
+        <Text
+          size="Header"
+          color={theme.primary}
+          text={showMenu ? "Close" : "Menu"}
+        />
+      </li>
+    </ul>
+  );
+
+  return (
+    <nav className="display-nav">
+      <Link to="/">
+        <Text
+          marginLeft={24}
+          size="Display"
+          color={theme.primary}
+          text="Jason Chen"
+          id="display-name-gradient"
+        />
+      </Link>
+
+      <div className="center-detail">
+        <Text size="Header" color={theme.primary} text="Design Systems / SF" />
       </div>
-    </div>
+
+      {screenWidth >= 1200 ? navMenu : mobileMenu}
+    </nav>
   );
 };

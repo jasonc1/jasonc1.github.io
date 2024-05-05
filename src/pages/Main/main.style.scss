@@ -1,84 +1,259 @@
-@import '../../theme.scss';
+@import "../../theme.scss";
 
-.main {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.33), rgba(0, 0, 0, 0.33)),
-    url(../../assets/images/landing.jpg);
-  background-position: 0% 100%;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  min-height: 100vh;
+.contact-links {
+  text-align: right;
+}
+
+.content-block {
   width: 100%;
-  display: inline-flex;
-  flex-flow: column;
+  padding: 24px;
+  padding-top: 0px;
+  box-sizing: border-box;
+  border-bottom: 2px solid black;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  flex-direction: column;
+  &.last {
+    border: none;
+  }
 }
-
-.main-container {
-  padding-left: $scale5;
-  padding-top: 360px;
-  padding-bottom: $scale8;
-  margin-left: 25%;
-  min-height: 100vh;
+.about-block,
+.contact-block {
+  min-height: calc(100vh - 144px - 24px);
 }
+.contact-block-body {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 33% 33%;
+  grid-column-gap: 24px;
+  grid-row-gap: 0px;
+  justify-content: right;
 
-.about {
-  height: 100%;
-  margin-top: 100vh;
-  display: inline-flex;
-  flex-flow: column;
-
-  .about-content {
-    max-width: 872px;
+  & :nth-child(2) {
+    margin-top: 48px;
+  }
+  & > p {
+    justify-content: right;
   }
 }
 
-.projects,
-.photography,
-.contact {
-  background-color: $primary;
+.about-block-body {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 33% 33%;
+  grid-column-gap: 24px;
+  grid-row-gap: 0px;
+  justify-content: right;
+  & > #self-blurb {
+    margin-top: -16px;
+  }
+  & > img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
 }
-.contact {
+
+.photo-block-body {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 66%;
+  grid-column-gap: 0px;
+  grid-row-gap: 24px;
+  & > img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+.block-header {
+  width: 100%;
   display: inline-flex;
-  flex-flow: column;
   justify-content: space-between;
 }
 
-@media only screen and (max-height: 1200px) {
-  .main .main-container {
-    padding-top: $nav-spacer-L;
+.work-short-block {
+  width: 100%;
+  padding-top: 0px;
+  box-sizing: border-box;
+  // border-bottom: 2px solid black;
+  display: flex;
+  justify-content: space-between;
+  gap: 0px;
+  flex-direction: column;
+
+  & > .item-row {
+    display: grid;
+    grid-template-columns: 33% 66%;
+    grid-row-gap: 0px;
   }
 }
 
-@media only screen and (max-height: 800px) {
-  .main .main-container {
-    padding-top: $nav-spacer-M;
+@media only screen and (max-width: 1200px) {
+  .about-block-body,
+  .photo-block-body {
+    grid-template-columns: auto;
   }
-}
 
-@media only screen and (max-width: 1440px) {
-  .main .main-container {
-    margin-left: 360px;
+  .about-block,
+  .photo-block,
+  .contact-block {
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-bottom: 24px;
   }
-}
-
-@media only screen and (max-width: 1000px) {
-  .main {
-    margin-left: 0px;
-    width: 100%;
-    padding-top: 0px;
-    background: $primary;
-    height: 100%;
-
-    .main-container {
-      margin-left: 0px;
-      padding: $scale3;
-      padding-top: $nav-spacer-S;
-      height: 100%;
-      min-height: 800px;
+  .work-short-block {
+    padding: 24px;
+    & > .item-row {
+      grid-template-columns: auto;
+      & > p {
+        margin-bottom: 8px;
+      }
     }
   }
+}
 
-  .about {
-    margin-top: 0;
+.mobile-navDisplay {
+  position: fixed;
+  margin-top: 72px;
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  border-bottom: 2px solid black;
+  background: $white;
+}
+
+.mobile-content-wrapper {
+  padding-top: 128px;
+}
+
+.mobile-content-block {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: 2px solid black;
+
+  &.last {
+    border: none;
   }
 }
+
+.content {
+  width: 100%;
+  display: inline-flex;
+}
+
+.content-sidebar {
+  width: 25%;
+  height: auto;
+}
+
+#content-title {
+  padding-top: 48px;
+  color: black;
+  position: fixed;
+  margin-top: 24px;
+  margin-left: 24px;
+}
+
+.content-main {
+  width: 75%;
+  border-left: 2px solid black;
+  box-sizing: border-box;
+  padding-top: 72px;
+}
+
+footer {
+  width: 100%;
+  height: 72px;
+  justify-content: center;
+  display: inline-flex;
+  align-items: center;
+  border-top: 2px solid black;
+  margin-top: -4px;
+}
+
+// .main {
+//   background-image: linear-gradient(rgba(0, 0, 0, 0.33), rgba(0, 0, 0, 0.33)),
+//     url(../../assets/images/landing.jpg);
+//   background-position: 0% 100%;
+//   background-repeat: no-repeat;
+//   background-attachment: fixed;
+//   background-size: cover;
+//   min-height: 100vh;
+//   width: 100%;
+//   display: inline-flex;
+//   flex-flow: column;
+// }
+
+// .main-container {
+//   padding-left: $scale5;
+//   padding-top: 360px;
+//   padding-bottom: $scale8;
+//   margin-left: 25%;
+//   min-height: 100vh;
+// }
+
+// .about {
+//   height: 100%;
+//   margin-top: 100vh;
+//   display: inline-flex;
+//   flex-flow: column;
+
+//   .about-content {
+//     max-width: 872px;
+//   }
+// }
+
+// .projects,
+// .photography,
+// .contact {
+//   background-color: $primary;
+// }
+// .contact {
+//   display: inline-flex;
+//   flex-flow: column;
+//   justify-content: space-between;
+// }
+
+// @media only screen and (max-height: 1200px) {
+//   .main .main-container {
+//     padding-top: $nav-spacer-L;
+//   }
+// }
+
+// @media only screen and (max-height: 800px) {
+//   .main .main-container {
+//     padding-top: $nav-spacer-M;
+//   }
+// }
+
+// @media only screen and (max-width: 1440px) {
+//   .main .main-container {
+//     margin-left: 360px;
+//   }
+// }
+
+// @media only screen and (max-width: 1000px) {
+//   .main {
+//     margin-left: 0px;
+//     width: 100%;
+//     padding-top: 0px;
+//     background: $primary;
+//     height: 100%;
+
+//     .main-container {
+//       margin-left: 0px;
+//       padding: $scale3;
+//       padding-top: $nav-spacer-S;
+//       height: 100%;
+//       min-height: 800px;
+//     }
+//   }
+
+//   .about {
+//     margin-top: 0;
+//   }
+// }

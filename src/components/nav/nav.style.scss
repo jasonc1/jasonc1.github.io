@@ -1,61 +1,89 @@
-@import '../../theme.scss';
+@import "../../theme.scss";
 
-.nav {
-  position: fixed;
-  height: 100vh;
-  width: 50%;
-  display: inline-flex;
-  flex-flow: column;
-  background-color: $white;
-  min-width: 360px;
-  z-index: 1000;
-
-  .nav-content {
-    padding-top: 360px;
-    flex-flow: column;
-    padding-right: $scale5;
-    text-align: right;
+#display-name-gradient {
+  // background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-image: linear-gradient(to right, #11593f, #feda7b, #393939);
+  background-size: 200% 200%;
+  min-width: 210px;
+  text-wrap: nowrap;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient 2s ease-in-out infinite;
+  animation-play-state: paused;
+  animation-iteration-count: 1;
+  cursor: pointer;
+  &:hover {
+    animation-play-state: running;
   }
+}
 
-  ul.nav-menu {
-    list-style-type: none;
-    margin: 0;
-    li {
-      cursor: pointer;
-      margin-top: $scale2;
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+nav.display-nav {
+  height: 72px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  background: #fff;
+  justify-content: space-between;
+  display: inline-flex;
+  align-items: center;
+  z-index: 1000;
+  border-bottom: 2px solid black;
+}
+
+.center-detail {
+  visibility: visible;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
+}
+
+ul.nav-menu {
+  list-style-type: none;
+  margin: 0;
+  display: inline-flex;
+  flex-direction: row;
+  height: 100%;
+  li {
+    cursor: pointer;
+    border-left: 2px solid black;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 120px;
+    &:hover {
+      transition: background-color 0.33s ease-in-out;
+      background-color: rgba($primary, 0.12);
     }
   }
 }
 
 @media only screen and (max-height: 1200px) {
-  .nav .nav-content {
-    padding-top: $nav-spacer-L;
-  }
 }
 
 @media only screen and (max-height: 800px) {
-  .nav .nav-content {
-    padding-top: $nav-spacer-M;
-  }
 }
 
-@media only screen and (max-width: 1000px) {
-  .nav {
-    min-width: 100%;
-    position: relative;
-  }
-
-  .nav-content {
-    padding-top: $nav-spacer-M;
-    padding-right: 0px;
+@media only screen and (max-width: 770px) {
+  .center-detail {
+    visibility: hidden;
   }
 }
 
 @media only screen and (max-width: 550px) {
-  .nav {
-    align-items: center;
-    .nav-content {
-      padding-right: 0px;
-    }
-  }
 }

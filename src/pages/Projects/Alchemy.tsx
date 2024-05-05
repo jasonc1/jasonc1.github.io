@@ -1,14 +1,14 @@
-import React from 'react';
-import Projects from '../../components/templates/prose/prose.component';
-import { List } from '../../components/list/list.component';
-import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
-import Alchemy_cover from '../../assets/images/projects/Alchemy/Alchemy_cover.png';
-import Alchemy_foundations from '../../assets/images/projects/Alchemy/Alchemy_foundations.png';
-import Alchemy_theming from '../../assets/images/projects/Alchemy/Alchemy_theming.png';
-import Alchemy_checkbox from '../../assets/images/projects/Alchemy/Alchemy_checkbox.png';
-import Alchemy_reference_site_color from '../../assets/images/projects/Alchemy/Alchemy_reference_site_color.svg';
-import Alchemy_reference_site_component from '../../assets/images/projects/Alchemy/Alchemy_reference_site_component.svg';
-import Alchemy_theme_object from '../../assets/images/projects/Alchemy/Alchemy_theme_object.png';
+import React from "react";
+import Projects from "../../components/templates/prose/prose.component";
+import { List } from "../../components/list/list.component";
+import { ImageWithCaption } from "../../components/ImageWithCaption/ImageWithCaption.component";
+import Alchemy_cover from "../../assets/images/projects/Alchemy/Alchemy_cover.png";
+import Alchemy_foundations from "../../assets/images/projects/Alchemy/Alchemy_foundations.png";
+import Alchemy_theming from "../../assets/images/projects/Alchemy/Alchemy_theming.png";
+import Alchemy_checkbox from "../../assets/images/projects/Alchemy/Alchemy_checkbox.png";
+import Alchemy_reference_site_color from "../../assets/images/projects/Alchemy/Alchemy_reference_site_color.svg";
+import Alchemy_reference_site_component from "../../assets/images/projects/Alchemy/Alchemy_reference_site_component.svg";
+import Alchemy_theme_object from "../../assets/images/projects/Alchemy/Alchemy_theme_object.png";
 
 // import Checkbox_documentation from '../../assets/images/projects/Alchemy/Checkbox_documentation.pdf';
 // import { Text } from '../../components/text/text.component';
@@ -21,7 +21,7 @@ export const Alchemy = () => {
   //     rel="noreferrer"
   //     href={Checkbox_documentation}
   //   >
-  //     <Text size="link-1" text="component documentation" />
+  //     <Text size="Body-bold" text="component documentation" />
   //   </a>
   // );
 
@@ -47,23 +47,23 @@ export const Alchemy = () => {
 
   const AlchemyContent = [
     {
-      section: 'Responsibilities',
+      section: "Responsibilities",
       content: [
         <List
-          size="body-1"
+          size="Body"
           listItems={[
-            'Designed components with theming and accessibility in mind',
-            'Created documentation for such components',
-            'Synthesized a vision for a themeable design system to meet Blend’s product needs',
-            'Collaborated with the brand team to put together concepts for a reference site',
-            'Collaborated with Engineering to establish foundations for theming architecture',
-            'Established design tokens: typography, colors, icons, and basic grid structure',
+            "Designed components with theming and accessibility in mind",
+            "Created documentation for such components",
+            "Synthesized a vision for a themeable design system to meet Blend’s product needs",
+            "Collaborated with the brand team to put together concepts for a reference site",
+            "Collaborated with Engineering to establish foundations for theming architecture",
+            "Established design tokens: typography, colors, icons, and basic grid structure",
           ]}
         ></List>,
       ],
     },
     {
-      section: 'Problem',
+      section: "Problem",
       content: [
         <ImageWithCaption
           white
@@ -94,7 +94,7 @@ export const Alchemy = () => {
       ],
     },
     {
-      section: 'Process',
+      section: "Process",
       content: [
         <ImageWithCaption
           white

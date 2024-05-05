@@ -1,21 +1,21 @@
-import React from 'react';
-import Projects from '../../components/templates/prose/prose.component';
-import { List } from '../../components/list/list.component';
-import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
-import emp_storybook from '../../assets/images/projects/Ink/emp_storybook.jpg';
-import emp_storybook2 from '../../assets/images/projects/Ink/emp_storybook2.jpg';
-import figma_button from '../../assets/images/projects/Ink/figma_button.jpg';
-import figma_doc from '../../assets/images/projects/Ink/figma_doc.jpg';
-import figma_doc2 from '../../assets/images/projects/Ink/figma_doc2.jpg';
-import figma_icons from '../../assets/images/projects/Ink/figma_icons.png';
-import emp_storybook1 from '../../assets/images/projects/Ink/emp_storybook1.png';
-import employee_figma from '../../assets/images/projects/Ink/employee_figma.png';
-import figma_button_spec from '../../assets/images/projects/Ink/figma_button_spec.png';
-import figma_doc1 from '../../assets/images/projects/Ink/figma_doc1.png';
-import shimmer_doc from '../../assets/images/projects/Ink/shimmer_doc.png';
-import shimmer_doc1 from '../../assets/images/projects/Ink/shimmer_doc1.png';
-import ink_cover from '../../assets/images/projects/Ink/ink_cover.png';
-import icon_doc from '../../assets/images/projects/Ink/icon_doc.png';
+import React from "react";
+import Projects from "../../components/templates/prose/prose.component";
+import { List } from "../../components/list/list.component";
+import { ImageWithCaption } from "../../components/ImageWithCaption/ImageWithCaption.component";
+import emp_storybook from "../../assets/images/projects/Ink/emp_storybook.jpg";
+import emp_storybook2 from "../../assets/images/projects/Ink/emp_storybook2.jpg";
+import figma_button from "../../assets/images/projects/Ink/figma_button.jpg";
+import figma_doc from "../../assets/images/projects/Ink/figma_doc.jpg";
+import figma_doc2 from "../../assets/images/projects/Ink/figma_doc2.jpg";
+import figma_icons from "../../assets/images/projects/Ink/figma_icons.png";
+import emp_storybook1 from "../../assets/images/projects/Ink/emp_storybook1.png";
+import employee_figma from "../../assets/images/projects/Ink/employee_figma.png";
+import figma_button_spec from "../../assets/images/projects/Ink/figma_button_spec.png";
+import figma_doc1 from "../../assets/images/projects/Ink/figma_doc1.png";
+import shimmer_doc from "../../assets/images/projects/Ink/shimmer_doc.png";
+import shimmer_doc1 from "../../assets/images/projects/Ink/shimmer_doc1.png";
+import ink_cover from "../../assets/images/projects/Ink/ink_cover.png";
+import icon_doc from "../../assets/images/projects/Ink/icon_doc.png";
 
 export const Ink = () => {
   const summaryText = (
@@ -43,27 +43,27 @@ export const Ink = () => {
 
   const InkContent = [
     {
-      section: 'Responsibilities',
+      section: "Responsibilities",
       content: [
         <List
-          size="body-1"
+          size="Body"
           listItems={[
-            'Active contributor to the ink codebase: refactoring, improvements, documentation',
-            'Led Ink on Figma working group to ensure parity with code and maintain the figma library',
-            'Coordinated releases with code and figma library',
-            'Brought forth PR check to update figma library whenever a DT makes a ui change to the codebase',
-            'Introduced Storybook to the Employee/Shareholder pillar and created a tiered library to house recipes of ink components',
-            'Collaborated with other DTs to share storybook react template',
-            'Created employee-library in figma for designers',
-            'improved UI health for Employee/Shareholder experience by 50%',
-            'Sunsetted all other vestigial and unsupported figma library files',
+            "Active contributor to the ink codebase: refactoring, improvements, documentation",
+            "Led Ink on Figma working group to ensure parity with code and maintain the figma library",
+            "Coordinated releases with code and figma library",
+            "Brought forth PR check to update figma library whenever a DT makes a ui change to the codebase",
+            "Introduced Storybook to the Employee/Shareholder pillar and created a tiered library to house recipes of ink components",
+            "Collaborated with other DTs to share storybook react template",
+            "Created employee-library in figma for designers",
+            "improved UI health for Employee/Shareholder experience by 50%",
+            "Sunsetted all other vestigial and unsupported figma library files",
           ]}
         ></List>,
       ],
     },
 
     {
-      section: 'Ink on Figma (figma library)',
+      section: "Ink on Figma (figma library)",
       content: [
         <ImageWithCaption
           src={figma_button}
@@ -109,7 +109,7 @@ export const Ink = () => {
       ],
     },
     {
-      section: 'Storybook template & Employee specific storybook',
+      section: "Storybook template & Employee specific storybook",
       content: [
         <div>
           As Carta scales, there will be the occaisional need for a new

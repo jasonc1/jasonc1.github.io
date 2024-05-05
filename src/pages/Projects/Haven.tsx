@@ -1,16 +1,16 @@
-import React from 'react';
-import Projects from '../../components/templates/prose/prose.component';
-import { Text } from '../../components/text/text.component';
-import { List } from '../../components/list/list.component';
-import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
-import haven_cover from '../../assets/images/projects/Haven/haven_cover.png';
-import haven from '../../assets/images/projects/Haven/haven.png';
-import { Link } from 'react-router-dom';
+import React from "react";
+import Projects from "../../components/templates/prose/prose.component";
+import { Text } from "../../components/text/text.component";
+import { List } from "../../components/list/list.component";
+import { ImageWithCaption } from "../../components/ImageWithCaption/ImageWithCaption.component";
+import haven_cover from "../../assets/images/projects/Haven/haven_cover.png";
+import haven from "../../assets/images/projects/Haven/haven.png";
+import { Link } from "react-router-dom";
 
 export const Haven = () => {
   const AbstractMigrate = (
     <Link className="action-link" to="/AbstractMigrate" target="_blank">
-      <Text size="link-1" text="abstract-migrate" />
+      <Text size="Body-bold" text="abstract-migrate" />
     </Link>
   );
   const summaryText = (
@@ -25,23 +25,23 @@ export const Haven = () => {
 
   const HavenContent = [
     {
-      section: 'Responsibilities',
+      section: "Responsibilities",
       content: [
         <List
-          size="body-1"
+          size="Body"
           listItems={[
-            'Proposed side project to work on based on needs of Product Designers',
-            'Researched and experimented with Figma’s API',
-            'Developed, designed, and published Blend’s first Figma Plugin',
-            'Carefully researched and planned out rollout of plugin',
-            'Educated brand and product designers on the plugin’s capabilities',
-            'Gathered feedback to iterate and ideate new features',
+            "Proposed side project to work on based on needs of Product Designers",
+            "Researched and experimented with Figma’s API",
+            "Developed, designed, and published Blend’s first Figma Plugin",
+            "Carefully researched and planned out rollout of plugin",
+            "Educated brand and product designers on the plugin’s capabilities",
+            "Gathered feedback to iterate and ideate new features",
           ]}
         ></List>,
       ],
     },
     {
-      section: 'Problem',
+      section: "Problem",
       content: [
         <div>
           One of the issues that product designers face at Blend (I'm sure this
@@ -55,7 +55,7 @@ export const Haven = () => {
       ],
     },
     {
-      section: 'Solution & Deliverables',
+      section: "Solution & Deliverables",
       content: [
         <ImageWithCaption
           src={haven_cover}

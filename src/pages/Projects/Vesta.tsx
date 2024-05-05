@@ -1,17 +1,17 @@
-import React from 'react';
-import Projects from '../../components/templates/prose/prose.component';
-import { List } from '../../components/list/list.component';
-import { ImageWithCaption } from '../../components/ImageWithCaption/ImageWithCaption.component';
-import base_textinput from '../../assets/images/projects/Vesta/base_textinput.png';
-import figma_variant_changes from '../../assets/images/projects/Vesta/figma_variant_changes.png';
-import Modal_Audit from '../../assets/images/projects/Vesta/Modal_Audit.png';
-import modal_scoping from '../../assets/images/projects/Vesta/modal_scoping.png';
-import TextInputs from '../../assets/images/projects/Vesta/TextInputs.png';
-import vesta_icons from '../../assets/images/projects/Vesta/vesta_icons.png';
-import Modal from '../../assets/images/projects/Vesta/Modal.png';
-import modal_workaround from '../../assets/images/projects/Vesta/modal_workaround.png';
-import Cover from '../../assets/images/projects/Vesta/Cover.png';
-import ModalSubcomponents from '../../assets/images/projects/Vesta/Subcomponents.png';
+import React from "react";
+import Projects from "../../components/templates/prose/prose.component";
+import { List } from "../../components/list/list.component";
+import { ImageWithCaption } from "../../components/ImageWithCaption/ImageWithCaption.component";
+import base_textinput from "../../assets/images/projects/Vesta/base_textinput.png";
+import figma_variant_changes from "../../assets/images/projects/Vesta/figma_variant_changes.png";
+import Modal_Audit from "../../assets/images/projects/Vesta/Modal_Audit.png";
+import modal_scoping from "../../assets/images/projects/Vesta/modal_scoping.png";
+import TextInputs from "../../assets/images/projects/Vesta/TextInputs.png";
+import vesta_icons from "../../assets/images/projects/Vesta/vesta_icons.png";
+import Modal from "../../assets/images/projects/Vesta/Modal.png";
+import modal_workaround from "../../assets/images/projects/Vesta/modal_workaround.png";
+import Cover from "../../assets/images/projects/Vesta/Cover.png";
+import ModalSubcomponents from "../../assets/images/projects/Vesta/Subcomponents.png";
 
 export const Vesta = () => {
   const summaryText = (
@@ -34,23 +34,23 @@ export const Vesta = () => {
 
   const VestaContent = [
     {
-      section: 'Responsibilities',
+      section: "Responsibilities",
       content: [
         <List
-          size="body-1"
+          size="Body"
           listItems={[
-            'Audited product flows to document patterns',
-            'Created and maintained design system from the ground up: starting from basic icons, typography, colors, and grid',
-            'Collaborated weekly with product design team for feedback and presentation of components',
-            'Created inputs, modals, navigational elements, and more',
-            'Documented patterns and working best practices within the figma library',
-            'Collaborated with Engineering to ensure React prop alignemnt and FE best practices',
+            "Audited product flows to document patterns",
+            "Created and maintained design system from the ground up: starting from basic icons, typography, colors, and grid",
+            "Collaborated weekly with product design team for feedback and presentation of components",
+            "Created inputs, modals, navigational elements, and more",
+            "Documented patterns and working best practices within the figma library",
+            "Collaborated with Engineering to ensure React prop alignemnt and FE best practices",
           ]}
         ></List>,
       ],
     },
     {
-      section: 'Process',
+      section: "Process",
       content: [
         <ImageWithCaption
           src={vesta_icons}

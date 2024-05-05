@@ -1,17 +1,17 @@
-import React from 'react';
-import Projects from '../../../components/templates/prose/prose.component';
-import { Text } from '../../../components/text/text.component';
-import { List } from '../../../components/list/list.component';
-import { ImageWithCaption } from '../../../components/ImageWithCaption/ImageWithCaption.component';
-import SR_cover from '../../../assets/images/projects/StratRoulette/SR_cover.png';
-import roll_strat from '../../../assets/images/projects/StratRoulette/roll_strat.png';
-import roll_strat_mobile from '../../../assets/images/projects/StratRoulette/roll_strat_mobile.png';
-import colors from '../../../assets/images/projects/StratRoulette/colors.png';
-import landing_info from '../../../assets/images/projects/StratRoulette/landing_info.png';
-import roulette_form_inputs from '../../../assets/images/projects/StratRoulette/roulette_form_inputs.png';
-import typography from '../../../assets/images/projects/StratRoulette/typography.png';
-import SRLegacy_alpha from '../../../assets/images/projects/SRLegacy/SRLegacy_alpha.png';
-import { Link } from 'react-router-dom';
+import React from "react";
+import Projects from "../../../components/templates/prose/prose.component";
+import { Text } from "../../../components/text/text.component";
+import { List } from "../../../components/list/list.component";
+import { ImageWithCaption } from "../../../components/ImageWithCaption/ImageWithCaption.component";
+import SR_cover from "../../../assets/images/projects/StratRoulette/SR_cover.png";
+import roll_strat from "../../../assets/images/projects/StratRoulette/roll_strat.png";
+import roll_strat_mobile from "../../../assets/images/projects/StratRoulette/roll_strat_mobile.png";
+import colors from "../../../assets/images/projects/StratRoulette/colors.png";
+import landing_info from "../../../assets/images/projects/StratRoulette/landing_info.png";
+import roulette_form_inputs from "../../../assets/images/projects/StratRoulette/roulette_form_inputs.png";
+import typography from "../../../assets/images/projects/StratRoulette/typography.png";
+import SRLegacy_alpha from "../../../assets/images/projects/SRLegacy/SRLegacy_alpha.png";
+import { Link } from "react-router-dom";
 
 export const StratRoulette = () => {
   const Voyage = (
@@ -19,14 +19,14 @@ export const StratRoulette = () => {
       className="action-link"
       target="_blank"
       rel="noreferrer"
-      href={'https://vj-type.com/family/voyage/'}
+      href={"https://vj-type.com/family/voyage/"}
     >
-      <Text size="link-1" text="we used Voyage" />
+      <Text size="Body-bold" text="we used Voyage" />
     </a>
   );
   const SRLegacy = (
     <Link className="action-link" to="/SRLegacy" target="_blank">
-      <Text size="link-1" text="a previous attempt in 2017 was made" />
+      <Text size="Body-bold" text="a previous attempt in 2017 was made" />
     </Link>
   );
   const summaryText = (
@@ -46,21 +46,21 @@ export const StratRoulette = () => {
 
   const StratRouletteContent = [
     {
-      section: 'Responsibilities',
+      section: "Responsibilities",
       content: [
         <List
-          size="body-1"
+          size="Body"
           listItems={[
-            'Designed and implemented components for design system',
-            'Designed all the flows and interactions of the app (mobile + desktop)',
-            'Created logo, brand identity, and landing page',
-            'Main driver of product and design strategy',
+            "Designed and implemented components for design system",
+            "Designed all the flows and interactions of the app (mobile + desktop)",
+            "Created logo, brand identity, and landing page",
+            "Main driver of product and design strategy",
           ]}
         ></List>,
       ],
     },
     {
-      section: 'Problem',
+      section: "Problem",
       content: [
         <ImageWithCaption
           src={SRLegacy_alpha}
@@ -77,7 +77,7 @@ export const StratRoulette = () => {
       ],
     },
     {
-      section: 'Solution & Deliverables',
+      section: "Solution & Deliverables",
       content: [
         <div>
           With my background and passion in design systems, I wanted to focus on
@@ -111,7 +111,7 @@ export const StratRoulette = () => {
       ],
     },
     {
-      section: 'Process',
+      section: "Process",
       content: [
         <div>
           The first few tasks for SR were free-form since I got a start at

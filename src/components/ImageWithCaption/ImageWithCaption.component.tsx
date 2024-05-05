@@ -1,8 +1,8 @@
-import React from 'react';
-import { Text } from '../../components/text/text.component';
-import { IImageWithCaptionProps } from './ImageWithCaption.model';
-import classNames from 'classnames';
-import './ImageWithCaption.style.scss';
+import React from "react";
+import { Text } from "../../components/text/text.component";
+import { IImageWithCaptionProps } from "./ImageWithCaption.model";
+import classNames from "classnames";
+import "./ImageWithCaption.style.scss";
 
 export const ImageWithCaption = ({
   caption,
@@ -11,13 +11,13 @@ export const ImageWithCaption = ({
   src,
 }: IImageWithCaptionProps) => {
   const imgClass = classNames({
-    'iphone-img': iphone,
-    'white-background': white,
+    "iphone-img": iphone,
+    "white-background": white,
   });
   return (
     <div className="image-with-caption">
       <img src={src} className={imgClass} alt={caption} />
-      <Text size="body-2" text={caption} />
+      <Text size="Body" text={caption} />
     </div>
   );
 };
