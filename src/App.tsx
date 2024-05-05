@@ -133,36 +133,6 @@ export const App = () => {
         <Route path="/404" render={NotFound} />
 
         <Redirect from="*" to="/404" />
-
-        {/* <Route path="/photography" component={Photography} />
-          <Route path="/underconstruction" component={UnderConstruction} />
-          <Route path="/OTM" component={OTM} />
-          <Route path="/IDSAccordion" component={IDSAccordion} />
-          <Route path="/DocUploader" component={DocUploader} />
-          <Route path="/SRLegacy" component={SRLegacy} />
-          <Route path="/404" component={NotFound} />
-          <Route path="/WaitTaskV2" component={WaitTAskV2} />
-          <Route path="/AbstractMigrate" component={AbstractMigrate} />
-          <Route path="/Sapling" component={Sapling} />
-          <Route path="/Haven" component={Haven} />
-          <Route path="/StratRoulette" component={StratRoulette} />
-          <Route path="/Alchemy" component={Alchemy} />
-          <Route path="/ExerciseStatus" component={ExerciseStatus} />
-          <Route path="/EmployeeOnboarding" component={EmployeeOnboarding} />
-          <Route path="/Ink" component={Ink} />
-          <Route path="/Vesta" component={Vesta} />
-
-          <Route
-            path="/ProductIllustrations"
-            component={ProductIllustrations}
-          />
-
-          <Route
-            path="/DesignSystemsAtBlend"
-            component={DesignSystemsAtBlend}
-          />
-          <Route path="/PrototypingAtBlend" component={PrototypingAtBlend} /> */}
-        {/* <Route path="/dsystemsAtBlend" component={DesignSystemsAtBlend} /> */}
       </Switch>
       <Footer />
     </BrowserRouter>

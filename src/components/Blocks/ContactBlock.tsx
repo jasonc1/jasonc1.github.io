@@ -14,19 +14,31 @@ export const ContactBlock = () => {
       <Text size="Body-bold" text="You can find me here as well /" />
 
       <div className="contact-block-body">
-        <a href="https://github.com/jasonc1" target="_blank">
+        <a
+          className="contact-links"
+          href="https://github.com/jasonc1"
+          target="_blank"
+        >
           <Text size="Body-bold" text="Github" />
         </a>
-        <a href="https://www.linkedin.com/in/jchen10" target="_blank">
+        <a
+          className="contact-links"
+          href="https://www.linkedin.com/in/jchen10"
+          target="_blank"
+        >
           <Text size="Body-bold" text="LinkedIn" />
         </a>
       </div>
 
       <div className="contact-block-body">
-        <Link to={resume} target="_blank">
+        <Link className="contact-links" to={resume} target="_blank">
           <Text size="Body-bold" text="Resume" />
         </Link>
-        <a href="https://www.instagram.com/me.dium/" target="_blank">
+        <a
+          className="contact-links"
+          href="https://www.instagram.com/me.dium/"
+          target="_blank"
+        >
           <Text size="Body-bold" text="Instagram" />
         </a>
       </div>
