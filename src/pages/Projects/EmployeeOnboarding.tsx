@@ -14,28 +14,23 @@ const EmployeeOnboardingProto = (
     rel="noreferrer"
     href={"https://employee-onboarding-poc-1.netlify.app/"}
   >
-    <Text size="Body-bold" text="here" />
+    <Text
+      size="Body-bold"
+      text="👉 Click here to view option 1 of the prototypes (pw:
+          'abby')."
+    />
   </a>
 );
 
 export const EmployeeOnboarding = () => {
-  const summaryText = (
-    <div>
-      <ImageWithCaption
-        src={Welcome}
-        white
-        caption="Employee onboarding V2, now with a 10% improvement in signups"
-      />
-      Prototyping played a crucial role in the design of the new onboarding
+  const summaryText = `Prototyping played a crucial role in the design of the new onboarding
       flow. Three prototypes were created so that we could validate the new flow
       with the integration of 2FA upon account creation. The new onboarding flow
       would also collect more data up front so that users wouldn't have to input
       additional info when it came to do actions like exercising their stock
       options. Thus an interactive prototype was created to test the feasibility
       of the new experience, to iterate on different variations, and to user
-      test.
-    </div>
-  );
+      test.`;
 
   const ExerciseStatusContent = [
     {
@@ -57,42 +52,42 @@ export const EmployeeOnboarding = () => {
     {
       section: "Problem",
       content: [
-        <div>
-          As an employee accepts their option grant, at a certain point they
+        <Text
+          size="Body"
+          marginBottom={16}
+          text={` As an employee accepts their option grant, at a certain point they
           will most likely exercise to realize their equity. However they were
           faced with some obstacles when initiating their exercise request: they
           needed to provide more info as well as set up 2FA. Thus, a prototype
           was needed to help test amongst users variations of the flow to reach
-          the most optimal experience.
-        </div>,
+          the most optimal experience.`}
+        />,
       ],
     },
     {
       section: "Solution & Deliverables",
       content: [
-        <div>
-          Like most prototypes, one main goal of prototyping the onboarding flow
+        <Text
+          size="Body"
+          marginBottom={16}
+          text={`Like most prototypes, one main goal of prototyping the onboarding flow
           was to test feasibility of the front end and to reduce the creation of
           new components. Additionally, the prototype served as an avenue to
           confidently decision make around where to surface equity education as
-          well as gauge the impact of 2FA being part of the onboarding flow.
-        </div>,
-
-        <div>Three prototypes were created:</div>,
-
-        <List
-          ordered
-          size="Body"
-          listItems={[
-            "option 1: 2FA → form (including equity education) → success,",
-            "option 2: NO 2FA → form (including equity education) → success,",
-            "option 3: 2FA → form → success → equity education,",
-          ]}
-        ></List>,
-
-        <div>
-          You can view option 1 of the prototypes {EmployeeOnboardingProto} (pw:
-          'abby').
+          well as gauge the impact of 2FA being part of the onboarding flow.`}
+        />,
+        <div className="summary-text-link">
+          <Text size="Body" text="Three prototypes were created:" />
+          <List
+            ordered
+            size="Body"
+            listItems={[
+              "option 1: 2FA → form (including equity education) → success,",
+              "option 2: NO 2FA → form (including equity education) → success,",
+              "option 3: 2FA → form → success → equity education,",
+            ]}
+          ></List>
+          {EmployeeOnboardingProto}
         </div>,
       ],
     },
@@ -114,9 +109,11 @@ export const EmployeeOnboarding = () => {
   ];
   return (
     <Projects
-      title="Carta Employee Onboarding Prototype"
+      title="Carta Employee Onboarding"
       date="March 2022"
       summary={summaryText}
+      image={Welcome}
+      image_caption="Employee onboarding V2, now with a 10% improvement in signups"
       content={ExerciseStatusContent}
     />
   );

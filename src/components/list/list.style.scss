@@ -1,11 +1,10 @@
 .text-list {
   ol,
   ul {
-    margin-block-end: unset;
-    margin-block-start: unset;
-    padding-inline-start: 40px;
-    margin-top: 8px;
-    margin-bottom: 16px;
+    margin-block-start: 8px;
+    margin-block-end: 48px;
+    padding-inline-start: 24px;
+
     li {
       list-style-type: disc;
       margin-bottom: 8px;

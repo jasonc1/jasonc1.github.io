@@ -16,18 +16,13 @@ export const AbstractMigrate = () => {
       <Text size="Body-bold" text="Abstract's API" />
     </a>
   );
-  const summaryText = (
-    <div>
-      This was a quarter long initiative where the design technology team fully
-      sunset Abstract in roughly a quarter by leveraging {AbstractAPI}. Over my
-      first year at blend, the Product Design team slowly moved onto Figma, and
-      in Q1 of 2020, we set out to migrate all of the legacy Sketch files into
-      Box. I created a script that helped save 100s of hours of each product
-      designer's time that would have been spent manually moving the files to
-      Box. Over 750 sketch files were migrated with the script.
-    </div>
-  );
-
+  const summaryText = `This was a quarter long initiative where the design technology team fully
+  sunset Abstract in roughly a quarter by leveraging ${AbstractAPI}. Over my
+  first year at blend, the Product Design team slowly moved onto Figma, and
+  in Q1 of 2020, we set out to migrate all of the legacy Sketch files into
+  Box. I created a script that helped save 100s of hours of each product
+  designer's time that would have been spent manually moving the files to
+  Box. Over 750 sketch files were migrated with the script.`;
   const AbstractMigrateContent = [
     {
       section: "Responsibilities",
@@ -46,22 +41,26 @@ export const AbstractMigrate = () => {
     {
       section: "Problem",
       content: [
-        <div>
-          When I joined Blend around February 2019, Figma was gaining traction
-          within the product design team, and it became the unofficial design
-          tool that everyone started using. However, we spent about the next
-          year floating between old files in Sketch and creating new files in
-          Figma.
-        </div>,
+        <Text
+          size="Body"
+          marginBottom={16}
+          text={`When I joined Blend around February 2019, Figma was gaining traction
+        within the product design team, and it became the unofficial design
+        tool that everyone started using. However, we spent about the next
+        year floating between old files in Sketch and creating new files in
+        Figma.`}
+        />,
 
-        <div>
-          For those not familiar with Abstract, in theory it serves as something
+        <Text
+          size="Body"
+          marginBottom={16}
+          text={`For those not familiar with Abstract, in theory it serves as something
           similar to a git repository but for sketch files. Thus, it houses all
           of Blend’s Sketch projects in the following manner: A project can have
           many branches (like master/main, explorations, etc). Each branch is
           essentially a Sketch file, and a project entails many branches (or
-          sketch files) like the following:
-        </div>,
+          sketch files) like the following:`}
+        />,
         <pre>
           <code>blend-projects/</code>
           <br />
@@ -79,16 +78,18 @@ export const AbstractMigrate = () => {
           <br />
           <code>...</code>
         </pre>,
-        <div>
-          Throughout that year, we tried to sunset Abstract twice. We failed to
-          do so the first time (roughly October 2019) because Abstract’s API
-          only let us list files in our Abstract ‘repo,’ but we could not
-          download at that time. On top of that, we had what turned out to be
-          roughly 100 projects (750+ files sketch files) in Abstract. The team
-          eventually abandoned the plan to sunset Abstract because of the sheer
-          amount of manual labor it would entail: downloading each branch from
-          each project and then moving the files to Box.
-        </div>,
+        <Text
+          size="Body"
+          marginBottom={16}
+          text={`Throughout that year, we tried to sunset Abstract twice. We failed to
+        do so the first time (roughly October 2019) because Abstract’s API
+        only let us list files in our Abstract ‘repo,’ but we could not
+        download at that time. On top of that, we had what turned out to be
+        roughly 100 projects (750+ files sketch files) in Abstract. The team
+        eventually abandoned the plan to sunset Abstract because of the sheer
+        amount of manual labor it would entail: downloading each branch from
+        each project and then moving the files to Box.`}
+        />,
       ],
     },
     {
@@ -98,15 +99,19 @@ export const AbstractMigrate = () => {
           src={AbstractMigrateDefine}
           caption="Defining what success looks like for the roll out plan."
         />,
-        <div>
-          In March 2020, the PD team decided to revisit sunsetting Abstract as
-          the team found that most designers are now designing in Figma and
-          spending roughly 10% of their time in Sketch. For the most part, most
-          of the tasks being done in Sketch were simply referencing old files
-          less so designing.
-        </div>,
-        <div>
-          Thus, the design technology team set out to create a quarter long plan
+        <Text
+          size="Body"
+          marginBottom={16}
+          text={`In March 2020, the PD team decided to revisit sunsetting Abstract as
+        the team found that most designers are now designing in Figma and
+        spending roughly 10% of their time in Sketch. For the most part, most
+        of the tasks being done in Sketch were simply referencing old files
+        less so designing`}
+        />,
+        <Text
+          size="Body"
+          marginBottom={16}
+          text={`Thus, the design technology team set out to create a quarter long plan
           to roll out sunsetting Abstract. The first task at hand was to create
           a plan that would factor in the amount of time it require to have
           designers manually migrate their files each at a bi-weekly or monthly
@@ -116,8 +121,9 @@ export const AbstractMigrate = () => {
           determined when product designers should stop using Abstract, batch
           download files, labelling, and thus fully sunsetting Abstract and
           ending the subscription. Below, you can see what the overall timeline
-          was.
-        </div>,
+          was.`}
+        />,
+
         <ImageWithCaption
           src={AbstractMigrateTimeline}
           caption="Timeline of rollout plan"

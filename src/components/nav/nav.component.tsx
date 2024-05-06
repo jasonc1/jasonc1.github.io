@@ -9,28 +9,28 @@ export const Nav = ({
   setShowMenu,
   showMenu,
   customScrollTo,
+  navItems,
 }: INavProps) => {
   const clickProjects = () => {
-    customScrollTo("Work");
-  };
-  const clickAbout = () => {
-    customScrollTo("About");
+    customScrollTo(navItems[0]);
   };
   const clickPhotography = () => {
-    customScrollTo("Photography");
+    customScrollTo(navItems[1]);
+  };
+  const clickAbout = () => {
+    customScrollTo(navItems[2]);
   };
   const clickContact = () => {
-    customScrollTo("Contact");
+    customScrollTo(navItems[3]);
   };
   let location = useLocation();
 
-  console.log(location.pathname);
   const isHome = location.pathname === "/";
   const back = (
     <>
       <Link to="/">
         <li id="nav-projects">
-          <Text size="Header" text="Back" />
+          <Text size="Header" text="Back" color={theme.primary} />
         </li>
       </Link>
     </>
@@ -48,16 +48,16 @@ export const Nav = ({
   const homeMenu = (
     <>
       <li id="nav-projects" onClick={clickProjects}>
-        <Text size="Header" text="Work" />
+        <Text size="Header" text={navItems[0]} />
       </li>
       <li id="nav-photography" onClick={clickPhotography}>
-        <Text size="Header" text="Photo" />
+        <Text size="Header" text={navItems[1]} />
       </li>
       <li id="nav-about" onClick={clickAbout}>
-        <Text size="Header" text="About" />
+        <Text size="Header" text={navItems[2]} />
       </li>
       <li id="nav-contact" onClick={clickContact}>
-        <Text size="Header" text="Contact" />
+        <Text size="Header" text={navItems[3]} />
       </li>
     </>
   );

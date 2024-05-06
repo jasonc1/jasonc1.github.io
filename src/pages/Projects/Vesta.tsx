@@ -14,23 +14,14 @@ import Cover from "../../assets/images/projects/Vesta/Cover.png";
 import ModalSubcomponents from "../../assets/images/projects/Vesta/Subcomponents.png";
 
 export const Vesta = () => {
-  const summaryText = (
-    <div>
-      <ImageWithCaption
-        src={Cover}
-        white
-        caption="Vesta's ui-kit cover in Figma, with a small legend for progress per page"
-      />
-      Vesta is an LOS (loan origination system) which is what loan officers use
+  const summaryText = `Vesta is an LOS (loan origination system) which is what loan officers use
       to process loans and manage their work. I was asked to contract part time
       to create Vesta's very first design system. Luckily, there were already
       some visual assets figured out like colors, type, and icons, but they
       needed some organization so that they could be used to flesh out the rest
       of the components. My time at Vesta so far has been to flesh out the 'v1'
       of the design system so that the rest of the product designers and
-      frontend engineers can focus on building their product faster.
-    </div>
-  );
+      frontend engineers can focus on building their product faster.`;
 
   const VestaContent = [
     {
@@ -98,6 +89,8 @@ export const Vesta = () => {
       title="Vesta"
       date="March 2022 - August 2022, contract"
       summary={summaryText}
+      image={Cover}
+      image_caption="Vesta's ui-kit cover in Figma, with a small legend for progress per page"
       content={VestaContent}
     />
   );

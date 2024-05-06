@@ -68,12 +68,6 @@
   }
 }
 
-.block-header {
-  width: 100%;
-  display: inline-flex;
-  justify-content: space-between;
-}
-
 .work-short-block {
   width: 100%;
   padding-top: 0px;
@@ -116,6 +110,7 @@
 }
 
 .mobile-navDisplay {
+  z-index: 1000;
   position: fixed;
   margin-top: 72px;
   width: 100%;

@@ -128,19 +128,19 @@ export const Main = ({ navDisplay, navItems, screenWidth }: IMainProps) => {
       </div>
 
       <div className="mobile-content-wrapper">
-        <div className="mobile-content-block" id="Work">
+        <div className="mobile-content-block" id={navItems[0]}>
           {work}
         </div>
 
-        <div className="mobile-content-block" id="Photography">
+        <div className="mobile-content-block" id={navItems[1]}>
           {photo}
         </div>
 
-        <div className="mobile-content-block" id="About">
+        <div className="mobile-content-block" id={navItems[2]}>
           {about}
         </div>
 
-        <div className="mobile-content-block last" id="Contact">
+        <div className="mobile-content-block last" id={navItems[3]}>
           {contact}
         </div>
       </div>
@@ -155,19 +155,19 @@ export const Main = ({ navDisplay, navItems, screenWidth }: IMainProps) => {
         </div>
       </div>
       <div className="content-main">
-        <div className="content-block" id="Work">
+        <div className="content-block" id={navItems[0]}>
           {work}
         </div>
 
-        <div className="content-block" id="Photography">
+        <div className="content-block" id={navItems[1]}>
           {photo}
         </div>
 
-        <div className="content-block" id="About">
+        <div className="content-block" id={navItems[2]}>
           {about}
         </div>
 
-        <div className="content-block last" id="Contact">
+        <div className="content-block last" id={navItems[3]}>
           {contact}
         </div>
       </div>

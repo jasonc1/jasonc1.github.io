@@ -4,17 +4,12 @@ import docupload_pre from "../../../assets/images/projects/intuit/docupload_pre.
 import docupload from "../../../assets/images/projects/intuit/docupload.gif";
 import { List } from "../../../components/list/list.component";
 import { ImageWithCaption } from "../../../components/ImageWithCaption/ImageWithCaption.component";
-
+import { Text } from "../../../components/text/text.component";
 export const DocUploader = () => {
-  const summaryText = (
-    <div>
-      <ImageWithCaption src={docupload} caption="DocUploader in production" />
-      DocUploader was a feature that was created based on a huge customer pain
-      point: providing ID documentation so that the customer could be verified
-      for using Payments with Quickbooks. This project took roughly 4 weeks to
-      implement, test, and release end to end.
-    </div>
-  );
+  const summaryText = `DocUploader was a feature that was created based on a huge customer pain
+    point: providing ID documentation so that the customer could be verified
+    for using Payments with Quickbooks. This project took roughly 4 weeks to
+    implement, test, and release end to end.`;
 
   const DocUploaderContent = [
     {
@@ -33,16 +28,19 @@ export const DocUploader = () => {
     {
       section: "Problem",
       content: [
-        <div>
-          As part of the onboarding process, about 10% of customers sign up need
+        <Text
+          size="Body"
+          marginBottom={16}
+          text={`As part of the onboarding process, about 10% of customers sign up need
           to verify their identity by providing a form of Identification
           Document (Passport, Driver License, etc). The previous process was
           that the customer had to call customer care and fax/email their
           documentation, which took roughly 24-48 hours to complete, depending
           on what was needed. This is a huge pain point for the customer:
           calling customer care is never fun, and sending over sensitive
-          information over the phone can be difficult.
-        </div>,
+          information over the phone can be difficult.`}
+        />,
+
         <ImageWithCaption
           src={docupload_pre}
           caption="Documentation Needed state: message displayed to user to call customer care to resolve ID verification"
@@ -52,8 +50,10 @@ export const DocUploader = () => {
     {
       section: "Solution & Deliverables",
       content: [
-        <div>
-          Docuploader was created with the intention of providing a faster way
+        <Text
+          size="Body"
+          marginBottom={16}
+          text={`Docuploader was created with the intention of providing a faster way
           for a user to verify their Identity. Considerations were made so that
           the upload process would be straightforward: provide flexibility in
           terms of documents that could be used for verification and provide
@@ -63,13 +63,16 @@ export const DocUploader = () => {
           DocUploader was only to provide a way to upload an image, on the UI
           and service side, there was nothing done to verify fraudulent or bad
           photos - this step was handled on the Payment or Risk processor's
-          side.
-        </div>,
-        <div>
-          With DocUploader, the customer was able to attach a picture and send
+          side.`}
+        />,
+        <Text
+          size="Body"
+          marginBottom={16}
+          text={`With DocUploader, the customer was able to attach a picture and send
           it online without having to talk to a care agent with the following
-          steps:
-        </div>,
+          steps:`}
+        />,
+
         <List
           ordered
           size="Body"
@@ -82,13 +85,16 @@ export const DocUploader = () => {
             "Customer Care & Risk evaluate and verify image.",
           ]}
         ></List>,
-        <div>
-          With DocUploader, a process that took 24-48 hours was cut down to
+
+        <Text
+          size="Body"
+          marginBottom={16}
+          text={`With DocUploader, a process that took 24-48 hours was cut down to
           about 10 minutes. Roughly 200+ uploads were made within the first
           month, and that saved Intuit about at least $5,000 at $25 per care
           call. However, the most important part was that we were able to save
-          the user’s time as well as care agents’ time.
-        </div>,
+          the user’s time as well as care agents’ time.`}
+        />,
       ],
     },
   ];
@@ -98,6 +104,8 @@ export const DocUploader = () => {
       title="DocUploader"
       date="Mar 2017 - Apr 2017"
       summary={summaryText}
+      image={docupload}
+      image_caption="DocUploader in production"
       content={DocUploaderContent}
     />
   );
