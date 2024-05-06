@@ -117,7 +117,7 @@ const work = (
         <Text size="Body-bold" text="Blend one tap mobile /" />
         <Text
           size="Body"
-          text="Prototyped high fidleity interactions via react to iterate and refine to provide assets for engineering as well as showcase demos."
+          text="Prototyped high fidelity interactions via react to iterate and refine to provide assets for engineering as well as showcase demos."
         />
       </div>
       <div className="item-row">

@@ -23,8 +23,8 @@ export const App = () => {
 
     // console.log(windowCenter);
     if (elementCenter < windowCenter && elementCenter >= 0) {
-      console.log("element: " + elementCenter);
-      console.log(element.id + ": IN VIEWPORT");
+      // console.log("element: " + elementCenter);
+      // console.log(element.id + ": IN VIEWPORT");
       setNavDisplay(element.id ? element.id : "null");
     }
   };

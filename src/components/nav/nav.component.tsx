@@ -12,32 +12,21 @@ export const Nav = ({
   customScrollTo,
 }: INavProps) => {
   const clickProjects = () => {
-    // document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
     customScrollTo("Work");
   };
   const clickAbout = () => {
-    // document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
     customScrollTo("About");
   };
   const clickPhotography = () => {
-    // document
-    //   .getElementById("photography")
-    //   ?.scrollIntoView({ behavior: "smooth" });
     customScrollTo("Photography");
   };
   const clickContact = () => {
-    // document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
     customScrollTo("Contact");
   };
 
   const navMenu = (
     <ul className="nav-menu">
       <li id="nav-projects" onClick={clickProjects}>
-        {/* this was just to test routing aka see if we could get to 404 
-        <Link to="/aaaaa">
-          <Text size="Header" color={theme.primary} text="Work" />
-        </Link> */}
-
         <Text size="Header" color={theme.primary} text="Work" />
       </li>
       <li id="nav-photography" onClick={clickPhotography}>
