@@ -6,6 +6,18 @@ import { Nav } from "./components/nav/nav.component";
 import { Footer } from "./components/footer/footer.component";
 import theme from "./colors";
 import { Text } from "./components/text/text.component";
+import Ink from "./pages/Projects/Ink";
+import Vesta from "./pages/Projects/Vesta";
+import Alchemy from "./pages/Projects/Alchemy";
+import IDSAccordion from "./pages/Projects/IDSAccordion";
+import UnderConstruction from "./pages/NotFound/UnderConstruction.component";
+import AbstractMigrate from "./pages/Projects/AbstractMigrate";
+import ExerciseStatus from "./pages/Projects/ExerciseStatus";
+import EmployeeOnboarding from "./pages/Projects/EmployeeOnboarding";
+import Haven from "./pages/Projects/Haven";
+import Sapling from "./pages/Projects/Sapling";
+import WaitTaskV2 from "./pages/Projects/WaitTaskV2";
+import OTM from "./pages/Projects/OTM";
 
 const navItems = ["Work", "About", "Photography", "Contact"];
 
@@ -130,7 +142,20 @@ export const App = () => {
             />
           )}
         />
+        <Route path="/bluebook" render={UnderConstruction} />
+        <Route path="/ink" render={Ink} />
+        <Route path="/vesta" render={Vesta} />
+        <Route path="/alchemy" render={Alchemy} />
+        <Route path="/ids" render={IDSAccordion} />
         <Route path="/404" render={NotFound} />
+
+        <Route path="/abstract-migrate" render={AbstractMigrate} />
+        <Route path="/carta-exercise-status" render={ExerciseStatus} />
+        <Route path="/carta-employee-onboarding" render={EmployeeOnboarding} />
+        <Route path="/haven" render={Haven} />
+        <Route path="/sapling" render={Sapling} />
+        <Route path="/blend-wait-task-v2" render={WaitTaskV2} />
+        <Route path="/blend-otm" render={OTM} />
 
         <Redirect from="*" to="/404" />
       </Switch>

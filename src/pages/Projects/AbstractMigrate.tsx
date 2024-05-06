@@ -1,4 +1,3 @@
-import React from "react";
 import Projects from "../../components/templates/prose/prose.component";
 import { List } from "../../components/list/list.component";
 import { Text } from "../../components/text/text.component";

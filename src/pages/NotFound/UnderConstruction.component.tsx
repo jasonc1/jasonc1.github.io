@@ -1,14 +1,14 @@
 import { Text } from "../../components/text/text.component";
 import "./NotFound.style.scss";
 
-export const NotFound = () => {
+export const UnderConstruction = () => {
   return (
     <>
       <div className="not-found">
-        <Text size="Header" text="[ 404 ] You stepped out of bounds /" />
+        <Text size="Header" text="This page is under construction /" />
       </div>
     </>
   );
 };
 
-export default NotFound;
+export default UnderConstruction;
