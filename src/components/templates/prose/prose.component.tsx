@@ -43,7 +43,6 @@ export const Prose = ({
           return null;
         }
       })}
-      {/* <Footer color={theme.black} marginTop={80} /> */}
     </div>
   );
 };

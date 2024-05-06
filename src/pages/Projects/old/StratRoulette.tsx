@@ -13,6 +13,15 @@ import typography from "../../../assets/images/projects/StratRoulette/typography
 import SRLegacy_alpha from "../../../assets/images/projects/SRLegacy/SRLegacy_alpha.png";
 import { Link } from "react-router-dom";
 
+const legacy = (
+  <Link className="action-link" to="/DocUploader" target="_blank">
+    <Text
+      size="Body-bold"
+      text="👉 Click here if you want to read more about SR legacy"
+    />
+  </Link>
+);
+
 export const StratRoulette = () => {
   const summaryText = `StratRoulette (SR) has been a side project that I've been working on with
       my good friend Justin Chen. SR has been a meaningful success for Justin
@@ -53,6 +62,7 @@ export const StratRoulette = () => {
               in our hands, and we thus decided to commit to not only a redesign
               of the application, but also improve and scale the app.`}
         />,
+        legacy,
       ],
     },
 
