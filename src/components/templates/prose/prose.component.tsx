@@ -1,7 +1,5 @@
-import React from "react";
 import { IProjectsProps } from "./prose.model";
 import { Text } from "../../text/text.component";
-import { Footer } from "../../footer/footer.component";
 import { theme } from "../../../colors.js";
 import "./prose.style.scss";
 
