@@ -1,7 +1,6 @@
-import React from "react";
+import ImageWithCaption from "../../components/ImageWithCaption/ImageWithCaption.component";
 import Projects from "../../components/templates/prose/prose.component";
 import { List } from "../../components/list/list.component";
-import { ImageWithCaption } from "../../components/ImageWithCaption/ImageWithCaption.component";
 import emp_storybook from "../../assets/images/projects/Ink/emp_storybook.jpg";
 import emp_storybook2 from "../../assets/images/projects/Ink/emp_storybook2.jpg";
 import figma_button from "../../assets/images/projects/Ink/figma_button.jpg";
@@ -16,30 +15,22 @@ import shimmer_doc from "../../assets/images/projects/Ink/shimmer_doc.png";
 import shimmer_doc1 from "../../assets/images/projects/Ink/shimmer_doc1.png";
 import ink_cover from "../../assets/images/projects/Ink/ink_cover.png";
 import icon_doc from "../../assets/images/projects/Ink/icon_doc.png";
+import { Text } from "../../components/text/text.component";
 
 export const Ink = () => {
-  const summaryText = (
-    <div>
-      <ImageWithCaption
-        src={ink_cover}
-        white
-        caption="Ink, Carta's design system"
-      />
-      During my time at Carta, I had the pleasant opportunity to make an impact
-      on the design system. Taking my experiences from Blend, I was able to help
-      lead the Ink on Figma 'team', which just comprised of one visual designer
-      and a few other DTs to help maintain the library. Every week, I met with
-      the team to break down and assign work for updating the library or helping
-      out with the rebrand effort. As a group, wee set up guidelines for
-      maintaining the library and made sure that it stayed up to date. On top of
-      that, I made numerous contributions to the codebase ranging from helping
-      with the sass to styled-components migration, extending components,
-      updating backstop tests, and improving documentation. Lastly, I drove the
-      creation and adoption of a storybook react framework that came with an
-      optimized webpack config, storybook addons pre-installed, and more to help
-      other DTs or FE engineers adopt storybook for their library/project.
-    </div>
-  );
+  const summaryText = `During my time at Carta, I had the pleasant opportunity to make an impact
+  on the design system. Taking my experiences from Blend, I was able to help
+  lead the Ink on Figma 'team', which just comprised of one visual designer
+  and a few other DTs to help maintain the library. Every week, I met with
+  the team to break down and assign work for updating the library or helping
+  out with the rebrand effort. As a group, wee set up guidelines for
+  maintaining the library and made sure that it stayed up to date. On top of
+  that, I made numerous contributions to the codebase ranging from helping
+  with the sass to styled-components migration, extending components,
+  updating backstop tests, and improving documentation. Lastly, I drove the
+  creation and adoption of a storybook react framework that came with an
+  optimized webpack config, storybook addons pre-installed, and more to help
+  other DTs or FE engineers adopt storybook for their library/project.`;
 
   const InkContent = [
     {
@@ -111,23 +102,27 @@ export const Ink = () => {
     {
       section: "Storybook template & Employee specific storybook",
       content: [
-        <div>
-          As Carta scales, there will be the occaisional need for a new
-          component; either as a one-off that isn't supported by the Ink team,
-          or as a recipe of ink components to document a pattern. The
-          introduction of storybook has been proven to be useful since it can
-          act as a place to prototype or develop new components but also
-          showcase patterns within the pillar or even externally. Often times we
-          find ourselves re-configuring the props to a table multiple times, or
-          create the same card over and over again across the 4 products within
-          the Employee org.
-        </div>,
+        <Text
+          size="Body"
+          marginBottom={16}
+          text={` As Carta scales, there will be the occaisional need for a new
+        component; either as a one-off that isn't supported by the Ink team,
+        or as a recipe of ink components to document a pattern. The
+        introduction of storybook has been proven to be useful since it can
+        act as a place to prototype or develop new components but also
+        showcase patterns within the pillar or even externally. Often times we
+        find ourselves re-configuring the props to a table multiple times, or
+        create the same card over and over again across the 4 products within
+        the Employee org.`}
+        />,
 
-        <div>
-          In conjunction with other DTs at Carta, we were able to create a
-          template that can be easily cloned or replicated for use within the
-          monorepo or for bootstrapped projects.
-        </div>,
+        <Text
+          size="Body"
+          marginBottom={16}
+          text={`In conjunction with other DTs at Carta, we were able to create a
+      template that can be easily cloned or replicated for use within the
+      monorepo or for bootstrapped projects.`}
+        />,
 
         <ImageWithCaption
           src={emp_storybook}
@@ -158,6 +153,8 @@ export const Ink = () => {
       title="Ink"
       date="October 2021 - September 2022"
       summary={summaryText}
+      image={ink_cover}
+      image_caption="Ink, Carta's design system"
       content={InkContent}
     />
   );

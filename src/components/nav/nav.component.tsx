@@ -1,68 +1,70 @@
-import React, { useEffect, useState } from "react";
 import { Text } from "../../components/text/text.component";
 import "./nav.style.scss";
 import { theme } from "../../colors.js";
 import { INavProps } from "./nav.model";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export const Nav = ({
   screenWidth,
   setShowMenu,
   showMenu,
   customScrollTo,
+  navItems,
 }: INavProps) => {
   const clickProjects = () => {
-    // document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
-    customScrollTo("Work");
-  };
-  const clickAbout = () => {
-    // document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
-    customScrollTo("About");
+    customScrollTo(navItems[0]);
   };
   const clickPhotography = () => {
-    // document
-    //   .getElementById("photography")
-    //   ?.scrollIntoView({ behavior: "smooth" });
-    customScrollTo("Photography");
+    customScrollTo(navItems[1]);
+  };
+  const clickAbout = () => {
+    customScrollTo(navItems[2]);
   };
   const clickContact = () => {
-    // document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-    customScrollTo("Contact");
+    customScrollTo(navItems[3]);
   };
+  let location = useLocation();
 
-  const navMenu = (
-    <ul className="nav-menu">
+  const isHome = location.pathname === "/";
+  const back = (
+    <>
+      <Link to="/">
+        <li id="nav-projects">
+          <Text size="Header" text="Back" color={theme.primary} />
+        </li>
+      </Link>
+    </>
+  );
+
+  const mobile = (
+    <li onClick={() => setShowMenu(!showMenu)}>
+      <Text
+        size="Header"
+        color={theme.primary}
+        text={showMenu ? "Close" : "Menu"}
+      />
+    </li>
+  );
+  const homeMenu = (
+    <>
       <li id="nav-projects" onClick={clickProjects}>
-        {/* this was just to test routing aka see if we could get to 404 
-        <Link to="/aaaaa">
-          <Text size="Header" color={theme.primary} text="Work" />
-        </Link> */}
-
-        <Text size="Header" color={theme.primary} text="Work" />
+        <Text size="Header" text={navItems[0]} />
       </li>
       <li id="nav-photography" onClick={clickPhotography}>
-        <Text size="Header" color={theme.primary} text="Photo" />
+        <Text size="Header" text={navItems[1]} />
       </li>
       <li id="nav-about" onClick={clickAbout}>
-        <Text size="Header" color={theme.primary} text="About" />
+        <Text size="Header" text={navItems[2]} />
       </li>
       <li id="nav-contact" onClick={clickContact}>
-        <Text size="Header" color={theme.primary} text="Contact" />
+        <Text size="Header" text={navItems[3]} />
       </li>
-    </ul>
+    </>
   );
 
-  const mobileMenu = (
-    <ul className="nav-menu">
-      <li onClick={() => setShowMenu(!showMenu)}>
-        <Text
-          size="Header"
-          color={theme.primary}
-          text={showMenu ? "Close" : "Menu"}
-        />
-      </li>
-    </ul>
-  );
+  const navMenu = <ul className="nav-menu">{isHome ? homeMenu : back}</ul>;
+
+  const mobileMenu = <ul className="nav-menu">{isHome ? mobile : back}</ul>;
 
   return (
     <nav className="display-nav">

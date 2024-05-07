@@ -1,24 +1,26 @@
-import React from "react";
 import { IProjectsProps } from "./prose.model";
 import { Text } from "../../text/text.component";
-import { Footer } from "../../footer/footer.component";
 import { theme } from "../../../colors.js";
 import "./prose.style.scss";
 
-export const Prose = ({ content, date, summary, title }: IProjectsProps) => {
+export const Prose = ({
+  content,
+  image,
+  image_caption,
+  date,
+  summary,
+  title,
+}: IProjectsProps) => {
   return (
     <div className="prose">
       <div className="prose-block">
-        <Text
-          size="Display"
-          color={theme.black}
-          text={title}
-          marginBottom={16}
-        />
-        <i>
-          <Text size="Body" color={theme.black} text={date} marginBottom={16} />
-        </i>
-        <Text size="Body" color={theme.black} text={summary} marginBottom={8} />
+        {image ? <img src={image} alt={image_caption} /> : <br />}
+        <div className="block-header">
+          <Text size="Display" text={title} />
+          <Text size="Body" text={date} marginBottom={16} />
+        </div>
+
+        <Text size="Body" text={summary} marginBottom={8} />
       </div>
       {content.map((c) => {
         if (c.section && c.content) {
@@ -31,20 +33,7 @@ export const Prose = ({ content, date, summary, title }: IProjectsProps) => {
                 marginBottom={16}
               />
               {c.content.map((contentBlock) => {
-                if (contentBlock && contentBlock.type === "div") {
-                  return (
-                    <Text
-                      size="Body"
-                      color={theme.black}
-                      text={contentBlock}
-                      marginBottom={16}
-                    />
-                  );
-                } else if (contentBlock && contentBlock.type === "img") {
-                  return contentBlock;
-                } else {
-                  return contentBlock;
-                }
+                return contentBlock;
               })}
             </div>
           );
@@ -52,7 +41,6 @@ export const Prose = ({ content, date, summary, title }: IProjectsProps) => {
           return null;
         }
       })}
-      {/* <Footer color={theme.black} marginTop={80} /> */}
     </div>
   );
 };

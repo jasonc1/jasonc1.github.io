@@ -1,6 +1,7 @@
 import { JsxElement } from "typescript";
 
 export interface IWorkBlockProps {
+  link: string;
   detail: {
     project: string;
     company: string;

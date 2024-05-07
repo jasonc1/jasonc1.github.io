@@ -1,7 +1,7 @@
-@import '../../../theme.scss';
+@import "../../../theme.scss";
 
 .prose {
-  padding: 320px 240px 240px 240px;
+  padding: 96px 240px 240px 240px;
   align-items: center;
   max-width: 1440px;
   margin: 0 auto;
@@ -11,11 +11,27 @@
   a {
     color: $primary;
   }
+  img {
+    margin-bottom: 16px;
+    width: 100%;
+    height: auto;
+    border: 2px solid $black;
+
+    &.SR-logo {
+      height: 120px;
+      margin: 0 auto;
+      align-items: center;
+      display: inline-block;
+      flex-direction: column;
+      margin-top: 16px;
+      margin-bottom: 16px;
+      border: none;
+    }
+  }
 }
-img {
-  margin-bottom: 16px;
-  width: 100%;
-  height: auto;
+.summary-text-link {
+  display: inline-flex;
+  flex-direction: column;
 }
 
 .img-caption {

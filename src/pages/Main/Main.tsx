@@ -1,8 +1,5 @@
-import React from "react";
 import { Text } from "../../components/text/text.component";
 import "./main.style.scss";
-import { useState, useEffect } from "react";
-import { theme } from "../../colors.js";
 import { IMainProps } from "./Main.model";
 import { WorkBlock } from "../../components/WorkBlock/WorkBlock.component";
 import { PhotoBlock } from "../../components/Blocks/PhotoBlock";
@@ -14,6 +11,8 @@ import InkLogo from "../../assets/images/Ink.png";
 import VestaLogo from "../../assets/images/Vesta.png";
 import AlchemyLogo from "../../assets/images/Alchemy.png";
 import IDSLogo from "../../assets/images/IDS.png";
+import { PrototypingBlock } from "../../components/WorkBlock/PrototypingBlock.component";
+import { ToolingBlock } from "../../components/WorkBlock/ToolingBlock.component";
 
 // import { Rule } from '../../components/rule/rule.component';
 // import { Footer } from '../../components/footer/footer.component';
@@ -25,6 +24,7 @@ import IDSLogo from "../../assets/images/IDS.png";
 // import Contact from '../../components/sections/contact.component';
 
 const bluebook: IWorkBlockProps = {
+  link: "bluebook",
   detail: {
     project: "Bluebook design system",
     company: "Everlaw",
@@ -38,6 +38,7 @@ const bluebook: IWorkBlockProps = {
 };
 
 const ink: IWorkBlockProps = {
+  link: "ink",
   detail: {
     project: "Ink design system",
     company: "Carta",
@@ -51,6 +52,7 @@ const ink: IWorkBlockProps = {
 };
 
 const vesta: IWorkBlockProps = {
+  link: "vesta",
   detail: {
     project: "Vesta design system",
     company: "Vesta",
@@ -64,6 +66,7 @@ const vesta: IWorkBlockProps = {
 };
 
 const alchemy: IWorkBlockProps = {
+  link: "alchemy",
   detail: {
     project: "Alchemy design system",
     company: "Blend",
@@ -77,6 +80,7 @@ const alchemy: IWorkBlockProps = {
 };
 
 const ids: IWorkBlockProps = {
+  link: "ids",
   detail: {
     project: "Intuit design system",
     company: "Intuit",
@@ -91,68 +95,13 @@ const ids: IWorkBlockProps = {
 
 const work = (
   <>
-    <WorkBlock detail={bluebook.detail} />
-    <WorkBlock detail={ink.detail} />
-    <WorkBlock detail={vesta.detail} />
-    <WorkBlock detail={alchemy.detail} />
-    <WorkBlock detail={ids.detail} />
-
-    <div className="work-short-block" id="prototyping-block">
-      <Text size="Header" text="Prototyping" />
-      <div className="item-row">
-        <Text size="Body-bold" text="Carta employee onboarding /" />
-        <Text
-          size="Body"
-          text="Three end to end prototypes were created to test a new 2FA flow and subsequently leveraged for user tests."
-        />
-      </div>
-      <div className="item-row">
-        <Text size="Body-bold" text="Carta exercise status /" />
-        <Text
-          size="Body"
-          text="The task was to revamp the exercise status for more transparency behind the status as opposed to simply saying 'pending' or 'cancelled.'"
-        />
-      </div>
-      <div className="item-row">
-        <Text size="Body-bold" text="Blend one tap mobile /" />
-        <Text
-          size="Body"
-          text="Prototyped high fidleity interactions via react to iterate and refine to provide assets for engineering as well as showcase demos."
-        />
-      </div>
-      <div className="item-row">
-        <Text size="Body-bold" text="Blend Insurance Wait Task V2 /" />
-        <Text
-          size="Body"
-          text="Prototyped a loading multi-step experience with css transitions and animations to flesh out microinteractions for handoff for engineering."
-        />
-      </div>
-    </div>
-
-    <div className="work-short-block" id="tooling-block">
-      <Text size="Header" text="Tooling" />
-      <div className="item-row">
-        <Text size="Body-bold" text="Sapling /" />
-        <Text
-          size="Body"
-          text="Sapling is a figma plugin that creates a set page structure and cover page for new figma files. Think of it as a figma file initializer."
-        />
-      </div>
-      <div className="item-row">
-        <Text size="Body-bold" text="Haven /" />
-        <Text
-          size="Body"
-          text="Haven is a figma plugin I built to help product designers document and protect their explorations and archived screens as well as tagging screens for better handoff. Haven was a small side project and an opportunity to explore tooling for the Product design team within Figma."
-        />
-      </div>
-      <div className="item-row">
-        <Text size="Body-bold" text="Abstract migrate /" />
-        <Text
-          size="Body"
-          text="During the days of sunsetting Sketch + Abstract to move on to Figma, I wrote a script leveraging Abstract's API to migrate ~750 legacy files off of the platform, thus saving 100s of hours doing it manually."
-        />
-      </div>
-    </div>
+    <WorkBlock detail={bluebook.detail} link={bluebook.link} />
+    <WorkBlock detail={ink.detail} link={ink.link} />
+    <WorkBlock detail={vesta.detail} link={vesta.link} />
+    <WorkBlock detail={alchemy.detail} link={alchemy.link} />
+    <WorkBlock detail={ids.detail} link={ids.link} />
+    <PrototypingBlock />
+    <ToolingBlock />
   </>
 );
 const photo = (
@@ -179,19 +128,19 @@ export const Main = ({ navDisplay, navItems, screenWidth }: IMainProps) => {
       </div>
 
       <div className="mobile-content-wrapper">
-        <div className="mobile-content-block" id="Work">
+        <div className="mobile-content-block" id={navItems[0]}>
           {work}
         </div>
 
-        <div className="mobile-content-block" id="Photography">
+        <div className="mobile-content-block" id={navItems[1]}>
           {photo}
         </div>
 
-        <div className="mobile-content-block" id="About">
+        <div className="mobile-content-block" id={navItems[2]}>
           {about}
         </div>
 
-        <div className="mobile-content-block last" id="Contact">
+        <div className="mobile-content-block last" id={navItems[3]}>
           {contact}
         </div>
       </div>
@@ -206,19 +155,19 @@ export const Main = ({ navDisplay, navItems, screenWidth }: IMainProps) => {
         </div>
       </div>
       <div className="content-main">
-        <div className="content-block" id="Work">
+        <div className="content-block" id={navItems[0]}>
           {work}
         </div>
 
-        <div className="content-block" id="Photography">
+        <div className="content-block" id={navItems[1]}>
           {photo}
         </div>
 
-        <div className="content-block" id="About">
+        <div className="content-block" id={navItems[2]}>
           {about}
         </div>
 
-        <div className="content-block last" id="Contact">
+        <div className="content-block last" id={navItems[3]}>
           {contact}
         </div>
       </div>

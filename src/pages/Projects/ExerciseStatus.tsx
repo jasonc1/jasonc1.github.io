@@ -13,27 +13,22 @@ const ExerciseStatusProto = (
     rel="noreferrer"
     href={"https://exercise-status-poc.netlify.app/"}
   >
-    <Text size="Body-bold" text="prototype" />
+    <Text
+      size="Body-bold"
+      text="👉 Click here to view option 1 of the prototypes (pw:
+          'abby')."
+    />
   </a>
 );
 
 export const ExerciseStatus = () => {
-  const summaryText = (
-    <div>
-      <ImageWithCaption
-        src={ExerciseStatus1}
-        white
-        caption="A redesigned 'tracker-esque' paradigm for displaying exericse status"
-      />
-      A common frustration that user's have with Carta is how slow the process
-      is to exercise an option grant. Exercising options can take roughly a week
-      and is a multistep process: user submits exercise request, Admin
-      approves/rejects, payment, certificate issued, and lastly user signs
-      certificate. The task was to revamp the exercise status for more
-      transparency behind the status as opposed to simply saying "pending" or
-      "cancelled."
-    </div>
-  );
+  const summaryText = `A common frustration that user's have with Carta is
+      how slow the process is to exercise an option grant. Exercising options
+      can take roughly a week and is a multistep process: user submits exercise
+      request, Admin approves/rejects, payment, certificate issued, and lastly
+      user signs certificate. The task was to revamp the exercise status for
+      more transparency behind the status as opposed to simply saying "pending"
+      or "cancelled."`;
 
   const ExerciseStatusContent = [
     {
@@ -55,15 +50,17 @@ export const ExerciseStatus = () => {
     {
       section: "Problem",
       content: [
-        <div>
-          The main problem was that the current exercise flow would just show a
+        <Text
+          size="Body"
+          marginBottom={16}
+          text={`The main problem was that the current exercise flow would just show a
           status as "Pending, Cancelled, or Completed" for an ongoing exercise
           request. Additionally, if the exercise was cancelled, there would be
           no information presented in the UI, and thus the user would have to
           email their admin for further details. Thus, there was a desire to
           improve this experience with the concept of a tracker while still
-          considering the constraints of the app.
-        </div>,
+          considering the constraints of the app.`}
+        />,
       ],
     },
     {
@@ -74,29 +71,37 @@ export const ExerciseStatus = () => {
           white
           caption="A view of exercise history of a given grant"
         />,
-        <div>
-          A {ExerciseStatusProto} (pw: 'abby') was thus created so that to test
-          compatibility and feasibility with the ink design system. We needed to
-          ensure that we as a design team could confidently build the existing
-          experience with the Tracker component made by the ink team. This
-          prototype served as a framework to test out microinteractions as well
-          as a way to ensure edge cases for every status and information was
-          properly mapped out to spec.
-        </div>,
-        <div>
-          Moreover, the prototype served as an avenue where design could lead
+        <Text
+          size="Body"
+          marginBottom={16}
+          text={`A prototype was thus created so that to test compatibility and
+          feasibility with the ink design system. We needed to ensure that we as
+          a design team could confidently build the existing experience with the
+          Tracker component made by the ink team. This prototype served as a
+          framework to test out microinteractions as well as a way to ensure
+          edge cases for every status and information was properly mapped out to
+          spec.`}
+        />,
+
+        ExerciseStatusProto,
+        <Text
+          size="Body"
+          marginBottom={16}
+          text={`Moreover, the prototype served as an avenue where design could lead
           with research and test some findings with the prototype itself. As the
           prototype finished, the project was slated to be scoped into the Q4
-          roadmap.
-        </div>,
+          roadmap.`}
+        />,
       ],
     },
   ];
   return (
     <Projects
-      title="Carta Exercise Status Prototype"
+      title="Carta Exercise Status"
       date="June 2022"
       summary={summaryText}
+      image={ExerciseStatus1}
+      image_caption="A redesigned 'tracker-esque' paradigm for displaying exericse status"
       content={ExerciseStatusContent}
     />
   );

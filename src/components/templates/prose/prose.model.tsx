@@ -1,11 +1,12 @@
 export type contentElement = {
   section: string;
-  content: JSX.Element[];
+  content: React.ReactNode[];
 };
-
 export interface IProjectsProps {
   title: string;
   date: string;
-  summary: JSX.Element;
+  image?: string;
+  image_caption?: string;
+  summary: string | JSX.Element;
   content: contentElement[];
 }
