@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { HashRouter, Redirect, Route, Switch } from "react-router-dom";
 import { Main } from "./pages/Main/Main";
 import NotFound from "./pages/NotFound/NotFound.component";
 import { Nav } from "./components/nav/nav.component";
@@ -126,7 +126,7 @@ export const App = () => {
   }, []);
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <ScrollTop />
       <Nav
         customScrollTo={customScrollTo}
@@ -171,7 +171,7 @@ export const App = () => {
         <Redirect from="*" to="/404" />
       </Switch>
       <Footer />
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
