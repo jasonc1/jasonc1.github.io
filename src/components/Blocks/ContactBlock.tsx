@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { Text } from "../text/text.component";
 import resume from "../../assets/misc/jason_chen_resume.pdf";
 
@@ -7,7 +6,11 @@ export const ContactBlock = () => {
     <div className="contact-block">
       <div className="block-header">
         <Text size="Header" text="Drop a line /" />
-        <a href="mailto:jasonc1@alumni.cmu.edu" target="_blank">
+        <a
+          href="mailto:jasonc1@alumni.cmu.edu"
+          target="_blank"
+          rel="noreferrer"
+        >
           <Text size="Header" text="jasonc1@alumni.cmu.edu" />
         </a>
       </div>
@@ -18,6 +21,7 @@ export const ContactBlock = () => {
           className="contact-links"
           href="https://github.com/jasonc1"
           target="_blank"
+          rel="noreferrer"
         >
           <Text size="Body-bold" text="Github" />
         </a>
@@ -25,19 +29,26 @@ export const ContactBlock = () => {
           className="contact-links"
           href="https://www.linkedin.com/in/jchen10"
           target="_blank"
+          rel="noreferrer"
         >
           <Text size="Body-bold" text="LinkedIn" />
         </a>
       </div>
 
       <div className="contact-block-body">
-        <a className="contact-links" href={resume} target="_blank">
+        <a
+          className="contact-links"
+          href={resume}
+          target="_blank"
+          rel="noreferrer"
+        >
           <Text size="Body-bold" text="Resume" />
         </a>
         <a
           className="contact-links"
           href="https://www.instagram.com/me.dium/"
           target="_blank"
+          rel="noreferrer"
         >
           <Text size="Body-bold" text="Instagram" />
         </a>
