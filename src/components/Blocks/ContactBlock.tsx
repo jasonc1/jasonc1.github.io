@@ -31,9 +31,9 @@ export const ContactBlock = () => {
       </div>
 
       <div className="contact-block-body">
-        <Link className="contact-links" to={resume} target="_blank">
+        <a className="contact-links" href={resume} target="_blank">
           <Text size="Body-bold" text="Resume" />
-        </Link>
+        </a>
         <a
           className="contact-links"
           href="https://www.instagram.com/me.dium/"
