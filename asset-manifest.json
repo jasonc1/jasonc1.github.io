@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.8e8f9e53.css",
-    "main.js": "/static/js/main.8c377719.js",
+    "main.js": "/static/js/main.07fd1d52.js",
     "static/media/flower.jpeg": "/static/media/flower.29d4a92e9c99fca13b03.jpeg",
     "static/media/forest.jpg": "/static/media/forest.cd8466c763237f5372dc.jpg",
     "static/media/self.jpg": "/static/media/self.8cc2144fa2618c7f1d4b.jpg",
@@ -11,8 +11,8 @@
     "static/media/accordion_ids.gif": "/static/media/accordion_ids.e6b2694d6ed8c6ed6a2f.gif",
     "static/media/product_illustrations_lottie.png": "/static/media/product_illustrations_lottie.4f6af6c25a86c1f221f1.png",
     "static/media/SRLegacy_landing.png": "/static/media/SRLegacy_landing.72d5667a888197349dae.png",
+    "static/media/jason_chen_resume.pdf": "/static/media/jason_chen_resume.05e03b4beb9724cca9b6.pdf",
     "static/media/docupload.gif": "/static/media/docupload.6000e235211d109b95e4.gif",
-    "static/media/jason_chen_resume.pdf": "/static/media/jason_chen_resume.937454326c4740044477.pdf",
     "static/media/sapling.png": "/static/media/sapling.209c72866826edb94621.png",
     "static/media/haven.png": "/static/media/haven.77df5ade7cb2546e23aa.png",
     "static/media/halfmoon.jpg": "/static/media/halfmoon.ad55ff9148abc4e283b9.jpg",
@@ -94,10 +94,10 @@
     "static/media/SRLegacy_logo_final.svg": "/static/media/SRLegacy_logo_final.e1ca1c3f8fba5f8cf2118a9fbd2e474a.svg",
     "index.html": "/index.html",
     "main.8e8f9e53.css.map": "/static/css/main.8e8f9e53.css.map",
-    "main.8c377719.js.map": "/static/js/main.8c377719.js.map"
+    "main.07fd1d52.js.map": "/static/js/main.07fd1d52.js.map"
   },
   "entrypoints": [
     "static/css/main.8e8f9e53.css",
-    "static/js/main.8c377719.js"
+    "static/js/main.07fd1d52.js"
   ]
 }
