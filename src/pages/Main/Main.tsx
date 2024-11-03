@@ -28,7 +28,7 @@ const bluebook: IWorkBlockProps = {
   detail: {
     project: "Bluebook design system",
     company: "Everlaw",
-    role: "Lead product desinger",
+    role: "Lead product designer",
     duration: "2023 - present",
     description:
       "Lead the Bluebook design system effort, evolved engineering and design collaboration & processes, migrated documentation to storybook, spearheaded planning, and delivered key components.",
