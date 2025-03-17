@@ -6,6 +6,8 @@ import { PhotoBlock } from "../../components/Blocks/PhotoBlock";
 import { AboutBlock } from "../../components/Blocks/AboutBlock";
 import { ContactBlock } from "../../components/Blocks/ContactBlock";
 import { IWorkBlockProps } from "../../components/WorkBlock/WorkBlock.model";
+import BragLogo from "../../assets/images/Brag.png";
+import HandshakeLogo from "../../assets/images/Handshake.png";
 import BluebookLogo from "../../assets/images/Bluebook.png";
 import InkLogo from "../../assets/images/Ink.png";
 import VestaLogo from "../../assets/images/Vesta.png";
@@ -23,13 +25,41 @@ import { ToolingBlock } from "../../components/WorkBlock/ToolingBlock.component"
 // import EditorialAndLookbook from '../../components/sections/editorialAndLookbook.component';
 // import Contact from '../../components/sections/contact.component';
 
+const rosetta: IWorkBlockProps = {
+  link: "rosetta",
+  detail: {
+    project: "Rosetta design system",
+    company: "Handshake",
+    role: "Senior product designer",
+    duration: "Aug 2024 - present",
+    description:
+      "Core contributor of Rosetta Design system including: atomic foundations, Inputs, Cards, a11y, and more. Improved platform-wide visual language via updating and consolidating UI alongside advocating and teaching design system principles across EPD.",
+    img: HandshakeLogo,
+    alt: "Rosetta design system for Handshake",
+  },
+};
+
+const brag: IWorkBlockProps = {
+  link: "brag",
+  detail: {
+    project: "BragBook",
+    company: "Brag",
+    role: "Founding designer, passion project",
+    duration: "October 2024 - present",
+    description:
+      "Created brand identity, design system, and built product from 0 to 1 alongside 3 founding team members. Sole designer and jack of all trades everything UI related, brand direction, and product direction.",
+    img: BragLogo,
+    alt: "Brag logo for Bragbook",
+  },
+};
+
 const bluebook: IWorkBlockProps = {
   link: "bluebook",
   detail: {
     project: "Bluebook design system",
     company: "Everlaw",
     role: "Lead product designer",
-    duration: "2023 - present",
+    duration: "Jan 2023 - Aug 2024",
     description:
       "Lead the Bluebook design system effort, evolved engineering and design collaboration & processes, migrated documentation to storybook, spearheaded planning, and delivered key components.",
     img: BluebookLogo,
@@ -55,7 +85,7 @@ const vesta: IWorkBlockProps = {
   link: "vesta",
   detail: {
     project: "Vesta design system",
-    company: "Vesta",
+    company: "Vesta / Contract",
     role: "Design technologist",
     duration: "Mar 2022 - Sep 2022",
     description:
@@ -95,6 +125,8 @@ const ids: IWorkBlockProps = {
 
 const work = (
   <>
+    <WorkBlock detail={rosetta.detail} link={rosetta.link} />
+    {/* <WorkBlock detail={brag.detail} link={brag.link} /> */}
     <WorkBlock detail={bluebook.detail} link={bluebook.link} />
     <WorkBlock detail={ink.detail} link={ink.link} />
     <WorkBlock detail={vesta.detail} link={vesta.link} />
