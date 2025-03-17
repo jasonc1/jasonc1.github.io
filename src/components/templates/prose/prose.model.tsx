@@ -1,3 +1,5 @@
+import { JSX } from "react";
+
 export type contentElement = {
   section: string;
   content: React.ReactNode[];
