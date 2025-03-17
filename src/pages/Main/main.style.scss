@@ -81,7 +81,7 @@
   & > .item-row {
     display: grid;
     grid-template-columns: 33% 66%;
-    grid-row-gap: 0px;
+    grid-column-gap: 24px;
   }
 }
 

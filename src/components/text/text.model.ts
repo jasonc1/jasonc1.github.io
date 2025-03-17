@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 export type typeSizes = "Display" | "Header" | "Body" | "Body-bold";
 export interface ITextProps {
   color?: string;

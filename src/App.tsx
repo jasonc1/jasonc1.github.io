@@ -6,6 +6,7 @@ import { Nav } from "./components/nav/nav.component";
 import { Footer } from "./components/footer/footer.component";
 import theme from "./colors";
 import { Text } from "./components/text/text.component";
+import Bluebook from "./pages/Projects/Bluebook";
 import Ink from "./pages/Projects/Ink";
 import Vesta from "./pages/Projects/Vesta";
 import Alchemy from "./pages/Projects/Alchemy";
@@ -148,7 +149,9 @@ export const App = () => {
             />
           )}
         />
-        <Route path="/bluebook" render={UnderConstruction} />
+        <Route path="/brag" render={UnderConstruction} />
+        <Route path="/rosetta" render={UnderConstruction} />
+        <Route path="/bluebook" render={Bluebook} />
         <Route path="/ink" render={Ink} />
         <Route path="/vesta" render={Vesta} />
         <Route path="/alchemy" render={Alchemy} />
