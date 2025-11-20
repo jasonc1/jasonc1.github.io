@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.15c40678.css",
-    "main.js": "/static/js/main.7bd15413.js",
+    "main.css": "/static/css/main.32f67d42.css",
+    "main.js": "/static/js/main.c28d954c.js",
     "static/media/flower.jpeg": "/static/media/flower.29d4a92e9c99fca13b03.jpeg",
     "static/media/forest.jpg": "/static/media/forest.cd8466c763237f5372dc.jpg",
     "static/media/self.jpg": "/static/media/self.8cc2144fa2618c7f1d4b.jpg",
@@ -110,11 +110,11 @@
     "static/media/SRLegacy_logo_2.svg": "/static/media/SRLegacy_logo_2.f5ea9876b81ec022cbffde643b379bc4.svg",
     "static/media/SRLegacy_logo_final.svg": "/static/media/SRLegacy_logo_final.e1ca1c3f8fba5f8cf2118a9fbd2e474a.svg",
     "index.html": "/index.html",
-    "main.15c40678.css.map": "/static/css/main.15c40678.css.map",
-    "main.7bd15413.js.map": "/static/js/main.7bd15413.js.map"
+    "main.32f67d42.css.map": "/static/css/main.32f67d42.css.map",
+    "main.c28d954c.js.map": "/static/js/main.c28d954c.js.map"
   },
   "entrypoints": [
-    "static/css/main.15c40678.css",
-    "static/js/main.7bd15413.js"
+    "static/css/main.32f67d42.css",
+    "static/js/main.c28d954c.js"
   ]
 }
