@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.32f67d42.css",
-    "main.js": "/static/js/main.c28d954c.js",
+    "main.css": "/static/css/main.76ba10b8.css",
+    "main.js": "/static/js/main.8f8f00d4.js",
     "static/media/flower.jpeg": "/static/media/flower.29d4a92e9c99fca13b03.jpeg",
     "static/media/forest.jpg": "/static/media/forest.cd8466c763237f5372dc.jpg",
     "static/media/self.jpg": "/static/media/self.8cc2144fa2618c7f1d4b.jpg",
@@ -40,7 +40,6 @@
     "static/media/roll_strat_mobile.png": "/static/media/roll_strat_mobile.5682f52eb052ac0d2459.png",
     "static/media/product_illustrations_type.png": "/static/media/product_illustrations_type.a5d19f48cfa1d50ad3bf.png",
     "static/media/figma_doc.jpg": "/static/media/figma_doc.0ac6ccfe6f0ebf9aedaa.jpg",
-    "static/media/Inter-Regular.otf": "/static/media/Inter-Regular.cec5683985aa217042fb.otf",
     "static/media/ExerciseStatus1.png": "/static/media/ExerciseStatus1.36da35b9ef72d5770049.png",
     "static/media/product_illustrations_blend_site.png": "/static/media/product_illustrations_blend_site.2155c9c13be03765b336.png",
     "static/media/emp_storybook1.png": "/static/media/emp_storybook1.6a936c557d92ac896283.png",
@@ -85,7 +84,6 @@
     "static/media/haven_cover.png": "/static/media/haven_cover.3a310160e1f29fa05553.png",
     "static/media/SpacingVocabDiagram.png": "/static/media/SpacingVocabDiagram.6fcf1bb419630c892c18.png",
     "static/media/AbstractMigrateDefine.png": "/static/media/AbstractMigrateDefine.c601622a71eee1700138.png",
-    "static/media/DMSerifDisplay-Regular.ttf": "/static/media/DMSerifDisplay-Regular.56884099e217bf116854.ttf",
     "static/media/Alchemy_foundations.png": "/static/media/Alchemy_foundations.61e7cf0138f56de0100c.png",
     "static/media/OTMEmblem.png": "/static/media/OTMEmblem.f0d7c28aadbd434752b8.png",
     "static/media/ChipsAnatomy.png": "/static/media/ChipsAnatomy.370c21695a6961577b56.png",
@@ -103,18 +101,18 @@
     "static/media/ChipsKeyboardNav.png": "/static/media/ChipsKeyboardNav.3fed7d3f902ba6c4e1c5.png",
     "static/media/Bluebook.png": "/static/media/Bluebook.4788d32110dc40aede01.png",
     "static/media/Alchemy.png": "/static/media/Alchemy.816a72b25ee54cbb0cad.png",
-    "static/media/Brag.png": "/static/media/Brag.b1bc1709dddf6afd2763.png",
+    "static/media/Noho.png": "/static/media/Noho.98a6213a088355f8684e.png",
     "static/media/Handshake.png": "/static/media/Handshake.677cb26413d7b2aa63ea.png",
     "static/media/SRLegacy_logo_6.svg": "/static/media/SRLegacy_logo_6.9296b48844f36c10fa302390fe5cf96b.svg",
     "static/media/SRLegacy_logo_4.svg": "/static/media/SRLegacy_logo_4.3941c6d17cb7e03c4bfa6c0551953447.svg",
     "static/media/SRLegacy_logo_2.svg": "/static/media/SRLegacy_logo_2.f5ea9876b81ec022cbffde643b379bc4.svg",
     "static/media/SRLegacy_logo_final.svg": "/static/media/SRLegacy_logo_final.e1ca1c3f8fba5f8cf2118a9fbd2e474a.svg",
     "index.html": "/index.html",
-    "main.32f67d42.css.map": "/static/css/main.32f67d42.css.map",
-    "main.c28d954c.js.map": "/static/js/main.c28d954c.js.map"
+    "main.76ba10b8.css.map": "/static/css/main.76ba10b8.css.map",
+    "main.8f8f00d4.js.map": "/static/js/main.8f8f00d4.js.map"
   },
   "entrypoints": [
-    "static/css/main.32f67d42.css",
-    "static/js/main.c28d954c.js"
+    "static/css/main.76ba10b8.css",
+    "static/js/main.8f8f00d4.js"
   ]
 }
