@@ -20,7 +20,7 @@ export const AboutBlock = () => {
           />
         </div>
 
-        <img src={self} />
+        <img src={self} alt="this is JSN aka Jason Chen" />
       </div>
     </div>
   );

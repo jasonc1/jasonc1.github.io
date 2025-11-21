@@ -6,7 +6,7 @@ import { PhotoBlock } from "../../components/Blocks/PhotoBlock";
 import { AboutBlock } from "../../components/Blocks/AboutBlock";
 import { ContactBlock } from "../../components/Blocks/ContactBlock";
 import { IWorkBlockProps } from "../../components/WorkBlock/WorkBlock.model";
-import BragLogo from "../../assets/images/Brag.png";
+// import BragLogo from "../../assets/images/Brag.png";
 import HandshakeLogo from "../../assets/images/Handshake.png";
 import BluebookLogo from "../../assets/images/Bluebook.png";
 import InkLogo from "../../assets/images/Ink.png";
@@ -54,19 +54,19 @@ const rosetta: IWorkBlockProps = {
   },
 };
 
-const brag: IWorkBlockProps = {
-  link: "brag",
-  detail: {
-    project: "BragBook",
-    company: "Brag",
-    role: "Founding designer, passion project",
-    duration: "October 2024 - present",
-    description:
-      "Created brand identity, design system, and built product from 0 to 1 alongside 3 founding team members. Sole designer and jack of all trades everything UI related, brand direction, and product direction.",
-    img: BragLogo,
-    alt: "Brag logo for Bragbook",
-  },
-};
+// const brag: IWorkBlockProps = {
+//   link: "brag",
+//   detail: {
+//     project: "BragBook",
+//     company: "Brag",
+//     role: "Founding designer, passion project",
+//     duration: "October 2024 - present",
+//     description:
+//       "Created brand identity, design system, and built product from 0 to 1 alongside 3 founding team members. Sole designer and jack of all trades everything UI related, brand direction, and product direction.",
+//     img: BragLogo,
+//     alt: "Brag logo for Bragbook",
+//   },
+// };
 
 const bluebook: IWorkBlockProps = {
   link: "bluebook",
