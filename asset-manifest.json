@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.76ba10b8.css",
-    "main.js": "/static/js/main.8f8f00d4.js",
+    "main.js": "/static/js/main.975b5b52.js",
     "static/media/flower.jpeg": "/static/media/flower.29d4a92e9c99fca13b03.jpeg",
     "static/media/forest.jpg": "/static/media/forest.cd8466c763237f5372dc.jpg",
     "static/media/self.jpg": "/static/media/self.8cc2144fa2618c7f1d4b.jpg",
@@ -109,10 +109,10 @@
     "static/media/SRLegacy_logo_final.svg": "/static/media/SRLegacy_logo_final.e1ca1c3f8fba5f8cf2118a9fbd2e474a.svg",
     "index.html": "/index.html",
     "main.76ba10b8.css.map": "/static/css/main.76ba10b8.css.map",
-    "main.8f8f00d4.js.map": "/static/js/main.8f8f00d4.js.map"
+    "main.975b5b52.js.map": "/static/js/main.975b5b52.js.map"
   },
   "entrypoints": [
     "static/css/main.76ba10b8.css",
-    "static/js/main.8f8f00d4.js"
+    "static/js/main.975b5b52.js"
   ]
 }
