@@ -29,12 +29,12 @@ import { ToolingBlock } from "../../components/WorkBlock/ToolingBlock.component"
 const noho: IWorkBlockProps = {
   link: "noho",
   detail: {
-    project: "Noho patient portal & PEGASUS DS",
+    project: "Noho patient portal",
     company: "Noho Labs",
     role: "Founding Designer",
     duration: "September 2025 - present",
     description:
-      "Founding designer & employee #3 for Noho Labs, an 8VC Build (portfolio) company. Handled everything from revamping brand site, creating a design system, and the Noho Patient Portal.",
+      "Founding designer & employee #3 for Noho Labs, an 8VC Build (portfolio) company. Handled everything from revamping brand site, creating the PEGASUS Design System, and most importantly spearheading the Noho Patient Portal.",
     img: NohoLogo,
     alt: "Noho Labs logo",
   },
