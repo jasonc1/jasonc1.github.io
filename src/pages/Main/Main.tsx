@@ -34,7 +34,7 @@ const noho: IWorkBlockProps = {
     role: "Founding Designer",
     duration: "September 2025 - present",
     description:
-      "Founding designer & employee #3 for Noho Labs, an 8VC Build (portfolio) company. Handled everything from revamping brand site, creating the PEGASUS Design System, and most importantly spearheading the Noho Patient Portal.",
+      "Founding designer & employee #3 for Noho Labs, an 8VC Build (portfolio) company. Overseeing all things design from revamping brand site, creating the PEGASUS Design System, and most importantly spearheading the Noho Patient Portal.",
     img: NohoLogo,
     alt: "Noho Labs logo",
   },
