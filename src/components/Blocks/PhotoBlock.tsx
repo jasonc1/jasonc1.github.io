@@ -12,7 +12,14 @@ export const PhotoBlock = () => {
     <div className="photo-block">
       <div className="block-header">
         <Text size="Header" text="@me.dium" />
-        <Text size="Header" text="Fuji Pro400h" />
+        <a
+          className="contact-links"
+          href="www.mediumprints.com"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Text size="Body-bold" text="Checkout mediumprints.com" />
+        </a>
       </div>
       <div className="photo-block-body">
         <img src={bodega} />

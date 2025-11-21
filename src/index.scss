@@ -1,11 +1,6 @@
 @import "./theme.scss";
 @import "./styles/grid.scss";
-
-@font-face {
-  font-family: "Inter";
-  src: local("Inter-Regular"),
-    url(./assets/fonts/Inter-Regular.otf) format("opentype");
-}
+@import url("https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap");
 
 @font-face {
   font-family: "Geo";
@@ -13,19 +8,19 @@
     url(./assets/fonts/Geo-Oblique.ttf) format("truetype");
 }
 
-@font-face {
-  font-family: "DM Serif Display-Regular";
-  src: local("DM Serif Display-Regular"),
-    url(./assets/fonts/DMSerifDisplay-Regular.ttf) format("truetype");
-}
+// @font-face {
+//   font-family: "DM Serif Display-Regular";
+//   src: local("DM Serif Display-Regular"),
+//     url(./assets/fonts/DMSerifDisplay-Regular.ttf) format("truetype");
+// }
 
 body {
   background-color: $white;
   z-index: 1;
   margin: 0;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -33,6 +28,14 @@ body {
 h1 {
   margin-block-start: 0px;
   margin-block-end: 0px;
+}
+ul {
+  padding-inline-start: 0px;
+}
+
+p {
+  margin-block-start: 8px;
+  margin-block-end: 8px;
 }
 
 a {

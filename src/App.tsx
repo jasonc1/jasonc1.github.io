@@ -151,6 +151,7 @@ export const App = () => {
         />
         <Route path="/brag" render={UnderConstruction} />
         <Route path="/rosetta" render={UnderConstruction} />
+        <Route path="/noho" render={UnderConstruction} />
         <Route path="/bluebook" render={Bluebook} />
         <Route path="/ink" render={Ink} />
         <Route path="/vesta" render={Vesta} />

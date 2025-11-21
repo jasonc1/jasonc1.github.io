@@ -13,6 +13,7 @@ import InkLogo from "../../assets/images/Ink.png";
 import VestaLogo from "../../assets/images/Vesta.png";
 import AlchemyLogo from "../../assets/images/Alchemy.png";
 import IDSLogo from "../../assets/images/IDS.png";
+import NohoLogo from "../../assets/images/Noho.png";
 import { PrototypingBlock } from "../../components/WorkBlock/PrototypingBlock.component";
 import { ToolingBlock } from "../../components/WorkBlock/ToolingBlock.component";
 
@@ -25,13 +26,27 @@ import { ToolingBlock } from "../../components/WorkBlock/ToolingBlock.component"
 // import EditorialAndLookbook from '../../components/sections/editorialAndLookbook.component';
 // import Contact from '../../components/sections/contact.component';
 
+const noho: IWorkBlockProps = {
+  link: "noho",
+  detail: {
+    project: "Noho patient portal & PEGASUS DS",
+    company: "Noho Labs",
+    role: "Founding Designer",
+    duration: "September 2025 - present",
+    description:
+      "Founding designer & employee #3 for Noho Labs, an 8VC Build (portfolio) company. Handled everything from revamping brand site, creating a design system, and the Noho Patient Portal.",
+    img: NohoLogo,
+    alt: "Noho Labs logo",
+  },
+};
+
 const rosetta: IWorkBlockProps = {
   link: "rosetta",
   detail: {
     project: "Rosetta design system",
     company: "Handshake",
     role: "Senior product designer",
-    duration: "Aug 2024 - present",
+    duration: "Aug 2024 - September 2025",
     description:
       "Core contributor of Rosetta Design system including: atomic foundations, Inputs, Cards, a11y, and more. Improved platform-wide visual language via updating and consolidating UI alongside advocating and teaching design system principles across EPD.",
     img: HandshakeLogo,
@@ -125,6 +140,7 @@ const ids: IWorkBlockProps = {
 
 const work = (
   <>
+    <WorkBlock detail={noho.detail} link={noho.link} />
     <WorkBlock detail={rosetta.detail} link={rosetta.link} />
     {/* <WorkBlock detail={brag.detail} link={brag.link} /> */}
     <WorkBlock detail={bluebook.detail} link={bluebook.link} />
