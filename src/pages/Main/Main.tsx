@@ -48,7 +48,7 @@ const rosetta: IWorkBlockProps = {
     role: "Senior product designer",
     duration: "Aug 2024 - September 2025",
     description:
-      "Core contributor of Rosetta Design system including: atomic foundations, Inputs, Cards, a11y, and more. Improved platform-wide visual language via updating and consolidating UI alongside advocating and teaching design system principles across EPD.",
+      "One of two core contributors of the Rosetta Design system including: atomic foundations, Inputs, Cards, a11y, and more. Improved platform-wide visual language via updating and consolidating UI alongside advocating and teaching design system principles across EPD.",
     img: HandshakeLogo,
     alt: "Rosetta design system for Handshake",
   },

@@ -24,6 +24,7 @@ import DocUploader from "./pages/Projects/old/DocUploader";
 import SRLegacy from "./pages/Projects/old/SRLegacy";
 import StratRoulette from "./pages/Projects/old/StratRoulette";
 import ProductIllustrations from "./pages/Projects/old/ProductIllustrations";
+import Rosetta from "./pages/Projects/Rosetta";
 const navItems = ["Work", "Photo", "About", "Contact"];
 
 export const App = () => {
@@ -150,7 +151,7 @@ export const App = () => {
           )}
         />
         <Route path="/brag" render={UnderConstruction} />
-        <Route path="/rosetta" render={UnderConstruction} />
+        <Route path="/rosetta" render={Rosetta} />
         <Route path="/noho" render={UnderConstruction} />
         <Route path="/bluebook" render={Bluebook} />
         <Route path="/ink" render={Ink} />
