@@ -1,7 +1,7 @@
-@import "../../theme.scss";
+@use "../../theme.scss";
 
 @mixin link {
-  color: $accent;
+  color: theme.$accent;
 }
 
 .text {
@@ -9,19 +9,19 @@
 }
 
 .Display {
-  @include Display;
+  @include theme.Display;
 }
 
 .Header {
-  @include Header;
+  @include theme.Header;
 }
 
 .Body {
-  @include Body;
+  @include theme.Body;
 }
 
 .Body-bold {
-  @include Body-bold;
+  @include theme.Body-bold;
 }
 
 // .display-1 {

@@ -1,5 +1,5 @@
-@import "./theme.scss";
-@import "./styles/grid.scss";
+@use "theme.scss";
+@use "styles/grid.scss";
 @import url("https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap");
 
 @font-face {
@@ -15,7 +15,7 @@
 // }
 
 body {
-  background-color: $white;
+  background-color: theme.$white;
   z-index: 1;
   margin: 0;
   font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -41,7 +41,7 @@ p {
 a {
   cursor: pointer;
   text-decoration: none;
-  color: $accent;
+  color: theme.$accent;
 }
 
 .action-link {
@@ -77,7 +77,7 @@ code.inline {
 
 .mobile-menu {
   position: fixed;
-  background-color: $white;
+  background-color: theme.$white;
   width: 100%;
   z-index: 100;
   top: 0;
@@ -94,7 +94,7 @@ code.inline {
 
     & > li {
       width: 100%;
-      border-top: 2px solid $black;
+      border-top: 2px solid theme.$black;
       height: 72px;
       padding-left: 24px;
       display: inline-flex;

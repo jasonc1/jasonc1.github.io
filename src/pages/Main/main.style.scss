@@ -1,4 +1,4 @@
-@import "../../theme.scss";
+@use "../../theme.scss";
 
 .contact-links {
   text-align: right;
@@ -117,7 +117,7 @@
   display: inline-flex;
   justify-content: center;
   border-bottom: 2px solid black;
-  background: $white;
+  background: theme.$white;
 }
 
 .mobile-content-wrapper {

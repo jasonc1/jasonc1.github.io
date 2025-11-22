@@ -1,4 +1,4 @@
-@import "../../theme.scss";
+@use "../../theme.scss";
 
 #display-name-gradient {
   // background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
@@ -69,7 +69,7 @@ ul.nav-menu {
     width: 120px;
     &:hover {
       transition: background-color 0.33s ease-in-out;
-      background-color: rgba($primary, 0.12);
+      background-color: rgba(theme.$primary, 0.12);
     }
   }
 }

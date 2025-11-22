@@ -1,5 +1,6 @@
 import Projects from "../../components/templates/prose/prose.component";
 import { List } from "../../components/list/list.component";
+import { Text } from "../../components/text/text.component";
 import { ImageWithCaption } from "../../components/ImageWithCaption/ImageWithCaption.component";
 import Cover from "../../assets/images/projects/Rosetta/roadshow.png";
 import RecitationFigma from "../../assets/images/projects/Rosetta/recitation-figma.png";
@@ -21,7 +22,27 @@ import TokenMigration from "../../assets/images/projects/Rosetta/token migration
 import TokensAfter from "../../assets/images/projects/Rosetta/tokens after.png";
 
 export const Rosetta = () => {
-  const summaryText = `The Rosetta Design system team was small yet mighty at Handsahke, a b2b2c student network/job platform and eventual Handshake AI data labelling platform - I had the pleasure to work with a design technologist like myself: Suleiman Ali Shakir, who has become a very close friend of mine over the year I worked with him. Despite all odds, we were able to deliver so much together, educate EPD on best practices, run workshops, host office hours, and set up Handshake Core for Handshake AI consolidation. With the help of about 4 FE platform engineers, we supported a team of ~35 designers, more than 100 frontend engineers, and 5+ BUs across handshake.`;
+  const Suleiman = (
+    <a
+      className="action-link"
+      target="_blank"
+      rel="noreferrer"
+      href={"https://www.linkedin.com/in/suleiman-shakir/"}
+    >
+      <Text size="Body-bold" text="📢 Shout out to my homie Suleiman ✌️" />
+    </a>
+  );
+  const summaryText = (
+    <div className="summary-text-link">
+      <Text
+        size="Body"
+        text={`The Rosetta Design system team was small yet mighty at Handsahke, a b2b2c student network/job platform and eventual Handshake AI data labelling platform - I had the pleasure to work with a design technologist like myself: Suleiman Ali Shakir, who has become a very close friend of mine over the year I worked with him. Despite all odds, we were able to deliver so much together, educate EPD on best practices, run workshops, host office hours, and set up Handshake Core for Handshake AI consolidation. With the help of about 4 FE platform engineers, we supported a team of ~35 designers, more than 100 frontend engineers, and 5+ BUs across handshake.`}
+      />
+      {Suleiman}
+    </div>
+  );
+
+  // `The Rosetta Design system team was small yet mighty at Handsahke, a b2b2c student network/job platform and eventual Handshake AI data labelling platform - I had the pleasure to work with a design technologist like myself: Suleiman Ali Shakir, who has become a very close friend of mine over the year I worked with him. Despite all odds, we were able to deliver so much together, educate EPD on best practices, run workshops, host office hours, and set up Handshake Core for Handshake AI consolidation. With the help of about 4 FE platform engineers, we supported a team of ~35 designers, more than 100 frontend engineers, and 5+ BUs across handshake.`
 
   const RosettaContent = [
     {
