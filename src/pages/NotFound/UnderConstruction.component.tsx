@@ -5,7 +5,11 @@ export const UnderConstruction = () => {
   return (
     <>
       <div className="not-found">
-        <Text size="Header" text="Coming Soon™️ /" />
+        <Text
+          size="Header"
+          textAlign="center"
+          text="Content coming soon™️ — please reach out for more info"
+        />
       </div>
     </>
   );

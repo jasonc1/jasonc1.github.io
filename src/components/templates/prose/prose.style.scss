@@ -8,14 +8,14 @@
   i {
     display: block;
   }
-  a {
-    color: theme.$primary;
-  }
+  // a {
+  //   color: theme.$primary;
+  // }
   img {
     margin-bottom: 16px;
     width: 100%;
     height: auto;
-    border: 2px solid theme.$black;
+    border: 2px solid theme.$primary;
 
     &.SR-logo {
       height: 120px;

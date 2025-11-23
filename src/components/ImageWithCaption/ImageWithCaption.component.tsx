@@ -17,7 +17,7 @@ export const ImageWithCaption = ({
   return (
     <div className="image-with-caption">
       <img src={src} className={imgClass} alt={caption} />
-      <Text size="Body" text={caption} />
+      <Text size="Body" text={caption} textAlign="center" />
     </div>
   );
 };

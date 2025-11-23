@@ -1,8 +1,8 @@
-$primary: #393939;
+$primary: #000;
 $accent: #11593f;
-$black: #393939;
+$link: #3a55d2;
 $white: #ffffff;
-$yellow: #feda7b;
+$backdrop: blur(8px) grayscale(30%) saturate(40%);
 
 // base unit
 $scale0: 4px;
@@ -17,15 +17,12 @@ $scale8: 64px;
 $scale9: 72px;
 $scale10: 80px;
 
-$nav-spacer-L: 240px;
-$nav-spacer-M: 128px;
-$nav-spacer-S: $scale6;
-
 :export {
   primary: $primary;
   accent: $accent;
-  black: $black;
+  link: $link;
   white: $white;
+  backdrop: $backdrop;
   scale0: $scale0;
   scale1: $scale1;
   scale2: $scale2;
@@ -37,9 +34,6 @@ $nav-spacer-S: $scale6;
   scale8: $scale8;
   scale9: $scale9;
   scale10: $scale10;
-  nav-spacer-L: $nav-spacer-L;
-  nav-spacer-M: $nav-spacer-M;
-  nav-spacer-S: $nav-spacer-S;
 }
 
 @mixin Display {
@@ -73,72 +67,3 @@ $nav-spacer-S: $scale6;
   line-height: 24px;
   letter-spacing: 0px;
 }
-
-// @mixin display-1 {
-//   font-family: "DM Serif Display-Regular";
-//   font-weight: normal;
-//   font-size: 48px;
-//   line-height: 72px;
-//   letter-spacing: 0.02em;
-// }
-
-// @mixin display-2 {
-//   font-family: "DM Serif Display-Regular";
-//   font-weight: normal;
-//   font-size: 28px;
-//   line-height: 42px;
-//   letter-spacing: 0.02em;
-// }
-
-// @mixin header-1 {
-//   font-family: "Inter";
-//   font-weight: 600;
-//   font-size: 24px;
-//   line-height: 36px;
-//   letter-spacing: 0.02em;
-// }
-
-// @mixin subheader-1 {
-//   font-family: "Inter";
-//   font-weight: 600;
-//   font-size: 18px;
-//   line-height: 27px;
-//   letter-spacing: 0.02em;
-// }
-
-// @mixin body-1 {
-//   font-family: "Inter";
-//   font-weight: normal;
-//   font-size: 16px;
-//   line-height: 24px;
-//   letter-spacing: 0.01em;
-// }
-
-// @mixin link-1 {
-//   font-family: "Inter";
-//   font-weight: 600;
-//   font-size: 16px;
-//   line-height: 24px;
-//   letter-spacing: 0.01em;
-// }
-
-// @mixin body-2 {
-//   font-family: "Inter";
-//   font-weight: normal;
-//   font-size: 12px;
-//   line-height: 18px;
-//   letter-spacing: 0.01em;
-// }
-
-// @mixin link-2 {
-//   font-family: "Inter";
-//   font-weight: 600;
-//   font-size: 12px;
-//   line-height: 18px;
-//   letter-spacing: 0.01em;
-// }
-
-// @mixin link {
-//   color: $accent;
-//   text-decoration: none;
-// }

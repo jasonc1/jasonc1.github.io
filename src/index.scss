@@ -46,8 +46,8 @@ a {
 
 .action-link {
   text-decoration: none;
+  color: theme.$link;
   display: inline;
-  // @include link;
 }
 
 code {
@@ -94,16 +94,11 @@ code.inline {
 
     & > li {
       width: 100%;
-      border-top: 2px solid theme.$black;
+      border-top: 2px solid theme.$primary;
       height: 72px;
       padding-left: 24px;
       display: inline-flex;
       align-items: center;
-
-      &.last {
-        justify-content: center;
-        padding-left: 0;
-      }
 
       &.first {
         border: none;

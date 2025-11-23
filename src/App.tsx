@@ -91,7 +91,7 @@ export const App = () => {
           <Text size="Header" color={theme.primary} text={navItems[3]} />
         </li>
         <li className="last">
-          <Text size="Header" text="&copy; JASON CHEN 2024" />
+          <Text size="Header" text="&copy; JASON CHEN 2024" textAlign="left" />
         </li>
       </ul>
     </div>

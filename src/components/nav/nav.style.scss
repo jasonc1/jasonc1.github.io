@@ -2,7 +2,7 @@
 
 #display-name-gradient {
   // background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-  background-image: linear-gradient(to right, #11593f, #feda7b, #393939);
+  background-image: linear-gradient(to right, #11593f, #feda7b, #000);
   background-size: 200% 200%;
   min-width: 210px;
   text-wrap: nowrap;
@@ -34,7 +34,8 @@ nav.display-nav {
   width: 100%;
   position: fixed;
   top: 0;
-  background: #fff;
+  // background: #fff;
+  backdrop-filter: theme.$backdrop;
   justify-content: space-between;
   display: inline-flex;
   align-items: center;
@@ -61,7 +62,7 @@ ul.nav-menu {
   height: 100%;
   li {
     cursor: pointer;
-    border-left: 2px solid black;
+    // border-left: 2px solid black;
     display: inline-flex;
     align-items: center;
     justify-content: center;

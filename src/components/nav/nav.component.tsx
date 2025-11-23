@@ -79,7 +79,7 @@ export const Nav = ({
       </Link>
 
       <div className="center-detail">
-        <Text size="Header" color={theme.primary} text="Design Engineer / SF" />
+        <Text size="Header" text="Design Engineer / SF" />
       </div>
 
       {screenWidth >= 1200 ? navMenu : mobileMenu}

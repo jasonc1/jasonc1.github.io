@@ -17,7 +17,7 @@ export const Prose = ({
         {image ? <img src={image} alt={image_caption} /> : <br />}
         <div className="block-header">
           <Text size="Display" text={title} />
-          <Text size="Body" text={date} marginBottom={16} />
+          <Text size="Body" text={date} />
         </div>
 
         <Text size="Body" text={summary} marginBottom={8} />
@@ -28,7 +28,7 @@ export const Prose = ({
             <div className="prose-block">
               <Text
                 size="Header"
-                color={theme.black}
+                color={theme.primary}
                 text={c.section}
                 marginBottom={16}
               />
