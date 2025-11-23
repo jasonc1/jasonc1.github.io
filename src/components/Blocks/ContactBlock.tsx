@@ -14,7 +14,7 @@ export const ContactBlock = () => {
           <Text size="Header" text="jasonc1@alumni.cmu.edu" />
         </a>
       </div>
-      <Text size="Body-bold" text="You can find me here as well /" />
+      <Text size="Header" text="You can find me here as well /" />
 
       <div className="contact-block-body">
         <a
@@ -23,7 +23,7 @@ export const ContactBlock = () => {
           target="_blank"
           rel="noreferrer"
         >
-          <Text size="Body-bold" text="Github" />
+          <Text size="Header" text="Github" />
         </a>
         <a
           className="contact-links"
@@ -31,7 +31,7 @@ export const ContactBlock = () => {
           target="_blank"
           rel="noreferrer"
         >
-          <Text size="Body-bold" text="LinkedIn" />
+          <Text size="Header" text="LinkedIn" />
         </a>
       </div>
 
@@ -42,7 +42,7 @@ export const ContactBlock = () => {
           target="_blank"
           rel="noreferrer"
         >
-          <Text size="Body-bold" text="Resume" />
+          <Text size="Header" text="Resume" />
         </a>
         <a
           className="contact-links"
@@ -50,7 +50,7 @@ export const ContactBlock = () => {
           target="_blank"
           rel="noreferrer"
         >
-          <Text size="Body-bold" text="Instagram" />
+          <Text size="Header" text="Instagram" />
         </a>
       </div>
     </div>
