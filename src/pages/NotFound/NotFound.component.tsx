@@ -5,7 +5,7 @@ export const NotFound = () => {
   return (
     <>
       <div className="not-found">
-        <Text size="Header" text="[ 404 ] You stepped out of bounds /" />
+        <Text size="Header" text="Error 404 / You stepped out of bounds 👹" />
       </div>
     </>
   );

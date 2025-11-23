@@ -17,15 +17,6 @@ import NohoLogo from "../../assets/images/Noho.png";
 import { PrototypingBlock } from "../../components/WorkBlock/PrototypingBlock.component";
 import { ToolingBlock } from "../../components/WorkBlock/ToolingBlock.component";
 
-// import { Rule } from '../../components/rule/rule.component';
-// import { Footer } from '../../components/footer/footer.component';
-// import DesignSystems from '../../components/sections/design-systems.component';
-// import Prototyping from '../../components/sections/prototyping.component';
-// import ToolsAndOps from '../../components/sections/toolsAndOps.component';
-// import Photography from '../../components/sections/photography.component';
-// import EditorialAndLookbook from '../../components/sections/editorialAndLookbook.component';
-// import Contact from '../../components/sections/contact.component';
-
 const noho: IWorkBlockProps = {
   link: "noho",
   detail: {

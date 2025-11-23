@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { HashRouter, Redirect, Route, Switch } from "react-router-dom";
 import { Main } from "./pages/Main/Main";
 import NotFound from "./pages/NotFound/NotFound.component";
@@ -167,12 +167,10 @@ export const App = () => {
         <Route path="/sapling" render={Sapling} />
         <Route path="/wait-task-v2" render={WaitTaskV2} />
         <Route path="/otm" render={OTM} />
-
         <Route path="/doc-uploader" render={DocUploader} />
         <Route path="/SR-legacy" render={SRLegacy} />
         <Route path="/SR" render={StratRoulette} />
         <Route path="/product-illustrations" render={ProductIllustrations} />
-
         <Redirect from="*" to="/404" />
       </Switch>
       <Footer />
