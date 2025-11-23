@@ -5,8 +5,8 @@ import Alchemy_cover from "../../assets/images/projects/Alchemy/Alchemy_cover.pn
 import Alchemy_foundations from "../../assets/images/projects/Alchemy/Alchemy_foundations.png";
 import Alchemy_theming from "../../assets/images/projects/Alchemy/Alchemy_theming.png";
 import Alchemy_checkbox from "../../assets/images/projects/Alchemy/Alchemy_checkbox.png";
-import Alchemy_reference_site_color from "../../assets/images/projects/Alchemy/Alchemy_reference_site_color.svg";
-import Alchemy_reference_site_component from "../../assets/images/projects/Alchemy/Alchemy_reference_site_component.svg";
+import Alchemy_reference_site_color from "../../assets/images/projects/Alchemy/Alchemy_reference_site_color.png";
+import Alchemy_reference_site_component from "../../assets/images/projects/Alchemy/Alchemy_reference_site_component.png";
 import Alchemy_theme_object from "../../assets/images/projects/Alchemy/Alchemy_theme_object.png";
 import { Text } from "../../components/text/text.component";
 
