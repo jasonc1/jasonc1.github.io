@@ -1,21 +1,29 @@
 # Overview
 
-This is the repo to my portfolio website - designed and created by me. This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the repo to my portfolio website - designed and created by me. This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), but now we have moved away from CRA + Webpack and use Vite.
+
+This site leverages GH-Pages + GH actions (very minimally customized). Please refer to the `vite.config.js` file and `.github/workflows/deploy.yml` file to see how it gets pushed and deployed.
 
 ## LOCAL DEVELOPMENT
 
 In the project directory, you can run:
 
-### `yarn start`
+### `npm run start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+This will fire up Vite
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Deployment
 
-## DEPLOYMENT
+### `npm run predeploy`
 
-### `yarn deploy`
+This will create a `dist/` folder (don't add to gitignore).
 
-This will create a build and push it to the `prod` branch, in which Github will serve and host the live site.
+### `npm run deploy`
+
+This will upload the `dist/` folder to GH-pages
+
+Make sure to commit and push everything to repo afterwards
+
+## DNS related
+
+We need a `public/CNAME` file in order to preserve the domain in GH-Pages configuration. I'm writing this down because I deleted it thinking I didn't need it.
