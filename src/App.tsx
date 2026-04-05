@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { HashRouter, Redirect, Route, Switch } from "react-router-dom";
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Main } from "./pages/Main/Main";
 import NotFound from "./pages/NotFound/NotFound.component";
 import { Nav } from "./components/nav/nav.component";
@@ -138,41 +138,40 @@ export const App = () => {
         navItems={navItems}
       />
       {showMenu ? MobileMenu : null}
-      <Switch>
+      <Routes>
         <Route
-          exact
           path="/"
-          render={(props) => (
+          element={
             <Main
               screenWidth={screenWidth}
               navDisplay={navDisplay}
               navItems={navItems}
             />
-          )}
+          }
         />
-        <Route path="/brag" render={UnderConstruction} />
-        <Route path="/rosetta" render={Rosetta} />
-        <Route path="/noho" render={UnderConstruction} />
-        <Route path="/bluebook" render={Bluebook} />
-        <Route path="/ink" render={Ink} />
-        <Route path="/vesta" render={Vesta} />
-        <Route path="/alchemy" render={Alchemy} />
-        <Route path="/ids" render={IDSAccordion} />
-        <Route path="/404" render={NotFound} />
+        <Route path="/brag" element={<UnderConstruction />} />
+        <Route path="/rosetta" element={<Rosetta />} />
+        <Route path="/noho" element={<UnderConstruction />} />
+        <Route path="/bluebook" element={<Bluebook />} />
+        <Route path="/ink" element={<Ink />} />
+        <Route path="/vesta" element={<Vesta />} />
+        <Route path="/alchemy" element={<Alchemy />} />
+        <Route path="/ids" element={<IDSAccordion />} />
+        <Route path="/404" element={<NotFound />} />
 
-        <Route path="/abstract-migrate" render={AbstractMigrate} />
-        <Route path="/carta-exercise-status" render={ExerciseStatus} />
-        <Route path="/carta-employee-onboarding" render={EmployeeOnboarding} />
-        <Route path="/haven" render={Haven} />
-        <Route path="/sapling" render={Sapling} />
-        <Route path="/wait-task-v2" render={WaitTaskV2} />
-        <Route path="/otm" render={OTM} />
-        <Route path="/doc-uploader" render={DocUploader} />
-        <Route path="/SR-legacy" render={SRLegacy} />
-        <Route path="/SR" render={StratRoulette} />
-        <Route path="/product-illustrations" render={ProductIllustrations} />
-        <Redirect from="*" to="/404" />
-      </Switch>
+        <Route path="/abstract-migrate" element={<AbstractMigrate />} />
+        <Route path="/carta-exercise-status" element={<ExerciseStatus />} />
+        <Route path="/carta-employee-onboarding" element={<EmployeeOnboarding />} />
+        <Route path="/haven" element={<Haven />} />
+        <Route path="/sapling" element={<Sapling />} />
+        <Route path="/wait-task-v2" element={<WaitTaskV2 />} />
+        <Route path="/otm" element={<OTM />} />
+        <Route path="/doc-uploader" element={<DocUploader />} />
+        <Route path="/SR-legacy" element={<SRLegacy />} />
+        <Route path="/SR" element={<StratRoulette />} />
+        <Route path="/product-illustrations" element={<ProductIllustrations />} />
+        <Route path="*" element={<Navigate to="/404" replace />} />
+      </Routes>
       <Footer />
     </HashRouter>
   );
