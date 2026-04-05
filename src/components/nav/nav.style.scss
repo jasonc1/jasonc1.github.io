@@ -1,32 +1,89 @@
 @use "../../theme.scss";
 
 #display-name-gradient {
-  // background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-  background-image: linear-gradient(to right, #11593f, #feda7b, #000);
-  background-size: 200% 200%;
-  min-width: 210px;
-  text-wrap: nowrap;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradient 2s ease-in-out infinite;
-  animation-play-state: paused;
-  animation-iteration-count: 1;
+  position: relative;
+  display: inline-block;
   cursor: pointer;
-  &:hover {
-    animation-play-state: running;
+
+  h1 {
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover h1 {
+    opacity: 1;
+  }
+
+  &::before,
+  &::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 24px;
+    @include theme.Display;
+    color: theme.$primary;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  &::before {
+    clip-path: inset(0 0 55% 0);
+  }
+
+  &::after {
+    clip-path: inset(45% 0 0 0);
+  }
+
+  // .glitching is toggled via JS on each mouseenter so the animation
+  // always restarts fresh with newly randomised CSS vars.
+  &.glitching {
+    h1 {
+      animation-name: glitch-main;
+      animation-duration: var(--glitch-dur, 0.55s);
+      animation-timing-function: var(--glitch-ease, cubic-bezier(0.22, 1, 0.36, 1));
+      animation-iteration-count: 1;
+    }
+    &::before {
+      animation-name: glitch-top;
+      animation-duration: var(--glitch-dur, 0.55s);
+      animation-timing-function: var(--glitch-ease, cubic-bezier(0.22, 1, 0.36, 1));
+      animation-iteration-count: 1;
+      animation-fill-mode: forwards;
+    }
+    &::after {
+      animation-name: glitch-bottom;
+      animation-duration: var(--glitch-dur, 0.55s);
+      animation-timing-function: var(--glitch-ease, cubic-bezier(0.22, 1, 0.36, 1));
+      animation-delay: var(--glitch-delay, 0.04s);
+      animation-iteration-count: 1;
+      animation-fill-mode: forwards;
+    }
   }
 }
 
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+@keyframes glitch-main {
+  0%   { transform: none; filter: none; }
+  18%  { transform: skewX(var(--gm-sk1, -5deg)) translateX(var(--gm-tx1, -2px)); filter: blur(0.5px); }
+  36%  { transform: skewX(var(--gm-sk2,  3deg)) translateX(var(--gm-tx2,  1px)); filter: none; }
+  54%  { transform: translateX(var(--gm-tx3, -1px)); filter: blur(0.5px); }
+  72%  { transform: none; filter: none; }
+  100% { transform: none; filter: none; }
+}
+
+@keyframes glitch-top {
+  0%   { opacity: 1; transform: translateX(0);                         filter: blur(0px);  text-shadow: none; }
+  20%  { opacity: 1; transform: translateX(var(--gt-x1, -10px));       filter: blur(0px);  text-shadow: 2px 0 rgba(255, 60, 60, 0.6); }
+  45%  { opacity: 1; transform: translateX(var(--gt-x2,   5px));       filter: blur(1px);  text-shadow: -1px 0 rgba(0, 200, 255, 0.5); }
+  70%  { opacity: 0.6; transform: translateX(var(--gt-x3,  -2px));     filter: blur(2px);  text-shadow: none; }
+  100% { opacity: 0;   transform: translateX(0);                       filter: blur(4px);  text-shadow: none; }
+}
+
+@keyframes glitch-bottom {
+  0%   { opacity: 1; transform: translateX(0);                         filter: blur(0px);  text-shadow: none; }
+  20%  { opacity: 1; transform: translateX(var(--gb-x1,  12px));       filter: blur(0px);  text-shadow: -2px 0 rgba(255, 60, 60, 0.6); }
+  45%  { opacity: 1; transform: translateX(var(--gb-x2,  -6px));       filter: blur(1px);  text-shadow: 1px 0 rgba(0, 200, 255, 0.5); }
+  70%  { opacity: 0.6; transform: translateX(var(--gb-x3,   2px));     filter: blur(2px);  text-shadow: none; }
+  100% { opacity: 0;   transform: translateX(0);                       filter: blur(4px);  text-shadow: none; }
 }
 
 nav.display-nav {
@@ -40,7 +97,7 @@ nav.display-nav {
   display: inline-flex;
   align-items: center;
   z-index: 1000;
-  border-bottom: 2px solid black;
+  border-bottom: theme.$border-width solid black;
 }
 
 .center-detail {

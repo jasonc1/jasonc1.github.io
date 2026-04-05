@@ -20,14 +20,14 @@ import { ToolingBlock } from "../../components/WorkBlock/ToolingBlock.component"
 const noho: IWorkBlockProps = {
   link: "noho",
   detail: {
-    project: "Noho patient portal",
-    company: "Noho Labs",
+    project: "NOHO patient portal",
+    company: "NOHO Labs",
     role: "Founding Designer",
     duration: "September 2025 - present",
     description:
-      "Founding designer & employee #3 for Noho Labs, an 8VC Build (portfolio) company. Overseeing all things design from revamping brand site, creating the PEGASUS Design System, and most importantly spearheading the Noho Patient Portal.",
+      "Founding designer & employee #3 for NOHO Labs, an 8VC Build (portfolio) company. Overseeing all things design from revamping brand site, creating the PEGASUS Design System, and most importantly spearheading the NOHO Patient Portal.",
     img: NohoLogo,
-    alt: "Noho Labs logo",
+    alt: "NOHO Labs logo",
   },
 };
 
@@ -163,7 +163,7 @@ export const Main = ({ navDisplay, navItems, screenWidth }: IMainProps) => {
   const mobileContent = (
     <>
       <div className="mobile-navDisplay">
-        <Text size="Header" text={navDisplay} />
+        <Text size="Header" text={navDisplay} caps />
       </div>
 
       <div className="mobile-content-wrapper">
@@ -190,7 +190,7 @@ export const Main = ({ navDisplay, navItems, screenWidth }: IMainProps) => {
     <div className="content">
       <div className="content-sidebar">
         <div id="content-title">
-          <Text size="Header" text={navDisplay} />
+          <Text size="Header" text={navDisplay} caps />
         </div>
       </div>
       <div className="content-main">

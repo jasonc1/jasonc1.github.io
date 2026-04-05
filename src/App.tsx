@@ -79,19 +79,19 @@ export const App = () => {
     <div className="mobile-menu">
       <ul role="menu" className="menu-content">
         <li className="first" onClick={mobileScrollProjects}>
-          <Text size="Header" color={theme.primary} text={navItems[0]} />
+          <Text size="Header" color={theme.primary} text={navItems[0]} caps />
         </li>
         <li onClick={mobileScrollPhoto}>
-          <Text size="Header" color={theme.primary} text={navItems[1]} />
+          <Text size="Header" color={theme.primary} text={navItems[1]} caps />
         </li>
         <li onClick={mobileScrollAbout}>
-          <Text size="Header" color={theme.primary} text={navItems[2]} />
+          <Text size="Header" color={theme.primary} text={navItems[2]} caps />
         </li>
         <li onClick={mobileScrollContact}>
-          <Text size="Header" color={theme.primary} text={navItems[3]} />
+          <Text size="Header" color={theme.primary} text={navItems[3]} caps />
         </li>
         <li className="last">
-          <Text size="Header" text="&copy; JASON CHEN 2024" textAlign="left" />
+          <Text size="Header" text="&copy; JASON CHEN 2024" textAlign="left" caps />
         </li>
       </ul>
     </div>
@@ -126,6 +126,7 @@ export const App = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
 
   return (
     <HashRouter>

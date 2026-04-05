@@ -15,7 +15,8 @@
     margin-bottom: 16px;
     width: 100%;
     height: auto;
-    border: 2px solid theme.$primary;
+    border: theme.$border-width solid rgba(0, 0, 0, 0.15);
+    border-radius: 16px;
 
     &.SR-logo {
       height: 120px;
@@ -37,6 +38,13 @@
 .img-caption {
   font-style: italic;
   margin-bottom: 16px;
+}
+
+.prose-section-header {
+  @include theme.Header;
+  font-weight: 600;
+  margin-block-start: 0;
+  margin-block-end: 16px;
 }
 
 .prose-block {

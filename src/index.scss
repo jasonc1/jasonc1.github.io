@@ -1,11 +1,15 @@
 @use "theme.scss";
 @use "styles/grid.scss";
-@import url("https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap");
-
 @font-face {
   font-family: "Geo";
   src: local("Geo-Oblique"),
     url(./assets/fonts/Geo-Oblique.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "GeistMono";
+  src: url(./assets/fonts/GeistMono-Variable.woff2) format("woff2");
+  font-weight: 100 900;
 }
 
 // @font-face {
@@ -18,11 +22,12 @@ body {
   background-color: theme.$white;
   z-index: 1;
   margin: 0;
-  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+  font-family: "GeistMono", -apple-system, BlinkMacSystemFont, "Segoe UI",
     "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
     "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss02", "ss03", "ss04", "ss09";
 }
 
 h1 {
@@ -94,7 +99,7 @@ code.inline {
 
     & > li {
       width: 100%;
-      border-top: 2px solid theme.$primary;
+      border-top: theme.$border-width solid theme.$primary;
       height: 72px;
       padding-left: 24px;
       display: inline-flex;

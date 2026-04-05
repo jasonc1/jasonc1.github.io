@@ -7,7 +7,8 @@
   width: 100%;
   img {
     margin-bottom: 8px;
-    border: 2px solid theme.$primary;
+    border: theme.$border-width solid rgba(0, 0, 0, 0.15);
+    border-radius: 16px;
   }
 }
 
