@@ -12,6 +12,10 @@
   @include theme.Display;
 }
 
+.Subheader {
+  @include theme.Subheader;
+}
+
 .Header {
   @include theme.Header;
 }

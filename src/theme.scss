@@ -1,8 +1,9 @@
-$primary: #000;
-$accent: #11593f;
+$primary: #1d1d1d;
+$accent: #3a55d2;
 $link: #3a55d2;
 $white: #ffffff;
 $backdrop: blur(8px) grayscale(30%) saturate(40%);
+$border-width: 1px;
 
 // base unit
 $scale0: 4px;
@@ -44,24 +45,32 @@ $scale10: 80px;
   letter-spacing: 0.02em;
 }
 
+@mixin Subheader {
+  font-family: "GeistMono";
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.04em;
+}
+
 @mixin Header {
-  font-family: "Host Grotesk";
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 27px;
-  letter-spacing: 0px;
+  font-family: "GeistMono";
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0.06em;
 }
 
 @mixin Body {
-  font-family: "Host Grotesk";
-  font-weight: 400;
+  font-family: "GeistMono";
+  font-weight: 300;
   font-size: 16px;
   line-height: 24px;
   letter-spacing: 0px;
 }
 
 @mixin Body-bold {
-  font-family: "Host Grotesk";
+  font-family: "GeistMono";
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;

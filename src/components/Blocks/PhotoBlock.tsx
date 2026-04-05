@@ -11,14 +11,14 @@ export const PhotoBlock = () => {
   return (
     <div className="photo-block">
       <div className="block-header">
-        <Text size="Header" text="@me.dium" />
+        <Text size="Body" text="@me.dium" weight="medium" />
         <a
           className="contact-links"
           href="www.mediumprints.com"
           target="_blank"
           rel="noreferrer"
         >
-          <Text size="Body-bold" text="Checkout mediumprints.com" />
+          <Text size="Body" text="mediumprints.com" weight="medium" />
         </a>
       </div>
       <div className="photo-block-body">

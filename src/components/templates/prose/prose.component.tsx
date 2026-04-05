@@ -17,7 +17,7 @@ export const Prose = ({
         {image ? <img src={image} alt={image_caption} /> : <br />}
         <div className="block-header">
           <Text size="Display" text={title} />
-          <Text size="Body" text={date} />
+          <Text size="Body" text={date} weight="light" />
         </div>
 
         <Text size="Body" text={summary} marginBottom={8} />
@@ -26,12 +26,7 @@ export const Prose = ({
         if (c.section && c.content) {
           return (
             <div className="prose-block">
-              <Text
-                size="Header"
-                color={theme.primary}
-                text={c.section}
-                marginBottom={16}
-              />
+              <Text size="Header" caps text={c.section} />
               {c.content.map((contentBlock) => {
                 return contentBlock;
               })}

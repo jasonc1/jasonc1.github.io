@@ -5,16 +5,16 @@ export const ContactBlock = () => {
   return (
     <div className="contact-block">
       <div className="block-header">
-        <Text size="Header" text="Drop a line /" />
+        <Text size="Body" text="Drop a line /" />
         <a
           href="mailto:jasonc1@alumni.cmu.edu"
           target="_blank"
           rel="noreferrer"
         >
-          <Text size="Header" text="jasonc1@alumni.cmu.edu" />
+          <Text size="Body" text="jasonc1@alumni.cmu.edu" weight="medium" />
         </a>
       </div>
-      <Text size="Header" text="You can find me here as well /" />
+      <Text size="Body" text="You can find me here as well /" />
 
       <div className="contact-block-body">
         <a
@@ -23,7 +23,7 @@ export const ContactBlock = () => {
           target="_blank"
           rel="noreferrer"
         >
-          <Text size="Header" text="Github" />
+          <Text size="Body" text="Github" weight="medium" />
         </a>
         <a
           className="contact-links"
@@ -31,7 +31,7 @@ export const ContactBlock = () => {
           target="_blank"
           rel="noreferrer"
         >
-          <Text size="Header" text="LinkedIn" />
+          <Text size="Body" text="LinkedIn" weight="medium" />
         </a>
       </div>
 
@@ -42,7 +42,7 @@ export const ContactBlock = () => {
           target="_blank"
           rel="noreferrer"
         >
-          <Text size="Header" text="Resume" />
+          <Text size="Body" text="Resume" weight="medium" />
         </a>
         <a
           className="contact-links"
@@ -50,7 +50,7 @@ export const ContactBlock = () => {
           target="_blank"
           rel="noreferrer"
         >
-          <Text size="Header" text="Instagram" />
+          <Text size="Body" text="Instagram" weight="medium" />
         </a>
       </div>
     </div>

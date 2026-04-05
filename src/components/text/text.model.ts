@@ -1,5 +1,5 @@
 import type { JSX } from "react";
-export type typeSizes = "Display" | "Header" | "Body" | "Body-bold";
+export type typeSizes = "Display" | "Subheader" | "Header" | "Body" | "Body-bold";
 export interface ITextProps {
   color?: string;
   size: typeSizes;
@@ -10,6 +10,8 @@ export interface ITextProps {
   marginLeft?: number | string;
   marginRight?: number | string;
   id?: string;
+  caps?: boolean;
+  weight?: "light" | "regular" | "medium";
 }
 
 export interface ITextStyles {
@@ -19,4 +21,6 @@ export interface ITextStyles {
   marginRight?: number | string;
   marginTop?: number | string;
   marginBottom?: number | string;
+  textTransform?: "uppercase" | "none";
+  fontWeight?: number;
 }

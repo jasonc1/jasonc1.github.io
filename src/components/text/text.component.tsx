@@ -13,6 +13,8 @@ export const Text = ({
   marginRight,
   marginBottom,
   marginLeft,
+  caps,
+  weight,
 }: ITextProps) => {
   const textStyles: ITextStyles = {
     textAlign,
@@ -21,10 +23,13 @@ export const Text = ({
     marginRight,
     marginBottom,
     marginLeft,
+    textTransform: caps ? "uppercase" : undefined,
+    fontWeight: weight === "medium" ? 400 : weight === "regular" ? 400 : weight === "light" ? 300 : undefined,
   };
 
   const textClass = classNames("text", {
     Display: size === "Display",
+    Subheader: size === "Subheader",
     Header: size === "Header",
     Body: size === "Body",
     "Body-bold": size === "Body-bold",
@@ -37,11 +42,11 @@ export const Text = ({
           {text}
         </h1>
       );
-    } else if (size === "Header") {
+    } else if (size === "Subheader" || size === "Header") {
       return (
-        <h2 id={id} className={textClass} style={textStyles}>
+        <span id={id} className={textClass} style={textStyles}>
           {text}
-        </h2>
+        </span>
       );
     } else {
       return (

@@ -5,6 +5,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 16px;
 }
 
 @media only screen and (max-width: 770px) {
@@ -15,8 +16,8 @@
 .work-block-body {
   width: 100%;
   display: grid;
-  grid-template-columns: 33% 66%;
-  grid-column-gap: 24px;
+  grid-template-columns: 1fr 2fr;
+  grid-column-gap: 40px;
   grid-row-gap: 0px;
 
   & > .work-block-details {
@@ -34,10 +35,11 @@
       height: auto;
 
       transition: all 0.6s ease-in-out;
-      border: 2px solid theme.$accent;
-      background-color: theme.$accent;
+      border: theme.$border-width solid theme.$primary;
+      background-color: rgba(0, 0, 0, 0.05);
       aspect-ratio: 4/3;
-      box-shadow: 8px 8px rgba(theme.$accent, 0.33);
+      box-shadow: 8px 8px rgba(0, 0, 0, 0.15);
+      border-radius: 16px;
 
       &:hover {
         transform: translate(4px, 4px);
