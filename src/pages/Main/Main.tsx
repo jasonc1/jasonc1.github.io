@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Text } from "../../components/text/text.component";
 import "./main.style.scss";
 import { IMainProps } from "./Main.model";
@@ -160,6 +161,24 @@ const contact = (
 );
 
 export const Main = ({ navDisplay, navItems, screenWidth }: IMainProps) => {
+  const [hasEntered, setHasEntered] = useState(false);
+  const hasEnteredRef = useRef(false);
+
+  useEffect(() => {
+    const handle = () => {
+      const y = window.scrollY;
+      if (y > 10 && !hasEnteredRef.current) {
+        hasEnteredRef.current = true;
+        setHasEntered(true);
+      } else if (y === 0 && hasEnteredRef.current) {
+        hasEnteredRef.current = false;
+        setHasEntered(false);
+      }
+    };
+    handle();
+    window.addEventListener("scroll", handle, { passive: true });
+    return () => window.removeEventListener("scroll", handle);
+  }, []);
   const mobileContent = (
     <>
       <div className="mobile-navDisplay">
@@ -187,7 +206,7 @@ export const Main = ({ navDisplay, navItems, screenWidth }: IMainProps) => {
   );
 
   const content = (
-    <div className="content">
+    <div className={`content${hasEntered ? ' content--entered' : ''}`}>
       <div className="content-sidebar">
         <div id="content-title">
           <Text size="Header" text={navDisplay} caps />

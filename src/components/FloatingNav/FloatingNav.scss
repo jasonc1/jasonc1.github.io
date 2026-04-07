@@ -1,0 +1,121 @@
+@use '../../theme.scss';
+
+// Shared nav base
+.floating-nav {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(theme.$primary, 0.12);
+  border-radius: 0; // sharp — no radius
+
+  // Desktop nav links
+  .floating-nav__link,
+  .floating-nav__back {
+    font-family: 'GeistMono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: theme.$primary;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 12px 24px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: rgba(theme.$primary, 0.06);
+    }
+  }
+
+  .floating-nav__back {
+    padding: 12px 28px;
+    letter-spacing: 0.06em;
+  }
+
+  // Dividers between desktop links
+  .floating-nav__link + .floating-nav__link {
+    border-left: 1px solid rgba(theme.$primary, 0.1);
+  }
+}
+
+// Mobile variant
+.floating-nav--mobile {
+  padding: 0;
+  height: 40px;
+
+  .floating-nav__menu-toggle,
+  .floating-nav__back {
+    font-family: 'GeistMono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: theme.$primary;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: rgba(theme.$primary, 0.06);
+    }
+  }
+
+  // Mobile menu toggle / back
+  .floating-nav__menu-toggle,
+  .floating-nav__back {
+    padding: 12px 24px;
+    height: 44px;
+  }
+}
+
+// Mobile full-screen menu
+.floating-nav__mobile-menu {
+  position: fixed;
+  inset: 0;
+  background: theme.$white;
+  z-index: 999;
+  display: flex;
+  align-items: flex-end;
+
+  .mobile-menu-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    li {
+      width: 100%;
+      border-top: theme.$border-width solid theme.$primary;
+      height: 72px;
+      padding-left: 24px;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: rgba(theme.$primary, 0.04);
+      }
+
+      &.mobile-menu-footer {
+        cursor: default;
+        &:hover {
+          background-color: transparent;
+        }
+      }
+    }
+  }
+}
