@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { photos, shuffleInitial, nextPhoto } from './photos';
 import { useAsciiConverter, preloadAll, computeGrid } from './useAsciiConverter';
 import { AsciiTransition } from './AsciiTransition';
+import { PhotoReveal, PHOTO_LAYERS } from './PhotoReveal';
 import './AsciiGallery.scss';
 
 export const AsciiGallery = () => {
@@ -11,35 +12,20 @@ export const AsciiGallery = () => {
   const [transitioning, setTransitioning] = useState(false);
   const [entered, setEntered]         = useState(() => window.scrollY > 0);
   const [explodeMode, setExplodeMode] = useState(false);
-  const [zoomScale, setZoomScale]     = useState(1.0);
+  const [hoverPos, setHoverPos]       = useState<{ x: number; y: number } | null>(null);
+  const [showReveal, setShowReveal]   = useState(false);
+  const [layerIndex, setLayerIndex]   = useState(0);
 
-  const zoomScaleRef   = useRef(1.0);
-  const touchStartX    = useRef<number | null>(null);
-  const touchStartY    = useRef<number | null>(null);
-  const zoomAnimRef    = useRef<number | null>(null);
-  const cursorHandlerRef = useRef<((x: number, y: number) => void) | null>(null);
+  const touchStartX   = useRef<number | null>(null);
+  const touchStartY   = useRef<number | null>(null);
+  const stillTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hideTimerRef  = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const showRevealRef = useRef(false);
+  const layerIndexRef = useRef(0);
 
-  // Keep zoom ref in sync — cursor handler reads this to avoid stale closure
-  const setZoom = useCallback((val: number) => {
-    zoomScaleRef.current = val;
-    setZoomScale(val);
-  }, []);
-
-  // Smooth zoom animation when entering / exiting explode mode
-  const animateZoom = useCallback((target: number) => {
-    if (zoomAnimRef.current) cancelAnimationFrame(zoomAnimRef.current);
-    const from = zoomScaleRef.current;
-    const startTime = performance.now();
-    const DURATION  = 700; // ms
-
-    const tick = (now: number) => {
-      const t    = Math.min(1, (now - startTime) / DURATION);
-      const ease = 1 - Math.pow(1 - t, 3); // cubic ease-out
-      setZoom(from + (target - from) * ease);
-      if (t < 1) zoomAnimRef.current = requestAnimationFrame(tick);
-    };
-    zoomAnimRef.current = requestAnimationFrame(tick);
-  }, [setZoom]);
+  // Keep refs in sync for use inside event handler closures
+  useEffect(() => { showRevealRef.current = showReveal; }, [showReveal]);
+  useEffect(() => { layerIndexRef.current = layerIndex; }, [layerIndex]);
 
   const { cols, rows, fontSize } = grid;
 
@@ -53,29 +39,25 @@ export const AsciiGallery = () => {
     return () => window.removeEventListener('resize', handle);
   }, []);
 
-  // ── Zoom: animate when entering / exiting explode mode ────────────────
-  useEffect(() => {
-    animateZoom(explodeMode ? 3.0 : 1.0);
-  }, [explodeMode, animateZoom]);
-
-  // ── Scroll lock + scroll-wheel zoom in explode mode ───────────────────
+  // ── Scroll lock + layer cycling on hover ──────────────────────────────
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
-      if (explodeMode) {
-        // Scroll wheel spreads / compresses layers
-        e.preventDefault();
-        const next = Math.max(1.0, Math.min(6.0, zoomScaleRef.current - e.deltaY * 0.004));
-        setZoom(next);
-      } else if (!entered) {
-        e.preventDefault(); // locked at gallery
+      if (explodeMode || entered) return; // free scroll in portfolio or explode mode
+      e.preventDefault();
+      if (showRevealRef.current) {
+        // Scroll up (deltaY < 0) → deeper layer, scroll down → back toward raw
+        const dir = e.deltaY < 0 ? 1 : -1;
+        const next = Math.max(0, Math.min(PHOTO_LAYERS.length - 1, layerIndexRef.current + dir));
+        layerIndexRef.current = next;
+        setLayerIndex(next);
       }
     };
     window.addEventListener('wheel', handleWheel, { passive: false });
     return () => window.removeEventListener('wheel', handleWheel);
-  }, [entered, explodeMode, setZoom]);
+  }, [entered, explodeMode]);
 
   useEffect(() => {
-    if (entered || explodeMode) return; // touch scroll free
+    if (entered || explodeMode) return;
     const lockTouch = (e: TouchEvent) => { e.preventDefault(); };
     window.addEventListener('touchmove', lockTouch, { passive: false });
     return () => window.removeEventListener('touchmove', lockTouch);
@@ -87,6 +69,20 @@ export const AsciiGallery = () => {
     window.addEventListener('gallery-unlock', unlock);
     return () => window.removeEventListener('gallery-unlock', unlock);
   }, []);
+
+  // ── Hide photo reveal when entering portfolio or explode mode ─────────
+  useEffect(() => {
+    if (entered || explodeMode) {
+      if (stillTimerRef.current) { clearTimeout(stillTimerRef.current); stillTimerRef.current = null; }
+      setShowReveal(false);
+      setHoverPos(null);
+    }
+  }, [entered, explodeMode]);
+
+  // ── Reset layer when photo changes ────────────────────────────────────
+  useEffect(() => {
+    setLayerIndex(0);
+  }, [current.id]);
 
   // ── Scroll opacity + re-lock when scrolling back to gallery ──────────
   const [scrollOpacity, setScrollOpacity] = useState(() => {
@@ -158,37 +154,19 @@ export const AsciiGallery = () => {
     touchStartY.current = null;
 
     if (explodeMode) {
-      // Swipe down exits orbit mode
       if (rawDy > 60 && absDy > absDx) setExplodeMode(false);
       return;
     }
 
     if (absDx > 40 && absDx > absDy) {
-      advance(); // horizontal swipe → next photo
+      advance();
     } else if (absDy > 60 && absDy > absDx) {
-      if (rawDy < 0) setExplodeMode(true);  // swipe up → orbit mode
-      else enterPortfolio();                  // swipe down → enter portfolio
+      if (rawDy < 0) setExplodeMode(true);
+      else enterPortfolio();
     } else if (absDx < 10 && absDy < 10) {
-      enterPortfolio(); // tap
+      enterPortfolio();
     }
   };
-
-  // ── Cursor → ghost transform ──────────────────────────────────────────
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
-    if (!cursorHandlerRef.current) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width  - 0.5;
-    const y = (e.clientY - rect.top)  / rect.height - 0.5;
-    cursorHandlerRef.current(x, y);
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    if (cursorHandlerRef.current) cursorHandlerRef.current(0, 0);
-  }, []);
-
-  const registerCursorHandler = useCallback((fn: (x: number, y: number) => void) => {
-    cursorHandlerRef.current = fn;
-  }, []);
 
   const activeGrid  = transitioning ? nextGrid  : currentGrid;
   const activePhoto = transitioning ? next      : current;
@@ -198,8 +176,19 @@ export const AsciiGallery = () => {
       className={`ascii-section${explodeMode ? ' ascii-section--explode' : ''}`}
       style={{ opacity: scrollOpacity }}
       onClick={explodeMode ? undefined : enterPortfolio}
-      // onMouseMove={handleMouseMove}   // disabled: live-wall mode
-      // onMouseLeave={handleMouseLeave}
+      onMouseMove={!entered && !explodeMode ? (e) => {
+        setHoverPos({ x: e.clientX, y: e.clientY });
+        // Start stillness timer only if panel not yet visible
+        if (!showRevealRef.current) {
+          if (stillTimerRef.current) clearTimeout(stillTimerRef.current);
+          stillTimerRef.current = setTimeout(() => setShowReveal(true), 700);
+        }
+      } : undefined}
+      onMouseLeave={!entered && !explodeMode ? () => {
+        if (stillTimerRef.current) { clearTimeout(stillTimerRef.current); stillTimerRef.current = null; }
+        setShowReveal(false);
+        hideTimerRef.current = setTimeout(() => setHoverPos(null), 300);
+      } : undefined}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -209,10 +198,8 @@ export const AsciiGallery = () => {
           fontSize={fontSize}
           isTransitioning={transitioning}
           onTransitionEnd={handleTransitionEnd}
-          registerCursorHandler={registerCursorHandler}
           currentPhoto={activePhoto}
           isExplodeMode={explodeMode}
-          zoomScale={zoomScale}
         />
       </div>
 
@@ -230,9 +217,19 @@ export const AsciiGallery = () => {
       </div>
 
       {explodeMode ? (
-        <div className="ascii-orbit-hint" aria-hidden="true">LAYER VIEW · SCROLL TO ZOOM · SWIPE DOWN TO EXIT</div>
+        <div className="ascii-orbit-hint" aria-hidden="true">LAYER VIEW · SWIPE DOWN TO EXIT</div>
       ) : (
         <div className="ascii-enter" aria-hidden="true">↓</div>
+      )}
+
+      {hoverPos && !entered && !explodeMode && (
+        <PhotoReveal
+          photo={current}
+          mouseX={hoverPos.x}
+          mouseY={hoverPos.y}
+          visible={showReveal}
+          layerIndex={layerIndex}
+        />
       )}
     </section>
   );

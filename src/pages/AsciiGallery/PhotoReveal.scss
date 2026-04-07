@@ -1,0 +1,40 @@
+@use '../../theme.scss';
+
+.photo-reveal {
+  position: fixed;
+  z-index: 20;
+  pointer-events: none;
+  width: 400px;
+  border: theme.$border-width solid theme.$primary;
+  background: theme.$white;
+  border-radius: 16px;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 250ms ease;
+
+  &--visible {
+    opacity: 1;
+  }
+
+  &__window {
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__label {
+    display: block;
+    padding: 6px 10px;
+    font-family: 'GeistMono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    color: rgba(theme.$primary, 0.5);
+    text-transform: uppercase;
+    border-top: theme.$border-width solid rgba(theme.$primary, 0.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-reveal {
+    transition: none;
+  }
+}

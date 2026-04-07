@@ -26,8 +26,8 @@ export interface Photo {
   title: string;
   coords: string | null;
   kinetic: KineticDir;
+  aspectRatio: string;  // CSS aspect-ratio value e.g. '3/2', '4/3', '6/7'
   // Three curated accent colors: [dominant, mid, highlight]
-  // Used for both tint-on-main and depth color layers.
   accents: [string, string, string];
 }
 
@@ -35,36 +35,43 @@ export const photos: Photo[] = [
   {
     id: 'bodega', src: bodegaImg, title: 'BODEGA BAY / CA',
     coords: '38.33°N  123.04°W', kinetic: 'ocean_waves',
+    aspectRatio: '3/2',
     accents: ['#6b8fa3', '#c8b89a', '#e8e0d4'],
   },
   {
     id: 'flower', src: flowerImg, title: 'FLORA',
     coords: null, kinetic: 'flower_wind',
+    aspectRatio: '4/3',
     accents: ['#c0392b', '#e67e22', '#f9ca8b'],
   },
   {
     id: 'forest', src: forestImg, title: 'FOREST',
     coords: null, kinetic: 'forest_wind',
+    aspectRatio: '3/2',
     accents: ['#2d5a27', '#7a9e4e', '#c8d9a0'],
   },
   {
     id: 'halfmoon', src: halfmoonImg, title: 'HALF MOON BAY / CA',
     coords: '37.46°N  122.42°W', kinetic: 'coastal_shrubs',
+    aspectRatio: '3/2',
     accents: ['#2e6b8a', '#7ab3c8', '#e8ede8'],
   },
   {
     id: 'honolulu', src: honoluluImg, title: 'HONOLULU / HI',
     coords: '21.30°N  157.85°W', kinetic: 'dual_horizon',
+    aspectRatio: '4/3',
     accents: ['#1a6b8c', '#4db8c8', '#f0c070'],
   },
   {
     id: 'montanadoro', src: montanadoroImg, title: "MONTANA D'ORO / CA",
     coords: '35.27°N  120.88°W', kinetic: 'coastal_waves',
+    aspectRatio: '3/2',
     accents: ['#8b6914', '#c4a35a', '#8ab0a0'],
   },
   {
     id: 'pgh', src: pghImg, title: 'PITTSBURGH / PA',
     coords: '40.44°N   79.99°W', kinetic: 'city_birds',
+    aspectRatio: '3/2',
     accents: ['#2c3e50', '#f39c12', '#7f8c8d'],
   },
 ];
