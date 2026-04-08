@@ -91,9 +91,11 @@ export type LayerMode = 'wave' | 'foliage' | 'cloud';
  *   spatialScale, colScale, flowY are unused.
  *
  * mode: 'cloud'
- *   flowX        = horizontal scroll speed in chars/sec (1–3 = slow screensaver)
- *   maxShift     = amplitude of slow oscillation noise overlay (in chars)
- *   Everything else unused.
+ *   flowX        = angular frequency (rad/sec). Period = 2π/flowX seconds.
+ *                  0.05 ≈ 125s period (slow screensaver drift).
+ *   maxShift     = breathing noise amplitude in chars (subtle variation on top of sine).
+ *   Oscillation amplitude = min(cols * 0.25, 60) chars — caps on wide grids.
+ *   No linear wrap → no seam artifact. Drift reverses naturally like clouds in wind.
  */
 interface AnimLayer {
   mode:         LayerMode;
@@ -220,27 +222,16 @@ export function buildKineticState(grid: AsciiGrid, dir: KineticDir): KineticStat
     case 'dual_horizon':
       layers = [
         {
-          // Sky: actual horizontal scroll of cloud char shapes, L→R
+          // Sky: sine-oscillation cloud drift — no linear wrap, no seam.
+          // flowX = angular frequency (rad/sec). Amplitude = min(cols*0.25, 60) chars.
           mode: 'cloud',
           zoneRowStart: 0.04, zoneRowEnd: 0.46,
           densityMin: 48, densityMax: 62,
           spatialScale: 0,
           colScale: 0,
-          flowX: 1.8,    // chars/sec — slow screensaver drift
+          flowX: 0.05,   // rad/sec — ~125s period, slow screensaver oscillation
           flowY: 0,
-          maxShift: 3,   // noise overlay amplitude in chars (subtle breathing)
-          oscSpeed: 0,
-        },
-        {
-          // Ocean: nearly pure row-based rolling waves (rowW ≈ 0.92)
-          mode: 'wave',
-          zoneRowStart: 0.52, zoneRowEnd: 1.0,
-          densityMin: 43, densityMax: 62,
-          spatialScale: 0.08,
-          colScale: 0.022,
-          flowX: 0.05,
-          flowY: -0.60,
-          maxShift: 3,
+          maxShift: 3,   // breathing noise amplitude in chars
           oscSpeed: 0,
         },
       ];
@@ -467,12 +458,15 @@ function applyFoliageLayer(
   }
 }
 
-// ── Cloud layer — horizontal scroll of existing ASCII cloud shapes ────────────
+// ── Cloud layer — horizontal oscillation of existing ASCII cloud shapes ───────
 //
-// Unlike wave mode (which displaces characters vertically), cloud mode
-// scrolls existing characters horizontally so cloud shapes drift left→right.
-// flowX = chars/sec. Wraps seamlessly with modular arithmetic.
-// A very slow noise oscillation prevents rigid conveyor-belt feel.
+// Unlike wave mode (vertical char displacement), cloud mode shifts existing
+// characters horizontally so cloud shapes drift across the sky.
+//
+// Uses sine oscillation instead of linear scroll to avoid the wraparound seam
+// that appears as a moving edge artifact when content cycles past cols boundary.
+// flowX = angular frequency (rad/sec). Amplitude = min(cols*0.25, 60) chars.
+// A very slow Perlin noise adds subtle breathing on top of the sine wave.
 
 function applyCloudLayer(
   state:  KineticState,
@@ -484,9 +478,10 @@ function applyCloudLayer(
   const zoneTop = Math.floor(layer.zoneRowStart * numRows);
   const zoneBot = Math.ceil(layer.zoneRowEnd   * numRows);
 
-  // Base scroll (chars) + very slow noise breathing (±maxShift chars, ~5-min cycle)
+  // Sine oscillation — no modular wrap, no seam. Amplitude capped for wide grids.
+  const amp = Math.min(cols * 0.25, 60);
   const breathing = noise2(tSec * 0.003, 0.5) * layer.maxShift;
-  const scrollAmt = tSec * layer.flowX + breathing;
+  const scrollAmt = Math.sin(tSec * layer.flowX) * amp + breathing;
   const scrollInt = Math.round(scrollAmt);
 
   if (scrollInt === 0) return;
@@ -498,8 +493,8 @@ function applyCloudLayer(
       const destIdx = rampIndices[y * cols + x];
       if (destIdx < layer.densityMin || destIdx > layer.densityMax) continue;
 
-      // Sample from srcX — negative scroll shifts source left so content drifts right
-      const srcX = ((x - scrollInt) % cols + cols) % cols;
+      // Clamp srcX to valid range — no modular wrap, so edges hold their value
+      const srcX = Math.max(0, Math.min(cols - 1, x - scrollInt));
       if (srcX === x) continue;
 
       const srcChar = rows[y][srcX];

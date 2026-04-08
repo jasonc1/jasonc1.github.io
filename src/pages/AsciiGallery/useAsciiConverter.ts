@@ -217,12 +217,14 @@ function imageToGrid(img: HTMLImageElement, cols: number, rows: number, fontSize
 }
 
 export function useAsciiConverter(src: string, cols: number, rows: number, fontSize: number, accents: string[]): AsciiGrid | null {
-  const key = cacheKey(src, cols, rows, accents);
-  const [grid, setGrid] = useState<AsciiGrid | null>(() => cache.get(key) ?? null);
+  // Always read directly from the shared cache — avoids the one-render stale-state
+  // window that causes a flash when `src` changes (useState doesn't reinitialize
+  // on prop changes, so a state-based approach lags by one render cycle).
+  const [, forceUpdate] = useState(0);
 
   useEffect(() => {
     const k = cacheKey(src, cols, rows, accents);
-    if (cache.has(k)) { setGrid(cache.get(k)!); return; }
+    if (cache.has(k)) return; // already cached — synchronous read below will find it
     const img = new Image();
     img.crossOrigin = 'anonymous';
     let cancelled = false;
@@ -230,7 +232,7 @@ export function useAsciiConverter(src: string, cols: number, rows: number, fontS
       if (cancelled) return;
       const result = imageToGrid(img, cols, rows, fontSize, accents);
       cache.set(k, result);
-      setGrid(result);
+      forceUpdate(n => n + 1); // trigger re-render so cache read below picks it up
     };
     img.src = src;
     return () => { cancelled = true; };
@@ -238,7 +240,8 @@ export function useAsciiConverter(src: string, cols: number, rows: number, fontS
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [src, cols, rows, fontSize]);
 
-  return grid;
+  // Synchronous cache read — always fresh, no stale-state lag
+  return cache.get(cacheKey(src, cols, rows, accents)) ?? null;
 }
 
 export function preloadAll(photos: Array<{ src: string; accents: string[] }>, cols: number, rows: number, fontSize: number): void {
