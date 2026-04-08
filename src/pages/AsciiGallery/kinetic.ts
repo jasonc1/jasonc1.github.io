@@ -1,17 +1,22 @@
 /**
  * Kinetic typography engine — per-photo, element-aware animation.
  *
- * Two animation modes, chosen to eliminate the "2D noise orb" artifact:
+ * Two animation modes:
  *
- *   'wave'    — 1D row-based noise: each row samples an independent noise value,
- *               creating horizontal ripple bands. A small per-cell component breaks
- *               up perfectly uniform rows. No 2D spatial field → no blob structures.
- *               Use for ocean, coastal water.
+ *   'wave'    — Multi-frequency noise superposition with physical dispersion.
+ *               Three wave components at different scales/speeds (ratio ~1 : 1.3 : 1.68)
+ *               based on the dispersion relation ω ∝ √k. Direction is automatic:
+ *               flowX/flowY weights determine whether the wave structure is primarily
+ *               horizontal (col-dominant) or rolling toward the viewer (row-dominant).
+ *               A slow set-envelope modulates overall amplitude (~90s period).
+ *               Use for ocean, coastal water, atmospheric cloud drift.
  *
- *   'foliage' — per-cell sinusoidal oscillation with a position-seeded phase offset.
- *               Every qualifying cell trembles at its own rate, like individual leaves.
- *               No shared spatial structure → no orbs, no shimmer.
- *               Use for forest canopy, flowers, shrubs, wires, and sky chars.
+ *   'foliage' — Travelling wind-front phase, not per-cell trembling.
+ *               Main: sin(x * flowX + t * oscSpeed + seed * 0.25) — a phase wave
+ *               that sweeps left-to-right across the plant mass at oscSpeed rad/sec.
+ *               Flutter: fast per-cell detail at 2.8× the main speed.
+ *               Height factor: top of zone moves more than base (treetop physics).
+ *               Use for flowers, forest canopy, shrubs, wire sway.
  *
  * Pittsburgh additionally runs a procedural bird flock overlay.
  */
@@ -21,7 +26,7 @@ import { KineticDir } from './photos';
 
 const RAMP_LEN = RAMP.length;
 
-// ── 2D Perlin noise (used as 1D sampler for 'wave' mode) ─────────────────────
+// ── 2D Perlin noise ───────────────────────────────────────────────────────────
 
 const PERM = (() => {
   const p = Array.from({ length: 256 }, (_, i) => i);
@@ -60,8 +65,7 @@ function noise2(x: number, y: number): number {
   );
 }
 
-// Per-cell integer hash → phase offset in [0, 2π)
-// Gives each foliage cell an independent oscillation phase.
+// Per-cell hash → phase seed in [0, 2π) — used by foliage flutter
 function cellPhase(x: number, y: number): number {
   const h = ((Math.imul(x, 2654435761) ^ Math.imul(y, 2246822519)) >>> 0);
   return (h & 0xFFFF) / 0xFFFF * Math.PI * 2;
@@ -72,22 +76,18 @@ function cellPhase(x: number, y: number): number {
 export type LayerMode = 'wave' | 'foliage';
 
 /**
- * One animation zone.
- *
  * mode: 'wave'
- *   spatialScale = row noise frequency (rows per noise period)
- *   colScale     = per-cell horizontal noise frequency (breaks up uniform rows)
- *   flowX        = horizontal drift speed (units/sec)
- *   flowY        = row phase drift speed — wave travel speed (units/sec)
+ *   spatialScale = row noise base frequency (harmonic ratios derived automatically)
+ *   colScale     = column noise base frequency
+ *   flowX        = horizontal drift speed — higher value = wave moves right faster
+ *   flowY        = vertical drift speed — negative = rolls toward viewer (upward)
+ *   Direction weighting: |flowX| / (|flowX|+|flowY|) blends col vs row dominance.
  *
  * mode: 'foliage'
- *   oscSpeed     = angular velocity (rad/sec) — controls trembling cadence
- *   (spatialScale, colScale, flowX, flowY ignored)
- *
- * mode: 'sky'
- *   spatialScale = 2D noise frequency (very small → very large features)
- *   flowX, flowY = slow drift direction
- *   (colScale, oscSpeed ignored)
+ *   flowX        = wind spatial frequency (phase advance per column)
+ *   oscSpeed     = wind travel speed (phase advance per second at fixed x)
+ *   Flutter runs at oscSpeed * 2.8 — no extra field needed.
+ *   spatialScale, colScale, flowY are unused.
  */
 interface AnimLayer {
   mode:         LayerMode;
@@ -130,94 +130,86 @@ export function buildKineticState(grid: AsciiGrid, dir: KineticDir): KineticStat
 
   switch (dir) {
 
-    // ── Bodega Bay — coastal mist and gentle swells ───────────────────────
-    // The misty water sits in the middle of the frame (~row 0.25–0.70).
-    // Slow horizontal drift + gentle upward flow reads as fog/mist moving.
+    // ── Bodega Bay — coastal mist drifting sideways ───────────────────────
+    // Notes: mist in mid-frame (~0.25–0.70), horizontal drift dominant.
+    // Mixed direction (flowX:flowY ≈ 1:2) gives diagonal fog movement.
     case 'ocean_waves':
       layers = [{
         mode: 'wave',
         zoneRowStart: 0.25, zoneRowEnd: 0.70,
         densityMin: 43, densityMax: 62,
-        spatialScale: 0.05,
-        colScale: 0.04,
-        flowX: 0.14,   // mist drifts sideways
-        flowY: -0.25,  // slow upward rise — gentle swell, not crashing tide
+        spatialScale: 0.06,
+        colScale: 0.06,
+        flowX: 0.18,   // notable horizontal component — mist drifts sideways
+        flowY: -0.30,  // gentle upward roll
         maxShift: 2,
         oscSpeed: 0,
       }];
       break;
 
-    // ── Flora — bougainvillea in a side-to-side breeze ───────────────────
-    // Two layers: per-cell trembling (individual flowers) + horizontal wave
-    // sweep (wind direction). Combined they feel like wind moving through.
+    // ── Flora — bougainvillea in a Ghibli-style breeze ───────────────────
+    // Notes: whole mass sways left-to-right, subtle individual trembling.
+    // New foliage: travelling phase front (flowX spatial freq, oscSpeed travel).
     case 'flower_wind':
-      layers = [
-        {
-          mode: 'foliage',
-          zoneRowStart: 0.05, zoneRowEnd: 0.92,
-          densityMin: 8, densityMax: 35,
-          spatialScale: 0, colScale: 0, flowX: 0, flowY: 0,
-          maxShift: 1,
-          oscSpeed: 1.0,  // slower than before — gentle, not electric
-        },
-        {
-          // Horizontal brightness wave sweeping right — simulates wind direction
-          mode: 'wave',
-          zoneRowStart: 0.05, zoneRowEnd: 0.92,
-          densityMin: 8, densityMax: 35,
-          spatialScale: 0.006,  // very large row features → plant sways as one mass
-          colScale: 0.10,       // strong column variation for horizontal feel
-          flowX: 0.22,          // rightward sweep
-          flowY: 0.01,
-          maxShift: 1,
-          oscSpeed: 0,
-        },
-      ];
+      layers = [{
+        mode: 'foliage',
+        zoneRowStart: 0.05, zoneRowEnd: 0.92,
+        densityMin: 8, densityMax: 38,
+        spatialScale: 0, colScale: 0, flowY: 0,
+        flowX: 0.004,   // wind spatial freq: ~1570-col period → gentle whole-mass sweep
+        oscSpeed: 0.9,  // travel speed: ~7s sway cycle
+        maxShift: 2,
+      }];
       break;
 
-    // ── Forest — canopy wind ──────────────────────────────────────────────
+    // ── Forest — heavy canopy swaying ────────────────────────────────────
+    // Notes: larger mass, slower than flowers. Upper canopy leads the sway.
     case 'forest_wind':
       layers = [{
         mode: 'foliage',
         zoneRowStart: 0.04, zoneRowEnd: 0.92,
-        densityMin: 7, densityMax: 18,
-        spatialScale: 0, colScale: 0, flowX: 0, flowY: 0,
+        densityMin: 7, densityMax: 22,
+        spatialScale: 0, colScale: 0, flowY: 0,
+        flowX: 0.002,   // very large spatial period → whole canopy as one mass
+        oscSpeed: 0.55, // heavy and slow: ~11s cycle
         maxShift: 1,
-        oscSpeed: 1.4,  // heavier canopy — slightly slower
       }];
       break;
 
-    // ── Half Moon Bay — shrub row at cliff top ────────────────────────────
+    // ── Half Moon Bay — coastal shrubs in exposed wind ────────────────────
+    // Notes: small tough shrubs near cliff top, faster than forest.
     case 'coastal_shrubs':
       layers = [{
         mode: 'foliage',
         zoneRowStart: 0.02, zoneRowEnd: 0.20,
-        densityMin: 5, densityMax: 20,
-        spatialScale: 0, colScale: 0, flowX: 0, flowY: 0,
+        densityMin: 5, densityMax: 22,
+        spatialScale: 0, colScale: 0, flowY: 0,
+        flowX: 0.008,   // tighter period → wave ripple visible through shrubs
+        oscSpeed: 1.4,  // coastal wind: ~4.5s cycle
         maxShift: 1,
-        oscSpeed: 2.2,  // exposed coastal wind — faster
       }];
       break;
 
-    // ── Honolulu — slow screensaver clouds + ocean waves ─────────────────
-    // Sky: very large-scale wave (spatialScale 0.004 → 250-row period, so the
-    // entire sky zone moves nearly as one mass). Slow horizontal drift reads as
-    // clouds sliding past — no per-cell blinking, no drip artifacts.
-    // Water: same rolling wave as Bodega Bay but stronger.
+    // ── Honolulu — screensaver clouds + rolling ocean ─────────────────────
+    // Notes: sky clouds move LEFT TO RIGHT very slowly (one mass).
+    //        Ocean: vertical rolling waves.
     case 'dual_horizon':
       layers = [
         {
+          // Sky: nearly pure horizontal drift (colW ≈ 0.95)
+          // Large col features (colScale 0.002 → 500-col period → ~1 cloud mass)
           mode: 'wave',
           zoneRowStart: 0.04, zoneRowEnd: 0.46,
-          densityMin: 50, densityMax: 61,   // capped at 61 — avoids space chars (63/64)
-          spatialScale: 0.004,  // ~250-row period → whole sky shifts as one cloud
-          colScale: 0.006,      // very subtle column texture
-          flowX: 0.09,          // slow rightward drift — screensaver speed
-          flowY: 0.008,         // almost no vertical movement
+          densityMin: 50, densityMax: 61,
+          spatialScale: 0.002,
+          colScale: 0.002,
+          flowX: 0.10,   // primary: rightward screensaver drift
+          flowY: 0.005,  // almost none — clouds don't rise/fall
           maxShift: 1,
           oscSpeed: 0,
         },
         {
+          // Ocean: nearly pure row-based rolling waves (rowW ≈ 0.92)
           mode: 'wave',
           zoneRowStart: 0.52, zoneRowEnd: 1.0,
           densityMin: 43, densityMax: 62,
@@ -231,38 +223,35 @@ export function buildKineticState(grid: AsciiGrid, dir: KineticDir): KineticStat
       ];
       break;
 
-    // ── Montana d'Oro — ocean swells (focus on water, not sky) ───────────
-    // Zone pushed down to 0.48 so cliffs/sky are excluded.
-    // maxShift: 4 for more dramatic wave crests.
+    // ── Montana d'Oro — horizontal ocean swells, left to right ───────────
+    // Notes: waves should ebb and flow left to right. Sky/cliffs not animated.
+    // Nearly pure horizontal (colW ≈ 0.93): flowX dominant over flowY.
     case 'coastal_waves':
       layers = [{
         mode: 'wave',
-        zoneRowStart: 0.48, zoneRowEnd: 0.92,
+        zoneRowStart: 0.50, zoneRowEnd: 0.88,
         densityMin: 43, densityMax: 62,
-        spatialScale: 0.08,
-        colScale: 0.022,
-        flowX: 0.40,   // diagonal swells — strong X component
-        flowY: -0.50,
+        spatialScale: 0.04,
+        colScale: 0.06,
+        flowX: 0.80,   // primary: left-to-right horizontal swells
+        flowY: -0.06,  // slight upward roll for natural coastal texture
         maxShift: 4,
         oscSpeed: 0,
       }];
       break;
 
     // ── Pittsburgh — wire sway + bird flock ──────────────────────────────
-    // Wire layer uses foliage mode: each structural character trembles at its
-    // own independent phase. No shared spatial field → no orbs whatsoever.
-    // Sky is left unanimated — the photo reads fine without it.
+    // Notes: wires sway very slowly as structural units, birds cross sky.
     case 'city_birds': {
-      layers = [
-        {
-          mode: 'foliage',
-          zoneRowStart: 0.08, zoneRowEnd: 0.58,
-          densityMin: 38, densityMax: 47,   // t / | ( ) 1 ? - _ +
-          spatialScale: 0, colScale: 0, flowX: 0, flowY: 0,
-          maxShift: 1,
-          oscSpeed: 0.8,  // slow, subtle wire tremor
-        },
-      ];
+      layers = [{
+        mode: 'foliage',
+        zoneRowStart: 0.08, zoneRowEnd: 0.58,
+        densityMin: 38, densityMax: 47,
+        spatialScale: 0, colScale: 0, flowY: 0,
+        flowX: 0.001,   // very large period → each wire sways as a whole
+        oscSpeed: 0.45, // structural slow tremor: ~14s cycle
+        maxShift: 1,
+      }];
 
       const skyTop = Math.floor(0.08 * numRows);
       const skyBot = Math.floor(0.55 * numRows);
@@ -311,9 +300,14 @@ function applyLayer(
   }
 }
 
-// ── Wave layer — 1D row noise ─────────────────────────────────────────────────
-// Each row gets one noise value (its "wave height"). A small per-cell
-// horizontal component breaks up perfectly uniform rows without creating blobs.
+// ── Wave layer — multi-frequency dispersion + direction weighting ─────────────
+//
+// Three noise components at harmonic frequency ratios (1 : 1.68 : 2.83) with
+// speed ratios proportional to √k (physical ocean dispersion: ω = √(g·k)).
+// This creates natural interference patterns and "sets" of larger waves.
+//
+// Direction is automatic: |flowX|/(|flowX|+|flowY|) blends how much the
+// horizontal (column) vs vertical (row) component dominates.
 
 function applyWaveLayer(
   state:  KineticState,
@@ -326,26 +320,44 @@ function applyWaveLayer(
   const zoneBot = Math.ceil(layer.zoneRowEnd   * numRows);
   const zoneH   = Math.max(1, zoneBot - zoneTop - 1);
 
+  // Direction weights — determines col vs row dominance automatically
+  const totalFlow = Math.abs(layer.flowX) + Math.abs(layer.flowY) + 0.001;
+  const rowW = Math.abs(layer.flowY) / totalFlow;
+  const colW = Math.abs(layer.flowX) / totalFlow;
+
+  // Dispersion-correct speed ratios: ω ∝ √k → √1 : √1.68 : √2.83 ≈ 1 : 1.30 : 1.68
+  const S1 = 1.00, S2 = 1.30, S3 = 1.68;
+
+  // Slow wave-set envelope — mimics distant storm pulses (~90s period)
+  const setMod = 0.75 + 0.25 * Math.sin(tSec * 0.07);
+
   for (let y = zoneTop; y < zoneBot; y++) {
     const rowFrac    = (y - zoneTop) / zoneH;
-    const zoneWeight = Math.sin(rowFrac * Math.PI);
+    const zoneWeight = Math.sin(rowFrac * Math.PI); // fade at zone edges
 
-    // Row noise: sample at (rowPhase, fixed Y) → pure 1D variation across rows
-    const rowPhase  = y * layer.spatialScale + layer.flowY * tSec;
-    const rowNoise  = noise2(rowPhase, 2.71);
+    // Row (vertical) noise: three frequencies, speeds scale with √k
+    const sk = layer.spatialScale;
+    const fy = layer.flowY;
+    const rowNoise =
+      noise2(y * sk          + fy * S1 * tSec, 2.71) * 0.50 +
+      noise2(y * sk * 1.68   + fy * S2 * tSec, 3.14) * 0.35 +
+      noise2(y * sk * 2.83   + fy * S3 * tSec, 1.57) * 0.15;
 
     let chars: string[] | null = null;
 
     for (let x = 0; x < cols; x++) {
-      const i   = y * cols + x;
-      const idx = rampIndices[i];
+      const idx = rampIndices[y * cols + x];
       if (idx < layer.densityMin || idx > layer.densityMax) continue;
 
-      // Per-cell horizontal variation — subtle, keeps rows from being identical
-      const colPhase  = x * layer.colScale + layer.flowX * tSec;
-      const cellNoise = noise2(colPhase, 1.41);
+      // Column (horizontal) noise: same three-frequency approach
+      const ck = layer.colScale;
+      const fx = layer.flowX;
+      const colNoise =
+        noise2(x * ck          + fx * S1 * tSec, 1.41) * 0.50 +
+        noise2(x * ck * 1.68   + fx * S2 * tSec, 2.24) * 0.35 +
+        noise2(x * ck * 2.83   + fx * S3 * tSec, 3.73) * 0.15;
 
-      const n     = rowNoise * 0.72 + cellNoise * 0.28;
+      const n     = (rowNoise * rowW + colNoise * colW) * setMod;
       const shift = Math.round(n * layer.maxShift * zoneWeight);
       if (shift === 0) continue;
 
@@ -360,9 +372,15 @@ function applyWaveLayer(
   }
 }
 
-// ── Foliage layer — per-cell sinusoidal oscillation ──────────────────────────
-// Each qualifying cell oscillates independently, seeded by its grid position.
-// No shared spatial pattern → no orbs, no shimmer, just individual trembling.
+// ── Foliage layer — travelling wind-front phase ───────────────────────────────
+//
+// Based on SpeedTree / Ghibli wind shader model:
+//   Main: sin(x * flowX + t * oscSpeed + seed * 0.25) — phase front sweeps L→R
+//   Flutter: sin(seed + t * oscSpeed * 2.8) — fast per-cell detail
+//   Height: tips (zone top) move more than roots (zone bottom), pow 1.5 falloff.
+//
+// The travelling main component creates the coordinated sway seen in anime;
+// flutter adds organic per-leaf texture without dominating.
 
 function applyFoliageLayer(
   state:  KineticState,
@@ -373,18 +391,29 @@ function applyFoliageLayer(
   const { rows, cols, numRows, rampIndices } = state;
   const zoneTop = Math.floor(layer.zoneRowStart * numRows);
   const zoneBot = Math.ceil(layer.zoneRowEnd   * numRows);
+  const zoneH   = Math.max(1, zoneBot - zoneTop);
 
   for (let y = zoneTop; y < zoneBot; y++) {
+    // Height factor: 1.0 at top of zone (tips), 0.0 at bottom (roots)
+    const heightFrac = 1 - (y - zoneTop) / zoneH;
+    const bendFactor = Math.pow(heightFrac, 1.5); // quadratic-ish falloff
+
     let chars: string[] | null = null;
 
     for (let x = 0; x < cols; x++) {
-      const i   = y * cols + x;
-      const idx = rampIndices[i];
+      const idx = rampIndices[y * cols + x];
       if (idx < layer.densityMin || idx > layer.densityMax) continue;
 
-      // Each cell has its own phase offset → trembles out of sync with neighbors
-      const phase = cellPhase(x, y) + tSec * layer.oscSpeed;
-      const shift = Math.round(Math.sin(phase) * layer.maxShift);
+      const seed = cellPhase(x, y);
+
+      // Main: travelling wind front sweeping left → right
+      const windFront = x * layer.flowX + tSec * layer.oscSpeed;
+      const main    = Math.sin(windFront + seed * 0.25) * 0.70;
+
+      // Flutter: fast per-cell oscillation (organic leaf detail)
+      const flutter = Math.sin(seed + tSec * layer.oscSpeed * 2.8) * 0.30;
+
+      const shift = Math.round((main + flutter) * layer.maxShift * bendFactor);
       if (shift === 0) continue;
 
       const newIdx = Math.max(0, Math.min(RAMP_LEN - 1, idx + shift));

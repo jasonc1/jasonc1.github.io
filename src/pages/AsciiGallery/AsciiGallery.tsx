@@ -153,17 +153,23 @@ export const AsciiGallery = () => {
   // ── Keyboard ──────────────────────────────────────────────────────────
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
+      if (entered) return; // let the browser handle arrow keys in portfolio
+      if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Escape'].includes(e.key)) return;
+      e.preventDefault(); // block browser scroll in gallery mode
       if (e.key === 'Escape') {
         if (explodeMode) setExplodeMode(false);
-      } else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+      } else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
         if (!explodeMode) advance();
+      } else if (e.key === 'ArrowDown') {
+        if (explodeMode) setExplodeMode(false);
+        else enterPortfolio();
       } else if (e.key === 'ArrowUp') {
         if (!explodeMode) setExplodeMode(true);
       }
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [advance, explodeMode]);
+  }, [advance, entered, explodeMode, enterPortfolio]);
 
   // ── Touch ─────────────────────────────────────────────────────────────
   const handleTouchStart = (e: React.TouchEvent) => {
