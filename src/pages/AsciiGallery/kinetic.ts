@@ -73,7 +73,7 @@ function cellPhase(x: number, y: number): number {
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-export type LayerMode = 'wave' | 'foliage';
+export type LayerMode = 'wave' | 'foliage' | 'cloud';
 
 /**
  * mode: 'wave'
@@ -86,8 +86,14 @@ export type LayerMode = 'wave' | 'foliage';
  * mode: 'foliage'
  *   flowX        = wind spatial frequency (phase advance per column)
  *   oscSpeed     = wind travel speed (phase advance per second at fixed x)
+ *   heightPow    = bend exponent — 1.5 tree-like, 0.4 flower-like (default 1.5)
  *   Flutter runs at oscSpeed * 2.8 — no extra field needed.
  *   spatialScale, colScale, flowY are unused.
+ *
+ * mode: 'cloud'
+ *   flowX        = horizontal scroll speed in chars/sec (1–3 = slow screensaver)
+ *   maxShift     = amplitude of slow oscillation noise overlay (in chars)
+ *   Everything else unused.
  */
 interface AnimLayer {
   mode:         LayerMode;
@@ -101,6 +107,7 @@ interface AnimLayer {
   flowY:        number;
   maxShift:     number;
   oscSpeed:     number;
+  heightPow?:   number;
 }
 
 interface BirdState {
@@ -132,7 +139,7 @@ export function buildKineticState(grid: AsciiGrid, dir: KineticDir): KineticStat
 
     // ── Bodega Bay — coastal mist drifting sideways ───────────────────────
     // Notes: mist in mid-frame (~0.25–0.70), horizontal drift dominant.
-    // Mixed direction (flowX:flowY ≈ 1:2) gives diagonal fog movement.
+    // 2× speed: flowX doubled (0.36), flowY doubled (–0.60).
     case 'ocean_waves':
       layers = [{
         mode: 'wave',
@@ -140,26 +147,42 @@ export function buildKineticState(grid: AsciiGrid, dir: KineticDir): KineticStat
         densityMin: 43, densityMax: 62,
         spatialScale: 0.06,
         colScale: 0.06,
-        flowX: 0.18,   // notable horizontal component — mist drifts sideways
-        flowY: -0.30,  // gentle upward roll
+        flowX: 0.36,
+        flowY: -0.60,
         maxShift: 2,
         oscSpeed: 0,
       }];
       break;
 
     // ── Flora — bougainvillea in a Ghibli-style breeze ───────────────────
-    // Notes: whole mass sways left-to-right, subtle individual trembling.
-    // New foliage: travelling phase front (flowX spatial freq, oscSpeed travel).
+    // Two layers: slow mass sway (whole bush tilts) + faster per-flower flutter.
+    // heightPow 0.4 = much more uniform than trees — flowers animate throughout,
+    // not just at the top. Wide density range catches both petals and stems.
     case 'flower_wind':
-      layers = [{
-        mode: 'foliage',
-        zoneRowStart: 0.05, zoneRowEnd: 0.92,
-        densityMin: 8, densityMax: 38,
-        spatialScale: 0, colScale: 0, flowY: 0,
-        flowX: 0.004,   // wind spatial freq: ~1570-col period → gentle whole-mass sweep
-        oscSpeed: 0.9,  // travel speed: ~7s sway cycle
-        maxShift: 2,
-      }];
+      layers = [
+        {
+          // Mass sway — the whole bush tilts left-to-right as one body
+          mode: 'foliage',
+          zoneRowStart: 0.05, zoneRowEnd: 0.92,
+          densityMin: 5, densityMax: 45,
+          spatialScale: 0, colScale: 0, flowY: 0,
+          flowX: 0.002,     // very long spatial period → entire mass sways together
+          oscSpeed: 0.65,   // ~10s sway cycle — languid, not frantic
+          maxShift: 1,
+          heightPow: 0.4,
+        },
+        {
+          // Individual flower flutter — faster detail on top of mass motion
+          mode: 'foliage',
+          zoneRowStart: 0.05, zoneRowEnd: 0.92,
+          densityMin: 12, densityMax: 35,
+          spatialScale: 0, colScale: 0, flowY: 0,
+          flowX: 0.014,     // tighter period → individual flowers tremble at own rate
+          oscSpeed: 1.5,    // ~4s flutter cycle — lighter than mass
+          maxShift: 1,
+          heightPow: 0.4,
+        },
+      ];
       break;
 
     // ── Forest — heavy canopy swaying ────────────────────────────────────
@@ -192,20 +215,20 @@ export function buildKineticState(grid: AsciiGrid, dir: KineticDir): KineticStat
 
     // ── Honolulu — screensaver clouds + rolling ocean ─────────────────────
     // Notes: sky clouds move LEFT TO RIGHT very slowly (one mass).
-    //        Ocean: vertical rolling waves.
+    //        Cloud mode horizontally scrolls the existing sky ASCII shapes.
+    //        flowX = chars/sec. ~1.8 chars/sec → ~110s to cycle a 200-col grid.
     case 'dual_horizon':
       layers = [
         {
-          // Sky: nearly pure horizontal drift (colW ≈ 0.95)
-          // Large col features (colScale 0.002 → 500-col period → ~1 cloud mass)
-          mode: 'wave',
+          // Sky: actual horizontal scroll of cloud char shapes, L→R
+          mode: 'cloud',
           zoneRowStart: 0.04, zoneRowEnd: 0.46,
-          densityMin: 50, densityMax: 61,
-          spatialScale: 0.002,
-          colScale: 0.002,
-          flowX: 0.10,   // primary: rightward screensaver drift
-          flowY: 0.005,  // almost none — clouds don't rise/fall
-          maxShift: 1,
+          densityMin: 48, densityMax: 62,
+          spatialScale: 0,
+          colScale: 0,
+          flowX: 1.8,    // chars/sec — slow screensaver drift
+          flowY: 0,
+          maxShift: 3,   // noise overlay amplitude in chars (subtle breathing)
           oscSpeed: 0,
         },
         {
@@ -224,20 +247,35 @@ export function buildKineticState(grid: AsciiGrid, dir: KineticDir): KineticStat
       break;
 
     // ── Montana d'Oro — horizontal ocean swells, left to right ───────────
-    // Notes: waves should ebb and flow left to right. Sky/cliffs not animated.
-    // Nearly pure horizontal (colW ≈ 0.93): flowX dominant over flowY.
+    // Notes: waves before the rock island AND after. Sky/cliffs not animated.
+    // Two zones: pre-island (0.32–0.52) slightly calmer, post-island (0.50–0.88).
     case 'coastal_waves':
-      layers = [{
-        mode: 'wave',
-        zoneRowStart: 0.50, zoneRowEnd: 0.88,
-        densityMin: 43, densityMax: 62,
-        spatialScale: 0.04,
-        colScale: 0.06,
-        flowX: 0.80,   // primary: left-to-right horizontal swells
-        flowY: -0.06,  // slight upward roll for natural coastal texture
-        maxShift: 4,
-        oscSpeed: 0,
-      }];
+      layers = [
+        {
+          // Pre-island water — calmer swells before the rocks
+          mode: 'wave',
+          zoneRowStart: 0.32, zoneRowEnd: 0.52,
+          densityMin: 43, densityMax: 62,
+          spatialScale: 0.04,
+          colScale: 0.06,
+          flowX: 0.80,
+          flowY: -0.04,
+          maxShift: 3,
+          oscSpeed: 0,
+        },
+        {
+          // Post-island water — active swells after the rocks
+          mode: 'wave',
+          zoneRowStart: 0.50, zoneRowEnd: 0.88,
+          densityMin: 43, densityMax: 62,
+          spatialScale: 0.04,
+          colScale: 0.06,
+          flowX: 0.80,
+          flowY: -0.06,
+          maxShift: 4,
+          oscSpeed: 0,
+        },
+      ];
       break;
 
     // ── Pittsburgh — wire sway + bird flock ──────────────────────────────
@@ -297,6 +335,7 @@ function applyLayer(
   switch (layer.mode) {
     case 'wave':    return applyWaveLayer(state, layer, tSec, output);
     case 'foliage': return applyFoliageLayer(state, layer, tSec, output);
+    case 'cloud':   return applyCloudLayer(state, layer, tSec, output);
   }
 }
 
@@ -394,9 +433,10 @@ function applyFoliageLayer(
   const zoneH   = Math.max(1, zoneBot - zoneTop);
 
   for (let y = zoneTop; y < zoneBot; y++) {
-    // Height factor: 1.0 at top of zone (tips), 0.0 at bottom (roots)
+    // Height factor: 1.0 at top of zone (tips), 0.0 at bottom (roots).
+    // heightPow 1.5 = tree-like (tips dominate); 0.4 = flower-like (more uniform).
     const heightFrac = 1 - (y - zoneTop) / zoneH;
-    const bendFactor = Math.pow(heightFrac, 1.5); // quadratic-ish falloff
+    const bendFactor = Math.pow(heightFrac, layer.heightPow ?? 1.5);
 
     let chars: string[] | null = null;
 
@@ -421,6 +461,52 @@ function applyFoliageLayer(
 
       if (!chars) chars = rows[y].split('');
       chars[x] = RAMP[newIdx];
+    }
+
+    if (chars) output[y] = chars.join('');
+  }
+}
+
+// ── Cloud layer — horizontal scroll of existing ASCII cloud shapes ────────────
+//
+// Unlike wave mode (which displaces characters vertically), cloud mode
+// scrolls existing characters horizontally so cloud shapes drift left→right.
+// flowX = chars/sec. Wraps seamlessly with modular arithmetic.
+// A very slow noise oscillation prevents rigid conveyor-belt feel.
+
+function applyCloudLayer(
+  state:  KineticState,
+  layer:  AnimLayer,
+  tSec:   number,
+  output: string[],
+): void {
+  const { rows, cols, numRows, rampIndices } = state;
+  const zoneTop = Math.floor(layer.zoneRowStart * numRows);
+  const zoneBot = Math.ceil(layer.zoneRowEnd   * numRows);
+
+  // Base scroll (chars) + very slow noise breathing (±maxShift chars, ~5-min cycle)
+  const breathing = noise2(tSec * 0.003, 0.5) * layer.maxShift;
+  const scrollAmt = tSec * layer.flowX + breathing;
+  const scrollInt = Math.round(scrollAmt);
+
+  if (scrollInt === 0) return;
+
+  for (let y = zoneTop; y < zoneBot; y++) {
+    let chars: string[] | null = null;
+
+    for (let x = 0; x < cols; x++) {
+      const destIdx = rampIndices[y * cols + x];
+      if (destIdx < layer.densityMin || destIdx > layer.densityMax) continue;
+
+      // Sample from srcX — negative scroll shifts source left so content drifts right
+      const srcX = ((x - scrollInt) % cols + cols) % cols;
+      if (srcX === x) continue;
+
+      const srcChar = rows[y][srcX];
+      if (srcChar === rows[y][x]) continue;
+
+      if (!chars) chars = rows[y].split('');
+      chars[x] = srcChar;
     }
 
     if (chars) output[y] = chars.join('');

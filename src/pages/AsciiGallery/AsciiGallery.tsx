@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { photos, shuffleInitial, nextPhoto } from './photos';
+import { photos, shuffleInitial, nextPhoto, prevPhoto } from './photos';
 import { useAsciiConverter, preloadAll, computeGrid } from './useAsciiConverter';
 import { AsciiTransition } from './AsciiTransition';
 import { PhotoReveal, PHOTO_LAYERS } from './PhotoReveal';
@@ -120,6 +120,14 @@ export const AsciiGallery = () => {
     setTransitioning(true);
   }, [current, transitioning]);
 
+  const back = useCallback(() => {
+    if (transitioning) return;
+    const p = prevPhoto();
+    if (!p) return;
+    setNext(p);
+    setTransitioning(true);
+  }, [transitioning]);
+
   const enterPortfolio = useCallback(() => {
     if (isExiting) return;
     setIsExiting(true);
@@ -158,8 +166,10 @@ export const AsciiGallery = () => {
       e.preventDefault(); // block browser scroll in gallery mode
       if (e.key === 'Escape') {
         if (explodeMode) setExplodeMode(false);
-      } else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      } else if (e.key === 'ArrowRight') {
         if (!explodeMode) advance();
+      } else if (e.key === 'ArrowLeft') {
+        if (!explodeMode) back();
       } else if (e.key === 'ArrowDown') {
         if (explodeMode) setExplodeMode(false);
         else enterPortfolio();
@@ -169,7 +179,7 @@ export const AsciiGallery = () => {
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [advance, entered, explodeMode, enterPortfolio]);
+  }, [advance, back, entered, explodeMode, enterPortfolio]);
 
   // ── Touch ─────────────────────────────────────────────────────────────
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -192,7 +202,8 @@ export const AsciiGallery = () => {
     }
 
     if (absDx > 40 && absDx > absDy) {
-      advance();
+      if (rawDx < 0) advance(); // swipe left → next
+      else back();              // swipe right → previous
     } else if (absDy > 60 && absDy > absDx) {
       if (rawDy < 0) setExplodeMode(true);
       else enterPortfolio();

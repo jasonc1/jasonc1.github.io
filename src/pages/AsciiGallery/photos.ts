@@ -117,6 +117,8 @@ export const photos: Photo[] = [
 ];
 
 const recentHistory: string[] = [];
+// Full navigation stack — enables back() to revisit previous photos.
+const navHistory: string[] = [];
 
 export function nextPhoto(current: Photo): Photo {
   const eligible = photos.filter(
@@ -127,11 +129,23 @@ export function nextPhoto(current: Photo): Photo {
   const pick = pool[Math.floor(Math.random() * pool.length)];
   recentHistory.push(pick.id);
   if (recentHistory.length > 4) recentHistory.shift();
+  navHistory.push(pick.id);
   return pick;
+}
+
+// Returns the photo before the current one in history, or null if at the start.
+// Pops current from the stack so the returned photo becomes the new current.
+export function prevPhoto(): Photo | null {
+  if (navHistory.length <= 1) return null;
+  navHistory.pop(); // remove current
+  const prevId = navHistory[navHistory.length - 1];
+  return photos.find((p) => p.id === prevId) ?? null;
 }
 
 export function shuffleInitial(): Photo {
   const pick = photos[Math.floor(Math.random() * photos.length)];
   recentHistory.push(pick.id);
+  navHistory.length = 0;
+  navHistory.push(pick.id);
   return pick;
 }
