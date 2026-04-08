@@ -15,13 +15,16 @@ export const AsciiGallery = () => {
   const [hoverPos, setHoverPos]       = useState<{ x: number; y: number } | null>(null);
   const [showReveal, setShowReveal]   = useState(false);
   const [layerIndex, setLayerIndex]   = useState(0);
+  const [isExiting, setIsExiting]     = useState(false);
 
-  const touchStartX   = useRef<number | null>(null);
-  const touchStartY   = useRef<number | null>(null);
-  const stillTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const hideTimerRef  = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const showRevealRef = useRef(false);
-  const layerIndexRef = useRef(0);
+  const touchStartX    = useRef<number | null>(null);
+  const touchStartY    = useRef<number | null>(null);
+  const stillTimerRef  = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hideTimerRef   = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const showRevealRef  = useRef(false);
+  const layerIndexRef  = useRef(0);
+  const exitAnimRef    = useRef<number | null>(null);
+  const scrollOpacityRef = useRef(1.0);
 
   // Keep refs in sync for use inside event handler closures
   useEffect(() => { showRevealRef.current = showReveal; }, [showReveal]);
@@ -94,8 +97,14 @@ export const AsciiGallery = () => {
     if (!entered) return;
     const handleScroll = () => {
       const progress = Math.min(window.scrollY / window.innerHeight, 1);
-      setScrollOpacity(Math.max(0, 1 - progress * 1.6));
-      if (window.scrollY === 0) setEntered(false);
+      const op = Math.max(0, 1 - progress * 1.6);
+      scrollOpacityRef.current = op;
+      setScrollOpacity(op);
+      if (window.scrollY === 0) {
+        setEntered(false);
+        setIsExiting(false);
+        if (exitAnimRef.current) { cancelAnimationFrame(exitAnimRef.current); exitAnimRef.current = null; }
+      }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -112,11 +121,29 @@ export const AsciiGallery = () => {
   }, [current, transitioning]);
 
   const enterPortfolio = useCallback(() => {
-    setEntered(true);
-    const el = document.getElementById('portfolio');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-    else window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
-  }, []);
+    if (isExiting) return;
+    setIsExiting(true);
+    const from = scrollOpacityRef.current;
+    const startTime = performance.now();
+    const DURATION = 380;
+
+    const tick = (now: number) => {
+      const t    = Math.min(1, (now - startTime) / DURATION);
+      const ease = t * t; // ease-in — accelerates out
+      const op   = from * (1 - ease);
+      scrollOpacityRef.current = op;
+      setScrollOpacity(op);
+      if (t < 1) {
+        exitAnimRef.current = requestAnimationFrame(tick);
+      } else {
+        // Gallery fully faded — jump to portfolio and trigger its entrance
+        setEntered(true);
+        window.scrollTo({ top: window.innerHeight });
+        window.dispatchEvent(new CustomEvent('portfolio-enter'));
+      }
+    };
+    exitAnimRef.current = requestAnimationFrame(tick);
+  }, [isExiting]);
 
   const handleTransitionEnd = useCallback(() => {
     setCurrent(next);

@@ -179,6 +179,17 @@ export const Main = ({ navDisplay, navItems, screenWidth }: IMainProps) => {
     window.addEventListener("scroll", handle, { passive: true });
     return () => window.removeEventListener("scroll", handle);
   }, []);
+
+  // Gallery dispatches this when its fade-out completes — trigger entrance
+  // immediately rather than waiting for scroll threshold.
+  useEffect(() => {
+    const handle = () => {
+      hasEnteredRef.current = true;
+      setHasEntered(true);
+    };
+    window.addEventListener('portfolio-enter', handle);
+    return () => window.removeEventListener('portfolio-enter', handle);
+  }, []);
   const mobileContent = (
     <>
       <div className="mobile-navDisplay">

@@ -130,38 +130,49 @@ export function buildKineticState(grid: AsciiGrid, dir: KineticDir): KineticStat
 
   switch (dir) {
 
-    // ── Bodega Bay — rolling ocean surface ────────────────────────────────
-    // 1D row noise: each row has an independent wave height.
-    // densityMin/Max spans the full range of typical water chars — from
-    // medium-density foam (~43) through bright glare/reflection (~62).
-    // Space chars (63-64) excluded to avoid dot-pop artifacts.
-    // flowY < 0 → rows drift upward = waves rolling toward viewer.
+    // ── Bodega Bay — coastal mist and gentle swells ───────────────────────
+    // The misty water sits in the middle of the frame (~row 0.25–0.70).
+    // Slow horizontal drift + gentle upward flow reads as fog/mist moving.
     case 'ocean_waves':
       layers = [{
         mode: 'wave',
-        zoneRowStart: 0.52, zoneRowEnd: 1.0,
+        zoneRowStart: 0.25, zoneRowEnd: 0.70,
         densityMin: 43, densityMax: 62,
-        spatialScale: 0.08,  // ~12 rows/period → ~4 ripple bands in zone
-        colScale: 0.022,     // subtle horizontal variation within rows
-        flowX: 0.05,
-        flowY: -0.60,        // ~6s per wave band crossing the zone — feels like tide
-        maxShift: 3,         // crest/trough readable as brightness change
+        spatialScale: 0.05,
+        colScale: 0.04,
+        flowX: 0.14,   // mist drifts sideways
+        flowY: -0.25,  // slow upward rise — gentle swell, not crashing tide
+        maxShift: 2,
         oscSpeed: 0,
       }];
       break;
 
-    // ── Flora — magenta bush in a steady breeze ───────────────────────────
-    // Each cell trembles at its own phase → feels like many flowers moving
-    // independently, not a shared wave sweeping through.
+    // ── Flora — bougainvillea in a side-to-side breeze ───────────────────
+    // Two layers: per-cell trembling (individual flowers) + horizontal wave
+    // sweep (wind direction). Combined they feel like wind moving through.
     case 'flower_wind':
-      layers = [{
-        mode: 'foliage',
-        zoneRowStart: 0.05, zoneRowEnd: 0.95,
-        densityMin: 10, densityMax: 32,
-        spatialScale: 0, colScale: 0, flowX: 0, flowY: 0,
-        maxShift: 1,
-        oscSpeed: 1.8,  // gentle breeze
-      }];
+      layers = [
+        {
+          mode: 'foliage',
+          zoneRowStart: 0.05, zoneRowEnd: 0.92,
+          densityMin: 8, densityMax: 35,
+          spatialScale: 0, colScale: 0, flowX: 0, flowY: 0,
+          maxShift: 1,
+          oscSpeed: 1.0,  // slower than before — gentle, not electric
+        },
+        {
+          // Horizontal brightness wave sweeping right — simulates wind direction
+          mode: 'wave',
+          zoneRowStart: 0.05, zoneRowEnd: 0.92,
+          densityMin: 8, densityMax: 35,
+          spatialScale: 0.006,  // very large row features → plant sways as one mass
+          colScale: 0.10,       // strong column variation for horizontal feel
+          flowX: 0.22,          // rightward sweep
+          flowY: 0.01,
+          maxShift: 1,
+          oscSpeed: 0,
+        },
+      ];
       break;
 
     // ── Forest — canopy wind ──────────────────────────────────────────────
@@ -188,19 +199,23 @@ export function buildKineticState(grid: AsciiGrid, dir: KineticDir): KineticStat
       }];
       break;
 
-    // ── Honolulu — sky breathing + ocean waves ────────────────────────────
-    // Sky: single-octave 2D noise at ~250-char scale — pure atmosphere, no blobs.
-    // Water: 1D row wave, same as Bodega Bay.
+    // ── Honolulu — slow screensaver clouds + ocean waves ─────────────────
+    // Sky: very large-scale wave (spatialScale 0.004 → 250-row period, so the
+    // entire sky zone moves nearly as one mass). Slow horizontal drift reads as
+    // clouds sliding past — no per-cell blinking, no drip artifacts.
+    // Water: same rolling wave as Bodega Bay but stronger.
     case 'dual_horizon':
       layers = [
         {
-          // Sky: per-cell oscillation — no spatial structure, no orbs
-          mode: 'foliage',
+          mode: 'wave',
           zoneRowStart: 0.04, zoneRowEnd: 0.46,
-          densityMin: 50, densityMax: 62,   // exclude index 63 (space) — avoids dot-pop artifacts
-          spatialScale: 0, colScale: 0, flowX: 0, flowY: 0,
+          densityMin: 50, densityMax: 61,   // capped at 61 — avoids space chars (63/64)
+          spatialScale: 0.004,  // ~250-row period → whole sky shifts as one cloud
+          colScale: 0.006,      // very subtle column texture
+          flowX: 0.09,          // slow rightward drift — screensaver speed
+          flowY: 0.008,         // almost no vertical movement
           maxShift: 1,
-          oscSpeed: 0.4,  // very slow — atmospheric breathing
+          oscSpeed: 0,
         },
         {
           mode: 'wave',
@@ -216,18 +231,19 @@ export function buildKineticState(grid: AsciiGrid, dir: KineticDir): KineticStat
       ];
       break;
 
-    // ── Montana d'Oro — diagonal coastal swells ───────────────────────────
-    // Stronger horizontal flow component creates diagonal wave direction.
+    // ── Montana d'Oro — ocean swells (focus on water, not sky) ───────────
+    // Zone pushed down to 0.48 so cliffs/sky are excluded.
+    // maxShift: 4 for more dramatic wave crests.
     case 'coastal_waves':
       layers = [{
         mode: 'wave',
-        zoneRowStart: 0.32, zoneRowEnd: 0.90,
+        zoneRowStart: 0.48, zoneRowEnd: 0.92,
         densityMin: 43, densityMax: 62,
         spatialScale: 0.08,
         colScale: 0.022,
         flowX: 0.40,   // diagonal swells — strong X component
         flowY: -0.50,
-        maxShift: 3,
+        maxShift: 4,
         oscSpeed: 0,
       }];
       break;

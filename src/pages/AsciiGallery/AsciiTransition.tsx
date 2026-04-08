@@ -100,17 +100,16 @@ export const AsciiTransition = ({
   if (!displayGrid) return null;
 
   const fs = `${fontSize}px`;
-  const staticContent = displayGrid.rows.join('\n');
 
   return (
     <div className="ascii-layers">
+      {/* RAF controls textContent directly — no React children to avoid
+          one-frame flash of raw static grid on every grid swap */}
       <pre
         ref={mainRef}
         className={`ascii-art ascii-art--main${fading ? ' ascii-art--fade-in' : ''}`}
         style={{ fontSize: fs }}
-      >
-        {staticContent}
-      </pre>
+      />
 
       {fading && (
         <pre
