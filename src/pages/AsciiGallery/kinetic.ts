@@ -256,19 +256,18 @@ export function buildKineticState(grid: AsciiGrid, dir: KineticDir): KineticStat
           oscSpeed: 0,
         },
         {
-          // Ocean: cloud mode so the whole water body oscillates as one coherent mass.
-          // Sine back-and-forth (no ripple patterns) — ebb and flow feel.
-          // spatialScale = amplitude fraction (0.09 = 9% of cols ≈ 54px on desktop).
-          // flowX = angular freq: 2π/0.28 ≈ 22s per full ebb-flow cycle.
-          // maxShift = breathing noise amplitude (small variation on top of sine).
+          // Ocean: cloud mode — whole water body oscillates as one mass (ebb & flow).
+          // zoneRowStart 0.74 skips the island and cliff terrain above.
+          // densityMin 44 selects lighter water-surface chars, excludes dark rock.
+          // Distant view: slow cycle (~52s), small amplitude (3% of cols).
           mode: 'cloud',
-          zoneRowStart: 0.56, zoneRowEnd: 1.0,
-          densityMin: 35, densityMax: 60,
-          spatialScale: 0.09,
+          zoneRowStart: 0.74, zoneRowEnd: 1.0,
+          densityMin: 44, densityMax: 62,
+          spatialScale: 0.03,
           colScale: 0,
-          flowX: 0.28,
+          flowX: 0.12,
           flowY: 0,
-          maxShift: 2,
+          maxShift: 1,
           oscSpeed: 0,
         },
       ];
