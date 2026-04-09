@@ -256,16 +256,19 @@ export function buildKineticState(grid: AsciiGrid, dir: KineticDir): KineticStat
           oscSpeed: 0,
         },
         {
-          // Ocean: horizontal-dominant swells (colW ≈ 0.82).
-          // flowX >> flowY so wave bands move left-right, not up-down.
-          mode: 'wave',
+          // Ocean: cloud mode so the whole water body oscillates as one coherent mass.
+          // Sine back-and-forth (no ripple patterns) — ebb and flow feel.
+          // spatialScale = amplitude fraction (0.09 = 9% of cols ≈ 54px on desktop).
+          // flowX = angular freq: 2π/0.28 ≈ 22s per full ebb-flow cycle.
+          // maxShift = breathing noise amplitude (small variation on top of sine).
+          mode: 'cloud',
           zoneRowStart: 0.56, zoneRowEnd: 1.0,
-          densityMin: 40, densityMax: 62,
-          spatialScale: 0.05,
-          colScale: 0.07,
-          flowX: 0.70,
-          flowY: -0.15,
-          maxShift: 4,
+          densityMin: 35, densityMax: 60,
+          spatialScale: 0.09,
+          colScale: 0,
+          flowX: 0.28,
+          flowY: 0,
+          maxShift: 2,
           oscSpeed: 0,
         },
       ];
@@ -480,8 +483,12 @@ function applyCloudLayer(
   const zoneTop = Math.floor(layer.zoneRowStart * numRows);
   const zoneBot = Math.ceil(layer.zoneRowEnd   * numRows);
 
-  // Sine oscillation — no modular wrap, no seam. Amplitude capped for wide grids.
-  const amp = Math.min(cols * 0.25, 60);
+  // Sine oscillation — no modular wrap, no seam.
+  // spatialScale > 0: use as amplitude fraction of cols (e.g. 0.08 = 8% of screen width).
+  // spatialScale = 0: default cap of min(cols * 0.25, 60) for sky/clouds.
+  const amp = layer.spatialScale > 0
+    ? cols * layer.spatialScale
+    : Math.min(cols * 0.25, 60);
   const breathing = noise2(tSec * 0.003, 0.5) * layer.maxShift;
   const scrollAmt = Math.sin(tSec * layer.flowX) * amp + breathing;
   const scrollInt = Math.round(scrollAmt);
