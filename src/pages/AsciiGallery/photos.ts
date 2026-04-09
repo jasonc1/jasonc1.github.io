@@ -101,7 +101,7 @@ export const photos: Photo[] = [
     aspectRatio: "3/2",
     accents: ["#8b6914", "#c4a35a", "#8ab0a0"],
     notes:
-      "Coastal cliffs and ocean. Focus on the ocean waves in the lower half — diagonal swells coming in from the side. The sky and cliff areas above should NOT be animated. Waves should ebb and flow - left to right.",
+      "Coastal cliffs and ocean. Sky clouds near the top (~top 18%) animate like Honolulu — slow sine oscillation. Ocean waves in the lower half (~58–92%) animate like Bodega Bay — diagonal rolling swells. Cliffs and terrain in the middle are static.",
   },
   {
     id: "pgh",

@@ -237,33 +237,34 @@ export function buildKineticState(grid: AsciiGrid, dir: KineticDir): KineticStat
       ];
       break;
 
-    // ── Montana d'Oro — horizontal ocean swells, left to right ───────────
-    // Notes: waves before the rock island AND after. Sky/cliffs not animated.
-    // Two zones: pre-island (0.32–0.52) slightly calmer, post-island (0.50–0.88).
+    // ── Montana d'Oro — sky clouds + coastal ocean ────────────────────────
+    // Sky: cloud mode like Honolulu — slow sine oscillation of sky shapes.
+    // Ocean: single wave zone, Bodega-Bay-style params — no overlapping layers
+    //   (overlap caused interference patterns that read as circular sine artifacts).
+    // Cliffs and terrain (0.18–0.58) intentionally untouched.
     case 'coastal_waves':
       layers = [
         {
-          // Pre-island water — calmer swells before the rocks
-          mode: 'wave',
-          zoneRowStart: 0.32, zoneRowEnd: 0.52,
-          densityMin: 43, densityMax: 62,
-          spatialScale: 0.04,
-          colScale: 0.06,
-          flowX: 0.80,
-          flowY: -0.04,
+          // Sky: cloud drift (top ~18% of frame near the nav)
+          mode: 'cloud',
+          zoneRowStart: 0.0, zoneRowEnd: 0.18,
+          densityMin: 50, densityMax: 65,
+          spatialScale: 0, colScale: 0,
+          flowX: 0.05,   // ~125s period, same as Honolulu
+          flowY: 0,
           maxShift: 3,
           oscSpeed: 0,
         },
         {
-          // Post-island water — active swells after the rocks
+          // Ocean: single zone, diagonal rolling like Bodega Bay
           mode: 'wave',
-          zoneRowStart: 0.50, zoneRowEnd: 0.88,
+          zoneRowStart: 0.58, zoneRowEnd: 0.92,
           densityMin: 43, densityMax: 62,
-          spatialScale: 0.04,
+          spatialScale: 0.06,
           colScale: 0.06,
-          flowX: 0.80,
-          flowY: -0.06,
-          maxShift: 4,
+          flowX: 0.36,
+          flowY: -0.50,
+          maxShift: 2,
           oscSpeed: 0,
         },
       ];
