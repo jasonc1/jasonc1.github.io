@@ -256,15 +256,15 @@ export function buildKineticState(grid: AsciiGrid, dir: KineticDir): KineticStat
           oscSpeed: 0,
         },
         {
-          // Ocean: full bottom, Bodega Bay params — extend to 1.0 for dramatic bottom edge.
-          // Higher maxShift + stronger flowY for visible ebb-and-flow at screen base.
+          // Ocean: horizontal-dominant swells (colW ≈ 0.82).
+          // flowX >> flowY so wave bands move left-right, not up-down.
           mode: 'wave',
           zoneRowStart: 0.56, zoneRowEnd: 1.0,
           densityMin: 40, densityMax: 62,
-          spatialScale: 0.06,
-          colScale: 0.06,
-          flowX: 0.36,
-          flowY: -0.60,
+          spatialScale: 0.05,
+          colScale: 0.07,
+          flowX: 0.70,
+          flowY: -0.15,
           maxShift: 4,
           oscSpeed: 0,
         },
