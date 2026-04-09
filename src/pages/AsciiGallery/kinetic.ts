@@ -256,15 +256,16 @@ export function buildKineticState(grid: AsciiGrid, dir: KineticDir): KineticStat
           oscSpeed: 0,
         },
         {
-          // Ocean: single zone, diagonal rolling like Bodega Bay
+          // Ocean: full bottom, Bodega Bay params — extend to 1.0 for dramatic bottom edge.
+          // Higher maxShift + stronger flowY for visible ebb-and-flow at screen base.
           mode: 'wave',
-          zoneRowStart: 0.58, zoneRowEnd: 0.92,
-          densityMin: 43, densityMax: 62,
+          zoneRowStart: 0.56, zoneRowEnd: 1.0,
+          densityMin: 40, densityMax: 62,
           spatialScale: 0.06,
           colScale: 0.06,
           flowX: 0.36,
-          flowY: -0.50,
-          maxShift: 2,
+          flowY: -0.60,
+          maxShift: 4,
           oscSpeed: 0,
         },
       ];
@@ -487,15 +488,26 @@ function applyCloudLayer(
 
   if (scrollInt === 0) return;
 
+  const zoneH = Math.max(1, zoneBot - zoneTop);
+
   for (let y = zoneTop; y < zoneBot; y++) {
+    // Soft fade in the bottom 35% of the zone — prevents hard cutoff line.
+    // At zone bottom (rowFrac=1), effectiveScroll → 0 so no chars are replaced.
+    const rowFrac = (y - zoneTop) / zoneH;
+    const fade = rowFrac > 0.65
+      ? Math.cos(((rowFrac - 0.65) / 0.35) * Math.PI * 0.5)
+      : 1.0;
+    const effectiveScroll = Math.round(scrollInt * fade);
+    if (effectiveScroll === 0) continue;
+
     let chars: string[] | null = null;
 
     for (let x = 0; x < cols; x++) {
       const destIdx = rampIndices[y * cols + x];
       if (destIdx < layer.densityMin || destIdx > layer.densityMax) continue;
 
-      // Clamp srcX to valid range — no modular wrap, so edges hold their value
-      const srcX = Math.max(0, Math.min(cols - 1, x - scrollInt));
+      // Clamp srcX — no modular wrap, so edges hold their value
+      const srcX = Math.max(0, Math.min(cols - 1, x - effectiveScroll));
       if (srcX === x) continue;
 
       const srcChar = rows[y][srcX];
