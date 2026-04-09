@@ -261,7 +261,7 @@ export function buildKineticState(grid: AsciiGrid, dir: KineticDir): KineticStat
           // densityMin 44 selects lighter water-surface chars, excludes dark rock.
           // Distant view: slow cycle (~52s), small amplitude (3% of cols).
           mode: 'cloud',
-          zoneRowStart: 0.74, zoneRowEnd: 1.0,
+          zoneRowStart: 0.87, zoneRowEnd: 1.0,
           densityMin: 44, densityMax: 62,
           spatialScale: 0.03,
           colScale: 0,
