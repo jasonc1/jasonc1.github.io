@@ -127,19 +127,8 @@ $footer-height: 72px;
   }
 }
 
-.mobile-navDisplay {
-  z-index: 99;
-  position: fixed;
-  margin-top: $nav-height;
-  width: 100%;
-  display: inline-flex;
-  justify-content: center;
-  border-bottom: theme.$border-width solid black;
-  backdrop-filter: theme.$backdrop;
-}
-
 .mobile-content-wrapper {
-  padding-top: 128px;
+  padding-top: 72px; // Below fixed FloatingNav (top 16px + height 40px + gap)
 }
 
 .mobile-content-block {
@@ -213,14 +202,14 @@ $footer-height: 72px;
 .content-sidebar {
   width: 25%;
   height: auto;
+  padding: 24px;
+  box-sizing: border-box;
 }
 
 #content-title {
   color: black;
-  position: fixed;
-  top: 24px;   // explicit top — margin-top is unreliable on position:fixed
-  left: 24px;
-  z-index: 4;  // below ascii-section (z-index: 5), hidden when ASCII is in view
+  position: sticky;
+  top: 24px;
 }
 
 .content-main {

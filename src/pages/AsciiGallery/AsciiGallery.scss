@@ -101,24 +101,27 @@
     filter    0.28s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-// Cross-fade between images
-@keyframes ascii-fade-out {
+// (Morph transition is now driven by the RAF loop in AsciiTransition.tsx,
+//  no CSS fade-in/fade-out needed for photo-to-photo transitions.)
+
+// Resize crossfade: old snapshot fades out while new content fades in beneath
+@keyframes ascii-resize-out {
   from { opacity: 1; }
   to   { opacity: 0; }
 }
-@keyframes ascii-fade-in {
+@keyframes ascii-resize-in {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
-.ascii-art-container pre.ascii-art--fade-out {
+.ascii-art-container pre.ascii-art--resize-out {
   z-index: 10;
   pointer-events: none;
-  animation: ascii-fade-out 0.5s ease-in-out forwards;
+  animation: ascii-resize-out 0.25s ease-out forwards;
 }
 
-.ascii-art-container pre.ascii-art--fade-in {
-  animation: ascii-fade-in 0.5s ease-in-out forwards;
+.ascii-art-container pre.ascii-art--resize-in {
+  animation: ascii-resize-in 0.25s ease-out forwards;
 }
 
 // ── Overlays ────────────────────────────────────────────────────────────────
@@ -129,14 +132,14 @@
   top: 24px;
   left: 24px;
   z-index: 3;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.80);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   padding: 6px 10px;
   font-family: 'GeistMono', monospace;
   font-size: 10px;
   letter-spacing: 0.06em;
-  color: rgba(theme.$primary, 0.4);
+  color: theme.$primary;
   pointer-events: none;
 }
 
@@ -146,7 +149,7 @@
   bottom: 24px;
   left: 24px;
   z-index: 3;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.80);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   padding: 8px 12px;
@@ -168,7 +171,7 @@
     font-size: 10px;
     line-height: 1;
     letter-spacing: 0.08em;
-    color: rgba(theme.$primary, 0.5);
+    color: theme.$primary;
     text-transform: uppercase;
   }
 }
@@ -179,7 +182,7 @@
   bottom: 24px;
   right: 24px;
   z-index: 3;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.80);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   padding: 8px 12px;
@@ -189,7 +192,7 @@
   font-size: 10px;
   line-height: 1;
   letter-spacing: 0.08em;
-  color: rgba(theme.$primary, 0.5);
+  color: theme.$primary;
   text-transform: uppercase;
   font-feature-settings: "calt" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss09" 1;
   pointer-events: none;
@@ -201,7 +204,7 @@
   bottom: 24px;
   left: 50%;
   z-index: 3;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.80);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   font-family: 'GeistMono', monospace;
@@ -228,13 +231,13 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.80);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   font-family: 'GeistMono', monospace;
   font-size: 9px;
   letter-spacing: 0.12em;
-  color: rgba(theme.$primary, 0.45);
+  color: theme.$primary;
   padding: 6px 12px;
   pointer-events: none;
   white-space: nowrap;
@@ -274,26 +277,62 @@
   }
 }
 
-// ── Mobile ──────────────────────────────────────────────────────────────────
+// ── Mobile / tablet ─────────────────────────────────────────────────────────
 @media only screen and (max-width: 770px) {
+  // Top bar: coords left-aligned, vertically centered with the MENU button (40px)
   .ascii-coords {
-    top: 20px;
-    left: 20px;
+    top: 16px;
+    left: 16px;
+    right: auto;
+    padding: 0 12px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 10px;
   }
 
+  // Bottom row: identity left, caption right — same height, same inset
   .ascii-identity {
-    bottom: 20px;
-    left: 20px;
+    bottom: 16px;
+    left: 16px;
+    padding: 8px 12px;
     .ascii-name { font-size: 13px; }
   }
 
   .ascii-caption {
-    bottom: 20px;
-    right: 20px;
+    bottom: 16px;
+    right: 16px;
+    padding: 8px 12px;
+    font-size: 10px;
   }
 
-  .ascii-orbit-hint {
-    font-size: 8px;
-    letter-spacing: 0.08em;
+  .ascii-enter {
+    font-size: 12px;
+    padding: 5px 10px;
+    bottom: 16px;
+  }
+}
+
+// ── Small phones (≤480px) ───────────────────────────────────────────────────
+@media only screen and (max-width: 480px) {
+  .ascii-coords {
+    top: 12px;
+    left: 12px;
+    padding: 0 10px;
+    height: 36px;
+    font-size: 9px;
+  }
+
+  .ascii-identity {
+    bottom: 12px;
+    left: 12px;
+    .ascii-name { font-size: 12px; }
+    .ascii-subtitle { font-size: 9px; }
+  }
+
+  .ascii-caption {
+    bottom: 12px;
+    right: 12px;
+    font-size: 9px;
   }
 }

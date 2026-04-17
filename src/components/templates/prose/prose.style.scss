@@ -1,7 +1,8 @@
 @use "../../../theme.scss";
 
 .prose {
-  padding: 96px 240px 240px 240px;
+  // Extra bottom padding for fixed ProjectBar (48px bar + 24px breathing room)
+  padding: 96px 240px 288px 240px;
   align-items: center;
   max-width: 1440px;
   margin: 0 auto;
@@ -53,6 +54,13 @@
 
 @media only screen and (max-width: 1000px) {
   .prose {
-    padding: 120px 24px 80px 24px;
+    padding: 120px 24px 120px 24px;
+  }
+}
+
+@media only screen and (max-width: 770px) {
+  .prose {
+    // Top: nav clearance. Bottom: 48px ProjectBar + 32px breathing room.
+    padding: 80px 16px 80px 16px;
   }
 }

@@ -1,22 +1,27 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
-import { photos, shuffleInitial, nextPhoto, prevPhoto } from './photos';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { photos, Photo, shuffleInitial, nextPhoto, prevPhoto } from './photos';
 import { useAsciiConverter, preloadAll, computeGrid } from './useAsciiConverter';
 import { AsciiTransition } from './AsciiTransition';
 import { PhotoReveal, PHOTO_LAYERS } from './PhotoReveal';
 import './AsciiGallery.scss';
 
+// Shuffled mapping of nav labels → photos, created once per page load
+function buildNavPhotoMap(): Record<string, Photo> {
+  const shuffled = [...photos].sort(() => Math.random() - 0.5);
+  return { Work: shuffled[0], Photo: shuffled[1], About: shuffled[2] };
+}
+
 export const AsciiGallery = () => {
-  const [grid, setGrid]               = useState(() => computeGrid());
   const [current, setCurrent]         = useState(() => shuffleInitial());
+  const [grid, setGrid]               = useState(() => computeGrid());
   const [next, setNext]               = useState(current);
   const [transitioning, setTransitioning] = useState(false);
-  const [entered, setEntered]         = useState(() => window.scrollY > 0);
+  const [entered, setEntered]         = useState<boolean | null>(null);
   const [explodeMode, setExplodeMode] = useState(false);
   const [hoverPos, setHoverPos]       = useState<{ x: number; y: number } | null>(null);
   const [showReveal, setShowReveal]   = useState(false);
   const [layerIndex, setLayerIndex]   = useState(0);
   const [isExiting, setIsExiting]     = useState(false);
-
   const touchStartX    = useRef<number | null>(null);
   const touchStartY    = useRef<number | null>(null);
   const stillTimerRef  = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -26,45 +31,97 @@ export const AsciiGallery = () => {
   const exitAnimRef    = useRef<number | null>(null);
   const scrollOpacityRef = useRef(1.0);
 
+  // Nav hover → photo preview: shuffled mapping set once per page load
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const navPhotoMap = useMemo(() => buildNavPhotoMap(), []);
+  const preHoverPhotoRef = useRef<Photo | null>(null);
+  const nextRef = useRef(current);
+  const currentRef = useRef(current);
+
   // Keep refs in sync for use inside event handler closures
   useEffect(() => { showRevealRef.current = showReveal; }, [showReveal]);
   useEffect(() => { layerIndexRef.current = layerIndex; }, [layerIndex]);
+  useEffect(() => { nextRef.current = next; }, [next]);
+  useEffect(() => { currentRef.current = current; }, [current]);
+
+  // Cleanup timers/RAF on unmount
+  useEffect(() => () => {
+    if (exitAnimRef.current) cancelAnimationFrame(exitAnimRef.current);
+    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    if (stillTimerRef.current) clearTimeout(stillTimerRef.current);
+  }, []);
 
   const { cols, rows, fontSize } = grid;
+
+  // Browser may restore scroll after React initializes state, so `entered` starts
+  // as null (undecided). After the browser has restored scroll position, sync the state.
+  // While null, scroll lock is disabled so the user isn't trapped.
+  // Delay snap activation until after scroll restoration so it doesn't yank us to top.
+  useEffect(() => {
+    const sync = () => {
+      setEntered(window.scrollY > 0);
+      document.documentElement.classList.add('snap-enabled');
+    };
+    // Double-rAF: ensures browser has completed layout + scroll restoration
+    // before we read scrollY (single rAF can fire before restoration in some browsers).
+    requestAnimationFrame(() => requestAnimationFrame(sync));
+  }, []);
 
   useEffect(() => {
     preloadAll(photos.map(p => ({ src: p.src, accents: p.accents })), cols, rows, fontSize);
   }, [cols, rows, fontSize]);
 
+  // On resize: update font-size immediately via CSS var (no React rerender = no snap),
+  // then debounce full grid recomputation for when cols/rows actually need to change.
   useEffect(() => {
-    const handle = () => setGrid(computeGrid());
+    document.documentElement.style.setProperty('--ascii-fs', `${fontSize}px`);
+  }, [fontSize]);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const handle = () => {
+      // Update font-size CSS var immediately so the existing <pre> scales
+      // with the viewport — avoids visual misalignment during drag-resize.
+      const g = computeGrid();
+      document.documentElement.style.setProperty('--ascii-fs', `${g.fontSize}px`);
+
+      // Debounce the full grid recomputation (cols/rows change triggers
+      // heavy canvas reconversion). Old content stays visible via
+      // useAsciiConverter's lastGoodRef and AsciiTransition's frozen frame.
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        setGrid(g);
+      }, 250);
+    };
     window.addEventListener('resize', handle);
-    return () => window.removeEventListener('resize', handle);
+    return () => {
+      window.removeEventListener('resize', handle);
+      if (timer) clearTimeout(timer);
+    };
   }, []);
 
-  // ── Scroll lock + layer cycling on hover ──────────────────────────────
+  // ── Scroll: enter portfolio when scrolling down, re-enter gallery at top ──
   useEffect(() => {
+    const handleScroll = () => {
+      if (!entered && window.scrollY > 10) {
+        setEntered(true);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [entered]);
+
+  useEffect(() => {
+    if (!entered) return;
     const handleWheel = (e: WheelEvent) => {
-      if (explodeMode || entered) return; // free scroll in portfolio or explode mode
-      e.preventDefault();
-      if (showRevealRef.current) {
-        // Scroll up (deltaY < 0) → deeper layer, scroll down → back toward raw
-        const dir = e.deltaY < 0 ? 1 : -1;
-        const next = Math.max(0, Math.min(PHOTO_LAYERS.length - 1, layerIndexRef.current + dir));
-        layerIndexRef.current = next;
-        setLayerIndex(next);
+      if (e.deltaY < 0 && window.scrollY <= window.innerHeight * 1.1) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     };
     window.addEventListener('wheel', handleWheel, { passive: false });
     return () => window.removeEventListener('wheel', handleWheel);
-  }, [entered, explodeMode]);
-
-  useEffect(() => {
-    if (entered || explodeMode) return;
-    const lockTouch = (e: TouchEvent) => { e.preventDefault(); };
-    window.addEventListener('touchmove', lockTouch, { passive: false });
-    return () => window.removeEventListener('touchmove', lockTouch);
-  }, [entered, explodeMode]);
+  }, [entered]);
 
   // ── Nav clicks while at gallery unlock the scroll gate ───────────────
   useEffect(() => {
@@ -72,6 +129,36 @@ export const AsciiGallery = () => {
     window.addEventListener('gallery-unlock', unlock);
     return () => window.removeEventListener('gallery-unlock', unlock);
   }, []);
+
+  // ── Nav hover → morph preview ────────────────────────────────────────
+  useEffect(() => {
+    if (entered) return;
+    const onHover = (e: Event) => {
+      const id = (e as CustomEvent).detail as string;
+      const photo = navPhotoMap[id];
+      if (!photo) return;
+      // Save the "home" photo only on first hover (not if already previewing)
+      if (!preHoverPhotoRef.current) {
+        preHoverPhotoRef.current = current;
+      }
+      if (photo.id === current.id && !transitioning) return;
+      setNext(photo);
+      setTransitioning(true);
+    };
+    const onLeave = () => {
+      const home = preHoverPhotoRef.current;
+      if (!home) return;
+      preHoverPhotoRef.current = null;
+      setNext(home);
+      setTransitioning(true);
+    };
+    window.addEventListener('gallery-nav-hover', onHover);
+    window.addEventListener('gallery-nav-leave', onLeave);
+    return () => {
+      window.removeEventListener('gallery-nav-hover', onHover);
+      window.removeEventListener('gallery-nav-leave', onLeave);
+    };
+  }, [entered, current, transitioning, navPhotoMap]);
 
   // ── Hide photo reveal when entering portfolio or explode mode ─────────
   useEffect(() => {
@@ -154,14 +241,22 @@ export const AsciiGallery = () => {
   }, [isExiting]);
 
   const handleTransitionEnd = useCallback(() => {
-    setCurrent(next);
+    setCurrent(nextRef.current);
     setTransitioning(false);
-  }, [next]);
+  }, []);
 
   // ── Keyboard ──────────────────────────────────────────────────────────
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (entered) return; // let the browser handle arrow keys in portfolio
+      if (entered) {
+        // ArrowUp near the top of portfolio → scroll back to 0, which triggers
+        // the scroll handler to call setEntered(false) and re-enter gallery.
+        if (e.key === 'ArrowUp' && window.scrollY <= window.innerHeight * 1.1) {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        return;
+      }
       if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Escape'].includes(e.key)) return;
       e.preventDefault(); // block browser scroll in gallery mode
       if (e.key === 'Escape') {
@@ -212,8 +307,8 @@ export const AsciiGallery = () => {
     }
   };
 
-  const activeGrid  = transitioning ? nextGrid  : currentGrid;
-  const activePhoto = transitioning ? next      : current;
+  const activeGrid  = (transitioning && nextGrid) ? nextGrid  : currentGrid;
+  const activePhoto = (transitioning && nextGrid) ? next      : current;
 
   return (
     <section
@@ -231,6 +326,7 @@ export const AsciiGallery = () => {
       onMouseLeave={!entered && !explodeMode ? () => {
         if (stillTimerRef.current) { clearTimeout(stillTimerRef.current); stillTimerRef.current = null; }
         setShowReveal(false);
+        if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
         hideTimerRef.current = setTimeout(() => setHoverPos(null), 300);
       } : undefined}
       onTouchStart={handleTouchStart}
@@ -260,9 +356,7 @@ export const AsciiGallery = () => {
         ( {current.title} )
       </div>
 
-      {explodeMode ? (
-        <div className="ascii-orbit-hint" aria-hidden="true">LAYER VIEW · SWIPE DOWN TO EXIT</div>
-      ) : (
+      {!explodeMode && (
         <div className="ascii-enter" aria-hidden="true">↓</div>
       )}
 

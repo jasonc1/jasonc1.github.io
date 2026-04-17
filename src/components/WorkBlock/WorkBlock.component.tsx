@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 export const WorkBlock = ({ detail, link }: IWorkBlockProps) => {
   return (
-    <Link to={link}>
+    <Link to={link} viewTransition>
       <div className="work-block">
         <div className="block-header">
           <Text

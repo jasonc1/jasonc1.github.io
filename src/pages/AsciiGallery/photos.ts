@@ -4,6 +4,7 @@ import forestImg from "../../assets/images/photos/forest.jpg";
 import halfmoonImg from "../../assets/images/photos/halfmoon.jpg";
 import honoluluImg from "../../assets/images/photos/honolulu.jpg";
 import montanadoroImg from "../../assets/images/photos/montanadoro.jpg";
+import pillarsImg from "../../assets/images/photos/pillars.jpg";
 import pghImg from "../../assets/images/photos/pgh.jpg";
 
 // Direction that guides the kinetic idle animation for each image.
@@ -12,13 +13,14 @@ import pghImg from "../../assets/images/photos/pgh.jpg";
 // diagonal:   cliffs, angled coastlines   — band sweeps diagonally
 // radial:     flowers, focal subjects     — band pulses from center
 export type KineticDir =
-  | "ocean_waves" // Bodega Bay  — rolling surface chop
-  | "flower_wind" // Flora       — magenta bush in a breeze
-  | "forest_wind" // Forest      — canopy leaves
-  | "coastal_shrubs" // Half Moon   — shrub row at cliff top
-  | "dual_horizon" // Honolulu    — slow cloud movement
-  | "coastal_waves" // Montana     — diagonal coastal swells
-  | "city_birds"; // Pittsburgh  — small birds crossing sky
+  | "ocean_waves"    // Bodega Bay   — rolling surface chop
+  | "flower_wind"    // Flora        — magenta bush in a breeze
+  | "forest_fog"     // Forest       — layered mist drifting through trees
+  | "coastal_shrubs" // Half Moon    — shrub row at cliff top
+  | "dual_horizon"   // Honolulu     — slow cloud movement
+  | "coastal_waves"  // Montana      — diagonal coastal swells
+  | "ivy_light"      // Pillars      — dappled sunlight on stone facade
+  | "city_birds";    // Pittsburgh   — small birds crossing sky
 
 export interface Photo {
   id: string;
@@ -52,7 +54,7 @@ export const photos: Photo[] = [
     id: "flower",
     src: flowerImg,
     title: "FLORA",
-    coords: null,
+    coords: "37.80°N  122.41°W",
     kinetic: "flower_wind",
     aspectRatio: "4/3",
     accents: ["#c0392b", "#e67e22", "#f9ca8b"],
@@ -62,13 +64,13 @@ export const photos: Photo[] = [
   {
     id: "forest",
     src: forestImg,
-    title: "FOREST",
-    coords: null,
-    kinetic: "forest_wind",
+    title: "FOREST / OR",
+    coords: "45.53°N  122.74°W",
+    kinetic: "forest_fog",
     aspectRatio: "3/2",
     accents: ["#2d5a27", "#7a9e4e", "#c8d9a0"],
     notes:
-      "Dense forest canopy. Leaves rustling in wind. Heavier than flower_wind — the canopy mass is larger so movement is slower and more weighted. Focus on the upper canopy area.",
+      "Dense forest in fog. Layered mist drifting horizontally through the trees at different depths and speeds — foreground wisps fast, background fog slow.",
   },
   {
     id: "halfmoon",
@@ -102,6 +104,17 @@ export const photos: Photo[] = [
     accents: ["#8b6914", "#c4a35a", "#8ab0a0"],
     notes:
       "Coastal cliffs and ocean. Sky clouds near the top (~top 18%) animate like Honolulu — slow sine oscillation. Ocean waves in the lower half (~58–92%) animate like Bodega Bay — diagonal rolling swells. Cliffs and terrain in the middle are static.",
+  },
+  {
+    id: "pillars",
+    src: pillarsImg,
+    title: "PILLARS",
+    coords: "51.54°N  0.16°W",
+    kinetic: "ivy_light",
+    aspectRatio: "3/2",
+    accents: ["#558a48", "#d2d2d0", "#ccb0a0"],
+    notes:
+      "White stucco townhouse near Primrose Hill with lush ivy/creepers climbing the facade. Dappled sunlight plays across the stone — shifting light filtering through moving ivy leaves. Targets the mid-bright facade and window areas where ASCII characters are visible.",
   },
   {
     id: "pgh",

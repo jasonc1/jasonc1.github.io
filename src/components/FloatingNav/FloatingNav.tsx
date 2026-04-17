@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Text } from '../text/text.component';
 import { theme } from '../../colors.js';
@@ -10,6 +11,7 @@ interface FloatingNavProps {
   screenWidth: number;
   showMenu: boolean;
   setShowMenu: (v: boolean) => void;
+  navDisplay?: string;
 }
 
 const NAV_LINKS = [
@@ -25,9 +27,26 @@ const scrollToSection = (id: string) => {
   window.scrollTo({ top: y, behavior: 'smooth' });
 };
 
-export const FloatingNav = ({ screenWidth, showMenu, setShowMenu }: FloatingNavProps) => {
+export const FloatingNav = ({ screenWidth, showMenu, setShowMenu, navDisplay }: FloatingNavProps) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const [inPortfolio, setInPortfolio] = useState(() => window.scrollY > window.innerHeight * 0.5);
+  const [scrollActive, setScrollActive] = useState(false);
+  const scrollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    const handle = () => {
+      setInPortfolio(window.scrollY > window.innerHeight * 0.5);
+      setScrollActive(true);
+      if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
+      scrollTimerRef.current = setTimeout(() => setScrollActive(false), 1500);
+    };
+    window.addEventListener('scroll', handle, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handle);
+      if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
+    };
+  }, []);
 
   const isProject = pathname !== '/';
 
@@ -57,6 +76,12 @@ export const FloatingNav = ({ screenWidth, showMenu, setShowMenu }: FloatingNavP
   if (screenWidth < 1200) {
     return (
       <>
+        {navDisplay && inPortfolio && !isProject && (
+          <div className={`floating-nav__section-island${scrollActive ? ' is-visible' : ''}`}>
+            [ {navDisplay} ]
+          </div>
+        )}
+
         <nav className={`floating-nav floating-nav--mobile${showMenu ? ' is-open' : ''}`}>
           {isProject ? (
             <button className="floating-nav__back" onClick={handleBack}>
@@ -106,6 +131,8 @@ export const FloatingNav = ({ screenWidth, showMenu, setShowMenu }: FloatingNavP
               key={item.id}
               className="floating-nav__link"
               onClick={() => handleNavClick(item.id)}
+              onMouseEnter={() => window.dispatchEvent(new CustomEvent('gallery-nav-hover', { detail: item.id }))}
+              onMouseLeave={() => window.dispatchEvent(new CustomEvent('gallery-nav-leave'))}
             >
               {item.label}
             </button>

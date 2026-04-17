@@ -47,10 +47,12 @@
   }
 }
 
-// Mobile variant
+// Mobile variant — right-aligned floating island (MENU only)
 .floating-nav--mobile {
   padding: 0;
   height: 40px;
+  top: 16px;
+  right: 16px;
 
   .floating-nav__menu-toggle,
   .floating-nav__back {
@@ -62,7 +64,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    padding: 10px 20px;
+    padding: 10px 16px;
     height: 40px;
     display: inline-flex;
     align-items: center;
@@ -72,12 +74,61 @@
       background-color: rgba(theme.$primary, 0.06);
     }
   }
+}
 
-  // Mobile menu toggle / back
-  .floating-nav__menu-toggle,
-  .floating-nav__back {
-    padding: 12px 24px;
-    height: 44px;
+// Ghost section label — fades in on scroll, fades out when idle
+.floating-nav__section-island {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 1000;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0 14px;
+  font-family: 'GeistMono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: theme.$primary;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+
+  &.is-visible {
+    opacity: 0.6;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .floating-nav--mobile {
+    top: 12px;
+    right: 12px;
+    height: 36px;
+
+    .floating-nav__menu-toggle,
+    .floating-nav__back {
+      height: 36px;
+      padding: 8px 12px;
+      font-size: 10px;
+    }
+  }
+
+  .floating-nav__section-island {
+    top: 12px;
+    left: 12px;
+    height: 36px;
+    font-size: 10px;
+    padding: 0 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-nav__section-island {
+    transition: none;
   }
 }
 

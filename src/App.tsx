@@ -40,10 +40,14 @@ const AppContent = () => {
     setShowMenu(false);
   }, [pathname]);
 
-  // Enable scroll-snap only on the home/gallery route
+  // Enable scroll-snap only on the home/gallery route.
+  // On the home route, snap is activated by AsciiGallery after scroll restoration
+  // to avoid yanking the user back to the top on reload/back-nav.
+  // For non-home routes, remove snap immediately.
   useEffect(() => {
-    const isHome = pathname === '/';
-    document.documentElement.classList.toggle('snap-enabled', isHome);
+    if (pathname !== '/') {
+      document.documentElement.classList.remove('snap-enabled');
+    }
     return () => {
       document.documentElement.classList.remove('snap-enabled');
     };
@@ -94,6 +98,7 @@ const AppContent = () => {
         screenWidth={screenWidth}
         showMenu={showMenu}
         setShowMenu={setShowMenu}
+        navDisplay={navDisplay}
       />
       <Routes>
         <Route

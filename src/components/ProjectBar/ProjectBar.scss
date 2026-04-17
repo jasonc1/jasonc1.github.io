@@ -1,0 +1,49 @@
+@use '../../theme.scss';
+
+.project-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 48px;
+  background: theme.$white;
+  border-top: theme.$border-width solid theme.$primary;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 16px;
+
+  &__name {
+    font-family: 'Geo', serif;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: theme.$primary;
+    flex-shrink: 0;
+  }
+
+  &__meta {
+    font-family: 'GeistMono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: rgba(theme.$primary, 0.45);
+    text-transform: uppercase;
+    flex: 1;
+  }
+
+}
+
+@media only screen and (max-width: 770px) {
+  .project-bar {
+    padding: 0 16px;
+    gap: 12px;
+
+    &__name {
+      font-size: 12px;
+    }
+
+    &__meta {
+      font-size: 9px;
+    }
+  }
+}

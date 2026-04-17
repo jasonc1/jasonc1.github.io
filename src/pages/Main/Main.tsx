@@ -192,10 +192,6 @@ export const Main = ({ navDisplay, navItems, screenWidth }: IMainProps) => {
   }, []);
   const mobileContent = (
     <>
-      <div className="mobile-navDisplay">
-        <Text size="Header" text={navDisplay} caps />
-      </div>
-
       <div className="mobile-content-wrapper">
         <div className="mobile-content-block" id={navItems[0]}>
           {work}
@@ -220,7 +216,7 @@ export const Main = ({ navDisplay, navItems, screenWidth }: IMainProps) => {
     <div className={`content${hasEntered ? ' content--entered' : ''}`}>
       <div className="content-sidebar">
         <div id="content-title">
-          <Text size="Header" text={navDisplay} caps />
+          <Text size="Header" text={`[ ${navDisplay} ]`} caps />
         </div>
       </div>
       <div className="content-main">
