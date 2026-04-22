@@ -120,14 +120,34 @@ function imageToGrid(img: HTMLImageElement, cols: number, rows: number, fontSize
   canvas.width = W; canvas.height = H;
   const ctx = canvas.getContext('2d', { willReadFrequently: true })!;
 
-  // Stretch-fit: fill entire grid (matches how the photo reveal renders at 100vw×100vh)
+  // Desktop: stretch-fit (matches how PhotoReveal renders at 100vw×100vh, so hover
+  // panel and ASCII layer line up pixel-for-pixel).
+  // Mobile: cover-fit — landscape photos would squash into a portrait grid, so
+  // preserve the photo's aspect ratio and center-crop instead. PhotoReveal isn't
+  // triggered on touch devices, so the desktop alignment contract doesn't apply.
+  const imgW = img.naturalWidth, imgH = img.naturalHeight;
+  let sx: number, sy: number, sW: number, sH: number;
+  if (window.innerWidth < 770) {
+    const targetAspect = W / H;
+    const imgAspect = imgW / imgH;
+    if (imgAspect > targetAspect) {
+      sH = imgH; sW = imgH * targetAspect;
+      sx = (imgW - sW) / 2; sy = 0;
+    } else {
+      sW = imgW; sH = imgW / targetAspect;
+      sx = 0; sy = (imgH - sH) / 2;
+    }
+  } else {
+    sx = 0; sy = 0; sW = imgW; sH = imgH;
+  }
+
   // Draw color version first (used for palette extraction)
-  ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight, 0, 0, W, H);
+  ctx.drawImage(img, sx, sy, sW, sH, 0, 0, W, H);
   const cdata = ctx.getImageData(0, 0, W, H).data;
 
-  // Draw grayscale version (reuse same canvas, same stretch-fit)
+  // Draw grayscale version (reuse same canvas, same cover-fit crop)
   ctx.filter = 'grayscale(1) contrast(120%)';
-  ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight, 0, 0, W, H);
+  ctx.drawImage(img, sx, sy, sW, sH, 0, 0, W, H);
   const { data } = ctx.getImageData(0, 0, W, H);
 
   // ── Supersample brightness + color in a single cell loop ──────────

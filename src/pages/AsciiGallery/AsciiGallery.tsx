@@ -75,6 +75,7 @@ export const AsciiGallery = () => {
   // then debounce full grid recomputation for when cols/rows actually need to change.
   useEffect(() => {
     document.documentElement.style.setProperty('--ascii-fs', `${fontSize}px`);
+    document.documentElement.style.setProperty('--ascii-vh', `${window.innerHeight}px`);
   }, [fontSize]);
 
   useEffect(() => {
@@ -84,6 +85,7 @@ export const AsciiGallery = () => {
       // with the viewport — avoids visual misalignment during drag-resize.
       const g = computeGrid();
       document.documentElement.style.setProperty('--ascii-fs', `${g.fontSize}px`);
+      document.documentElement.style.setProperty('--ascii-vh', `${window.innerHeight}px`);
 
       // Debounce the full grid recomputation (cols/rows change triggers
       // heavy canvas reconversion). Old content stays visible via
