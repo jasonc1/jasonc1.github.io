@@ -1,8 +1,7 @@
 import { Photo } from './photos';
 import './PhotoReveal.scss';
 
-const BOX_W   = 400;
-const LABEL_H = 30;
+const BOX_W   = 320;   // 20% smaller than original 400
 
 export const PHOTO_LAYERS = [
   { filter: 'none',                                                  label: 'PHOTO'     },
@@ -11,18 +10,24 @@ export const PHOTO_LAYERS = [
   { filter: 'saturate(0) contrast(6) brightness(1.4)',               label: 'THRESHOLD'  },
 ];
 
+// Phase of the reveal lifecycle:
+// 'active'  — mouse is moving, photo fill visible
+// 'idle'    — mouse stopped, fill fades to transparent (outline stays)
+// 'hidden'  — faded away entirely after idle timeout
+export type RevealPhase = 'active' | 'idle' | 'hidden';
+
 interface Props {
   photo:      Photo;
   mouseX:     number;
   mouseY:     number;
-  visible:    boolean;
+  phase:      RevealPhase;
   layerIndex: number;
 }
 
-export const PhotoReveal = ({ photo, mouseX, mouseY, visible, layerIndex }: Props) => {
+export const PhotoReveal = ({ photo, mouseX, mouseY, phase, layerIndex }: Props) => {
   const [arW, arH] = photo.aspectRatio.split('/').map(Number);
   const imgH   = Math.round(BOX_W * arH / arW);
-  const totalH = imgH + LABEL_H;
+  const totalH = imgH;
 
   const vw = window.innerWidth;
   const vh = window.innerHeight;
@@ -35,9 +40,14 @@ export const PhotoReveal = ({ photo, mouseX, mouseY, visible, layerIndex }: Prop
 
   const layer = PHOTO_LAYERS[Math.max(0, Math.min(PHOTO_LAYERS.length - 1, layerIndex))];
 
+  const phaseClass =
+    phase === 'active' ? ' photo-reveal--active' :
+    phase === 'idle'   ? ' photo-reveal--idle' :
+    '';
+
   return (
     <div
-      className={`photo-reveal${visible ? ' photo-reveal--visible' : ''}`}
+      className={`photo-reveal${phaseClass}`}
       style={{ left: panelLeft, top: panelTop, width: BOX_W }}
       aria-hidden="true"
     >
@@ -56,8 +66,8 @@ export const PhotoReveal = ({ photo, mouseX, mouseY, visible, layerIndex }: Prop
             transition: 'filter 350ms cubic-bezier(0.25, 1, 0.5, 1)',
           }}
         />
+        <span className="photo-reveal__label">( {photo.title} ) · {layer.label}</span>
       </div>
-      <span className="photo-reveal__label">( {photo.title} ) · {layer.label}</span>
     </div>
   );
 };

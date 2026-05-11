@@ -2,23 +2,42 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AsciiGrid, RAMP } from './useAsciiConverter';
 import { buildKineticState, applyKineticFrame, KineticState, noise2 } from './kinetic';
 import { Photo } from './photos';
+import { asciiConfig } from './asciiConfig';
 
-const MORPH_MS = 1200;
 const RESIZE_FADE_MS = 250;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Pre-built RAMP char codes for intermediate blending
-const RAMP_CODES = new Uint16Array(RAMP.length);
-for (let i = 0; i < RAMP.length; i++) RAMP_CODES[i] = RAMP.charCodeAt(i);
-const RAMP_MAX = RAMP.length - 1;
+// ── Lazy ramp lookup tables — rebuild only when asciiConfig.ramp changes ────
+let _cachedRamp = '';
+let _rampCodes: Uint16Array = new Uint16Array(0);
+let _codeToRamp: Uint8Array = new Uint8Array(128);
+let _rampMax = 0;
 
-// Reverse lookup: char code → ramp index (for blending old/new through the ramp)
-const CODE_TO_RAMP = new Uint8Array(128);
-CODE_TO_RAMP.fill(RAMP_MAX); // default to lightest
-for (let i = 0; i < RAMP.length; i++) {
-  const c = RAMP.charCodeAt(i);
-  if (c < 128) CODE_TO_RAMP[c] = i;
+function getRampTables() {
+  const ramp = asciiConfig.ramp;
+  if (ramp !== _cachedRamp) {
+    _cachedRamp = ramp;
+    _rampCodes = new Uint16Array(ramp.length);
+    for (let i = 0; i < ramp.length; i++) _rampCodes[i] = ramp.charCodeAt(i);
+    _rampMax = ramp.length - 1;
+    _codeToRamp = new Uint8Array(128);
+    _codeToRamp.fill(_rampMax);
+    for (let i = 0; i < ramp.length; i++) {
+      const c = ramp.charCodeAt(i);
+      if (c < 128) _codeToRamp[c] = i;
+    }
+  }
+  return { RAMP_CODES: _rampCodes, CODE_TO_RAMP: _codeToRamp, RAMP_MAX: _rampMax };
 }
+
+// Initialize with default ramp
+getRampTables();
+
+// Expose kinetic state for the tweak panel to mutate layers directly
+export function getCurrentKineticState(): KineticState | null {
+  return _kineticStateRef;
+}
+let _kineticStateRef: KineticState | null = null;
 
 // ── Ferrofluid morph: Perlin noise blob boundaries ──────────────────────────
 let morphSeed = 0;
@@ -70,11 +89,12 @@ interface Props {
   onTransitionEnd: () => void;
   currentPhoto: Photo | null;
   isExplodeMode: boolean;
+  mouseRef: React.RefObject<{ x: number; y: number } | null>;
 }
 
 export const AsciiTransition = ({
   grid, fontSize, isTransitioning, onTransitionEnd,
-  currentPhoto, isExplodeMode,
+  currentPhoto, isExplodeMode, mouseRef,
 }: Props) => {
   const [displayGrid, setDisplayGrid] = useState<AsciiGrid | null>(grid);
 
@@ -112,6 +132,15 @@ export const AsciiTransition = ({
   const kineticElapsedRef = useRef(0);
   const kineticLastTsRef = useRef<number | null>(null);
 
+  // ── Accent color pulse (tint layers) ────────────────────────────────
+  const tintRefs = useRef<(HTMLPreElement | null)[]>([null, null, null]);
+  // ── Temporal echo ───────────────────────────────────────────────────
+  const echoRef = useRef<HTMLPreElement>(null);
+  const echoTickRef = useRef(0);
+  const echoCacheRef = useRef('');
+  // ── Entry materialization ───────────────────────────────────────────
+  const materializedRef = useRef(false);
+
   // Capture old rows synchronously before any effects overwrite kineticOutputRef.
   // useLayoutEffect fires before useEffect, so this snapshots the screen content
   // from the *previous* render before the kinetic state rebuilds for the new grid.
@@ -130,10 +159,21 @@ export const AsciiTransition = ({
     const state = buildKineticState(grid, currentPhoto.kinetic);
     state.prevElapsed = kineticElapsedRef.current;
     kineticStateRef.current = state;
+    _kineticStateRef = state; // expose for tweak panel
     // Pre-allocate output array — avoid spread copy
     const out = new Array(grid.rows.length);
     for (let i = 0; i < grid.rows.length; i++) out[i] = grid.rows[i];
     kineticOutputRef.current = out;
+
+    // Update tint layer content + color
+    const tints = tintRefs.current;
+    for (let i = 0; i < 3; i++) {
+      const pre = tints[i];
+      if (pre && grid.colorMaps[i]) {
+        pre.textContent = grid.colorMaps[i].join('\n');
+        pre.style.color = grid.palette[i];
+      }
+    }
   }, [grid, currentPhoto?.kinetic]);
 
   useEffect(() => {
@@ -175,10 +215,13 @@ export const AsciiTransition = ({
 
         // Use a shared typed array buffer for building row strings
         const buf = morphBufRef.current;
+        // Read config once per frame
+        const morphMs = asciiConfig.morphMs;
         // Tight stagger window → blobs advance as solid fronts
-        const staggerWindow = MORPH_MS * 0.35;
+        const staggerWindow = morphMs * asciiConfig.staggerFraction;
         // Short cell duration with 3-phase blend: darken → flip → lighten
-        const cellDuration = MORPH_MS * 0.45;
+        const cellDuration = morphMs * asciiConfig.cellFraction;
+        const { RAMP_CODES, CODE_TO_RAMP, RAMP_MAX } = getRampTables();
 
         let allDone = true;
         for (let y = 0; y < numRows; y++) {
@@ -253,8 +296,43 @@ export const AsciiTransition = ({
         // Normal kinetic animation
         const state = kineticStateRef.current;
         if (state) {
+          // Update cursor position for disturbance effect
+          const mouse = mouseRef.current;
+          if (mouse) {
+            state.mouseCol = mouse.x * state.cols / window.innerWidth;
+            state.mouseRow = mouse.y * state.numRows / window.innerHeight;
+          } else {
+            state.mouseCol = -1;
+            state.mouseRow = -1;
+          }
+
           applyKineticFrame(state, kineticElapsedRef.current, kineticOutputRef.current);
-          pre.textContent = kineticOutputRef.current.join('\n');
+          const frameText = kineticOutputRef.current.join('\n');
+          pre.textContent = frameText;
+
+          // ── Temporal echo: update every Nth frame for visible trailing ──
+          echoTickRef.current++;
+          if (echoRef.current && echoTickRef.current % asciiConfig.echoEveryNFrames === 0) {
+            echoRef.current.textContent = echoCacheRef.current;
+            echoCacheRef.current = frameText;
+          } else if (!echoCacheRef.current) {
+            echoCacheRef.current = frameText;
+          }
+        }
+
+        // ── Accent color pulse: independent sine opacity per tint layer ──
+        const tSec = kineticElapsedRef.current / 1000;
+        const tints = tintRefs.current;
+        const pulseFreqs = [asciiConfig.pulseFreq0, asciiConfig.pulseFreq1, asciiConfig.pulseFreq2];
+        const pBase = asciiConfig.pulseBaseOpacity;
+        const pAmp = asciiConfig.pulseAmplitude;
+        for (let i = 0; i < 3; i++) {
+          const el = tints[i];
+          if (!el) continue;
+          const freq = pulseFreqs[i];
+          const phase = i * 2.09;        // ~120° apart
+          const op = pBase + Math.sin(tSec * freq * 6.2832 + phase) * pAmp;
+          el.style.opacity = String(op < 0 ? 0 : op);
         }
       }
 
@@ -341,6 +419,10 @@ export const AsciiTransition = ({
     };
     morphActiveRef.current = true;
 
+    // Clear echo to prevent stale trailing during morph
+    if (echoRef.current) echoRef.current.textContent = '';
+    echoCacheRef.current = '';
+
     // Safety timeout in case morph doesn't complete naturally
     timerRef.current = setTimeout(() => {
       if (morphActiveRef.current) {
@@ -348,16 +430,68 @@ export const AsciiTransition = ({
         stableGridRef.current = grid;
         onTransitionEnd();
       }
-    }, MORPH_MS + 200);
+    }, asciiConfig.morphMs + 200);
 
     return () => { if (timerRef.current) clearTimeout(timerRef.current); };
   }, [isTransitioning, grid]);
+
+  // ── Entry materialization: solid '@' → photo via ferrofluid morph ────
+  useEffect(() => {
+    if (materializedRef.current || !grid || reducedMotion) return;
+    materializedRef.current = true;
+
+    morphSeed = Math.random() * 1000;
+    warpA = Math.random() * 500;
+    warpB = Math.random() * 500;
+
+    const solidRow = ' '.repeat(grid.cols);
+    const solidRows = Array.from({ length: grid.rows.length }, () => solidRow);
+    const mCols = grid.cols;
+    const numRows = grid.rows.length;
+
+    const delays = new Float32Array(mCols * numRows);
+    for (let y = 0; y < numRows; y++) {
+      for (let x = 0; x < mCols; x++) {
+        delays[y * mCols + x] = cellDelay(x, y, mCols, numRows);
+      }
+    }
+
+    if (morphBufRef.current.length < mCols) {
+      morphBufRef.current = new Uint16Array(mCols);
+    }
+
+    morphOldRowsRef.current = solidRows;
+    morphNewRowsRef.current = [...grid.rows];
+    morphDelaysRef.current = delays;
+    morphColsRef.current = mCols;
+    morphNumRowsRef.current = numRows;
+    morphStartRef.current = performance.now();
+    morphCallbackRef.current = () => { stableGridRef.current = grid; };
+    morphActiveRef.current = true;
+
+    // Clear echo so it doesn't flash stale content after materialization
+    if (echoRef.current) echoRef.current.textContent = '';
+    echoCacheRef.current = '';
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [grid]);
 
   if (!displayGrid) return null;
 
   return (
     <div className="ascii-layers">
-      {/* RAF controls textContent directly -- no React children */}
+      {/* Temporal echo — faded previous frame for motion trails */}
+      <pre
+        ref={echoRef}
+        className="ascii-art ascii-art--echo"
+        style={{ fontSize: 'var(--ascii-fs)' }}
+      />
+
+      {/* Accent color tint layers — palette breathes via sine opacity */}
+      <pre ref={el => { tintRefs.current[0] = el; }} className="ascii-art ascii-art--tint" style={{ fontSize: 'var(--ascii-fs)' }} />
+      <pre ref={el => { tintRefs.current[1] = el; }} className="ascii-art ascii-art--tint" style={{ fontSize: 'var(--ascii-fs)' }} />
+      <pre ref={el => { tintRefs.current[2] = el; }} className="ascii-art ascii-art--tint" style={{ fontSize: 'var(--ascii-fs)' }} />
+
+      {/* Main layer — RAF controls textContent directly */}
       <pre
         ref={mainRef}
         className={`ascii-art ascii-art--main${resizeFading ? ' ascii-art--resize-in' : ''}`}
