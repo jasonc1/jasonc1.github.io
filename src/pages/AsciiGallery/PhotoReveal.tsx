@@ -1,3 +1,5 @@
+import { useRef, useEffect, memo } from 'react';
+import type { RefObject } from 'react';
 import { Photo } from './photos';
 import './PhotoReveal.scss';
 
@@ -18,25 +20,46 @@ export type RevealPhase = 'active' | 'idle' | 'hidden';
 
 interface Props {
   photo:      Photo;
-  mouseX:     number;
-  mouseY:     number;
+  posRef:     RefObject<{ x: number; y: number } | null>;
   phase:      RevealPhase;
   layerIndex: number;
 }
 
-export const PhotoReveal = ({ photo, mouseX, mouseY, phase, layerIndex }: Props) => {
+export const PhotoReveal = memo(({ photo, posRef, phase, layerIndex }: Props) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
+
   const [arW, arH] = photo.aspectRatio.split('/').map(Number);
-  const imgH   = Math.round(BOX_W * arH / arW);
-  const totalH = imgH;
+  const imgH = Math.round(BOX_W * arH / arW);
 
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
+  // RAF loop: read posRef and update DOM position directly (no re-renders)
+  useEffect(() => {
+    const update = () => {
+      const el = containerRef.current;
+      const pos = posRef.current;
+      if (el && pos) {
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const totalH = imgH;
+        const left = Math.max(8, Math.min(vw - BOX_W - 8, pos.x - BOX_W / 2));
+        const top  = Math.max(8, Math.min(vh - totalH - 8, pos.y - totalH / 2));
+        el.style.left = `${left}px`;
+        el.style.top  = `${top}px`;
 
-  const panelLeft = Math.max(8, Math.min(vw - BOX_W - 8, mouseX - BOX_W / 2));
-  const panelTop  = Math.max(8, Math.min(vh - totalH - 8, mouseY - totalH / 2));
-
-  const imgOffsetX = -panelLeft;
-  const imgOffsetY = -panelTop;
+        // Update image offsets via CSS custom properties
+        const imgEl = el.querySelector('img') as HTMLImageElement | null;
+        if (imgEl) {
+          imgEl.style.left = `${-left}px`;
+          imgEl.style.top  = `${-top}px`;
+        }
+      }
+      rafRef.current = requestAnimationFrame(update);
+    };
+    rafRef.current = requestAnimationFrame(update);
+    return () => {
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
+  }, [posRef, imgH]);
 
   const layer = PHOTO_LAYERS[Math.max(0, Math.min(PHOTO_LAYERS.length - 1, layerIndex))];
 
@@ -47,8 +70,9 @@ export const PhotoReveal = ({ photo, mouseX, mouseY, phase, layerIndex }: Props)
 
   return (
     <div
+      ref={containerRef}
       className={`photo-reveal${phaseClass}`}
-      style={{ left: panelLeft, top: panelTop, width: BOX_W }}
+      style={{ width: BOX_W }}
       aria-hidden="true"
     >
       <div className="photo-reveal__window" style={{ height: imgH }}>
@@ -60,8 +84,6 @@ export const PhotoReveal = ({ photo, mouseX, mouseY, phase, layerIndex }: Props)
             position: 'absolute',
             width:  '100vw',
             height: '100vh',
-            left: imgOffsetX,
-            top:  imgOffsetY,
             filter: layer.filter,
             transition: 'filter 350ms cubic-bezier(0.25, 1, 0.5, 1)',
           }}
@@ -70,4 +92,4 @@ export const PhotoReveal = ({ photo, mouseX, mouseY, phase, layerIndex }: Props)
       </div>
     </div>
   );
-};
+});

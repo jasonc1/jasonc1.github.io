@@ -23,7 +23,7 @@ export const AsciiGallery = () => {
   const [transitioning, setTransitioning] = useState(false);
   const [entered, setEntered]         = useState<boolean | null>(null);
   const [explodeMode, setExplodeMode] = useState(false);
-  const [hoverPos, setHoverPos]       = useState<{ x: number; y: number } | null>(null);
+  const [hoverActive, setHoverActive] = useState(false);
   const [revealPhase, setRevealPhase] = useState<RevealPhase>('hidden');
   const [layerIndex, setLayerIndex]   = useState(0);
   const [isExiting, setIsExiting]     = useState(false);
@@ -36,6 +36,15 @@ export const AsciiGallery = () => {
   const exitAnimRef    = useRef<number | null>(null);
   const scrollOpacityRef = useRef(1.0);
   const mouseRef = useRef<{ x: number; y: number } | null>(null);
+  const hoverPosRef = useRef<{ x: number; y: number } | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Refs for stable callback access (avoid recreating callbacks on state change)
+  const transitioningRef = useRef(false);
+  const isExitingRef = useRef(false);
+  const enteredRef = useRef<boolean | null>(null);
+  const explodeModeRef = useRef(false);
+  const tweakPanelOpenRef = useRef(false);
 
   // Nav hover → photo preview: shuffled mapping set once per page load
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -44,10 +53,15 @@ export const AsciiGallery = () => {
   const nextRef = useRef(current);
   const currentRef = useRef(current);
 
-  // Keep refs in sync for use inside event handler closures
+  // Keep refs in sync for use inside stable callbacks
   useEffect(() => { layerIndexRef.current = layerIndex; }, [layerIndex]);
   useEffect(() => { nextRef.current = next; }, [next]);
   useEffect(() => { currentRef.current = current; }, [current]);
+  useEffect(() => { transitioningRef.current = transitioning; }, [transitioning]);
+  useEffect(() => { isExitingRef.current = isExiting; }, [isExiting]);
+  useEffect(() => { enteredRef.current = entered; }, [entered]);
+  useEffect(() => { explodeModeRef.current = explodeMode; }, [explodeMode]);
+  useEffect(() => { tweakPanelOpenRef.current = tweakPanelOpen; }, [tweakPanelOpen]);
 
   // Cleanup timers/RAF on unmount
   useEffect(() => () => {
@@ -169,10 +183,11 @@ export const AsciiGallery = () => {
   useEffect(() => {
     if (entered || explodeMode) {
       mouseRef.current = null;
+      hoverPosRef.current = null;
       if (idleTimerRef.current) { clearTimeout(idleTimerRef.current); idleTimerRef.current = null; }
       if (hideTimerRef.current) { clearTimeout(hideTimerRef.current); hideTimerRef.current = null; }
       setRevealPhase('hidden');
-      setHoverPos(null);
+      setHoverActive(false);
     }
   }, [entered, explodeMode]);
 
@@ -181,11 +196,15 @@ export const AsciiGallery = () => {
     setLayerIndex(0);
   }, [current.id]);
 
-  // ── Scroll opacity + re-lock when scrolling back to gallery ──────────
-  const [scrollOpacity, setScrollOpacity] = useState(() => {
+  // ── Scroll opacity: ref + direct DOM mutation (no state updates) ──────
+  // Initialize opacity on the section element after mount
+  useEffect(() => {
     const progress = Math.min(window.scrollY / window.innerHeight, 1);
-    return Math.max(0, 1 - progress * 1.6);
-  });
+    scrollOpacityRef.current = Math.max(0, 1 - progress * 1.6);
+    if (sectionRef.current) {
+      sectionRef.current.style.opacity = String(scrollOpacityRef.current);
+    }
+  }, []);
 
   useEffect(() => {
     if (!entered) return;
@@ -193,7 +212,7 @@ export const AsciiGallery = () => {
       const progress = Math.min(window.scrollY / window.innerHeight, 1);
       const op = Math.max(0, 1 - progress * 1.6);
       scrollOpacityRef.current = op;
-      setScrollOpacity(op);
+      if (sectionRef.current) sectionRef.current.style.opacity = String(op);
       if (window.scrollY === 0) {
         setEntered(false);
         setIsExiting(false);
@@ -207,23 +226,24 @@ export const AsciiGallery = () => {
   const currentGrid = useAsciiConverter(current.src, cols, rows, fontSize, current.accents);
   const nextGrid    = useAsciiConverter(next.src,    cols, rows, fontSize, next.accents);
 
+  // ── Stable callbacks: read state from refs to avoid dependency churn ──
   const advance = useCallback(() => {
-    if (transitioning) return;
-    const n = nextPhoto(current);
+    if (transitioningRef.current) return;
+    const n = nextPhoto(currentRef.current);
     setNext(n);
     setTransitioning(true);
-  }, [current, transitioning]);
+  }, []);
 
   const back = useCallback(() => {
-    if (transitioning) return;
+    if (transitioningRef.current) return;
     const p = prevPhoto();
     if (!p) return;
     setNext(p);
     setTransitioning(true);
-  }, [transitioning]);
+  }, []);
 
   const enterPortfolio = useCallback(() => {
-    if (isExiting) return;
+    if (isExitingRef.current) return;
     setIsExiting(true);
     const from = scrollOpacityRef.current;
     const startTime = performance.now();
@@ -234,7 +254,7 @@ export const AsciiGallery = () => {
       const ease = t * t; // ease-in — accelerates out
       const op   = from * (1 - ease);
       scrollOpacityRef.current = op;
-      setScrollOpacity(op);
+      if (sectionRef.current) sectionRef.current.style.opacity = String(op);
       if (t < 1) {
         exitAnimRef.current = requestAnimationFrame(tick);
       } else {
@@ -245,7 +265,7 @@ export const AsciiGallery = () => {
       }
     };
     exitAnimRef.current = requestAnimationFrame(tick);
-  }, [isExiting]);
+  }, []);
 
   const handleTransitionEnd = useCallback(() => {
     setCurrent(nextRef.current);
@@ -255,9 +275,7 @@ export const AsciiGallery = () => {
   // ── Keyboard ──────────────────────────────────────────────────────────
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (entered) {
-        // ArrowUp near the top of portfolio → scroll back to 0, which triggers
-        // the scroll handler to call setEntered(false) and re-enter gallery.
+      if (enteredRef.current) {
         if (e.key === 'ArrowUp' && window.scrollY <= window.innerHeight * 1.1) {
           e.preventDefault();
           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -265,31 +283,31 @@ export const AsciiGallery = () => {
         return;
       }
       if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Escape'].includes(e.key)) return;
-      e.preventDefault(); // block browser scroll in gallery mode
+      e.preventDefault();
       if (e.key === 'Escape') {
-        if (explodeMode) setExplodeMode(false);
+        if (explodeModeRef.current) setExplodeMode(false);
       } else if (e.key === 'ArrowRight') {
-        if (!explodeMode) advance();
+        if (!explodeModeRef.current) advance();
       } else if (e.key === 'ArrowLeft') {
-        if (!explodeMode) back();
+        if (!explodeModeRef.current) back();
       } else if (e.key === 'ArrowDown') {
-        if (explodeMode) setExplodeMode(false);
-        else if (!tweakPanelOpen) enterPortfolio();
+        if (explodeModeRef.current) setExplodeMode(false);
+        else if (!tweakPanelOpenRef.current) enterPortfolio();
       } else if (e.key === 'ArrowUp') {
-        if (!explodeMode) setExplodeMode(true);
+        if (!explodeModeRef.current) setExplodeMode(true);
       }
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [advance, back, entered, explodeMode, enterPortfolio, tweakPanelOpen]);
+  }, [advance, back, enterPortfolio]);
 
   // ── Touch ─────────────────────────────────────────────────────────────
-  const handleTouchStart = (e: React.TouchEvent) => {
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
-  };
+  }, []);
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
     if (touchStartX.current === null || touchStartY.current === null) return;
     const rawDx = e.changedTouches[0].clientX - touchStartX.current;
     const rawDy = e.changedTouches[0].clientY - touchStartY.current;
@@ -298,21 +316,56 @@ export const AsciiGallery = () => {
     touchStartX.current = null;
     touchStartY.current = null;
 
-    if (explodeMode) {
+    if (explodeModeRef.current) {
       if (rawDy > 60 && absDy > absDx) setExplodeMode(false);
       return;
     }
 
     if (absDx > 40 && absDx > absDy) {
-      if (rawDx < 0) advance(); // swipe left → next
-      else back();              // swipe right → previous
+      if (rawDx < 0) advance();
+      else back();
     } else if (absDy > 60 && absDy > absDx) {
       if (rawDy < 0) setExplodeMode(true);
       else enterPortfolio();
     } else if (absDx < 10 && absDy < 10) {
       enterPortfolio();
     }
-  };
+  }, [advance, back, enterPortfolio]);
+
+  // ── Mouse handlers (stable via useCallback) ───────────────────────────
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (enteredRef.current || explodeModeRef.current) return;
+    hoverPosRef.current = { x: e.clientX, y: e.clientY };
+    mouseRef.current = { x: e.clientX, y: e.clientY };
+    // Mount PhotoReveal on first move (only state update needed for mount/unmount)
+    setHoverActive(true);
+    setRevealPhase('active');
+    if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    idleTimerRef.current = setTimeout(() => {
+      setRevealPhase('idle');
+      hideTimerRef.current = setTimeout(() => {
+        setRevealPhase('hidden');
+      }, 3000);
+    }, 400);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    if (enteredRef.current || explodeModeRef.current) return;
+    mouseRef.current = null;
+    if (idleTimerRef.current) { clearTimeout(idleTimerRef.current); idleTimerRef.current = null; }
+    if (hideTimerRef.current) { clearTimeout(hideTimerRef.current); hideTimerRef.current = null; }
+    setRevealPhase('hidden');
+    hideTimerRef.current = setTimeout(() => {
+      hoverPosRef.current = null;
+      setHoverActive(false);
+    }, 700);
+  }, []);
+
+  const handleClick = useCallback(() => {
+    if (explodeModeRef.current || tweakPanelOpenRef.current) return;
+    enterPortfolio();
+  }, [enterPortfolio]);
 
   const activeGrid  = (transitioning && nextGrid) ? nextGrid  : currentGrid;
   const activePhoto = (transitioning && nextGrid) ? next      : current;
@@ -324,33 +377,11 @@ export const AsciiGallery = () => {
 
   return (
     <section
+      ref={sectionRef}
       className={`ascii-section${explodeMode ? ' ascii-section--explode' : ''}${!entered ? ' ascii-section--gallery' : ''}`}
-      style={{ opacity: scrollOpacity }}
-      onClick={explodeMode || tweakPanelOpen ? undefined : enterPortfolio}
-      onMouseMove={!entered && !explodeMode ? (e) => {
-        setHoverPos({ x: e.clientX, y: e.clientY });
-        mouseRef.current = { x: e.clientX, y: e.clientY };
-        // Show immediately on move, reset idle/hide timers
-        setRevealPhase('active');
-        if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
-        if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-        // After 400ms stillness → idle (fill fades, outline stays)
-        idleTimerRef.current = setTimeout(() => {
-          setRevealPhase('idle');
-          // After 3s more → fully hidden
-          hideTimerRef.current = setTimeout(() => {
-            setRevealPhase('hidden');
-          }, 3000);
-        }, 400);
-      } : undefined}
-      onMouseLeave={!entered && !explodeMode ? () => {
-        mouseRef.current = null;
-        if (idleTimerRef.current) { clearTimeout(idleTimerRef.current); idleTimerRef.current = null; }
-        if (hideTimerRef.current) { clearTimeout(hideTimerRef.current); hideTimerRef.current = null; }
-        setRevealPhase('hidden');
-        // Keep hoverPos briefly so the fade-out animation is visible at last position
-        hideTimerRef.current = setTimeout(() => setHoverPos(null), 700);
-      } : undefined}
+      onClick={handleClick}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -383,11 +414,10 @@ export const AsciiGallery = () => {
         <div className="ascii-enter" aria-hidden="true">↓</div>
       )}
 
-      {hoverPos && !entered && !explodeMode && (
+      {hoverActive && !entered && !explodeMode && (
         <PhotoReveal
           photo={current}
-          mouseX={hoverPos.x}
-          mouseY={hoverPos.y}
+          posRef={hoverPosRef}
           phase={revealPhase}
           layerIndex={layerIndex}
         />
