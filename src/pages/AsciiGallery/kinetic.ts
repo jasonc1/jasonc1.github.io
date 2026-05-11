@@ -11,6 +11,7 @@
 
 import { AsciiGrid, RAMP, EDGE_CHAR_CODES, STRUCTURAL_EDGE_THRESH } from './useAsciiConverter';
 import { KineticDir } from './photos';
+import { asciiConfig } from './asciiConfig';
 
 const RAMP_LEN = RAMP.length;
 
@@ -131,6 +132,9 @@ export interface KineticState {
   rampCodes:    Uint16Array;
   // Track which rows were modified this frame (dirty flags)
   dirtyRows:    Uint8Array;
+  // Cursor position in cell coordinates (-1 = no cursor active)
+  mouseCol:     number;
+  mouseRow:     number;
 }
 
 // ── Build per-photo state ─────────────────────────────────────────────────────
@@ -445,7 +449,7 @@ export function buildKineticState(grid: AsciiGrid, dir: KineticDir): KineticStat
 
   const dirtyRows = new Uint8Array(numRows);
 
-  return { dir, rows, cols, numRows, rampIndices, edgeDirs, edges, colorAssign, layers, birds, petals, petalPool, prevElapsed: 0, charBuf, rowCodes, rampCodes, dirtyRows };
+  return { dir, rows, cols, numRows, rampIndices, edgeDirs, edges, colorAssign, layers, birds, petals, petalPool, prevElapsed: 0, charBuf, rowCodes, rampCodes, dirtyRows, mouseCol: -1, mouseRow: -1 };
 }
 
 // ── Per-frame update ──────────────────────────────────────────────────────────
@@ -468,6 +472,7 @@ export function applyKineticFrame(
   for (const layer of state.layers) applyLayer(state, layer, tSec, output);
   if (state.birds) applyBirds(state, dtSec, output);
   if (state.petals) applyPetals(state, tSec, dtSec, output);
+  applyDisturbance(state);
 
   // Only rebuild strings for rows that were actually modified
   const cols = state.cols;
@@ -779,6 +784,50 @@ function applyPetals(state: KineticState, tSec: number, dtSec: number, _output: 
       if (xi < 0 || xi >= cols || yi < 0 || yi >= numRows) continue;
       charBuf[yi * cols + xi] = PETAL_CODE;
       dirtyRows[yi] = 1;
+    }
+  }
+}
+
+// ── Cursor disturbance — radial density-shift bubble ────────────────────────
+
+function applyDisturbance(state: KineticState): void {
+  const { cols, numRows, rampIndices, edgeDirs, edges, charBuf, rampCodes, dirtyRows, mouseCol, mouseRow } = state;
+  if (mouseCol < 0 || mouseRow < 0) return;
+
+  const RADIUS = asciiConfig.disturbanceRadius;
+  const MAX_DARKEN = asciiConfig.disturbanceMaxDarken;
+  const rampMax = RAMP_LEN - 1;
+  const invR = 1 / RADIUS;
+  const INV_ASPECT = 1 / 0.55; // scale rows → col-equivalent for circular shape
+
+  const vertExtent = Math.ceil(RADIUS * 0.55);
+  const rMin = Math.max(0, Math.floor(mouseRow - vertExtent));
+  const rMax = Math.min(numRows - 1, Math.ceil(mouseRow + vertExtent));
+  const cMin = Math.max(0, Math.floor(mouseCol - RADIUS));
+  const cMax = Math.min(cols - 1, Math.ceil(mouseCol + RADIUS));
+
+  for (let y = rMin; y <= rMax; y++) {
+    const dy = (y - mouseRow) * INV_ASPECT;
+    const yOff = y * cols;
+    for (let x = cMin; x <= cMax; x++) {
+      const dx = x - mouseCol;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist > RADIUS) continue;
+
+      const t = 1 - dist * invR;
+      const strength = t * t * t; // cubic falloff — tight hotspot
+      const shift = -Math.round(strength * MAX_DARKEN);
+      if (shift === 0) continue;
+
+      const cellI = yOff + x;
+      const idx = rampIndices[cellI];
+      let newIdx = idx + shift;
+      if (newIdx < 0) newIdx = 0;
+      else if (newIdx > rampMax) newIdx = rampMax;
+      if (newIdx === idx) continue;
+
+      charBuf[cellI] = edgeAwareCharCode(newIdx, cellI, rampCodes, edgeDirs, edges);
+      dirtyRows[y] = 1;
     }
   }
 }

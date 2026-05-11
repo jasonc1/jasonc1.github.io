@@ -1,9 +1,14 @@
-import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo, lazy, Suspense } from 'react';
 import { photos, Photo, shuffleInitial, nextPhoto, prevPhoto } from './photos';
 import { useAsciiConverter, preloadAll, computeGrid } from './useAsciiConverter';
 import { AsciiTransition } from './AsciiTransition';
-import { PhotoReveal, PHOTO_LAYERS } from './PhotoReveal';
+import { PhotoReveal, PHOTO_LAYERS, RevealPhase } from './PhotoReveal';
 import './AsciiGallery.scss';
+
+// Dev-only tweak panel — dynamic import ensures leva isn't in prod bundle
+const LazyTweakPanel = import.meta.env.DEV
+  ? lazy(() => import('./AsciiTweakPanel').then(m => ({ default: m.AsciiTweakPanel })))
+  : null;
 
 // Shuffled mapping of nav labels → photos, created once per page load
 function buildNavPhotoMap(): Record<string, Photo> {
@@ -19,17 +24,18 @@ export const AsciiGallery = () => {
   const [entered, setEntered]         = useState<boolean | null>(null);
   const [explodeMode, setExplodeMode] = useState(false);
   const [hoverPos, setHoverPos]       = useState<{ x: number; y: number } | null>(null);
-  const [showReveal, setShowReveal]   = useState(false);
+  const [revealPhase, setRevealPhase] = useState<RevealPhase>('hidden');
   const [layerIndex, setLayerIndex]   = useState(0);
   const [isExiting, setIsExiting]     = useState(false);
+  const [tweakPanelOpen, setTweakPanelOpen] = useState(false);
   const touchStartX    = useRef<number | null>(null);
   const touchStartY    = useRef<number | null>(null);
-  const stillTimerRef  = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const idleTimerRef   = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hideTimerRef   = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const showRevealRef  = useRef(false);
   const layerIndexRef  = useRef(0);
   const exitAnimRef    = useRef<number | null>(null);
   const scrollOpacityRef = useRef(1.0);
+  const mouseRef = useRef<{ x: number; y: number } | null>(null);
 
   // Nav hover → photo preview: shuffled mapping set once per page load
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -39,7 +45,6 @@ export const AsciiGallery = () => {
   const currentRef = useRef(current);
 
   // Keep refs in sync for use inside event handler closures
-  useEffect(() => { showRevealRef.current = showReveal; }, [showReveal]);
   useEffect(() => { layerIndexRef.current = layerIndex; }, [layerIndex]);
   useEffect(() => { nextRef.current = next; }, [next]);
   useEffect(() => { currentRef.current = current; }, [current]);
@@ -48,7 +53,7 @@ export const AsciiGallery = () => {
   useEffect(() => () => {
     if (exitAnimRef.current) cancelAnimationFrame(exitAnimRef.current);
     if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-    if (stillTimerRef.current) clearTimeout(stillTimerRef.current);
+    if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
   }, []);
 
   const { cols, rows, fontSize } = grid;
@@ -165,8 +170,10 @@ export const AsciiGallery = () => {
   // ── Hide photo reveal when entering portfolio or explode mode ─────────
   useEffect(() => {
     if (entered || explodeMode) {
-      if (stillTimerRef.current) { clearTimeout(stillTimerRef.current); stillTimerRef.current = null; }
-      setShowReveal(false);
+      mouseRef.current = null;
+      if (idleTimerRef.current) { clearTimeout(idleTimerRef.current); idleTimerRef.current = null; }
+      if (hideTimerRef.current) { clearTimeout(hideTimerRef.current); hideTimerRef.current = null; }
+      setRevealPhase('hidden');
       setHoverPos(null);
     }
   }, [entered, explodeMode]);
@@ -269,14 +276,14 @@ export const AsciiGallery = () => {
         if (!explodeMode) back();
       } else if (e.key === 'ArrowDown') {
         if (explodeMode) setExplodeMode(false);
-        else enterPortfolio();
+        else if (!tweakPanelOpen) enterPortfolio();
       } else if (e.key === 'ArrowUp') {
         if (!explodeMode) setExplodeMode(true);
       }
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [advance, back, entered, explodeMode, enterPortfolio]);
+  }, [advance, back, entered, explodeMode, enterPortfolio, tweakPanelOpen]);
 
   // ── Touch ─────────────────────────────────────────────────────────────
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -312,24 +319,39 @@ export const AsciiGallery = () => {
   const activeGrid  = (transitioning && nextGrid) ? nextGrid  : currentGrid;
   const activePhoto = (transitioning && nextGrid) ? next      : current;
 
+  // Reconvert callback for tweak panel — clears cache and forces grid recomputation
+  const handleReconvert = useCallback(() => {
+    setGrid(computeGrid());
+  }, []);
+
   return (
     <section
-      className={`ascii-section${explodeMode ? ' ascii-section--explode' : ''}`}
+      className={`ascii-section${explodeMode ? ' ascii-section--explode' : ''}${!entered ? ' ascii-section--gallery' : ''}`}
       style={{ opacity: scrollOpacity }}
-      onClick={explodeMode ? undefined : enterPortfolio}
+      onClick={explodeMode || tweakPanelOpen ? undefined : enterPortfolio}
       onMouseMove={!entered && !explodeMode ? (e) => {
         setHoverPos({ x: e.clientX, y: e.clientY });
-        // Start stillness timer only if panel not yet visible
-        if (!showRevealRef.current) {
-          if (stillTimerRef.current) clearTimeout(stillTimerRef.current);
-          stillTimerRef.current = setTimeout(() => setShowReveal(true), 700);
-        }
+        mouseRef.current = { x: e.clientX, y: e.clientY };
+        // Show immediately on move, reset idle/hide timers
+        setRevealPhase('active');
+        if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+        if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+        // After 400ms stillness → idle (fill fades, outline stays)
+        idleTimerRef.current = setTimeout(() => {
+          setRevealPhase('idle');
+          // After 3s more → fully hidden
+          hideTimerRef.current = setTimeout(() => {
+            setRevealPhase('hidden');
+          }, 3000);
+        }, 400);
       } : undefined}
       onMouseLeave={!entered && !explodeMode ? () => {
-        if (stillTimerRef.current) { clearTimeout(stillTimerRef.current); stillTimerRef.current = null; }
-        setShowReveal(false);
-        if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-        hideTimerRef.current = setTimeout(() => setHoverPos(null), 300);
+        mouseRef.current = null;
+        if (idleTimerRef.current) { clearTimeout(idleTimerRef.current); idleTimerRef.current = null; }
+        if (hideTimerRef.current) { clearTimeout(hideTimerRef.current); hideTimerRef.current = null; }
+        setRevealPhase('hidden');
+        // Keep hoverPos briefly so the fade-out animation is visible at last position
+        hideTimerRef.current = setTimeout(() => setHoverPos(null), 700);
       } : undefined}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
@@ -342,6 +364,7 @@ export const AsciiGallery = () => {
           onTransitionEnd={handleTransitionEnd}
           currentPhoto={activePhoto}
           isExplodeMode={explodeMode}
+          mouseRef={mouseRef}
         />
       </div>
 
@@ -367,9 +390,15 @@ export const AsciiGallery = () => {
           photo={current}
           mouseX={hoverPos.x}
           mouseY={hoverPos.y}
-          visible={showReveal}
+          phase={revealPhase}
           layerIndex={layerIndex}
         />
+      )}
+
+      {LazyTweakPanel && (
+        <Suspense fallback={null}>
+          <LazyTweakPanel currentPhoto={activePhoto} onReconvert={handleReconvert} onVisibilityChange={setTweakPanelOpen} />
+        </Suspense>
       )}
     </section>
   );

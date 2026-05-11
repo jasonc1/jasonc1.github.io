@@ -80,6 +80,13 @@
   opacity: 0.85;
 }
 
+// Echo layer: previous frame at low opacity — motion trails in character space
+.ascii-art-container pre.ascii-art--echo {
+  z-index: 5;
+  opacity: 0.20;
+  pointer-events: none;
+}
+
 // Tint layers: same Z as main, very low opacity — whisper of color on the characters
 // (complementary to depth layers; user sees both approaches simultaneously)
 .ascii-art-container pre.ascii-art--tint {
@@ -95,7 +102,8 @@
 .ascii-art-container pre.ascii-art--main,
 .ascii-art-container pre.ascii-art--blur,
 .ascii-art-container pre.ascii-art--bw,
-.ascii-art-container pre.ascii-art--color {
+.ascii-art-container pre.ascii-art--color,
+.ascii-art-container pre.ascii-art--echo {
   transition:
     transform 0.28s cubic-bezier(0.25, 1, 0.5, 1),
     filter    0.28s cubic-bezier(0.25, 1, 0.5, 1);
@@ -146,7 +154,7 @@
 // Identity — bottom left
 .ascii-identity {
   position: absolute;
-  bottom: 24px;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   left: 24px;
   z-index: 3;
   background: rgba(255, 255, 255, 0.80);
@@ -179,7 +187,7 @@
 // Photo caption — bottom right
 .ascii-caption {
   position: absolute;
-  bottom: 24px;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   right: 24px;
   z-index: 3;
   background: rgba(255, 255, 255, 0.80);
@@ -201,7 +209,7 @@
 // Enter prompt — bottom center (normal mode)
 .ascii-enter {
   position: absolute;
-  bottom: 24px;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   z-index: 3;
   background: rgba(255, 255, 255, 0.80);
@@ -227,7 +235,7 @@
 // Orbit mode hint — bottom center (explode mode)
 .ascii-orbit-hint {
   position: absolute;
-  bottom: 24px;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
@@ -256,6 +264,15 @@
   animation: caption-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
+// ── Dev tweak panel (leva) ───────────────────────────────────────────────────
+#leva__root > div {
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  letter-spacing: 0.04em;
+  max-height: calc(100vh - 80px) !important;
+  overflow-y: auto !important;
+}
+
 // ── Reduced motion ──────────────────────────────────────────────────────────
 @media (prefers-reduced-motion: reduce) {
   .ascii-coords,
@@ -270,7 +287,8 @@
   .ascii-art-container pre.ascii-art--blur,
   .ascii-art-container pre.ascii-art--bw,
   .ascii-art-container pre.ascii-art--color,
-  .ascii-art-container pre.ascii-art--tint {
+  .ascii-art-container pre.ascii-art--tint,
+  .ascii-art-container pre.ascii-art--echo {
     animation: none;
     transition: none;
     display: none; // simplify for motion-sensitive users
@@ -279,60 +297,85 @@
 
 // ── Mobile / tablet ─────────────────────────────────────────────────────────
 @media only screen and (max-width: 770px) {
+  // Framed border — masks browser chrome peeking at edges (Safari, Chrome, Android)
+  .ascii-section {
+    padding: 4px;
+    box-sizing: border-box;
+    background: theme.$white;
+  }
+
+  .ascii-art-container {
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: calc(4px + 60px + env(safe-area-inset-bottom, 0px));
+    border-radius: 16px;
+  }
+
   // Top bar: coords left-aligned, vertically centered with the MENU button (40px)
   .ascii-coords {
-    top: 16px;
-    left: 16px;
+    top: calc(4px + 16px);
+    left: calc(4px + 16px);
     right: auto;
     padding: 0 12px;
     height: 40px;
     display: inline-flex;
     align-items: center;
     font-size: 10px;
+    background: rgba(255, 255, 255, 0.60);
   }
 
-  // Bottom row: identity left, caption right — same height, same inset
+  // Bottom overlays: sit in the white zone below the ASCII container
+  .ascii-identity,
+  .ascii-caption,
+  .ascii-enter {
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
   .ascii-identity {
-    bottom: 16px;
-    left: 16px;
-    padding: 8px 12px;
+    bottom: calc(4px + 16px + env(safe-area-inset-bottom, 0px));
+    left: calc(4px + 16px);
+    padding: 0;
     .ascii-name { font-size: 13px; }
   }
 
   .ascii-caption {
-    bottom: 16px;
-    right: 16px;
-    padding: 8px 12px;
+    bottom: calc(4px + 16px + env(safe-area-inset-bottom, 0px));
+    right: calc(4px + 16px);
+    padding: 0;
     font-size: 10px;
   }
 
   .ascii-enter {
     font-size: 12px;
-    padding: 5px 10px;
-    bottom: 16px;
+    padding: 0;
+    bottom: calc(4px + 16px + env(safe-area-inset-bottom, 0px));
+    background: none;
   }
 }
 
 // ── Small phones (≤480px) ───────────────────────────────────────────────────
 @media only screen and (max-width: 480px) {
   .ascii-coords {
-    top: 12px;
-    left: 12px;
+    top: calc(4px + 12px);
+    left: calc(4px + 12px);
     padding: 0 10px;
     height: 36px;
     font-size: 9px;
   }
 
   .ascii-identity {
-    bottom: 12px;
-    left: 12px;
+    bottom: calc(4px + 14px + env(safe-area-inset-bottom, 0px));
+    left: calc(4px + 12px);
     .ascii-name { font-size: 12px; }
     .ascii-subtitle { font-size: 9px; }
   }
 
   .ascii-caption {
-    bottom: 12px;
-    right: 12px;
+    bottom: calc(4px + 14px + env(safe-area-inset-bottom, 0px));
+    right: calc(4px + 12px);
     font-size: 9px;
   }
 }

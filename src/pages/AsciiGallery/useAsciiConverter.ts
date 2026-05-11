@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { asciiConfig } from './asciiConfig';
 
 // Extended ramp — more steps in the light half where sky/cloud gradients live.
 // Dark → mid covers subjects; mid → light covers sky layers, clouds, gradients.
@@ -34,6 +35,9 @@ export const EDGE_CHAR_CODES: readonly (readonly number[])[] =
 
 // Only strong, confident edges get structural treatment
 export const STRUCTURAL_EDGE_THRESH = 0.40;
+
+// Export cache clearing for the tweak panel's "Reconvert" button
+export function clearCache(): void { cache.clear(); }
 
 function measureCharAspect(): number {
   const canvas = document.createElement('canvas');
@@ -96,7 +100,7 @@ export function computeGrid(): { cols: number; rows: number; fontSize: number } 
   const vh = window.innerHeight;
 
   // Mobile: more cols than before (was ~84), better horizontal fidelity
-  const cols = vw < 480 ? 120 : vw < 770 ? 180 : 600;
+  const cols = vw < 480 ? asciiConfig.colsMobile : vw < 770 ? asciiConfig.colsTablet : asciiConfig.colsDesktop;
   const charWidth  = vw / cols;
   const fontSize   = charWidth / CHAR_ASPECT;
   const charHeight = fontSize * LINE_HEIGHT;
@@ -120,34 +124,32 @@ function imageToGrid(img: HTMLImageElement, cols: number, rows: number, fontSize
   canvas.width = W; canvas.height = H;
   const ctx = canvas.getContext('2d', { willReadFrequently: true })!;
 
-  // Desktop: stretch-fit (matches how PhotoReveal renders at 100vw×100vh, so hover
-  // panel and ASCII layer line up pixel-for-pixel).
-  // Mobile: cover-fit — landscape photos would squash into a portrait grid, so
-  // preserve the photo's aspect ratio and center-crop instead. PhotoReveal isn't
-  // triggered on touch devices, so the desktop alignment contract doesn't apply.
-  const imgW = img.naturalWidth, imgH = img.naturalHeight;
-  let sx: number, sy: number, sW: number, sH: number;
-  if (window.innerWidth < 770) {
-    const targetAspect = W / H;
-    const imgAspect = imgW / imgH;
-    if (imgAspect > targetAspect) {
-      sH = imgH; sW = imgH * targetAspect;
-      sx = (imgW - sW) / 2; sy = 0;
-    } else {
-      sW = imgW; sH = imgW / targetAspect;
-      sx = 0; sy = (imgH - sH) / 2;
-    }
+  // Cover-fit: correct for non-square character cells (each cell is ~0.55:1 w:h).
+  // Characters are narrower than tall, so the visual width of the grid is W * CHAR_ASPECT.
+  // We compute cover-crop in source-image space so the photo isn't distorted.
+  const visualW = W * CHAR_ASPECT;          // chars are narrower than canvas pixels
+  const visualH = H;                        // row height maps 1:1 to canvas vertical pixels
+  const imgAR = img.naturalWidth / img.naturalHeight;
+  const gridAR = visualW / visualH;
+
+  let sx = 0, sy = 0, sw = img.naturalWidth, sh = img.naturalHeight;
+  if (imgAR > gridAR) {
+    // Image is wider — crop sides
+    sw = img.naturalHeight * gridAR;
+    sx = (img.naturalWidth - sw) / 2;
   } else {
-    sx = 0; sy = 0; sW = imgW; sH = imgH;
+    // Image is taller — crop top/bottom
+    sh = img.naturalWidth / gridAR;
+    sy = (img.naturalHeight - sh) / 2;
   }
 
   // Draw color version first (used for palette extraction)
-  ctx.drawImage(img, sx, sy, sW, sH, 0, 0, W, H);
+  ctx.drawImage(img, sx, sy, sw, sh, 0, 0, W, H);
   const cdata = ctx.getImageData(0, 0, W, H).data;
 
   // Draw grayscale version (reuse same canvas, same cover-fit crop)
-  ctx.filter = 'grayscale(1) contrast(120%)';
-  ctx.drawImage(img, sx, sy, sW, sH, 0, 0, W, H);
+  ctx.filter = `grayscale(1) contrast(${asciiConfig.canvasContrast}%)`;
+  ctx.drawImage(img, sx, sy, sw, sh, 0, 0, W, H);
   const { data } = ctx.getImageData(0, 0, W, H);
 
   // ── Supersample brightness + color in a single cell loop ──────────
@@ -179,8 +181,8 @@ function imageToGrid(img: HTMLImageElement, cols: number, rows: number, fontSize
   // Percentile normalization (5th–95th) — sort a copy, not a new allocation via .from()
   const sorted = new Float32Array(bright);
   sorted.sort();
-  const lo    = sorted[Math.floor(total * 0.05)];
-  const hi    = sorted[Math.floor(total * 0.95)];
+  const lo    = sorted[Math.floor(total * asciiConfig.percentileLo)];
+  const hi    = sorted[Math.floor(total * asciiConfig.percentileHi)];
   const invRange = 1 / (hi - lo || 1);
 
   const norm = new Float32Array(total);
@@ -230,7 +232,7 @@ function imageToGrid(img: HTMLImageElement, cols: number, rows: number, fontSize
     const yOff = y * cols;
     for (let x = 0; x < cols; x++) {
       const i = yOff + x;
-      const boosted  = sigmoid(norm[i], 5);
+      const boosted  = sigmoid(norm[i], asciiConfig.sigmoidSteepness);
       const edgePush = edges[i] * 0.08;
       let charIdx = (boosted - edgePush) * RAMP_MAX | 0;
       if (charIdx < 0) charIdx = 0;
@@ -238,7 +240,7 @@ function imageToGrid(img: HTMLImageElement, cols: number, rows: number, fontSize
       rampIndices[i] = charIdx;
 
       const dir = edgeDirs[i];
-      if (dir > 0 && edges[i] > STRUCTURAL_EDGE_THRESH) {
+      if (dir > 0 && edges[i] > asciiConfig.edgeThreshold) {
         const band = Math.min((boosted * 4) | 0, 4);
         charCodeBuf[x] = EDGE_CHAR_CODES[dir][band];
       } else {
