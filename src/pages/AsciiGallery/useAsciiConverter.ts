@@ -328,9 +328,7 @@ export function useAsciiConverter(src: string, cols: number, rows: number, fontS
     };
     img.src = src;
     return () => { cancelled = true; };
-  // accents is a stable array reference per photo — including it directly would cause re-runs
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [src, cols, rows, fontSize]);
+  }, [src, cols, rows, fontSize, accents]);
 
   // Synchronous cache read — always fresh, no stale-state lag.
   // Fall back to the last good grid so we never return null mid-resize.
