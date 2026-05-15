@@ -70,7 +70,7 @@ export const AsciiGallery = () => {
     if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
   }, []);
 
-  const { cols, rows, fontSize } = grid;
+  const { cols, rows, fontSize, gridAR } = grid;
 
   // Browser may restore scroll after React initializes state, so `entered` starts
   // as null (undecided). After the browser has restored scroll position, sync the state.
@@ -422,6 +422,7 @@ export const AsciiGallery = () => {
           posRef={hoverPosRef}
           phase={revealPhase}
           layerIndex={layerIndex}
+          gridAR={gridAR}
         />
       )}
 

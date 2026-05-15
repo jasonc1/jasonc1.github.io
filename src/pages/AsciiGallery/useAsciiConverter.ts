@@ -94,7 +94,7 @@ function assignToAccents(
   return assign;
 }
 
-export function computeGrid(): { cols: number; rows: number; fontSize: number } {
+export function computeGrid(): { cols: number; rows: number; fontSize: number; gridAR: number } {
   measureCharAspect();
   const vw = window.innerWidth;
   const vh = window.innerHeight;
@@ -105,7 +105,8 @@ export function computeGrid(): { cols: number; rows: number; fontSize: number } 
   const fontSize   = charWidth / CHAR_ASPECT;
   const charHeight = fontSize * LINE_HEIGHT;
   const rows = Math.ceil(vh / charHeight) + 1;
-  return { cols, rows, fontSize };
+  const gridAR = (cols * CHAR_ASPECT) / rows;
+  return { cols, rows, fontSize, gridAR };
 }
 
 function sigmoid(x: number, steepness = 7): number {

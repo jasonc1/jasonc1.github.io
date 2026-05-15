@@ -23,9 +23,10 @@ interface Props {
   posRef:     RefObject<{ x: number; y: number } | null>;
   phase:      RevealPhase;
   layerIndex: number;
+  gridAR:     number;
 }
 
-export const PhotoReveal = memo(({ photo, posRef, phase, layerIndex }: Props) => {
+export const PhotoReveal = memo(({ photo, posRef, phase, layerIndex, gridAR }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
 
@@ -46,11 +47,28 @@ export const PhotoReveal = memo(({ photo, posRef, phase, layerIndex }: Props) =>
         el.style.left = `${left}px`;
         el.style.top  = `${top}px`;
 
-        // Update image offsets via CSS custom properties
+        // Cover-fit using the exact gridAR from the ASCII converter
+        // and the actual image dimensions (not the declared aspectRatio string)
         const imgEl = el.querySelector('img') as HTMLImageElement | null;
-        if (imgEl) {
-          imgEl.style.left = `${-left}px`;
-          imgEl.style.top  = `${-top}px`;
+        if (imgEl && imgEl.naturalWidth && imgEl.naturalHeight) {
+          const imgNaturalAR = imgEl.naturalWidth / imgEl.naturalHeight;
+          // The grid's visual dimensions: width = vw, height = vw / gridAR
+          const gridH = vw / gridAR;
+          let imgW: number, imgHeight: number;
+          if (imgNaturalAR > gridAR) {
+            imgHeight = gridH;
+            imgW = gridH * imgNaturalAR;
+          } else {
+            imgW = vw;
+            imgHeight = vw / imgNaturalAR;
+          }
+          // Center the cover-fit image on the grid, then offset for container position
+          const ox = (imgW - vw) / 2;
+          const oy = (imgHeight - gridH) / 2;
+          imgEl.style.width  = `${imgW}px`;
+          imgEl.style.height = `${imgHeight}px`;
+          imgEl.style.left = `${-(left + ox)}px`;
+          imgEl.style.top  = `${-(top + oy)}px`;
         }
       }
       rafRef.current = requestAnimationFrame(update);
@@ -59,7 +77,7 @@ export const PhotoReveal = memo(({ photo, posRef, phase, layerIndex }: Props) =>
     return () => {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
-  }, [posRef, imgH]);
+  }, [posRef, imgH, gridAR]);
 
   const layer = PHOTO_LAYERS[Math.max(0, Math.min(PHOTO_LAYERS.length - 1, layerIndex))];
 
@@ -82,8 +100,6 @@ export const PhotoReveal = memo(({ photo, posRef, phase, layerIndex }: Props) =>
           draggable={false}
           style={{
             position: 'absolute',
-            width:  '100vw',
-            height: '100vh',
             filter: layer.filter,
             transition: 'filter 350ms cubic-bezier(0.25, 1, 0.5, 1)',
           }}
