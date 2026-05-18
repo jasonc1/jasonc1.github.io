@@ -58,6 +58,7 @@ export interface MarathonState {
   rand: Float32Array;
   dirPos: Float32Array;
   buf: Uint16Array;
+  lines: string[];
 }
 
 export function initMarathon(
@@ -66,7 +67,11 @@ export function initMarathon(
   numRows: number,
   durationMs: number,
 ): MarathonState {
-  const rampMax = Math.max(1, rampIndices.reduce((m, v) => v > m ? v : m, 0));
+  let rampMax = 0;
+  for (let i = 0; i < rampIndices.length; i++) {
+    if (rampIndices[i] > rampMax) rampMax = rampIndices[i];
+  }
+  if (rampMax < 1) rampMax = 1;
   const total = cols * numRows;
 
   const weight = new Float32Array(total);
@@ -102,7 +107,7 @@ export function initMarathon(
     dirPos[i] = (dirPos[i] - minDot) / range;
   }
 
-  return { cols, numRows, startMs: performance.now(), durationMs, weight, rand, dirPos, buf: new Uint16Array(cols) };
+  return { cols, numRows, startMs: performance.now(), durationMs, weight, rand, dirPos, buf: new Uint16Array(cols), lines: new Array(numRows) };
 }
 
 export function tickMarathon(state: MarathonState): {
@@ -110,7 +115,7 @@ export function tickMarathon(state: MarathonState): {
   done: boolean;
 } {
   const t = Math.min(1, (performance.now() - state.startMs) / state.durationMs);
-  const { weight, rand, dirPos, cols, numRows, buf } = state;
+  const { weight, rand, dirPos, cols, numRows, buf, lines } = state;
 
   // ── Phase blending ──
   const rawPhase = Math.min(FAMILY_COUNT - 0.001, t * FAMILY_COUNT * 1.1);
@@ -136,9 +141,7 @@ export function tickMarathon(state: MarathonState): {
   // show a trailing dot instead of hard-cutting to space
   const EDGE_WIDTH = 0.08;
 
-  // ── Build text ──
-  const lines: string[] = new Array(numRows);
-
+  // ── Build text (reuses pre-allocated lines array) ──
   for (let y = 0; y < numRows; y++) {
     const off = y * cols;
 
