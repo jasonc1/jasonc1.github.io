@@ -118,9 +118,11 @@ export function AsciiTweakPanel({ currentPhoto, onReconvert, onVisibilityChange 
 
   // ── Transition ──
   const morph = useControls('Transition', {
-    morphMs:          { value: asciiConfig.morphMs, min: 200, max: 4000, step: 50, label: 'Duration (ms)' },
+    transitionMode:   { value: asciiConfig.transitionMode, options: ['cycle', 'ferrofluid', 'marathon', 'hybrid'], label: 'Mode' },
+    morphMs:          { value: asciiConfig.morphMs, min: 200, max: 4000, step: 50, label: 'Morph Duration' },
     staggerFraction:  { value: asciiConfig.staggerFraction, min: 0.05, max: 0.8, step: 0.05, label: 'Wave Spread' },
     cellFraction:     { value: asciiConfig.cellFraction, min: 0.1, max: 0.9, step: 0.05, label: 'Cell Blend' },
+    marathonMs:       { value: asciiConfig.marathonMs, min: 500, max: 5000, step: 100, label: 'Marathon Duration' },
   });
 
   // ── Color Pulse ──
@@ -159,9 +161,11 @@ export function AsciiTweakPanel({ currentPhoto, onReconvert, onVisibilityChange 
           'Resolution.colsMobile': ASCII_DEFAULTS.colsMobile,
           'Resolution.colsTablet': ASCII_DEFAULTS.colsTablet,
           'Resolution.colsDesktop': ASCII_DEFAULTS.colsDesktop,
+          'Transition.transitionMode': ASCII_DEFAULTS.transitionMode,
           'Transition.morphMs': ASCII_DEFAULTS.morphMs,
           'Transition.staggerFraction': ASCII_DEFAULTS.staggerFraction,
           'Transition.cellFraction': ASCII_DEFAULTS.cellFraction,
+          'Transition.marathonMs': ASCII_DEFAULTS.marathonMs,
           'Color Pulse.pulseFreq0': ASCII_DEFAULTS.pulseFreq0,
           'Color Pulse.pulseFreq1': ASCII_DEFAULTS.pulseFreq1,
           'Color Pulse.pulseFreq2': ASCII_DEFAULTS.pulseFreq2,
@@ -183,9 +187,11 @@ export function AsciiTweakPanel({ currentPhoto, onReconvert, onVisibilityChange 
           colsMobile: ASCII_DEFAULTS.colsMobile,
           colsTablet: ASCII_DEFAULTS.colsTablet,
           colsDesktop: ASCII_DEFAULTS.colsDesktop,
+          transitionMode: ASCII_DEFAULTS.transitionMode,
           morphMs: ASCII_DEFAULTS.morphMs,
           staggerFraction: ASCII_DEFAULTS.staggerFraction,
           cellFraction: ASCII_DEFAULTS.cellFraction,
+          marathonMs: ASCII_DEFAULTS.marathonMs,
           pulseFreq0: ASCII_DEFAULTS.pulseFreq0,
           pulseFreq1: ASCII_DEFAULTS.pulseFreq1,
           pulseFreq2: ASCII_DEFAULTS.pulseFreq2,

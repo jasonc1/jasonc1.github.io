@@ -18,10 +18,16 @@ export const asciiConfig = {
   colsTablet: 180,
   colsDesktop: 600,
 
-  // ── Morph (read per-frame in RAF) ──
+  // ── Transition mode ──
+  transitionMode: 'cycle' as string, // 'ferrofluid' | 'marathon' | 'hybrid' | 'cycle'
+
+  // ── Morph / ferrofluid (read per-frame in RAF) ──
   morphMs: 1200,
   staggerFraction: 0.35,
   cellFraction: 0.45,
+
+  // ── Marathon dissolve (read per-frame in RAF) ──
+  marathonMs: 1200,
 
   // ── Color pulse (read per-frame in RAF) ──
   pulseFreq0: 0.25,
@@ -40,3 +46,20 @@ export const asciiConfig = {
 };
 
 export const ASCII_DEFAULTS = Object.freeze({ ...asciiConfig });
+
+// ── Transition cycling — no consecutive repeats ──────────────────────────────
+const TRANSITION_MODES = ['ferrofluid', 'marathon', 'hybrid'] as const;
+let _lastMode = '';
+
+/** Returns the effective mode for this transition, cycling if set to 'cycle'. */
+export function resolveTransitionMode(): string {
+  const cfg = asciiConfig.transitionMode;
+  if (cfg !== 'cycle') {
+    _lastMode = cfg;
+    return cfg;
+  }
+  const options = TRANSITION_MODES.filter(m => m !== _lastMode);
+  const pick = options[Math.floor(Math.random() * options.length)];
+  _lastMode = pick;
+  return pick;
+}

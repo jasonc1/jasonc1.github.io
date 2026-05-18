@@ -2,7 +2,8 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AsciiGrid, RAMP } from './useAsciiConverter';
 import { buildKineticState, applyKineticFrame, KineticState, noise2 } from './kinetic';
 import { Photo } from './photos';
-import { asciiConfig } from './asciiConfig';
+import { asciiConfig, resolveTransitionMode } from './asciiConfig';
+import { initMarathon, tickMarathon, MarathonState, FAMILY_CODES, FAMILY_COUNT, SHAPE_Q } from './marathonTransition';
 
 const RESIZE_FADE_MS = 250;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -122,6 +123,18 @@ export const AsciiTransition = ({
   const morphBufRef = useRef<Uint16Array>(new Uint16Array(1024));
   // Snapshot of old rows captured *before* kinetic state rebuilds for the new grid
   const morphSnapshotRef = useRef<string[]>([]);
+  // Hybrid mode: 'ferrofluid' uses darken/snap/lighten, 'hybrid' uses marathon shapes in the blob wave
+  const morphModeRef = useRef<'ferrofluid' | 'hybrid'>('ferrofluid');
+  const morphRampRef = useRef<Uint8Array | null>(null);
+  const morphRampMaxRef = useRef(0);
+
+  // ── Marathon transition ─────────────────────────────────────────────────
+  const marathonActiveRef = useRef(false);
+  const marathonStateRef = useRef<MarathonState | null>(null);
+  const marathonCallbackRef = useRef<(() => void) | null>(null);
+  const marathonNewGridRef = useRef<AsciiGrid | null>(null);
+  // Fade-in after dissolve: ramps opacity 0→1 so new photo emerges smoothly
+  const marathonFadeRef = useRef<{ start: number; duration: number } | null>(null);
 
   // ── Kinetic animation ──────────────────────────────────────────────────
   const kineticStateRef = useRef<KineticState | null>(null);
@@ -203,6 +216,36 @@ export const AsciiTransition = ({
         return;
       }
 
+      // ── Marathon dissolve pass ──────────────────────────────────────
+      if (marathonActiveRef.current && marathonStateRef.current) {
+        const frame = tickMarathon(marathonStateRef.current);
+        pre.textContent = frame.text;
+
+        if (frame.done) {
+          marathonActiveRef.current = false;
+          marathonStateRef.current = null;
+          // Keep monochrome color — restored after fade-in completes
+          pre.style.transition = '';
+
+          // Update grid so kinetic renders the new photo during fade-in
+          if (marathonNewGridRef.current) {
+            stableGridRef.current = marathonNewGridRef.current;
+          }
+
+          // Start at opacity 0 — the fade-in phase will ramp it up
+          pre.style.opacity = '0';
+
+          // Keep tint layers + echo HIDDEN during fade-in (stay monochrome)
+          echoCacheRef.current = '';
+
+          // Begin fade-in phase (handled in the kinetic branch below)
+          marathonFadeRef.current = { start: performance.now(), duration: 350 };
+        }
+
+        kineticFrameRef.current = requestAnimationFrame(tick);
+        return;
+      }
+
       // ── Morph pass: blend old→new characters per-cell ──────────────
       if (morphActiveRef.current) {
         const elapsed = performance.now() - morphStartRef.current;
@@ -248,8 +291,38 @@ export const AsciiTransition = ({
             } else if (cellElapsed <= 0) {
               buf[x] = oldRow.charCodeAt(x) || 32;
               allDone = false;
+            } else if (morphModeRef.current === 'hybrid' && morphRampRef.current) {
+              // ── Hybrid: old char → marathon shapes → new char ──
+              const ct = cellElapsed / cellDuration; // 0→1
+
+              if (ct < 0.03) {
+                // Brief hold on old char
+                buf[x] = oldRow.charCodeAt(x) || 32;
+              } else if (ct > 0.97) {
+                // Resolve to new char
+                buf[x] = newRow.charCodeAt(x) || 32;
+              } else {
+                // Marathon shape zone: pick family based on overall progress
+                const overallT = elapsed / morphMs;
+                const rawPhase = Math.min(FAMILY_COUNT - 0.001, overallT * FAMILY_COUNT);
+                const pi = Math.floor(rawPhase);
+                const pBlend = rawPhase - pi;
+                // Deterministic per-cell pseudo-random for phase blending
+                const pr = ((x * 7 + y * 13) & 0xff) / 255;
+                const codes = pr < pBlend
+                  ? FAMILY_CODES[Math.min(pi + 1, FAMILY_COUNT - 1)]
+                  : FAMILY_CODES[Math.min(pi, FAMILY_COUNT - 1)];
+
+                // Weight from old grid brightness — boosted so light areas stay visible
+                const rIdx = morphRampRef.current[yOff + x] || 0;
+                const w = 1 - rIdx / morphRampMaxRef.current;
+                const boosted = w * 0.75 + 0.25;
+                const qi = Math.min(SHAPE_Q - 1, (boosted * SHAPE_Q) | 0);
+                buf[x] = codes[qi];
+              }
+              allDone = false;
             } else {
-              // 3-phase viscous blend: darken old → snap to new → lighten new
+              // ── Ferrofluid: 3-phase viscous blend ──
               const t = cellElapsed / cellDuration;
               const oldCode = oldRow.charCodeAt(x) || 32;
               const newCode = newRow.charCodeAt(x) || 32;
@@ -258,7 +331,6 @@ export const AsciiTransition = ({
                 // Phase 1: darken old char (ink pooling in)
                 const darkT = t / 0.4; // 0→1
                 const oldIdx = oldCode < 128 ? CODE_TO_RAMP[oldCode] : RAMP_MAX;
-                // Push toward darker end of ramp (lower index = darker)
                 const shift = Math.round(darkT * darkT * 12);
                 let idx = oldIdx - shift;
                 if (idx < 0) idx = 0;
@@ -320,19 +392,59 @@ export const AsciiTransition = ({
           }
         }
 
+        // ── Marathon fade-in: blur/contrast → sharp, monochrome → color ──
+        if (marathonFadeRef.current) {
+          const fadeT = Math.min(1, (performance.now() - marathonFadeRef.current.start) / marathonFadeRef.current.duration);
+          const ease = 1 - (1 - fadeT) * (1 - fadeT); // ease-out
+
+          // Opacity ramp
+          pre.style.opacity = String(ease);
+
+          // Blur + contrast: starts blurred/low-contrast, sharpens to normal
+          const blur = (1 - ease) * 3;
+          const contrast = 0.6 + ease * 0.4;
+          pre.style.filter = `blur(${blur}px) contrast(${contrast})`;
+
+          if (fadeT >= 1) {
+            marathonFadeRef.current = null;
+            pre.style.opacity = '';
+            pre.style.color = '';
+            pre.style.filter = '';
+
+            // Restore tint layers and echo
+            const tints = tintRefs.current;
+            for (let i = 0; i < 3; i++) {
+              const el = tints[i];
+              if (el) el.style.display = '';
+            }
+            if (echoRef.current) {
+              echoRef.current.style.display = '';
+              echoRef.current.style.opacity = '';
+            }
+
+            if (marathonCallbackRef.current) {
+              marathonCallbackRef.current();
+              marathonCallbackRef.current = null;
+            }
+          }
+        }
+
         // ── Accent color pulse: independent sine opacity per tint layer ──
-        const tSec = kineticElapsedRef.current / 1000;
-        const tints = tintRefs.current;
-        const pulseFreqs = [asciiConfig.pulseFreq0, asciiConfig.pulseFreq1, asciiConfig.pulseFreq2];
-        const pBase = asciiConfig.pulseBaseOpacity;
-        const pAmp = asciiConfig.pulseAmplitude;
-        for (let i = 0; i < 3; i++) {
-          const el = tints[i];
-          if (!el) continue;
-          const freq = pulseFreqs[i];
-          const phase = i * 2.09;        // ~120° apart
-          const op = pBase + Math.sin(tSec * freq * 6.2832 + phase) * pAmp;
-          el.style.opacity = String(op < 0 ? 0 : op);
+        // Skip during marathon fade-in (tint layers stay hidden until fade completes)
+        if (!marathonFadeRef.current) {
+          const tSec = kineticElapsedRef.current / 1000;
+          const tints = tintRefs.current;
+          const pulseFreqs = [asciiConfig.pulseFreq0, asciiConfig.pulseFreq1, asciiConfig.pulseFreq2];
+          const pBase = asciiConfig.pulseBaseOpacity;
+          const pAmp = asciiConfig.pulseAmplitude;
+          for (let i = 0; i < 3; i++) {
+            const el = tints[i];
+            if (!el) continue;
+            const freq = pulseFreqs[i];
+            const phase = i * 2.09;        // ~120° apart
+            const op = pBase + Math.sin(tSec * freq * 6.2832 + phase) * pAmp;
+            el.style.opacity = String(op < 0 ? 0 : op);
+          }
         }
       }
 
@@ -368,7 +480,7 @@ export const AsciiTransition = ({
     }
   }, [grid, isTransitioning]);
 
-  // ── Photo-to-photo transition (morph) ──────────────────────────────────
+  // ── Photo-to-photo transition (morph or marathon) ──────────────────────
   useEffect(() => {
     if (!isTransitioning || !grid) return;
     setDisplayGrid(grid);
@@ -377,6 +489,93 @@ export const AsciiTransition = ({
       stableGridRef.current = grid;
       onTransitionEnd();
       return;
+    }
+
+    // Resolve once per transition (handles 'cycle' mode)
+    const resolvedMode = resolveTransitionMode();
+
+    // ── Marathon mode: dissolve old grid → black → snap new ──
+    if (resolvedMode === 'marathon') {
+      const oldGrid = stableGridRef.current;
+      if (!oldGrid?.rampIndices) {
+        // No old data — fall through to ferrofluid
+      } else {
+        const mState = initMarathon(
+          oldGrid.rampIndices,
+          oldGrid.cols,
+          oldGrid.rows.length,
+          asciiConfig.marathonMs,
+        );
+        marathonStateRef.current = mState;
+        marathonNewGridRef.current = grid;
+        marathonCallbackRef.current = () => {
+          onTransitionEnd();
+        };
+        marathonActiveRef.current = true;
+
+        // Monochrome accent color during dissolve
+        const mainEl = mainRef.current;
+        if (mainEl) {
+          mainEl.style.color = currentPhoto?.accents[0] || '#c8ff00';
+          mainEl.style.transition = 'none';
+        }
+
+        // Hide tint layers and echo during marathon dissolve
+        const tints = tintRefs.current;
+        for (let i = 0; i < 3; i++) {
+          const el = tints[i];
+          if (el) el.style.display = 'none';
+        }
+        if (echoRef.current) {
+          echoRef.current.style.display = 'none';
+          echoRef.current.textContent = '';
+        }
+        echoCacheRef.current = '';
+
+        // Safety timeout (dissolve + fade-in + buffer)
+        timerRef.current = setTimeout(() => {
+          if (marathonActiveRef.current || marathonFadeRef.current) {
+            marathonActiveRef.current = false;
+            marathonStateRef.current = null;
+            marathonFadeRef.current = null;
+            const el = mainRef.current;
+            if (el) { el.style.color = ''; el.style.transition = ''; el.style.opacity = ''; }
+            const ts = tintRefs.current;
+            for (let i = 0; i < 3; i++) { const t = ts[i]; if (t) { t.style.display = ''; t.style.opacity = ''; } }
+            if (echoRef.current) { echoRef.current.style.display = ''; echoRef.current.style.opacity = ''; }
+            stableGridRef.current = grid;
+            onTransitionEnd();
+          }
+        }, asciiConfig.marathonMs + 1200);
+
+        return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+      }
+    }
+
+    // ── Ferrofluid morph (default) / Hybrid ──
+    // Hybrid reuses ferrofluid blob wave but with marathon shapes in the transition zone
+    if (resolvedMode === 'hybrid') {
+      const oldGrid = stableGridRef.current;
+      morphModeRef.current = 'hybrid';
+      morphRampRef.current = oldGrid?.rampIndices || null;
+      morphRampMaxRef.current = oldGrid?.rampIndices
+        ? Math.max(1, oldGrid.rampIndices.reduce((m: number, v: number) => v > m ? v : m, 0))
+        : 1;
+
+      // Monochrome accent color during hybrid morph (like marathon)
+      const mainEl = mainRef.current;
+      if (mainEl) {
+        mainEl.style.color = currentPhoto?.accents[0] || '#c8ff00';
+      }
+      // Hide tint layers during hybrid (monochrome only)
+      const tints = tintRefs.current;
+      for (let i = 0; i < 3; i++) {
+        const el = tints[i];
+        if (el) el.style.display = 'none';
+      }
+    } else {
+      morphModeRef.current = 'ferrofluid';
+      morphRampRef.current = null;
     }
 
     // New random seeds so each morph has unique blob patterns + motion curves
@@ -415,6 +614,16 @@ export const AsciiTransition = ({
     morphStartRef.current = performance.now();
     morphCallbackRef.current = () => {
       stableGridRef.current = grid;
+      // Restore color after hybrid morph
+      if (morphModeRef.current === 'hybrid') {
+        const el = mainRef.current;
+        if (el) el.style.color = '';
+        const ts = tintRefs.current;
+        for (let i = 0; i < 3; i++) {
+          const t = ts[i];
+          if (t) t.style.display = '';
+        }
+      }
       onTransitionEnd();
     };
     morphActiveRef.current = true;
