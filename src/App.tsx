@@ -25,6 +25,7 @@ import SRLegacy from "./pages/Projects/old/SRLegacy";
 import StratRoulette from "./pages/Projects/old/StratRoulette";
 import ProductIllustrations from "./pages/Projects/old/ProductIllustrations";
 import Rosetta from "./pages/Projects/Rosetta";
+import Fasciile from "./pages/Fasciile/Fasciile";
 
 const navItems = ["Work", "Photo", "About", "Contact"];
 
@@ -117,6 +118,7 @@ const AppContent = () => {
             </>
           }
         />
+        <Route path="/fasciile" element={<Fasciile />} />
         <Route path="/brag" element={<UnderConstruction />} />
         <Route path="/rosetta" element={<Rosetta />} />
         <Route path="/noho" element={<UnderConstruction />} />

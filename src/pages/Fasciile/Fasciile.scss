@@ -1,0 +1,437 @@
+@use '../../theme.scss';
+
+$radius-shell: 14px;
+$radius-box: 10px;
+$radius-dock: 12px;
+$radius-field: 6px;
+$rule: rgba(theme.$primary, 0.13);
+$rule-firm: rgba(theme.$primary, 0.28);
+$wash: #eeeef1;
+
+.fasciile {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 268px 1fr;
+  background: theme.$white;
+  color: theme.$primary;
+  overflow: hidden;
+
+  @media only screen and (max-width: 860px) {
+    position: static;
+    grid-template-columns: 1fr;
+    height: auto;
+    padding-top: 72px;
+  }
+}
+
+// ── Panel ─────────────────────────────────────────────────────────────────
+.fasciile__panel {
+  border-right: theme.$border-width solid $rule-firm;
+  overflow-y: auto;
+  background: theme.$white;
+
+  @media only screen and (max-width: 860px) {
+    border-right: none;
+    border-bottom: theme.$border-width solid $rule-firm;
+    max-height: 320px;
+  }
+}
+
+.fasciile__brand {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: theme.$scale1;
+  padding: theme.$scale2 theme.$scale3;
+  background: theme.$white;
+  border-bottom: theme.$border-width solid $rule;
+
+  span:first-child {
+    font-family: 'Geo';
+    font-style: italic;
+    font-size: 21px;
+    letter-spacing: 0.02em;
+  }
+  span:last-child {
+    @include theme.Header;
+    text-transform: uppercase;
+    color: rgba(theme.$primary, 0.5);
+  }
+}
+
+.fasciile__group {
+  padding: theme.$scale2 theme.$scale3 theme.$scale3;
+  border-bottom: theme.$border-width solid $rule;
+}
+
+.fasciile__group-title {
+  @include theme.Header;
+  margin: 0 0 theme.$scale2;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(theme.$primary, 0.5);
+}
+
+.fasciile__ctl {
+  margin-bottom: theme.$scale2;
+  &:last-child { margin-bottom: 0; }
+}
+
+.fasciile__ctl-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: theme.$scale1;
+  margin-bottom: 5px;
+}
+
+.fasciile__ctl-label {
+  font-family: 'GeistMono';
+  font-size: 11.5px;
+  line-height: 16px;
+  font-weight: 400;
+}
+
+.fasciile__ctl-value {
+  font-family: 'GeistMono';
+  font-size: 11px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: theme.$accent;
+}
+
+.fasciile__hint {
+  font-family: 'GeistMono';
+  font-size: 10px;
+  line-height: 15px;
+  font-weight: 300;
+  color: rgba(theme.$primary, 0.5);
+  margin: 3px 0 0;
+}
+
+// Thin track, square thumb — matches the site's sharp detailing
+.fasciile input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 14px;
+  margin: 0;
+  background: transparent;
+  cursor: ew-resize;
+
+  &::-webkit-slider-runnable-track { height: 1px; background: $rule-firm; }
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 3px;
+    height: 13px;
+    margin-top: -6px;
+    border: 0;
+    border-radius: 0;
+    background: theme.$accent;
+  }
+  &::-moz-range-track { height: 1px; background: $rule-firm; }
+  &::-moz-range-thumb {
+    width: 3px;
+    height: 13px;
+    border: 0;
+    border-radius: 0;
+    background: theme.$accent;
+  }
+}
+
+.fasciile select,
+.fasciile__btn {
+  width: 100%;
+  padding: 7px 10px;
+  font-family: 'GeistMono';
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: theme.$primary;
+  background: theme.$white;
+  border: theme.$border-width solid $rule-firm;
+  border-radius: $radius-field;
+  cursor: pointer;
+
+  &:hover { background: $wash; }
+}
+
+.fasciile__segs {
+  display: flex;
+  border: theme.$border-width solid $rule-firm;
+  border-radius: $radius-field;
+  overflow: hidden;
+}
+
+.fasciile__seg {
+  flex: 1;
+  padding: 7px 4px;
+  border: none;
+  border-left: theme.$border-width solid $rule;
+  border-radius: 0;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'GeistMono';
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: theme.$primary;
+  background: theme.$white;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:first-child { border-left: none; }
+  &:hover { background: $wash; }
+  &[aria-pressed='true'] { background: theme.$primary; color: theme.$white; }
+}
+
+// ── Viewport ──────────────────────────────────────────────────────────────
+.fasciile__viewport {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: theme.$white;
+  cursor: grab;
+  touch-action: none;
+
+  &.is-dragging { cursor: grabbing; }
+
+  &.is-drop::after {
+    content: 'DROP ASSET';
+    position: absolute;
+    inset: theme.$scale2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: theme.$border-width dashed theme.$accent;
+    border-radius: $radius-box;
+    color: theme.$accent;
+    font-family: 'GeistMono';
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    background: rgba(theme.$accent, 0.08);
+  }
+
+  @media only screen and (max-width: 860px) {
+    height: 60vh;
+  }
+}
+
+.fasciile__stage {
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+  white-space: pre;
+  overflow: hidden;
+  user-select: none;
+  font-family: 'GeistMono', monospace;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0;
+  color: theme.$primary;
+
+  @media only screen and (max-width: 700px) { font-size: 7px; }
+}
+
+// Top-LEFT on purpose: FloatingNav owns the top-right corner sitewide.
+.fasciile__hud {
+  position: absolute;
+  top: theme.$scale2;
+  left: theme.$scale2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  pointer-events: none;
+  font-family: 'GeistMono';
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  font-variant-numeric: tabular-nums;
+  color: rgba(theme.$primary, 0.5);
+
+  b { color: rgba(theme.$primary, 0.75); font-weight: 500; }
+}
+
+// ── Dock ──────────────────────────────────────────────────────────────────
+.fasciile__dock {
+  position: absolute;
+  bottom: theme.$scale3;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: inline-flex;
+  align-items: stretch;
+  max-width: calc(100% - #{theme.$scale4});
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: theme.$border-width solid $rule-firm;
+  border-radius: $radius-dock;
+
+  button {
+    height: 42px;
+    padding: 0 theme.$scale2;
+    border: none;
+    border-left: theme.$border-width solid $rule;
+    border-radius: 0;
+    white-space: nowrap;
+    font-family: 'GeistMono';
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: theme.$primary;
+    background: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover { background: $wash; }
+    &.is-primary {
+      background: theme.$primary;
+      color: theme.$white;
+      padding: 0 theme.$scale3;
+      &:hover { background: #3a3a3a; }
+    }
+  }
+}
+
+.fasciile__dock-sources {
+  display: inline-flex;
+
+  button[aria-pressed='true'] {
+    background: rgba(theme.$accent, 0.12);
+    color: theme.$accent;
+  }
+}
+
+// ── Overlays ──────────────────────────────────────────────────────────────
+.fasciile__scrim,
+.fasciile__paste {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: theme.$scale3;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+}
+
+.fasciile__scrim-box,
+.fasciile__paste-box {
+  background: theme.$white;
+  border: theme.$border-width solid $rule-firm;
+  border-radius: $radius-box;
+  padding: theme.$scale3;
+
+  h4 {
+    @include theme.Header;
+    margin: 0 0 theme.$scale2;
+    text-transform: uppercase;
+  }
+}
+
+.fasciile__scrim-box { width: min(360px, 84%); }
+.fasciile__paste-box { width: min(520px, 100%); }
+
+.fasciile__paste textarea {
+  width: 100%;
+  height: 150px;
+  resize: vertical;
+  padding: theme.$scale1;
+  font-family: 'GeistMono';
+  font-size: 11.5px;
+  line-height: 18px;
+  font-weight: 300;
+  color: theme.$primary;
+  background: $wash;
+  border: theme.$border-width solid $rule-firm;
+  border-radius: $radius-field;
+}
+
+.fasciile__paste-row {
+  display: flex;
+  gap: theme.$scale1;
+  margin-top: theme.$scale2;
+
+  .fasciile__btn {
+    text-transform: uppercase;
+    &.is-primary {
+      background: theme.$primary;
+      color: theme.$white;
+      border-color: theme.$primary;
+      &:hover { background: #3a3a3a; }
+    }
+  }
+}
+
+.fasciile__step {
+  display: flex;
+  align-items: center;
+  gap: theme.$scale1;
+  padding: 3px 0;
+  font-family: 'GeistMono';
+  font-size: 11.5px;
+  color: rgba(theme.$primary, 0.5);
+
+  i {
+    width: 6px;
+    height: 6px;
+    flex: none;
+    background: $rule-firm;
+  }
+
+  &.is-on { color: theme.$primary; i { background: theme.$accent; } }
+  &.is-done { color: rgba(theme.$primary, 0.7); i { background: #11593f; } }
+}
+
+// [LOADING...] — dots build 1-2-3, then reset
+.fasciile__loadword {
+  margin: 0 0 theme.$scale1;
+  font-family: 'GeistMono';
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  color: theme.$accent;
+
+  i { font-style: normal; opacity: 0.18; }
+  i:nth-of-type(1) { animation: fasciile-dot-1 1.2s infinite steps(1, end); }
+  i:nth-of-type(2) { animation: fasciile-dot-2 1.2s infinite steps(1, end); }
+  i:nth-of-type(3) { animation: fasciile-dot-3 1.2s infinite steps(1, end); }
+}
+
+@keyframes fasciile-dot-1 { 0%, 24% { opacity: 0.18; } 25%, 100% { opacity: 1; } }
+@keyframes fasciile-dot-2 { 0%, 49% { opacity: 0.18; } 50%, 100% { opacity: 1; } }
+@keyframes fasciile-dot-3 { 0%, 74% { opacity: 0.18; } 75%, 100% { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .fasciile__loadword i { animation: none; opacity: 1; }
+}
+
+.fasciile__toast {
+  position: absolute;
+  bottom: 76px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  max-width: calc(100% - #{theme.$scale4});
+  padding: 7px 14px;
+  border-radius: $radius-field;
+  text-align: center;
+  font-family: 'GeistMono';
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: theme.$white;
+  background: theme.$primary;
+}
