@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Panel } from './Panel';
 import { useAsciiEngine } from './useAsciiEngine';
-import { decodeImage, readFileText } from '../../lib/ascii/sources/heightfield';
+import { decodeImage, loadImageFromUrl, readFileText } from '../../lib/ascii/sources/heightfield';
 import { sanitizeSvg, svgToImage } from '../../lib/ascii/sources/svgIngest';
 import type { Params } from '../../lib/ascii/types';
 import './Fasciile.scss';
@@ -30,6 +30,8 @@ const RASTER_STEPS = [
 ];
 
 const looksLikeSvg = (text: string) => /<svg[\s>]/i.test(text.slice(0, 4000));
+const looksLikeUrl = (text: string) => /^(https?:\/\/|data:image\/|\/)\S+$/i.test(text.trim());
+const URL_STEPS = ['Fetch the image', 'Extract luminance field', 'Build point cloud', 'Ready'];
 const fmtK = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(n >= 10000 ? 0 : 1)}k` : String(n));
 
 export const Fasciile = () => {
@@ -50,6 +52,7 @@ export const Fasciile = () => {
     setSource,
     loadShape,
     loadImage,
+    faceFront,
     revision,
   } = engine;
 
@@ -117,6 +120,44 @@ export const Fasciile = () => {
       });
     },
     [flash, loadShape, runSteps],
+  );
+
+  const useUrl = useCallback(
+    async (raw: string) => {
+      const url = raw.trim();
+      setPasteOpen(false);
+
+      // An .svg URL is worth fetching as text first — that route yields arc
+      // length, and therefore the reveal. Falls through to raster if CORS says no.
+      if (/\.svg(\?|#|$)/i.test(url)) {
+        try {
+          const res = await fetch(url);
+          if (res.ok) {
+            const text = await res.text();
+            if (looksLikeSvg(text)) {
+              useMarkup(text);
+              return;
+            }
+          }
+        } catch {
+          // CORS or network — fall through and let <img> try instead.
+        }
+      }
+
+      try {
+        const img = await loadImageFromUrl(url);
+        runSteps(URL_STEPS, 'Loading image', () => {
+          loadImage(img);
+          setSourceState('image');
+          setProjectLabel('URL');
+          flash('Loaded from URL');
+        });
+      } catch (err) {
+        flash((err as Error).message, 5000);
+        setPasteOpen(true);
+      }
+    },
+    [flash, loadImage, runSteps, useMarkup],
   );
 
   const importFile = useCallback(
@@ -201,6 +242,7 @@ export const Fasciile = () => {
       }
       const text = dt.getData('text/plain') || '';
       if (looksLikeSvg(text)) useMarkup(text);
+      else if (looksLikeUrl(text)) void useUrl(text);
     };
 
     viewport.addEventListener('dragenter', stop);
@@ -213,7 +255,7 @@ export const Fasciile = () => {
       viewport.removeEventListener('dragleave', clear);
       viewport.removeEventListener('drop', onDrop);
     };
-  }, [importFile, useMarkup]);
+  }, [importFile, useMarkup, useUrl]);
 
   useEffect(() => {
     const onPaste = (e: ClipboardEvent) => {
@@ -227,14 +269,18 @@ export const Fasciile = () => {
         return;
       }
       const text = dt.getData('text/plain') || '';
-      if (looksLikeSvg(text) && target !== pasteRef.current) {
+      if (target === pasteRef.current) return;
+      if (looksLikeSvg(text)) {
         e.preventDefault();
         useMarkup(text);
+      } else if (looksLikeUrl(text)) {
+        e.preventDefault();
+        void useUrl(text);
       }
     };
     document.addEventListener('paste', onPaste);
     return () => document.removeEventListener('paste', onPaste);
-  }, [importFile, useMarkup]);
+  }, [importFile, useMarkup, useUrl]);
 
   const exportConfig = useCallback(() => {
     const json = JSON.stringify(params.current, null, 2);
@@ -256,6 +302,7 @@ export const Fasciile = () => {
         onRebuild={rebuild}
         onRedraw={redraw}
         onReset={reset}
+        onFaceFront={faceFront}
         revision={revision}
       />
 
@@ -302,11 +349,11 @@ export const Fasciile = () => {
         {pasteOpen && (
           <div className="fasciile__paste" data-no-drag>
             <div className="fasciile__paste-box">
-              <h4>Paste SVG markup</h4>
+              <h4>Paste markup or a URL</h4>
               <textarea
                 ref={pasteRef}
                 spellCheck={false}
-                placeholder={'<svg viewBox="0 0 100 100"><path d="M…"/></svg>'}
+                placeholder={'<svg viewBox="0 0 100 100">…</svg>\n\nor\n\nhttps://example.com/photo.jpg'}
               />
               <div className="fasciile__paste-row">
                 <button type="button" className="fasciile__btn" onClick={() => setPasteOpen(false)}>
@@ -318,14 +365,18 @@ export const Fasciile = () => {
                 <button
                   type="button"
                   className="fasciile__btn is-primary"
-                  onClick={() => useMarkup(pasteRef.current?.value ?? '')}
+                  onClick={() => {
+                    const raw = pasteRef.current?.value ?? '';
+                    if (looksLikeUrl(raw)) void useUrl(raw);
+                    else useMarkup(raw);
+                  }}
                 >
-                  Use markup
+                  Load
                 </button>
               </div>
               <p className="fasciile__hint">
-                Needs no file access, so it works where the picker can&rsquo;t. ⌘V in the viewport
-                works too.
+                SVG markup, or a link straight to an image file. ⌘V in the viewport works too.
+                A URL only loads if its host allows cross-origin reads.
               </p>
             </div>
           </div>

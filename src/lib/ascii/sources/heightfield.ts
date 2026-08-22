@@ -71,6 +71,7 @@ export function cloudFromImage(img: DecodedImage, p: Params): PointCloud {
   const nrm = new Float32Array(kept * 3);
   const alb = new Float32Array(kept);
 
+  const flat = p.imageMode === 'flat';
   const spanX = WORLD_SPAN / width;
   const spanY = (WORLD_SPAN * (height / width)) / height;
   let w = 0;
@@ -79,6 +80,23 @@ export function cloudFromImage(img: DecodedImage, p: Params): PointCloud {
     for (let x = 0; x < width; x++) {
       const idx = y * width + x;
       if (alpha[idx] <= ALPHA_FLOOR) continue;
+
+      const i3 = w * 3;
+      pos[i3] = (x / width - 0.5) * WORLD_SPAN;
+      pos[i3 + 1] = (y / height - 0.5) * WORLD_SPAN * (height / width);
+      alb[w] = lum[idx];
+
+      if (flat) {
+        // A billboard: no displacement, every normal faces the camera. The
+        // image supplies the tone, which is what makes a photo still look
+        // like the photo.
+        pos[i3 + 2] = 0;
+        nrm[i3] = 0;
+        nrm[i3 + 1] = 0;
+        nrm[i3 + 2] = -1;
+        w++;
+        continue;
+      }
 
       const xm = x > 0 ? idx - 1 : idx;
       const xp = x < width - 1 ? idx + 1 : idx;
@@ -92,14 +110,10 @@ export function cloudFromImage(img: DecodedImage, p: Params): PointCloud {
       const nz = -1;
       const len = Math.sqrt(gx * gx + gy * gy + 1) || 1;
 
-      const i3 = w * 3;
-      pos[i3] = (x / width - 0.5) * WORLD_SPAN;
-      pos[i3 + 1] = (y / height - 0.5) * WORLD_SPAN * (height / width);
       pos[i3 + 2] = -(lum[idx] - 0.5) * p.reliefDepth;
       nrm[i3] = gx / len;
       nrm[i3 + 1] = gy / len;
       nrm[i3 + 2] = nz / len;
-      alb[w] = lum[idx];
       w++;
     }
   }
@@ -131,6 +145,29 @@ export function decodeImage(file: Blob): Promise<DecodedImage | null> {
     return createImageBitmap(file).catch(viaUrl);
   }
   return viaUrl();
+}
+
+/**
+ * Load an image by URL.
+ *
+ * crossOrigin is required because the pixels get read back off a canvas, and a
+ * host that does not send Access-Control-Allow-Origin will taint it. There is no
+ * workaround from the page side — a retry without crossOrigin would load the
+ * image but throw on getImageData — so the failure is reported plainly instead.
+ */
+export function loadImageFromUrl(url: string): Promise<DecodedImage> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => resolve(img);
+    img.onerror = () =>
+      reject(
+        new Error(
+          'Could not load that URL. It must point straight at an image file, and the host must allow cross-origin reads.',
+        ),
+      );
+    img.src = url;
+  });
 }
 
 /**

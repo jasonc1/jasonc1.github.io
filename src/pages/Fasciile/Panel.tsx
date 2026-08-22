@@ -9,6 +9,7 @@ interface PanelProps {
   onRebuild: () => void;
   onRedraw: () => void;
   onReset: () => void;
+  onFaceFront: () => void;
   /** Changes when the engine edits a parameter behind the panel's back. */
   revision: number;
 }
@@ -27,6 +28,7 @@ export const Panel = ({
   onRebuild,
   onRedraw,
   onReset,
+  onFaceFront,
   revision,
 }: PanelProps) => {
   const [, setTick] = useState(0);
@@ -37,9 +39,10 @@ export const Panel = ({
       control.sideEffect?.(params.current);
       if (control.rebuilds) onRebuild();
       else onRedraw();
+      if (control.resetsView) onFaceFront();
       setTick((n) => n + 1);
     },
-    [params, onRebuild, onRedraw],
+    [params, onRebuild, onRedraw, onFaceFront],
   );
 
   return (
@@ -64,6 +67,9 @@ export const Panel = ({
       })}
 
       <div className="fasciile__group fasciile__group--actions">
+        <button type="button" className="fasciile__btn" onClick={onFaceFront}>
+          Face front
+        </button>
         <button
           type="button"
           className="fasciile__btn"
@@ -75,7 +81,8 @@ export const Panel = ({
           Reset to defaults
         </button>
         <p className="fasciile__hint">
-          Puts every control back. Keeps whatever asset you loaded.
+          Face front points the camera square at the subject &mdash; the only way to read a flat
+          one. Reset puts every control back, keeping whatever asset you loaded.
         </p>
       </div>
     </aside>

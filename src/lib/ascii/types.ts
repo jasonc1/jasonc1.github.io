@@ -27,6 +27,16 @@ export type RampKey = 'classic' | 'fine' | 'blocks' | 'dots' | 'binary';
 /** 'horizontal' locks the auto-spin to yaw, giving a turntable. */
 export type SpinAxis = 'free' | 'horizontal';
 
+/**
+ * How a raster asset is interpreted.
+ *
+ * 'flat'   — a billboard. The image is the picture; brightness is brightness.
+ * 'relief' — brightness is read as height. Only honest when the subject really
+ *            is lit like a carving; on a photo it embosses highlights into
+ *            spikes and the subject stops being recognizable.
+ */
+export type ImageMode = 'flat' | 'relief';
+
 export interface Params {
   source: SourceKind;
 
@@ -43,6 +53,7 @@ export interface Params {
   reveal: number;
 
   // Raster
+  imageMode: ImageMode;
   reliefDepth: number;
   albedoMix: number;
 

@@ -72,6 +72,10 @@ $wash: #eeeef1;
   border-bottom: none;
   padding-bottom: theme.$scale4;
 
+  display: flex;
+  flex-direction: column;
+  gap: theme.$scale1;
+
   .fasciile__btn {
     text-transform: uppercase;
     letter-spacing: 0.08em;

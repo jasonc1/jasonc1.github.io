@@ -27,6 +27,8 @@ export interface Engine {
   rebuild: () => void;
   /** Restore defaults, keeping the loaded asset. */
   reset: () => void;
+  /** Point the camera square at the subject. */
+  faceFront: () => void;
   /** Bumps when the engine itself edits a parameter, e.g. drag-to-tilt. */
   revision: number;
   /** Redraw with the existing cloud. Call after a display-only control moves. */
@@ -121,6 +123,19 @@ export function useAsciiEngine(
     rebuild();
   }, [rebuild]);
 
+  /**
+   * Square-on view. Essential for flat assets: a billboard on a turntable
+   * spends half its revolution edge-on, where it collapses to a line.
+   */
+  const faceFront = useCallback(() => {
+    camera.current.yaw = 0;
+    camera.current.pitch = params.current.spinAxis === 'horizontal' ? params.current.tilt : 0;
+    camera.current.roll = 0;
+    velocity.current.pitch = 0;
+    velocity.current.yaw = 0;
+    draw();
+  }, [draw]);
+
   const setSource = useCallback(
     (kind: Params['source']) => {
       params.current.source = kind;
@@ -147,9 +162,17 @@ export function useAsciiEngine(
       image.current = img;
       setHasImage(true);
       params.current.source = 'image';
+      // A photo or logo is flat, so present it square-on and still. Spinning a
+      // billboard is opt-in, not the thing you get handed on import.
+      if (params.current.imageMode === 'flat') {
+        params.current.spinYaw = 0;
+        params.current.tilt = 0;
+      }
       rebuild();
+      faceFront();
+      setRevision((n) => n + 1);
     },
-    [rebuild],
+    [rebuild, faceFront],
   );
 
   // ── Grid sizing — measured from the real font, not assumed ───────────────
@@ -378,6 +401,7 @@ export function useAsciiEngine(
     setRunning,
     rebuild,
     reset,
+    faceFront,
     redraw: draw,
     revision,
     setSource,

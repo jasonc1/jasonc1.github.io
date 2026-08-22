@@ -15,8 +15,9 @@ export const DEFAULT_PARAMS: Params = {
   extrude: 0,
   reveal: 1,
 
+  imageMode: 'flat',
   reliefDepth: 1.4,
-  albedoMix: 0.55,
+  albedoMix: 1,
 
   spinAxis: 'horizontal',
   tilt: -0.42,
@@ -50,6 +51,8 @@ interface BaseControl {
   rebuilds?: boolean;
   /** Runs after the value is written. For knobs that imply another knob. */
   sideEffect?: (p: Params) => void;
+  /** Point the camera square at the subject after this changes. */
+  resetsView?: boolean;
 }
 
 export interface RangeControl extends BaseControl {
@@ -99,6 +102,7 @@ export const SCHEMA: ControlGroup[] = [
           { value: 'horizontal', label: 'Horizontal' },
           { value: 'free', label: 'Free' },
         ],
+        resetsView: true,
         sideEffect: (p) => {
           // A turntable with no yaw speed is just a still frame.
           if (p.spinAxis === 'horizontal' && p.spinYaw === 0) p.spinYaw = 0.5;
@@ -266,9 +270,36 @@ export const SCHEMA: ControlGroup[] = [
         decimals: 3,
       },
       {
+        kind: 'choice',
+        key: 'imageMode',
+        only: ['image'],
+        label: 'Interpretation',
+        hint: 'Flat treats the picture as a picture. Relief reads brightness as height, which only suits a subject that is genuinely lit like a carving.',
+        options: [
+          { value: 'flat', label: 'Flat' },
+          { value: 'relief', label: 'Relief' },
+        ],
+        rebuilds: true,
+        resetsView: true,
+        sideEffect: (p) => {
+          if (p.imageMode === 'flat') {
+            // One constant normal means lighting cannot vary, so the image's own
+            // tone has to carry it. And a billboard on a turntable spends half
+            // its revolution edge-on, so it starts square-on and still.
+            p.albedoMix = 1;
+            p.spinYaw = 0;
+            p.tilt = 0;
+          } else {
+            p.albedoMix = 0.55;
+            if (p.spinYaw === 0) p.spinYaw = 0.5;
+          }
+        },
+      },
+      {
         kind: 'range',
         key: 'reliefDepth',
         only: ['image'],
+        when: (p) => p.imageMode === 'relief',
         label: 'Relief depth',
         hint: 'How much the bright parts pop out toward you.',
         min: 0,
@@ -333,6 +364,7 @@ export const SCHEMA: ControlGroup[] = [
         kind: 'range',
         key: 'albedoMix',
         only: ['image'],
+        when: (p) => p.imageMode === 'relief',
         label: 'Albedo mix',
         hint: 'Slide left and it looks carved. Slide right and it looks like the photo.',
         min: 0,
