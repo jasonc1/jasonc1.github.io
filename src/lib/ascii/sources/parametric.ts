@@ -44,7 +44,7 @@ export function buildTorus(p: Params): PointCloud {
       w++;
     }
   }
-  return { pos, nrm, alb, arc: null, count };
+  return { pos, nrm, alb, arc: null, edge: null, edgeDir: null, count };
 }
 
 export function buildSphere(p: Params): PointCloud {
@@ -78,5 +78,5 @@ export function buildSphere(p: Params): PointCloud {
       w++;
     }
   }
-  return { pos, nrm, alb, arc: null, count };
+  return { pos, nrm, alb, arc: null, edge: null, edgeDir: null, count };
 }

@@ -69,5 +69,5 @@ export function cloudFromShape(shape: ShapeData, p: Params): PointCloud {
     arcBase += c.total;
   }
 
-  return { pos, nrm, alb, arc, count: w };
+  return { pos, nrm, alb, arc, edge: null, edgeDir: null, count: w };
 }

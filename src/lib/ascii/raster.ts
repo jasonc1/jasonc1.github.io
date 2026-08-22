@@ -1,4 +1,4 @@
-import { RAMPS } from './ramps';
+import { EDGE_CHAR_CODES, RAMPS } from './ramps';
 import type { Camera, Frame, Params, PointCloud } from './types';
 
 const TAU = Math.PI * 2;
@@ -54,8 +54,10 @@ export function rasterize(cloud: PointCloud, p: Params, cam: Camera, frame: Fram
   lz /= lightLen;
 
   const mix = p.source === 'image' ? p.albedoMix : 0;
-  const { pos, nrm, alb, arc, count } = cloud;
+  const { pos, nrm, alb, arc, edge, edgeDir, count } = cloud;
   const reveal = p.reveal;
+  const edgeCut = p.edgeThreshold;
+  const useEdges = edge !== null && edgeDir !== null && edgeCut < 1;
 
   for (let i = 0; i < count; i++) {
     // The loading reveal, in one line.
@@ -100,11 +102,25 @@ export function rasterize(cloud: PointCloud, p: Params, cam: Camera, frame: Fram
     if (lum < 0) lum = 0;
     if (mix > 0) lum = lum * (1 - mix) + alb[i] * mix;
 
+    depth[o] = inv;
+
+    // A cell on a strong edge draws the edge's direction instead of its
+    // brightness. Structure survives the ramp; a gradient character cannot
+    // tell you which way a contour runs.
+    if (useEdges && edge![i] > edgeCut) {
+      const dir = edgeDir![i];
+      if (dir > 0) {
+        const shade = p.invert ? lum : 1 - lum;
+        let band = (shade * 5) | 0;
+        if (band > 4) band = 4;
+        chars[o] = EDGE_CHAR_CODES[dir][band];
+        continue;
+      }
+    }
+
     let ci = (lum * rampLen) | 0;
     if (ci >= rampLen) ci = rampLen - 1;
     if (p.invert) ci = rampLen - 1 - ci;
-
-    depth[o] = inv;
     chars[o] = rampCodes[ci];
   }
 }

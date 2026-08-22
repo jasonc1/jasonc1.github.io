@@ -14,6 +14,10 @@ export interface PointCloud {
   alb: Float32Array;
   /** n — 0..1 position along the path. Null unless the source is a path. */
   arc: Float32Array | null;
+  /** n — 0..1 edge strength. Null unless the source can detect edges. */
+  edge: Float32Array | null;
+  /** n — quantized edge direction: 0 none, 1 vertical, 2 horizontal, 3 /, 4 \ */
+  edgeDir: Uint8Array | null;
   count: number;
 }
 
@@ -54,6 +58,10 @@ export interface Params {
 
   // Raster
   imageMode: ImageMode;
+  /** Sigmoid steepness applied to brightness. 0 leaves it linear. */
+  contrast: number;
+  /** Edge strength above which a cell uses a directional line character. */
+  edgeThreshold: number;
   reliefDepth: number;
   albedoMix: number;
 

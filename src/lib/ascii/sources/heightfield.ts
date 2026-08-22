@@ -1,3 +1,4 @@
+import { DIR_MAP } from '../ramps';
 import type { Params, PointCloud } from '../types';
 
 /** Anything below this alpha is treated as absent and produces no point. */
@@ -35,7 +36,7 @@ export function cloudFromImage(img: DecodedImage, p: Params): PointCloud {
   canvas.width = width;
   canvas.height = height;
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
-  if (!ctx) return { pos: new Float32Array(0), nrm: new Float32Array(0), alb: new Float32Array(0), arc: null, count: 0 };
+  if (!ctx) return { pos: new Float32Array(0), nrm: new Float32Array(0), alb: new Float32Array(0), arc: null, edge: null, edgeDir: null, count: 0 };
 
   ctx.drawImage(img as CanvasImageSource, 0, 0, width, height);
   const pixels = ctx.getImageData(0, 0, width, height).data;
@@ -57,11 +58,56 @@ export function cloudFromImage(img: DecodedImage, p: Params): PointCloud {
     }
   }
 
-  // Stretch the used range to 0..1 so low-contrast images still read.
+  // Percentile rather than min/max: one specular highlight or one crushed
+  // shadow would otherwise squash the range everything else has to share.
+  const sorted = Float32Array.from(lum).sort();
+  lo = sorted[Math.floor(cells * 0.05)];
+  hi = sorted[Math.floor(cells * 0.95)];
   const invRange = 1 / Math.max(0.001, hi - lo);
+
+  // Then an S-curve, which pushes midtones apart. A short character ramp has
+  // very few steps to spend, so linear brightness wastes most of them.
+  const k = p.contrast;
   for (let i = 0; i < cells; i++) {
-    const v = (lum[i] - lo) * invRange;
-    lum[i] = v < 0 ? 0 : v > 1 ? 1 : v;
+    let v = (lum[i] - lo) * invRange;
+    v = v < 0 ? 0 : v > 1 ? 1 : v;
+    lum[i] = k > 0 ? 1 / (1 + Math.exp(-k * (v - 0.5))) : v;
+  }
+
+  // ── Sobel: magnitude and quantized direction, per cell ──────────────────
+  // An edge cell gets a line character oriented along the edge instead of a
+  // brightness character, which is what makes lettering and hard contours read.
+  const edgeMag = new Float32Array(cells);
+  const edgeDirGrid = new Uint8Array(cells);
+  let maxEdge = 0;
+  for (let y = 1; y < height - 1; y++) {
+    const row = y * width;
+    const up = (y - 1) * width;
+    const down = (y + 1) * width;
+    for (let x = 1; x < width - 1; x++) {
+      const tl = lum[up + x - 1];
+      const tt = lum[up + x];
+      const tr = lum[up + x + 1];
+      const ml = lum[row + x - 1];
+      const mr = lum[row + x + 1];
+      const bl = lum[down + x - 1];
+      const bb = lum[down + x];
+      const br = lum[down + x + 1];
+      const sx = -tl - 2 * ml - bl + tr + 2 * mr + br;
+      const sy = -tl - 2 * tt - tr + bl + 2 * bb + br;
+      const mag = Math.sqrt(sx * sx + sy * sy);
+      const at = row + x;
+      edgeMag[at] = mag;
+      if (mag > maxEdge) maxEdge = mag;
+      if (mag > 0) {
+        const sector = Math.round(((Math.atan2(sy, sx) + Math.PI) / Math.PI) * 4) % 8;
+        edgeDirGrid[at] = DIR_MAP[sector];
+      }
+    }
+  }
+  if (maxEdge > 0) {
+    const invMax = 1 / maxEdge;
+    for (let i = 0; i < cells; i++) edgeMag[i] *= invMax;
   }
 
   let kept = 0;
@@ -70,6 +116,8 @@ export function cloudFromImage(img: DecodedImage, p: Params): PointCloud {
   const pos = new Float32Array(kept * 3);
   const nrm = new Float32Array(kept * 3);
   const alb = new Float32Array(kept);
+  const edge = new Float32Array(kept);
+  const edgeDir = new Uint8Array(kept);
 
   const flat = p.imageMode === 'flat';
   const spanX = WORLD_SPAN / width;
@@ -85,6 +133,8 @@ export function cloudFromImage(img: DecodedImage, p: Params): PointCloud {
       pos[i3] = (x / width - 0.5) * WORLD_SPAN;
       pos[i3 + 1] = (y / height - 0.5) * WORLD_SPAN * (height / width);
       alb[w] = lum[idx];
+      edge[w] = edgeMag[idx];
+      edgeDir[w] = edgeDirGrid[idx];
 
       if (flat) {
         // A billboard: no displacement, every normal faces the camera. The
@@ -118,7 +168,7 @@ export function cloudFromImage(img: DecodedImage, p: Params): PointCloud {
     }
   }
 
-  return { pos, nrm, alb, arc: null, count: w };
+  return { pos, nrm, alb, arc: null, edge, edgeDir, count: w };
 }
 
 /**

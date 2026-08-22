@@ -16,6 +16,8 @@ export const DEFAULT_PARAMS: Params = {
   reveal: 1,
 
   imageMode: 'flat',
+  contrast: 5,
+  edgeThreshold: 0.4,
   reliefDepth: 1.4,
   albedoMix: 1,
 
@@ -294,6 +296,29 @@ export const SCHEMA: ControlGroup[] = [
             if (p.spinYaw === 0) p.spinYaw = 0.5;
           }
         },
+      },
+      {
+        kind: 'range',
+        key: 'contrast',
+        only: ['image'],
+        label: 'Contrast',
+        hint: 'Pushes midtones apart. A short ramp has few steps to spend, so flat brightness wastes most of them.',
+        min: 0,
+        max: 12,
+        step: 0.5,
+        decimals: 1,
+        rebuilds: true,
+      },
+      {
+        kind: 'range',
+        key: 'edgeThreshold',
+        only: ['image'],
+        label: 'Edge detail',
+        hint: 'Cells on a strong edge draw a line character pointing along it. Lower catches more edges; 1 turns them off.',
+        min: 0.05,
+        max: 1,
+        step: 0.01,
+        decimals: 2,
       },
       {
         kind: 'range',
