@@ -48,6 +48,8 @@ export interface Params {
 
   // Camera
   spinAxis: SpinAxis;
+  /** Turntable lean, in radians. Drives pitch while spinAxis is 'horizontal'. */
+  tilt: number;
   spinPitch: number;
   spinYaw: number;
   spinRoll: number;

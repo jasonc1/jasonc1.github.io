@@ -27,6 +27,8 @@ export interface Engine {
   rebuild: () => void;
   /** Restore defaults, keeping the loaded asset. */
   reset: () => void;
+  /** Bumps when the engine itself edits a parameter, e.g. drag-to-tilt. */
+  revision: number;
   /** Redraw with the existing cloud. Call after a display-only control moves. */
   redraw: () => void;
   setSource: (kind: Params['source']) => void;
@@ -65,6 +67,7 @@ export function useAsciiEngine(
 
   const [running, setRunning] = useState(!prefersReduced);
   const [stats, setStats] = useState<EngineStats>({ points: 0, cols: 0, rows: 0, ms: 0 });
+  const [revision, setRevision] = useState(0);
   const [hasShape, setHasShape] = useState(false);
   const [hasImage, setHasImage] = useState(false);
 
@@ -76,6 +79,10 @@ export function useAsciiEngine(
     const f = frame.current;
     if (!stage || !f || !cloud.current) return;
     const t0 = performance.now();
+    if (params.current.spinAxis === 'horizontal') {
+      camera.current.pitch = params.current.tilt;
+      camera.current.roll = 0;
+    }
     rasterize(cloud.current, params.current, camera.current, f);
     stage.textContent = frameToString(f, lineBuf.current);
     const ms = performance.now() - t0;
@@ -110,6 +117,7 @@ export function useAsciiEngine(
     camera.current.roll = 0;
     velocity.current.pitch = 0;
     velocity.current.yaw = 0;
+    setRevision((n) => n + 1);
     rebuild();
   }, [rebuild]);
 
@@ -222,13 +230,14 @@ export function useAsciiEngine(
       const vel = velocity.current;
       if (auto) {
         cam.yaw += p.spinYaw * dt;
-        // Horizontal is a turntable: yaw only, so a set tilt stays put.
+        // Horizontal is a turntable: yaw turns, pitch is pinned to tilt in draw().
         if (p.spinAxis === 'free') {
           cam.pitch += p.spinPitch * dt;
           cam.roll += p.spinRoll * dt;
         }
       }
       if (p.spinAxis === 'free') cam.pitch += vel.pitch;
+      else vel.pitch = 0;
       cam.yaw += vel.yaw;
       vel.pitch *= THROW_DECAY;
       vel.yaw *= THROW_DECAY;
@@ -269,6 +278,7 @@ export function useAsciiEngine(
     let lastX = 0;
     let lastY = 0;
     let moved = 0;
+    let tilted = false;
 
     const onDown = (ev: PointerEvent) => {
       const target = ev.target as HTMLElement;
@@ -279,6 +289,7 @@ export function useAsciiEngine(
 
       dragging.current = true;
       moved = 0;
+      tilted = false;
       lastX = ev.clientX;
       lastY = ev.clientY;
       velocity.current.pitch = 0;
@@ -299,13 +310,21 @@ export function useAsciiEngine(
       lastY = ev.clientY;
       moved += Math.abs(dx) + Math.abs(dy);
 
-      const free = params.current.spinAxis === 'free';
+      const p = params.current;
+      const free = p.spinAxis === 'free';
       const yaw = dx * DRAG_SENSITIVITY;
-      const pitch = free ? dy * DRAG_SENSITIVITY : 0;
       camera.current.yaw += yaw;
-      camera.current.pitch += pitch;
       velocity.current.yaw = yaw * 0.55;
-      velocity.current.pitch = pitch * 0.55;
+
+      if (free) {
+        const pitch = dy * DRAG_SENSITIVITY;
+        camera.current.pitch += pitch;
+        velocity.current.pitch = pitch * 0.55;
+      } else {
+        // Turntable: up/down sets the lean, clamped so it can't flip over.
+        p.tilt = Math.max(-1.2, Math.min(1.2, p.tilt + dy * DRAG_SENSITIVITY));
+        tilted = true;
+      }
       draw();
     };
 
@@ -322,6 +341,7 @@ export function useAsciiEngine(
         velocity.current.pitch = 0;
         velocity.current.yaw = 0;
       }
+      if (tilted) setRevision((n) => n + 1);
     };
 
     const onKey = (ev: KeyboardEvent) => {
@@ -359,6 +379,7 @@ export function useAsciiEngine(
     rebuild,
     reset,
     redraw: draw,
+    revision,
     setSource,
     loadShape,
     loadImage,

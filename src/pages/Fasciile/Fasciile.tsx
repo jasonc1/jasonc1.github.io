@@ -50,6 +50,7 @@ export const Fasciile = () => {
     setSource,
     loadShape,
     loadImage,
+    revision,
   } = engine;
 
   const [source, setSourceState] = useState<Params['source']>('torus');
@@ -255,6 +256,7 @@ export const Fasciile = () => {
         onRebuild={rebuild}
         onRedraw={redraw}
         onReset={reset}
+        revision={revision}
       />
 
       <div className="fasciile__viewport" ref={viewportRef} tabIndex={0} aria-label="ASCII render">

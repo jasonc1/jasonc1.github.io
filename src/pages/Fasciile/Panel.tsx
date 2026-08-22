@@ -9,6 +9,8 @@ interface PanelProps {
   onRebuild: () => void;
   onRedraw: () => void;
   onReset: () => void;
+  /** Changes when the engine edits a parameter behind the panel's back. */
+  revision: number;
 }
 
 /**
@@ -25,6 +27,7 @@ export const Panel = ({
   onRebuild,
   onRedraw,
   onReset,
+  revision,
 }: PanelProps) => {
   const [, setTick] = useState(0);
 
@@ -41,12 +44,12 @@ export const Panel = ({
 
   return (
     <aside className="fasciile__panel" aria-label="Parameters" data-no-drag>
-      <div className="fasciile__brand">
+      <div className="fasciile__brand" data-revision={revision}>
         <span>FASCIILE</span>
         <span>{projectLabel}</span>
       </div>
 
-      {/* `source` is read so the panel re-renders when the source changes */}
+      {/* `source` and `revision` are read so the panel re-renders when either changes */}
       {SCHEMA.map((group) => {
         const controls = visibleControls(group, params.current);
         if (!controls.length) return null;
