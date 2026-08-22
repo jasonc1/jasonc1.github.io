@@ -24,6 +24,9 @@ export type Repr = 'poly' | 'fourier';
 
 export type RampKey = 'classic' | 'fine' | 'blocks' | 'dots' | 'binary';
 
+/** 'horizontal' locks the auto-spin to yaw, giving a turntable. */
+export type SpinAxis = 'free' | 'horizontal';
+
 export interface Params {
   source: SourceKind;
 
@@ -44,6 +47,7 @@ export interface Params {
   albedoMix: number;
 
   // Camera
+  spinAxis: SpinAxis;
   spinPitch: number;
   spinYaw: number;
   spinRoll: number;

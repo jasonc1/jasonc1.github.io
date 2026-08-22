@@ -68,6 +68,16 @@ $wash: #eeeef1;
   border-bottom: theme.$border-width solid $rule;
 }
 
+.fasciile__group--actions {
+  border-bottom: none;
+  padding-bottom: theme.$scale4;
+
+  .fasciile__btn {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+}
+
 .fasciile__group-title {
   @include theme.Header;
   margin: 0 0 theme.$scale2;

@@ -18,6 +18,7 @@ export const DEFAULT_PARAMS: Params = {
   reliefDepth: 1.4,
   albedoMix: 0.55,
 
+  spinAxis: 'free',
   spinPitch: 0.7,
   spinYaw: 0,
   spinRoll: 0.35,
@@ -39,11 +40,15 @@ type NumericKey = {
 interface BaseControl {
   /** Which sources this control applies to. Omitted means all of them. */
   only?: SourceKind[];
+  /** Extra visibility test, for controls that only apply in certain modes. */
+  when?: (p: Params) => boolean;
   label: string;
   /** Plain-English explanation. No graphics vocabulary. */
   hint?: string;
   /** Rebuild the point cloud when this changes, rather than just redrawing. */
   rebuilds?: boolean;
+  /** Runs after the value is written. For knobs that imply another knob. */
+  sideEffect?: (p: Params) => void;
 }
 
 export interface RangeControl extends BaseControl {
@@ -196,8 +201,23 @@ export const SCHEMA: ControlGroup[] = [
     title: 'Camera',
     controls: [
       {
+        kind: 'choice',
+        key: 'spinAxis',
+        label: 'Rotation',
+        hint: 'Horizontal turns it like a turntable — dragging tilts nothing. Switch to Free to set a tilt; it holds when you lock again.',
+        options: [
+          { value: 'free', label: 'Free' },
+          { value: 'horizontal', label: 'Horizontal' },
+        ],
+        // Locking to horizontal with no yaw speed would just stop the animation.
+        sideEffect: (p) => {
+          if (p.spinAxis === 'horizontal' && p.spinYaw === 0) p.spinYaw = 0.5;
+        },
+      },
+      {
         kind: 'range',
         key: 'spinPitch',
+        when: (p) => p.spinAxis === 'free',
         label: 'Spin — pitch',
         hint: 'How fast it tilts. Dragging up and down does the same thing.',
         min: -2.5,
@@ -218,6 +238,7 @@ export const SCHEMA: ControlGroup[] = [
       {
         kind: 'range',
         key: 'spinRoll',
+        when: (p) => p.spinAxis === 'free',
         label: 'Spin — roll',
         hint: 'How fast it spins like a wheel. A different speed here is what makes it wobble.',
         min: -2.5,
@@ -309,6 +330,8 @@ export const SCHEMA: ControlGroup[] = [
   },
 ];
 
-export function visibleControls(group: ControlGroup, source: SourceKind): Control[] {
-  return group.controls.filter((c) => !c.only || c.only.includes(source));
+export function visibleControls(group: ControlGroup, p: Params): Control[] {
+  return group.controls.filter(
+    (c) => (!c.only || c.only.includes(p.source)) && (!c.when || c.when(p)),
+  );
 }

@@ -25,6 +25,8 @@ export interface Engine {
   setRunning: (v: boolean) => void;
   /** Rebuild the point cloud, then redraw. Call after a `rebuilds` control moves. */
   rebuild: () => void;
+  /** Restore defaults, keeping the loaded asset. */
+  reset: () => void;
   /** Redraw with the existing cloud. Call after a display-only control moves. */
   redraw: () => void;
   setSource: (kind: Params['source']) => void;
@@ -55,6 +57,7 @@ export function useAsciiEngine(
   const velocity = useRef({ pitch: 0, yaw: 0 });
   const dragging = useRef(false);
   const msAvg = useRef(0);
+  const measuredAspect = useRef(DEFAULT_PARAMS.charAspect);
 
   const prefersReduced =
     typeof window !== 'undefined' &&
@@ -94,6 +97,21 @@ export function useAsciiEngine(
     setStats((s) => ({ ...s, points: cloud.current?.count ?? 0 }));
     draw();
   }, [draw]);
+
+  /**
+   * Back to defaults — but keep the loaded asset and the measured character
+   * aspect, since neither is a setting the user chose.
+   */
+  const reset = useCallback(() => {
+    const { source } = params.current;
+    params.current = { ...DEFAULT_PARAMS, source, charAspect: measuredAspect.current };
+    camera.current.pitch = 0;
+    camera.current.yaw = 0;
+    camera.current.roll = 0;
+    velocity.current.pitch = 0;
+    velocity.current.yaw = 0;
+    rebuild();
+  }, [rebuild]);
 
   const setSource = useCallback(
     (kind: Params['source']) => {
@@ -161,7 +179,8 @@ export function useAsciiEngine(
   useEffect(() => {
     const aspect = measure();
     if (aspect && Number.isFinite(aspect)) {
-      params.current.charAspect = Math.min(1.1, Math.max(0.3, aspect));
+      measuredAspect.current = Math.min(1.1, Math.max(0.3, aspect));
+      params.current.charAspect = measuredAspect.current;
     }
     rebuild();
 
@@ -202,11 +221,14 @@ export function useAsciiEngine(
       const cam = camera.current;
       const vel = velocity.current;
       if (auto) {
-        cam.pitch += p.spinPitch * dt;
         cam.yaw += p.spinYaw * dt;
-        cam.roll += p.spinRoll * dt;
+        // Horizontal is a turntable: yaw only, so a set tilt stays put.
+        if (p.spinAxis === 'free') {
+          cam.pitch += p.spinPitch * dt;
+          cam.roll += p.spinRoll * dt;
+        }
       }
-      cam.pitch += vel.pitch;
+      if (p.spinAxis === 'free') cam.pitch += vel.pitch;
       cam.yaw += vel.yaw;
       vel.pitch *= THROW_DECAY;
       vel.yaw *= THROW_DECAY;
@@ -277,8 +299,9 @@ export function useAsciiEngine(
       lastY = ev.clientY;
       moved += Math.abs(dx) + Math.abs(dy);
 
+      const free = params.current.spinAxis === 'free';
       const yaw = dx * DRAG_SENSITIVITY;
-      const pitch = dy * DRAG_SENSITIVITY;
+      const pitch = free ? dy * DRAG_SENSITIVITY : 0;
       camera.current.yaw += yaw;
       camera.current.pitch += pitch;
       velocity.current.yaw = yaw * 0.55;
@@ -334,6 +357,7 @@ export function useAsciiEngine(
     running,
     setRunning,
     rebuild,
+    reset,
     redraw: draw,
     setSource,
     loadShape,

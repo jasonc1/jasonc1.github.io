@@ -39,8 +39,18 @@ export const Fasciile = () => {
   const pasteRef = useRef<HTMLTextAreaElement>(null);
 
   const engine = useAsciiEngine(stageRef, viewportRef);
-  const { params, stats, running, setRunning, rebuild, redraw, setSource, loadShape, loadImage } =
-    engine;
+  const {
+    params,
+    stats,
+    running,
+    setRunning,
+    rebuild,
+    reset,
+    redraw,
+    setSource,
+    loadShape,
+    loadImage,
+  } = engine;
 
   const [source, setSourceState] = useState<Params['source']>('torus');
   const [projectLabel, setProjectLabel] = useState('Donut');
@@ -244,6 +254,7 @@ export const Fasciile = () => {
         projectLabel={projectLabel}
         onRebuild={rebuild}
         onRedraw={redraw}
+        onReset={reset}
       />
 
       <div className="fasciile__viewport" ref={viewportRef} tabIndex={0} aria-label="ASCII render">

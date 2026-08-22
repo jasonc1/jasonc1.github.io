@@ -8,6 +8,7 @@ interface PanelProps {
   projectLabel: string;
   onRebuild: () => void;
   onRedraw: () => void;
+  onReset: () => void;
 }
 
 /**
@@ -17,12 +18,20 @@ interface PanelProps {
  * slider redraws the canvas without re-rendering the tree. The local `tick`
  * state exists only to refresh the numeric readouts.
  */
-export const Panel = ({ params, source, projectLabel, onRebuild, onRedraw }: PanelProps) => {
+export const Panel = ({
+  params,
+  source,
+  projectLabel,
+  onRebuild,
+  onRedraw,
+  onReset,
+}: PanelProps) => {
   const [, setTick] = useState(0);
 
   const apply = useCallback(
     (control: Control, value: Params[keyof Params]) => {
       (params.current as unknown as Record<string, unknown>)[control.key] = value;
+      control.sideEffect?.(params.current);
       if (control.rebuilds) onRebuild();
       else onRedraw();
       setTick((n) => n + 1);
@@ -37,8 +46,9 @@ export const Panel = ({ params, source, projectLabel, onRebuild, onRedraw }: Pan
         <span>{projectLabel}</span>
       </div>
 
+      {/* `source` is read so the panel re-renders when the source changes */}
       {SCHEMA.map((group) => {
-        const controls = visibleControls(group, source);
+        const controls = visibleControls(group, params.current);
         if (!controls.length) return null;
         return (
           <div className="fasciile__group" key={group.title}>
@@ -49,6 +59,22 @@ export const Panel = ({ params, source, projectLabel, onRebuild, onRedraw }: Pan
           </div>
         );
       })}
+
+      <div className="fasciile__group fasciile__group--actions">
+        <button
+          type="button"
+          className="fasciile__btn"
+          onClick={() => {
+            onReset();
+            setTick((n) => n + 1);
+          }}
+        >
+          Reset to defaults
+        </button>
+        <p className="fasciile__hint">
+          Puts every control back. Keeps whatever asset you loaded.
+        </p>
+      </div>
     </aside>
   );
 };
