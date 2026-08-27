@@ -2,10 +2,10 @@ import bodegaImg from "../../assets/images/photos/bodega.jpg";
 import flowerImg from "../../assets/images/photos/flower.jpeg";
 import forestImg from "../../assets/images/photos/forest.jpg";
 import halfmoonImg from "../../assets/images/photos/halfmoon.jpg";
-import honoluluImg from "../../assets/images/photos/honolulu.jpg";
-import montanadoroImg from "../../assets/images/photos/montanadoro.jpg";
+import honoluluImg from "../../assets/images/photos/honolulu.webp";
+import montanadoroImg from "../../assets/images/photos/montanadoro.webp";
 import pillarsImg from "../../assets/images/photos/pillars.jpg";
-import pghImg from "../../assets/images/photos/pgh.jpg";
+import pghImg from "../../assets/images/photos/pgh.webp";
 
 // Direction that guides the kinetic idle animation for each image.
 // horizontal: ocean, sky, horizon layers  — band sweeps left→right

@@ -3,9 +3,9 @@ import bodega from "../../assets/images/photos/bodega.jpg";
 import flower from "../../assets/images/photos/flower.jpeg";
 import forest from "../../assets/images/photos/forest.jpg";
 import halfmoon from "../../assets/images/photos/halfmoon.jpg";
-import honolulu from "../../assets/images/photos/honolulu.jpg";
-import montanadoro from "../../assets/images/photos/montanadoro.jpg";
-import pgh from "../../assets/images/photos/pgh.jpg";
+import honolulu from "../../assets/images/photos/honolulu.webp";
+import montanadoro from "../../assets/images/photos/montanadoro.webp";
+import pgh from "../../assets/images/photos/pgh.webp";
 
 export const PhotoBlock = () => {
   return (
