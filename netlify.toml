@@ -1,0 +1,11 @@
+# The site's real deploy is GitHub Actions -> GitHub Pages (.github/workflows/deploy.yml).
+# Netlify only builds branch/PR deploy previews. Its dashboard settings still point at
+# Create React App's `build` directory, which Vite never creates, so previews failed from
+# the CRA -> Vite migration onward. This file overrides those settings.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Vite 7 requires Node ^20.19 || >=22.12.
+  NODE_VERSION = "22"
