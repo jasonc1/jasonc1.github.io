@@ -25,6 +25,7 @@ import SRLegacy from "./pages/Projects/old/SRLegacy";
 import StratRoulette from "./pages/Projects/old/StratRoulette";
 import ProductIllustrations from "./pages/Projects/old/ProductIllustrations";
 import Rosetta from "./pages/Projects/Rosetta";
+import ResumeRedirect from "./pages/Resume/ResumeRedirect";
 
 const navItems = ["Work", "Photo", "About", "Contact"];
 
@@ -126,6 +127,7 @@ const AppContent = () => {
         <Route path="/alchemy" element={<Alchemy />} />
         <Route path="/ids" element={<IDSAccordion />} />
         <Route path="/404" element={<NotFound />} />
+        <Route path="/resume" element={<ResumeRedirect />} />
         <Route path="/abstract-migrate" element={<AbstractMigrate />} />
         <Route path="/carta-exercise-status" element={<ExerciseStatus />} />
         <Route path="/carta-employee-onboarding" element={<EmployeeOnboarding />} />
