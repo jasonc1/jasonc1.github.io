@@ -338,11 +338,34 @@ export function useAsciiConverter(src: string, cols: number, rows: number, fontS
   return current ?? lastGoodRef.current;
 }
 
-export function preloadAll(photos: Array<{ src: string; accents: string[] }>, cols: number, rows: number, fontSize: number, staggerOffset = 0): void {
-  photos.forEach(({ src, accents }, i) => {
-    const si = i + staggerOffset;
+// Prefetch the ASCII grids for the given photos, fetching one image at a time.
+//
+// Callers pass only the photos they actually need soon (see AsciiGallery), because
+// the full set is several megabytes and only one photo is ever on screen. Fetching
+// serially rather than firing every request at once also keeps a cold load from
+// splitting the connection N ways.
+//
+// Prefetching is best-effort: useAsciiConverter loads on demand and falls back to
+// the last good grid, so a photo that hasn't been prefetched costs a repeated frame
+// while it loads, never a blank one.
+export function preloadAll(
+  photos: Array<{ src: string; accents: string[] }>,
+  cols: number,
+  rows: number,
+  fontSize: number,
+): void {
+  const queue = photos.filter(
+    ({ src, accents }) => !cache.has(cacheKey(src, cols, rows, accents)),
+  );
+
+  let step = 0;
+  const loadNext = () => {
+    const entry = queue.shift();
+    if (!entry) return;
+    const { src, accents } = entry;
     const k = cacheKey(src, cols, rows, accents);
-    if (cache.has(k)) return;
+    if (cache.has(k)) return loadNext();
+
     const img = new Image();
     img.crossOrigin = 'anonymous';
     img.onload = () => {
@@ -350,11 +373,17 @@ export function preloadAll(photos: Array<{ src: string; accents: string[] }>, co
       // main thread with N simultaneous conversions (especially on resize).
       const run = () => cache.set(k, imageToGrid(img, cols, rows, fontSize, accents));
       if (typeof requestIdleCallback !== 'undefined') {
-        requestIdleCallback(run, { timeout: 200 + si * 80 });
+        requestIdleCallback(run, { timeout: 200 + step * 80 });
       } else {
-        setTimeout(run, si * 50);
+        setTimeout(run, step * 50);
       }
+      step += 1;
+      loadNext();
     };
+    img.onerror = () => loadNext(); // one bad asset must not stall the chain
     img.src = src;
-  });
+  };
+
+  loadNext();
 }
+

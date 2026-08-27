@@ -22,13 +22,13 @@ export const PhotoBlock = () => {
         </a>
       </div>
       <div className="photo-block-body">
-        <img src={bodega} alt="bodega" />
-        <img src={flower} alt="flower" />
-        <img src={forest} alt="forest" />
-        <img src={halfmoon} alt="halfmoon" />
-        <img src={honolulu} alt="honolulu" />
-        <img src={montanadoro} alt="mantana doro" />
-        <img src={pgh} alt="pittsburgh" />
+        <img src={bodega} alt="bodega" loading="lazy" decoding="async" />
+        <img src={flower} alt="flower" loading="lazy" decoding="async" />
+        <img src={forest} alt="forest" loading="lazy" decoding="async" />
+        <img src={halfmoon} alt="halfmoon" loading="lazy" decoding="async" />
+        <img src={honolulu} alt="honolulu" loading="lazy" decoding="async" />
+        <img src={montanadoro} alt="mantana doro" loading="lazy" decoding="async" />
+        <img src={pgh} alt="pittsburgh" loading="lazy" decoding="async" />
       </div>
     </div>
   );
