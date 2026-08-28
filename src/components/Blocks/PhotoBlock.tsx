@@ -3,9 +3,9 @@ import bodega from "../../assets/images/photos/bodega.jpg";
 import flower from "../../assets/images/photos/flower.jpeg";
 import forest from "../../assets/images/photos/forest.jpg";
 import halfmoon from "../../assets/images/photos/halfmoon.jpg";
-import honolulu from "../../assets/images/photos/honolulu.jpg";
-import montanadoro from "../../assets/images/photos/montanadoro.jpg";
-import pgh from "../../assets/images/photos/pgh.jpg";
+import honolulu from "../../assets/images/photos/honolulu.webp";
+import montanadoro from "../../assets/images/photos/montanadoro.webp";
+import pgh from "../../assets/images/photos/pgh.webp";
 
 export const PhotoBlock = () => {
   return (
@@ -22,13 +22,13 @@ export const PhotoBlock = () => {
         </a>
       </div>
       <div className="photo-block-body">
-        <img src={bodega} alt="bodega" />
-        <img src={flower} alt="flower" />
-        <img src={forest} alt="forest" />
-        <img src={halfmoon} alt="halfmoon" />
-        <img src={honolulu} alt="honolulu" />
-        <img src={montanadoro} alt="mantana doro" />
-        <img src={pgh} alt="pittsburgh" />
+        <img src={bodega} alt="bodega" loading="lazy" decoding="async" />
+        <img src={flower} alt="flower" loading="lazy" decoding="async" />
+        <img src={forest} alt="forest" loading="lazy" decoding="async" />
+        <img src={halfmoon} alt="halfmoon" loading="lazy" decoding="async" />
+        <img src={honolulu} alt="honolulu" loading="lazy" decoding="async" />
+        <img src={montanadoro} alt="mantana doro" loading="lazy" decoding="async" />
+        <img src={pgh} alt="pittsburgh" loading="lazy" decoding="async" />
       </div>
     </div>
   );

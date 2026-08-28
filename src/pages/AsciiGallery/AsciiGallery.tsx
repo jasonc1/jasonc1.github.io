@@ -86,9 +86,17 @@ export const AsciiGallery = () => {
     requestAnimationFrame(() => requestAnimationFrame(sync));
   }, []);
 
+  // Prefetch only the photo on screen and the one queued next. The whole set is
+  // several megabytes, and a visitor who never cycles shouldn't pay for photos they
+  // never see; re-running as `current`/`next` change keeps one photo staged ahead.
   useEffect(() => {
-    preloadAll(photos.map(p => ({ src: p.src, accents: p.accents })), cols, rows, fontSize);
-  }, [cols, rows, fontSize]);
+    preloadAll(
+      [current, next].map(p => ({ src: p.src, accents: p.accents })),
+      cols,
+      rows,
+      fontSize,
+    );
+  }, [current, next, cols, rows, fontSize]);
 
   // On resize: update font-size immediately via CSS var (no React rerender = no snap),
   // then debounce full grid recomputation for when cols/rows actually need to change.

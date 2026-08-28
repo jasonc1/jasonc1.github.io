@@ -54,7 +54,7 @@ export const WorkBlock = ({ detail, link }: IWorkBlockProps) => {
             </div>
           </div>
           <div className="work-img">
-            <img src={detail.img} alt={detail.alt} />
+            <img src={detail.img} alt={detail.alt} loading="lazy" decoding="async" />
           </div>
         </div>
       </div>
