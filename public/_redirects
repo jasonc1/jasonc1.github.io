@@ -1,0 +1,6 @@
+# Cloudflare Pages / Netlify style SPA fallback.
+#
+# Every route is served by index.html so react-router can handle the path on a
+# cold load. Real files (assets, favicon, the resume PDF) still win over this
+# rule, and it is ignored entirely by GitHub Pages, which has no redirect support.
+/*  /index.html  200

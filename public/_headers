@@ -1,0 +1,13 @@
+# Built asset filenames contain a content hash, so their contents can never
+# change under a given URL — they are safe to cache indefinitely. GitHub Pages
+# pins everything to max-age=600 with no way to override it; this restores real
+# caching once the site is served by Cloudflare Pages.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# The HTML shell must not be cached long, or visitors keep loading a build that
+# points at asset URLs which no longer exist.
+/
+  Cache-Control: public, max-age=0, must-revalidate
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
