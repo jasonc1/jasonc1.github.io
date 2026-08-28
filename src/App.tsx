@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { HashRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Main } from "./pages/Main/Main";
 import { AsciiGallery } from "./pages/AsciiGallery/AsciiGallery";
 import NotFound from "./pages/NotFound/NotFound.component";
@@ -146,9 +146,9 @@ const AppContent = () => {
 };
 
 export const App = () => (
-  <HashRouter>
+  <BrowserRouter>
     <AppContent />
-  </HashRouter>
+  </BrowserRouter>
 );
 
 export default App;
