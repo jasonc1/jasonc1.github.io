@@ -3,6 +3,25 @@ import type { Camera, Frame, Params, PointCloud } from './types';
 
 const TAU = Math.PI * 2;
 
+/**
+ * Character codes for a ramp, cached by the ramp string itself.
+ *
+ * rasterize() runs every frame and used to rebuild this array each time, which
+ * made the "allocation-free" claim below untrue. Ramps are a tiny fixed set, so
+ * memoizing them costs nothing and keeps the hot path free of allocation.
+ */
+const rampCodeCache = new Map<string, Uint16Array>();
+
+function rampCodesFor(ramp: string): Uint16Array {
+  let codes = rampCodeCache.get(ramp);
+  if (!codes) {
+    codes = new Uint16Array(ramp.length);
+    for (let i = 0; i < ramp.length; i++) codes[i] = ramp.charCodeAt(i);
+    rampCodeCache.set(ramp, codes);
+  }
+  return codes;
+}
+
 export function createFrame(cols: number, rows: number): Frame {
   return {
     chars: new Uint16Array(cols * rows),
@@ -42,8 +61,7 @@ export function rasterize(cloud: PointCloud, p: Params, cam: Camera, frame: Fram
 
   const ramp = RAMPS[p.ramp] ?? RAMPS.classic;
   const rampLen = ramp.length;
-  const rampCodes = new Uint16Array(rampLen);
-  for (let i = 0; i < rampLen; i++) rampCodes[i] = ramp.charCodeAt(i);
+  const rampCodes = rampCodesFor(ramp);
 
   let lx = p.lightX;
   let ly = p.lightY;

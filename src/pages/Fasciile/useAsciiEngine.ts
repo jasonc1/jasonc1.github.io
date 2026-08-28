@@ -62,6 +62,8 @@ export function useAsciiEngine(
   const dragging = useRef(false);
   const msAvg = useRef(0);
   const measuredAspect = useRef(DEFAULT_PARAMS.charAspect);
+  /** Restarts the animation loop after it has parked itself. */
+  const kickRef = useRef<() => void>(() => {});
 
   const prefersReduced =
     typeof window !== 'undefined' &&
@@ -242,6 +244,10 @@ export function useAsciiEngine(
   }, [viewportRef, measure, draw]);
 
   // ── Animation loop ───────────────────────────────────────────────────────
+  //
+  // Runs only while something is actually moving. It used to schedule a frame
+  // unconditionally, so a paused, motionless page still woke the browser ~60
+  // times a second indefinitely. Anything that creates new work calls kick().
   useEffect(() => {
     let raf = 0;
     let last = 0;
@@ -259,14 +265,25 @@ export function useAsciiEngine(
           cam.roll += p.spinRoll * dt;
         }
       }
-      if (p.spinAxis === 'free') cam.pitch += vel.pitch;
+      // Momentum was tuned per 60 Hz frame, so scale both the displacement and
+      // the decay by how long this frame actually took. Without this a 120 Hz
+      // display decays a flick twice as fast, and a slow frame under-rotates.
+      const frames = dt * 60;
+      const decay = Math.pow(THROW_DECAY, frames);
+      if (p.spinAxis === 'free') cam.pitch += vel.pitch * frames;
       else vel.pitch = 0;
-      cam.yaw += vel.yaw;
-      vel.pitch *= THROW_DECAY;
-      vel.yaw *= THROW_DECAY;
+      cam.yaw += vel.yaw * frames;
+      vel.pitch *= decay;
+      vel.yaw *= decay;
       if (Math.abs(vel.pitch) < 1e-5) vel.pitch = 0;
       if (Math.abs(vel.yaw) < 1e-5) vel.yaw = 0;
     };
+
+    const hasWork = () =>
+      dragging.current ||
+      runningRef.current ||
+      velocity.current.pitch !== 0 ||
+      velocity.current.yaw !== 0;
 
     const loop = (ts: number) => {
       const dt = last ? Math.min(0.05, (ts - last) / 1000) : 0.016;
@@ -286,12 +303,36 @@ export function useAsciiEngine(
         hudAt = ts;
         setStats((s) => ({ ...s, ms: msAvg.current }));
       }
-      raf = requestAnimationFrame(loop);
+
+      if (hasWork()) {
+        raf = requestAnimationFrame(loop);
+      } else {
+        // Nothing is moving: park the loop and publish one final timing read.
+        raf = 0;
+        last = 0;
+        setStats((s) => ({ ...s, ms: msAvg.current }));
+      }
     };
 
-    raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
+    const kick = () => {
+      if (raf) return;
+      last = 0; // a stale timestamp would otherwise produce one huge dt
+      raf = requestAnimationFrame(loop);
+    };
+    kickRef.current = kick;
+
+    kick();
+    return () => {
+      cancelAnimationFrame(raf);
+      raf = 0;
+      kickRef.current = () => {};
+    };
   }, [draw]);
+
+  // Playback switched back on — the loop may have parked itself.
+  useEffect(() => {
+    if (running) kickRef.current();
+  }, [running]);
 
   // ── Drag to rotate ───────────────────────────────────────────────────────
   useEffect(() => {
@@ -311,6 +352,7 @@ export function useAsciiEngine(
       if (/^(BUTTON|INPUT|TEXTAREA|SELECT|A|LABEL)$/.test(target.tagName)) return;
 
       dragging.current = true;
+      kickRef.current();
       moved = 0;
       tilted = false;
       lastX = ev.clientX;
