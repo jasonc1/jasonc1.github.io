@@ -37,6 +37,11 @@ jobs:
           cache: "npm"
       - name: Install dependencies
         run: npm ci
+      # `vite build` does not typecheck, so type errors would otherwise deploy
+      # silently. This gate is why a bad `current.Work` access was caught locally
+      # rather than shipping.
+      - name: Typecheck
+        run: npx tsc --noEmit
       - name: Build
         run: npm run build
       - name: Setup Pages
