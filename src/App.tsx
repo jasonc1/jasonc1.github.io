@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Main } from "./pages/Main/Main";
 import { AsciiGallery } from "./pages/AsciiGallery/AsciiGallery";
@@ -26,6 +26,10 @@ import StratRoulette from "./pages/Projects/old/StratRoulette";
 import ProductIllustrations from "./pages/Projects/old/ProductIllustrations";
 import Rosetta from "./pages/Projects/Rosetta";
 import ResumeRedirect from "./pages/Resume/ResumeRedirect";
+
+// The FASCIILE engine is ~32 kB and reachable from exactly one route, so it is
+// split out rather than carried by every page load.
+const Fasciile = lazy(() => import("./pages/Fasciile/Fasciile"));
 
 const navItems = ["Work", "Photo", "About", "Contact"];
 
@@ -116,6 +120,14 @@ const AppContent = () => {
                 <Footer />
               </div>
             </>
+          }
+        />
+        <Route
+          path="/fasciile"
+          element={
+            <Suspense fallback={null}>
+              <Fasciile />
+            </Suspense>
           }
         />
         <Route path="/brag" element={<UnderConstruction />} />

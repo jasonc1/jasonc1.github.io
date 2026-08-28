@@ -3,6 +3,7 @@
 // GitHub Pages can serve deep links directly — see staticRouteShells in
 // vite.config.js, which fails the build if this list drifts from App.tsx.
 export const ROUTE_PATHS = [
+  '/fasciile',
   '/brag',
   '/rosetta',
   '/noho',
