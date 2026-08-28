@@ -1,0 +1,2777 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>FASCIILE</title>
+<meta name="description" content="donut.c taken apart, then rebuilt as a generalized ASCII point-cloud rasterizer — with a live control panel.">
+<link rel="icon" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geo:ital@0;1&display=swap">
+<style>
+/* Minimal reset — the artifact host supplies one; standalone needs its own. */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+img, svg { max-width: 100%; }
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* ─────────────────────────────────────────────────────────────
+   Tokens — lifted from jsncorp.dev (src/theme.scss)
+   primary #1d1d1d · accent #3a55d2 · white #fff · 4px scale
+   ───────────────────────────────────────────────────────────── */
+:root {
+  --ink:        #1d1d1d;
+  --ink-soft:   #5d5d63;
+  --ink-faint:  #8e8e96;
+  --ground:     #ffffff;
+  --wash:       #eeeef1;
+  --wash-deep:  #e2e2e8;
+  --rule:       rgba(29,29,29,0.13);
+  --rule-firm:  rgba(29,29,29,0.28);
+  --accent:     #3a55d2;
+  --accent-dim: rgba(58,85,210,0.10);
+  --warn:       #b4531b;
+  --good:       #11593f;
+  --stage-bg:   #ffffff;
+  --stage-fg:   #1d1d1d;
+  --shadow:     0 1px 2px rgba(29,29,29,0.06), 0 8px 24px rgba(29,29,29,0.07);
+
+  --s0: 4px;  --s1: 8px;  --s2: 16px; --s3: 24px;
+  --s4: 32px; --s5: 40px; --s6: 48px; --s8: 64px; --s10: 80px;
+
+  /* Radii — only the tool chrome is rounded; document rules stay sharp */
+  --r-shell: 14px;
+  --r-box:   10px;
+  --r-dock:  12px;
+  --r-field: 6px;
+
+  --mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --disp: "Geo", "Geist Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ink:        #e9e9ee;
+    --ink-soft:   #a3a3ad;
+    --ink-faint:  #71717c;
+    --ground:     #121215;
+    --wash:       #1b1b20;
+    --wash-deep:  #24242b;
+    --rule:       rgba(233,233,238,0.15);
+    --rule-firm:  rgba(233,233,238,0.32);
+    --accent:     #94a5f7;
+    --accent-dim: rgba(148,165,247,0.14);
+    --warn:       #e08a4e;
+    --good:       #5fbf98;
+    --stage-bg:   #0c0c0e;
+    --stage-fg:   #e9e9ee;
+    --shadow:     0 1px 2px rgba(0,0,0,0.5), 0 8px 28px rgba(0,0,0,0.45);
+  }
+}
+:root[data-theme="dark"] {
+  --ink:        #e9e9ee;
+  --ink-soft:   #a3a3ad;
+  --ink-faint:  #71717c;
+  --ground:     #121215;
+  --wash:       #1b1b20;
+  --wash-deep:  #24242b;
+  --rule:       rgba(233,233,238,0.15);
+  --rule-firm:  rgba(233,233,238,0.32);
+  --accent:     #94a5f7;
+  --accent-dim: rgba(148,165,247,0.14);
+  --warn:       #e08a4e;
+  --good:       #5fbf98;
+  --stage-bg:   #0c0c0e;
+  --stage-fg:   #e9e9ee;
+  --shadow:     0 1px 2px rgba(0,0,0,0.5), 0 8px 28px rgba(0,0,0,0.45);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 26px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss02","ss03","ss04","ss09";
+}
+
+/* ── Layout ─────────────────────────────────────────────────── */
+.wrap  { max-width: 1180px; margin: 0 auto; padding: 0 var(--s3); }
+.col   { max-width: 720px; }
+.bleed { max-width: 1180px; }
+
+section { padding: var(--s10) 0; border-top: 1px solid var(--rule); }
+section:first-of-type { border-top: none; }
+
+/* Section header — eyebrow sits in the left margin on wide viewports */
+.sec-head { display: grid; grid-template-columns: 1fr; gap: var(--s2); margin-bottom: var(--s6); }
+@media (min-width: 1000px) {
+  .sec-head { grid-template-columns: 148px 1fr; gap: var(--s5); align-items: start; }
+}
+.eyebrow {
+  font-size: 11px; font-weight: 500; line-height: 18px;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: var(--ink-faint); margin: 6px 0 0;
+}
+.eyebrow--accent { color: var(--accent); }
+
+h1, h2, h3, h4 { margin: 0; font-weight: 400; text-wrap: balance; }
+h1 {
+  font-family: var(--disp); font-style: italic;
+  font-size: clamp(46px, 9vw, 92px); line-height: 0.98; letter-spacing: 0.01em;
+}
+h2 { font-size: clamp(24px, 3.4vw, 34px); line-height: 1.15; letter-spacing: -0.01em; }
+h3 { font-size: 17px; line-height: 26px; letter-spacing: 0.01em; font-weight: 500; margin-top: var(--s5); }
+h4 {
+  font-size: 11px; letter-spacing: 0.10em; text-transform: uppercase;
+  color: var(--ink-faint); font-weight: 500; margin-top: var(--s4);
+}
+p  { margin: 0 0 var(--s2); }
+.lede { font-size: 17px; line-height: 30px; color: var(--ink-soft); }
+.dek  { color: var(--ink-soft); }
+strong { font-weight: 600; }
+em { font-style: normal; color: var(--accent); }
+a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-dim); }
+a:hover { border-bottom-color: var(--accent); }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px;
+}
+ul { padding-left: 1.1em; margin: 0 0 var(--s2); }
+li { margin-bottom: var(--s0); }
+.stack > * + * { margin-top: var(--s3); }
+
+/* ── Masthead ───────────────────────────────────────────────── */
+.mast { padding: var(--s8) 0 var(--s6); }
+.mast__meta {
+  display: flex; flex-wrap: wrap; gap: var(--s0) var(--s3);
+  font-size: 11px; letter-spacing: 0.10em; text-transform: uppercase;
+  color: var(--ink-faint); margin-bottom: var(--s5);
+}
+.mast__meta b { color: var(--ink); font-weight: 500; }
+.mast__sub { margin-top: var(--s3); max-width: 640px; }
+
+/* ── Code ───────────────────────────────────────────────────── */
+pre.code {
+  background: var(--wash); border: 1px solid var(--rule);
+  padding: var(--s2) var(--s3); margin: var(--s3) 0;
+  overflow-x: auto; white-space: pre; border-radius: 0;
+  font-size: 12.5px; line-height: 21px; font-weight: 400;
+  tab-size: 2;
+}
+pre.code b   { color: var(--accent); font-weight: 500; }
+pre.code i   { color: var(--ink-faint); font-style: normal; }
+pre.code u   { text-decoration: none; background: var(--accent-dim); padding: 0 3px; }
+code.inl {
+  background: var(--wash); border: 1px solid var(--rule);
+  padding: 1px 5px; font-size: 0.92em; white-space: nowrap;
+}
+
+/* ── Tables ─────────────────────────────────────────────────── */
+.tw { overflow-x: auto; margin: var(--s3) 0; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; line-height: 21px; min-width: 460px; }
+th {
+  text-align: left; font-weight: 500; font-size: 11px;
+  letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-faint);
+  padding: 0 var(--s2) var(--s1) 0; border-bottom: 1px solid var(--rule-firm);
+}
+td { padding: var(--s1) var(--s2) var(--s1) 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+td.num { font-variant-numeric: tabular-nums; }
+tr td:last-child, tr th:last-child { padding-right: 0; }
+.yes { color: var(--good); font-weight: 500; }
+.no  { color: var(--ink-faint); }
+
+/* ── Callout ────────────────────────────────────────────────── */
+.note {
+  border-left: 2px solid var(--accent); background: var(--accent-dim);
+  padding: var(--s2) var(--s3); margin: var(--s3) 0; font-size: 14px; line-height: 24px;
+}
+.note h4 { margin-top: 0; color: var(--accent); }
+
+/* ═════════════════════════════════════════════════════════════
+   THE TOOL — left panel · viewport · bottom dock
+   ═════════════════════════════════════════════════════════════ */
+.tool {
+  border: 1px solid var(--rule-firm);
+  border-radius: var(--r-shell);
+  overflow: hidden;
+  background: var(--ground);
+  display: grid;
+  grid-template-columns: 268px 1fr;
+  height: min(680px, 78vh);
+  min-height: 520px;
+  position: relative;
+  box-shadow: var(--shadow);
+}
+@media (max-width: 860px) {
+  .tool { grid-template-columns: 1fr; height: auto; }
+  .tool__panel { max-height: 320px; border-right: none !important; border-bottom: 1px solid var(--rule-firm); }
+  .tool__viewport { height: 460px; }
+}
+
+/* Panel */
+.tool__panel {
+  border-right: 1px solid var(--rule-firm);
+  overflow-y: auto; background: var(--ground);
+  display: flex; flex-direction: column;
+}
+.panel__brand {
+  padding: var(--s2) var(--s3); border-bottom: 1px solid var(--rule);
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--s1);
+  position: sticky; top: 0; background: var(--ground); z-index: 2;
+}
+.panel__brand span:first-child {
+  font-family: var(--disp); font-style: italic; font-size: 21px; letter-spacing: 0.02em;
+}
+.panel__brand span:last-child {
+  font-size: 10px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-faint);
+}
+.grp { border-bottom: 1px solid var(--rule); padding: var(--s2) var(--s3) var(--s3); }
+.grp__t {
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-faint); margin: 0 0 var(--s2); font-weight: 500;
+}
+.ctl { margin-bottom: var(--s2); }
+.ctl:last-child { margin-bottom: 0; }
+.ctl__row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: var(--s1); margin-bottom: 5px;
+}
+.ctl__lab { font-size: 11.5px; line-height: 16px; color: var(--ink); font-weight: 400; }
+.ctl__val {
+  font-size: 11px; color: var(--accent); font-variant-numeric: tabular-nums;
+  font-weight: 500; letter-spacing: 0.02em;
+}
+.ctl__hint { font-size: 10px; line-height: 15px; color: var(--ink-faint); margin-top: 3px; }
+
+/* Range — thin track, square thumb, no radius */
+input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 14px; background: transparent; margin: 0; display: block; cursor: ew-resize;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 1px; background: var(--rule-firm);
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 3px; height: 13px; background: var(--accent); border: 0; border-radius: 0; margin-top: -6px;
+}
+input[type="range"]::-moz-range-track { height: 1px; background: var(--rule-firm); }
+input[type="range"]::-moz-range-thumb {
+  width: 3px; height: 13px; background: var(--accent); border: 0; border-radius: 0;
+}
+
+select, .btn, .seg {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em;
+  color: var(--ink); background: var(--ground);
+  border: 1px solid var(--rule-firm); border-radius: var(--r-field);
+  padding: 7px 10px; cursor: pointer; width: 100%;
+}
+select:hover, .btn:hover { background: var(--wash); }
+
+.seg-wrap { display: flex; border: 1px solid var(--rule-firm); border-radius: var(--r-field); overflow: hidden; }
+.seg {
+  border: none; border-radius: 0; border-left: 1px solid var(--rule); flex: 1; text-align: center;
+  text-transform: uppercase; padding: 7px 4px; transition: background .15s ease;
+}
+.seg:first-child { border-left: none; }
+.seg[aria-pressed="true"] { background: var(--ink); color: var(--ground); }
+
+/* Viewport */
+.tool__viewport {
+  position: relative; overflow: hidden;
+  background: var(--stage-bg);
+  display: flex; align-items: center; justify-content: center;
+  cursor: grab; touch-action: none;
+}
+.tool__viewport.is-drag { cursor: grabbing; }
+.tool__viewport.is-drop::after {
+  content: "DROP IMAGE"; position: absolute; inset: var(--s2);
+  border: 1px dashed var(--accent); border-radius: var(--r-box); color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; letter-spacing: 0.16em; background: var(--accent-dim);
+}
+#stage {
+  margin: 0; padding: 0; white-space: pre; overflow: hidden;
+  font-family: var(--mono); font-weight: 400;
+  font-size: 10px; line-height: 1;
+  color: var(--stage-fg); background: none; border: none;
+  user-select: none; letter-spacing: 0;
+}
+@media (max-width: 700px) { #stage { font-size: 7px; } }
+
+.hud {
+  position: absolute; top: var(--s2); right: var(--s2);
+  display: flex; flex-direction: column; align-items: flex-end; gap: 2px;
+  font-size: 10px; letter-spacing: 0.07em; color: var(--ink-faint);
+  font-variant-numeric: tabular-nums; pointer-events: none; text-align: right;
+}
+.hud b { color: var(--ink-soft); font-weight: 500; }
+
+/* Dock — bottom-center floating island (ZineShare layout, jsncorp styling) */
+.dock {
+  position: absolute; bottom: var(--s3); left: 50%; transform: translateX(-50%);
+  display: inline-flex; align-items: stretch;
+  background: color-mix(in srgb, var(--ground) 78%, transparent);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--rule-firm); border-radius: var(--r-dock);
+  overflow: hidden;
+  box-shadow: var(--shadow); z-index: 3; max-width: calc(100% - 32px);
+}
+.dock button {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink); background: none; border: none; border-left: 1px solid var(--rule);
+  padding: 0 var(--s2); height: 42px; cursor: pointer; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 7px; transition: background .15s ease;
+}
+.dock button:first-child { border-left: none; }
+.dock button:hover { background: var(--wash); }
+.dock button { border-radius: 0; }
+.dock button.primary {
+  background: var(--ink); color: var(--ground);
+  margin: 0; padding: 0 var(--s3);
+  align-self: stretch;
+}
+.dock button.primary:hover { background: var(--ink-soft); }
+.dock svg { width: 13px; height: 13px; flex: none; }
+@media (max-width: 700px) { .dock .lbl { display: none; } .dock button { padding: 0 12px; } }
+
+/* Analyzing overlay */
+.scrim {
+  position: absolute; inset: 0; z-index: 5;
+  background: color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter: blur(4px);
+  display: none; align-items: center; justify-content: center;
+}
+.scrim.on { display: flex; }
+.scrim__box {
+  width: min(360px, 84%); border: 1px solid var(--rule-firm);
+  border-radius: var(--r-box); background: var(--ground); padding: var(--s3);
+}
+.scrim__box h4 { margin: 0 0 var(--s2); color: var(--ink); }
+
+/* [LOADING...] — dots build 1-2-3, then reset */
+.loadword {
+  font-size: 13px; letter-spacing: 0.16em; color: var(--accent);
+  margin: 0 0 var(--s1); font-weight: 500;
+}
+.loadword i { font-style: normal; opacity: 0.18; }
+.loadword i:nth-of-type(1) { animation: dot1 1.2s infinite steps(1, end); }
+.loadword i:nth-of-type(2) { animation: dot2 1.2s infinite steps(1, end); }
+.loadword i:nth-of-type(3) { animation: dot3 1.2s infinite steps(1, end); }
+@keyframes dot1 { 0%, 24% { opacity: 0.18 } 25%, 100% { opacity: 1 } }
+@keyframes dot2 { 0%, 49% { opacity: 0.18 } 50%, 100% { opacity: 1 } }
+@keyframes dot3 { 0%, 74% { opacity: 0.18 } 75%, 100% { opacity: 1 } }
+@media (prefers-reduced-motion: reduce) {
+  .loadword i { animation: none; opacity: 1; }
+}
+.step {
+  display: flex; align-items: center; gap: var(--s1);
+  font-size: 11.5px; color: var(--ink-faint); padding: 3px 0;
+}
+.step__dot { width: 6px; height: 6px; background: var(--rule-firm); flex: none; }
+.step.on  { color: var(--ink); }
+.step.on  .step__dot { background: var(--accent); }
+.step.done { color: var(--ink-soft); }
+.step.done .step__dot { background: var(--good); }
+.bar { height: 2px; background: var(--wash-deep); margin-top: var(--s2); }
+.bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .18s linear; }
+
+/* Paste-markup escape hatch */
+.pastebox {
+  position: absolute; inset: 0; z-index: 6;
+  background: color-mix(in srgb, var(--ground) 92%, transparent);
+  backdrop-filter: blur(4px);
+  display: none; align-items: center; justify-content: center; padding: var(--s3);
+}
+.pastebox.on { display: flex; }
+.pastebox__inner {
+  width: min(520px, 100%); border: 1px solid var(--rule-firm);
+  border-radius: var(--r-box); background: var(--ground); padding: var(--s3);
+}
+.pastebox__inner h4 { margin: 0 0 var(--s2); color: var(--ink); }
+.pastebox textarea {
+  width: 100%; height: 150px; resize: vertical;
+  font-family: var(--mono); font-size: 11.5px; line-height: 18px; font-weight: 300;
+  color: var(--ink); background: var(--wash);
+  border: 1px solid var(--rule-firm); border-radius: var(--r-field); padding: var(--s1);
+}
+.pastebox textarea::placeholder { color: var(--ink-faint); }
+.pastebox__row { display: flex; gap: var(--s1); margin-top: var(--s2); }
+.pastebox__row .btn { flex: 1; text-transform: uppercase; }
+.btn--go { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+.btn--go:hover { background: var(--ink-soft); border-color: var(--ink-soft); }
+
+.toast {
+  position: absolute; bottom: 76px; left: 50%; transform: translateX(-50%) translateY(6px);
+  background: var(--ink); color: var(--ground); font-size: 11px; letter-spacing: 0.06em;
+  padding: 7px 14px; opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease; z-index: 4;
+}
+.toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+.tool-caption {
+  display: flex; flex-wrap: wrap; gap: var(--s1) var(--s3); justify-content: space-between;
+  font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--ink-faint); margin-top: var(--s2);
+}
+
+/* ── Pipeline diagram ───────────────────────────────────────── */
+.pipe { overflow-x: auto; margin: var(--s4) 0; padding-bottom: var(--s1); }
+.pipe__lane { display: flex; align-items: stretch; gap: 0; min-width: 720px; }
+.pipe__node {
+  flex: 1; border: 1px solid var(--rule-firm); padding: var(--s2) 10px;
+  display: flex; flex-direction: column; gap: 4px; position: relative; background: var(--ground);
+}
+.pipe__node + .pipe__node { border-left: none; }
+.pipe__node b { font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase; font-weight: 500; }
+.pipe__node span { font-size: 10.5px; line-height: 16px; color: var(--ink-faint); }
+.pipe__node.have  { background: var(--wash); }
+.pipe__node.have b { color: var(--good); }
+.pipe__node.miss b { color: var(--warn); }
+.pipe__key { display: flex; flex-wrap: wrap; gap: var(--s1) var(--s3); margin-top: var(--s2); font-size: 10.5px; color: var(--ink-faint); letter-spacing: 0.05em; }
+.pipe__key i { display: inline-block; width: 8px; height: 8px; margin-right: 6px; vertical-align: middle; }
+
+/* ── Wireframes ─────────────────────────────────────────────── */
+.wires { display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin: var(--s4) 0; }
+.wire { border: 1px solid var(--rule-firm); background: var(--ground); }
+.wire__cap {
+  font-size: 10px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-faint);
+  padding: 8px 10px; border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; gap: 8px;
+}
+.wire__cap b { color: var(--accent); font-weight: 500; }
+.wire__body { height: 150px; display: grid; grid-template-columns: 52px 1fr; }
+.wire__rail { border-right: 1px solid var(--rule); background: var(--wash); }
+.wire__rail div { height: 7px; margin: 8px 7px; background: var(--wash-deep); }
+.wire__main { position: relative; display: flex; align-items: center; justify-content: center; padding: 10px; }
+.wire__ghost { border: 1px dashed var(--rule-firm); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  font-size: 10px; letter-spacing: 0.08em; color: var(--ink-faint); text-align: center; padding: 6px; }
+.wire__ghost.act { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.wire__dock {
+  position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+  display: flex; border: 1px solid var(--rule-firm); background: var(--ground);
+}
+.wire__dock span { width: 22px; height: 16px; border-left: 1px solid var(--rule); }
+.wire__dock span:first-child { border-left: none; }
+.wire__dock span.fill { background: var(--ink); }
+
+/* ── Diagram SVG ────────────────────────────────────────────── */
+.fig { margin: var(--s4) 0; }
+.fig svg { width: 100%; height: auto; display: block; }
+.fig figcaption {
+  font-size: 11px; line-height: 18px; letter-spacing: 0.05em; color: var(--ink-faint);
+  margin-top: var(--s1); padding-top: var(--s1); border-top: 1px solid var(--rule);
+}
+.figs2 { display: grid; gap: var(--s5); grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.d-stroke { stroke: var(--ink); fill: none; stroke-width: 1.25; }
+.d-thin   { stroke: var(--rule-firm); fill: none; stroke-width: 1; }
+.d-dash   { stroke: var(--ink-faint); fill: none; stroke-width: 1; stroke-dasharray: 3 3; }
+.d-acc    { stroke: var(--accent); fill: none; stroke-width: 1.5; }
+.d-accf   { fill: var(--accent); }
+.d-fill   { fill: var(--ink); }
+.d-faint  { fill: var(--ink-faint); }
+.d-lab    { font-family: var(--mono); font-size: 11px; fill: var(--ink); letter-spacing: 0.04em; }
+.d-lab.sm { font-size: 9.5px; fill: var(--ink-faint); }
+.d-lab.ac { fill: var(--accent); }
+
+/* ── Build sequence — genuinely ordered, so it gets numbers ─── */
+.seq { list-style: none; padding: 0; margin: var(--s3) 0 0; counter-reset: st; }
+.seq li {
+  counter-increment: st; border-top: 1px solid var(--rule);
+  padding: var(--s3) 0 var(--s3) 54px; position: relative; margin: 0;
+}
+.seq li::before {
+  content: counter(st, decimal-leading-zero);
+  position: absolute; left: 0; top: var(--s3);
+  font-family: var(--disp); font-style: italic; font-size: 22px; color: var(--accent); line-height: 1;
+}
+.seq b { display: block; font-weight: 500; font-size: 15px; margin-bottom: 2px; }
+.seq span { color: var(--ink-soft); font-size: 13.5px; line-height: 22px; display: block; }
+.seq em { color: var(--ink-faint); font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase; display: block; margin-top: 6px; }
+
+/* ── Reading mode ─────────────────────────────────────────────────── */
+body[data-read="plain"] .t-only { display: none; }
+body[data-read="tech"]  .p-only { display: none; }
+
+.modebar {
+  position: sticky; top: 0; z-index: 40;
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s2);
+  padding: var(--s1) 0; margin-bottom: var(--s4);
+  background: color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+}
+.modebar__note {
+  font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint);
+}
+.modebar .seg-wrap { width: auto; flex: none; }
+.modebar .seg { padding: 6px 14px; letter-spacing: 0.08em; }
+
+.plainbox {
+  border-left: 2px solid var(--ink-faint); background: var(--wash);
+  border-radius: 0 var(--r-box) var(--r-box) 0;
+  padding: var(--s2) var(--s3); margin: 0 0 var(--s3);
+  font-size: 15px; line-height: 26px;
+}
+.plainbox p { margin: 0 0 var(--s1); }
+.plainbox p:last-child { margin: 0; }
+.plainbox b { color: var(--ink); }
+
+footer { border-top: 1px solid var(--rule-firm); padding: var(--s5) 0 var(--s8); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="modebar">
+    <div class="seg-wrap" role="group" aria-label="Reading mode">
+      <button class="seg" id="modePlain" aria-pressed="true">Plain</button>
+      <button class="seg" id="modeTech" aria-pressed="false">Technical</button>
+    </div>
+    <span class="modebar__note" id="modeNote">Plain &mdash; no math required</span>
+  </div>
+
+  <header class="mast">
+    <div class="mast__meta">
+      <span><b>FASCIILE</b></span>
+      <span>Spike</span>
+      <span>jsncorp.dev</span>
+      <span>21 Aug 2026</span>
+    </div>
+    <h1>ASCII<br>engine</h1>
+    <p class="lede mast__sub">
+      donut.c, taken apart — then rebuilt as a generalized ASCII rasterizer with a control
+      panel. The donut ships as the default project so the whole rig is testable on day one.
+      SVG, PNG and JPEG come in through the same door.
+    </p>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════════════
+       LIVE PROTOTYPE
+       ══════════════════════════════════════════════════════════ -->
+  <section id="proto">
+    <div class="sec-head">
+      <p class="eyebrow eyebrow--accent">Live demo</p>
+      <div class="col">
+        <h2>Prototype</h2>
+        <p class="dek">
+          Real renderer, real point cloud, real z-buffer. Every slider drives the frame you're
+          looking at. Left panel tweaks, viewport renders, dock switches projects — the ZineShare
+          layout with jsncorp's hairlines and sharp corners. Drop an image on the viewport
+          (or hit Import) and it becomes a lit relief through the exact same pipeline.
+        </p>
+      </div>
+    </div>
+
+    <div class="bleed">
+      <div class="tool" id="tool">
+        <!-- ── LEFT PANEL ── -->
+        <aside class="tool__panel" aria-label="Parameters">
+          <div class="panel__brand"><span>FASCIILE</span><span id="projName">Donut</span></div>
+
+          <div class="grp">
+            <p class="grp__t">Project</p>
+            <div class="ctl">
+              <div class="seg-wrap" role="group" aria-label="Source">
+                <button class="seg" data-src="torus"  aria-pressed="true">Donut</button>
+                <button class="seg" data-src="sphere" aria-pressed="false">Sphere</button>
+                <button class="seg" data-src="path"   aria-pressed="false">Path</button>
+                <button class="seg" data-src="image"  aria-pressed="false" id="segImage">Image</button>
+              </div>
+            </div>
+            <div class="ctl" data-only="torus sphere">
+              <div class="ctl__row"><label class="ctl__lab" for="p_R2">Ring radius</label><span class="ctl__val" id="v_R2">2.00</span></div>
+              <input type="range" id="p_R2" min="0" max="4" step="0.05" value="2">
+              <p class="ctl__hint" data-plain="How far the ring sits from the middle. Slide it to zero and you get a ball.">Distance from the middle to the tube. 0 = sphere.</p>
+            </div>
+            <div class="ctl" data-only="torus sphere">
+              <div class="ctl__row"><label class="ctl__lab" for="p_R1">Tube radius</label><span class="ctl__val" id="v_R1">1.00</span></div>
+              <input type="range" id="p_R1" min="0.2" max="2" step="0.02" value="1">
+            </div>
+            <div class="ctl" data-only="image">
+              <div class="ctl__row"><label class="ctl__lab" for="p_depth">Relief depth</label><span class="ctl__val" id="v_depth">1.40</span></div>
+              <input type="range" id="p_depth" min="0" max="4" step="0.05" value="1.4">
+              <p class="ctl__hint" data-plain="How much the bright parts pop out toward you.">How far bright pixels push toward you.</p>
+            </div>
+            <div class="ctl" id="ctlSvgMode">
+              <div class="seg-wrap" role="group" aria-label="SVG mode">
+                <button class="seg" id="segOutline" aria-pressed="true">Outline</button>
+                <button class="seg" id="segSolid" aria-pressed="false">Solid</button>
+              </div>
+              <p class="ctl__hint" data-plain="Outline traces the edges. Solid fills the whole silhouette in.">Outline samples the paths and carries arc-length. Solid rasterizes and reads the alpha mask.</p>
+            </div>
+            <div class="ctl" data-only="path">
+              <div class="seg-wrap" role="group" aria-label="Representation">
+                <button class="seg" id="segPoly" aria-pressed="true">Polyline</button>
+                <button class="seg" id="segFour" aria-pressed="false">Harmonics</button>
+              </div>
+              <p class="ctl__hint" data-plain="Polyline keeps the outline exactly as traced. Harmonics rebuilds it out of stacked spinning circles.">Polyline replays the ingested samples. Harmonics rebuilds the shape from a Fourier series &mdash; a real equation.</p>
+            </div>
+            <div class="ctl" id="ctlHarm">
+              <div class="ctl__row"><label class="ctl__lab" for="p_harm">Harmonics</label><span class="ctl__val" id="v_harm">24</span></div>
+              <input type="range" id="p_harm" min="1" max="64" step="1" value="24">
+              <p class="ctl__hint" data-plain="How many spinning circles. One is a circle, sixty-four is your artwork. Sweep it and watch it resolve.">Terms kept in the series. 1 is a circle, 64 is the asset. Sweep it and the shape resolves.</p>
+            </div>
+            <div class="ctl" data-only="path">
+              <div class="ctl__row"><label class="ctl__lab" for="p_space">Sample spacing</label><span class="ctl__val" id="v_space">0.020</span></div>
+              <input type="range" id="p_space" min="0.004" max="0.12" step="0.001" value="0.02">
+              <p class="ctl__hint" data-plain="How far apart the dots sit. Closer together is smoother but slower.">Distance between output points, in world units. The ingest resolution is fixed and separate.</p>
+            </div>
+            <div class="ctl" data-only="path">
+              <div class="ctl__row"><label class="ctl__lab" for="p_extrude">Extrude</label><span class="ctl__val" id="v_extrude">0.00</span></div>
+              <input type="range" id="p_extrude" min="-3" max="3" step="0.05" value="0">
+              <p class="ctl__hint" data-plain="Pushes the outline backwards as it goes, turning a flat shape into a spiral ribbon.">Pushes the path through depth as it advances. Turns a flat outline into a ribbon.</p>
+            </div>
+            <div class="ctl" data-only="path">
+              <div class="ctl__row"><label class="ctl__lab" for="p_reveal">Reveal</label><span class="ctl__val" id="v_reveal">1.00</span></div>
+              <input type="range" id="p_reveal" min="0" max="1" step="0.005" value="1">
+              <p class="ctl__hint" data-plain="How much of the outline is drawn yet. This is the loading animation &mdash; slide it.">Draws only up to this point along the path. This is the loading animation.</p>
+            </div>
+            <div class="ctl">
+              <div class="ctl__row"><label class="ctl__lab" for="p_dens">Density</label><span class="ctl__val" id="v_dens">1.00&times;</span></div>
+              <input type="range" id="p_dens" min="0.35" max="1.7" step="0.05" value="1">
+              <p class="ctl__hint" data-plain="How many dots. Too few and you start seeing gaps.">Samples per surface. Too low and gaps open between splats.</p>
+            </div>
+          </div>
+
+          <div class="grp">
+            <p class="grp__t">Camera</p>
+            <div class="ctl">
+              <div class="ctl__row"><label class="ctl__lab" for="p_sx">Spin &mdash; pitch</label><span class="ctl__val" id="v_sx">0.70</span></div>
+              <input type="range" id="p_sx" min="-2.5" max="2.5" step="0.02" value="0.7">
+              <p class="ctl__hint" data-plain="How fast it tilts. Dragging up and down does the same thing.">donut.c's <code>A</code>. About X, radians/sec. Drag up&ndash;down.</p>
+            </div>
+            <div class="ctl">
+              <div class="ctl__row"><label class="ctl__lab" for="p_sy">Spin &mdash; yaw</label><span class="ctl__val" id="v_sy">0.00</span></div>
+              <input type="range" id="p_sy" min="-2.5" max="2.5" step="0.02" value="0">
+              <p class="ctl__hint" data-plain="How fast it turns left and right. Dragging sideways does the same thing.">About Y. donut.c has no such axis &mdash; added for drag.</p>
+            </div>
+            <div class="ctl">
+              <div class="ctl__row"><label class="ctl__lab" for="p_sz">Spin &mdash; roll</label><span class="ctl__val" id="v_sz">0.35</span></div>
+              <input type="range" id="p_sz" min="-2.5" max="2.5" step="0.02" value="0.35">
+              <p class="ctl__hint" data-plain="How fast it spins like a wheel. A different speed here is what makes it wobble.">donut.c's <code>B</code>. Different speed = the wobble.</p>
+            </div>
+            <div class="ctl">
+              <div class="ctl__row"><label class="ctl__lab" for="p_dist">Distance</label><span class="ctl__val" id="v_dist">5.00</span></div>
+              <input type="range" id="p_dist" min="3" max="14" step="0.1" value="5">
+              <p class="ctl__hint" data-plain="How far back the camera sits. Further away looks smaller and flatter.">The <code>+5</code>. Keeps every sample in front of the camera.</p>
+            </div>
+            <div class="ctl">
+              <div class="ctl__row"><label class="ctl__lab" for="p_zoom">Zoom</label><span class="ctl__val" id="v_zoom">1.00</span></div>
+              <input type="range" id="p_zoom" min="0.3" max="2.6" step="0.02" value="1">
+            </div>
+            <div class="ctl">
+              <div class="ctl__row"><label class="ctl__lab" for="p_asp">Char aspect</label><span class="ctl__val" id="v_asp">0.60</span></div>
+              <input type="range" id="p_asp" min="0.3" max="1.1" step="0.01" value="0.6">
+              <p class="ctl__hint" data-plain="Text characters are taller than they are wide. This stops circles looking like ovals.">Keeps circles round. Measured from the font, tweak by eye.</p>
+            </div>
+          </div>
+
+          <div class="grp">
+            <p class="grp__t">Shading</p>
+            <div class="ctl">
+              <label class="ctl__lab" for="p_ramp">Ramp</label>
+              <select id="p_ramp" style="margin-top:6px">
+                <option value="classic">Classic 12 &mdash; .,-~:;=!*#$@</option>
+                <option value="fine">Fine 64 &mdash; AsciiGallery ramp</option>
+                <option value="blocks">Blocks &mdash; &nbsp;&middot;:-=+*#%@</option>
+                <option value="dots">Dots &mdash; &nbsp;.:!/r(l1Z4H9W8$@</option>
+                <option value="binary">Binary &mdash; 01</option>
+              </select>
+            </div>
+            <div class="ctl">
+              <div class="seg-wrap" role="group" aria-label="Ink polarity">
+                <button class="seg" id="segLit" aria-pressed="false">Lit = heavy</button>
+                <button class="seg" id="segShade" aria-pressed="true">Lit = light</button>
+              </div>
+              <p class="ctl__hint" data-plain="On a white page the shadows should be the heavy characters, not the highlights.">donut.c assumes a black terminal, so lit means heavy. On a white ground you want the opposite.</p>
+            </div>
+            <div class="ctl">
+              <div class="ctl__row"><label class="ctl__lab" for="p_ly">Light &mdash; elevation</label><span class="ctl__val" id="v_ly">-1.00</span></div>
+              <input type="range" id="p_ly" min="-1.5" max="1.5" step="0.05" value="-1">
+            </div>
+            <div class="ctl">
+              <div class="ctl__row"><label class="ctl__lab" for="p_lz">Light &mdash; depth</label><span class="ctl__val" id="v_lz">-1.00</span></div>
+              <input type="range" id="p_lz" min="-1.5" max="1.5" step="0.05" value="-1">
+              <p class="ctl__hint" data-plain="Whether the light sits behind you or in front of the shape.">donut.c hardcodes (0,&minus;1,&minus;1). This is that vector.</p>
+            </div>
+            <div class="ctl" data-only="image">
+              <div class="ctl__row"><label class="ctl__lab" for="p_mix">Albedo mix</label><span class="ctl__val" id="v_mix">0.55</span></div>
+              <input type="range" id="p_mix" min="0" max="1" step="0.02" value="0.55">
+              <p class="ctl__hint" data-plain="Slide left and it looks carved. Slide right and it looks like the photo.">0 = pure sculpt lighting. 1 = the photo's own brightness.</p>
+            </div>
+          </div>
+        </aside>
+
+        <!-- ── VIEWPORT ── -->
+        <div class="tool__viewport" id="viewport">
+          <pre id="stage" aria-label="ASCII render"></pre>
+
+          <div class="hud">
+            <span><b id="h_pts">&mdash;</b> pts</span>
+            <span><b id="h_grid">&mdash;</b> cells</span>
+            <span><b id="h_ms">&mdash;</b> ms/frame</span>
+          </div>
+
+          <div class="scrim" id="scrim" role="status" aria-live="polite">
+            <div class="scrim__box">
+              <p class="loadword" aria-hidden="true">[LOADING<i>.</i><i>.</i><i>.</i>]</p>
+              <h4 id="scrimTitle">Analyzing asset</h4>
+              <div class="step" id="st0"><i class="step__dot"></i>Rasterize to sample grid</div>
+              <div class="step" id="st1"><i class="step__dot"></i>Extract luminance field</div>
+              <div class="step" id="st2"><i class="step__dot"></i>Derive normals from gradient</div>
+              <div class="step" id="st3"><i class="step__dot"></i>Build point cloud</div>
+              <div class="bar"><i id="bar"></i></div>
+            </div>
+          </div>
+
+          <div class="pastebox" id="pastebox">
+            <div class="pastebox__inner">
+              <h4>Paste SVG markup</h4>
+              <textarea id="pasteArea" spellcheck="false" placeholder="&lt;svg viewBox=&quot;0 0 100 100&quot;&gt;&lt;path d=&quot;M…&quot;/&gt;&lt;/svg&gt;"></textarea>
+              <div class="pastebox__row">
+                <button class="btn" id="pasteCancel">Cancel</button>
+                <button class="btn" id="pasteClip">Read clipboard</button>
+                <button class="btn btn--go" id="pasteUse">Use markup</button>
+              </div>
+              <p class="ctl__hint" id="pasteWhy" style="margin-top:8px">&#8984;V anywhere in the viewport works too. This route needs no file access, so it works where the picker can't.</p>
+            </div>
+          </div>
+
+          <div class="toast" id="toast">Config copied</div>
+
+          <!-- ── DOCK ── -->
+          <nav class="dock" aria-label="Project actions">
+            <button id="btnPlay" aria-pressed="true">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="4" y="3" width="3" height="10" fill="currentColor"/><rect x="9" y="3" width="3" height="10" fill="currentColor"/></svg>
+              <span class="lbl">Pause</span>
+            </button>
+            <button id="btnImport">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><rect x="1.5" y="3" width="13" height="10"/><path d="M1.5 10.5 5 7l3 2.5L11 6l3.5 3"/><circle cx="10.5" cy="5.5" r="1"/></svg>
+              <span class="lbl">Import</span>
+            </button>
+            <button id="btnPaste">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M5.5 2.5h5v2h-5zM4 3.5H2.5v11h11v-11H12M5 8h6M5 11h4"/></svg>
+              <span class="lbl">Paste</span>
+            </button>
+            <button id="btnRamp">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M2 12 6 4l4 8M3.4 9.4h5.2M11 12V6M11 6h3"/></svg>
+              <span class="lbl">Ramp</span>
+            </button>
+            <button id="btnRand">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M8 1.5v3M8 11.5v3M1.5 8h3M11.5 8h3M3.4 3.4 5.5 5.5M10.5 10.5l2.1 2.1M12.6 3.4 10.5 5.5M5.5 10.5l-2.1 2.1"/></svg>
+              <span class="lbl">Shuffle</span>
+            </button>
+            <button class="primary" id="btnExport">
+              <span class="lbl">Export config</span>
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M8 1.5v9M4.5 7 8 10.5 11.5 7M2.5 13.5h11"/></svg>
+            </button>
+          </nav>
+          <input type="file" id="fileIn" hidden
+                 accept="image/svg+xml,image/png,image/jpeg,image/webp,image/gif,.svg,.png,.jpg,.jpeg,.webp,.gif">
+        </div>
+      </div>
+
+      <div class="tool-caption">
+        <span>Drag to rotate &middot; drop or &#8984;V an asset &middot; Paste takes raw SVG markup</span>
+        <span id="capState">Source: torus &middot; 28k samples</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       DONUT DECODED
+       ══════════════════════════════════════════════════════════ -->
+  <section id="donut">
+    <div class="sec-head">
+      <p class="eyebrow">Reference</p>
+      <div class="col">
+        <h2>Donut breakdown</h2>
+        <p class="dek">
+          It isn't raytracing and there are no meshes. It's <em>point-cloud splatting with a
+          z-buffer</em>: sample a parametric surface densely, project every sample into a
+          character cell, keep the nearest, pick a glyph by lighting. About 28,000 samples a
+          frame. That's the entire trick, and it's the whole reason this generalizes.
+        </p>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="plainbox p-only">
+        <p><b>Think of it as spray-painting.</b> The program never draws a donut. It picks about
+        28,000 dots scattered over the surface of an imaginary donut, works out where each dot
+        would land on a grid of text characters, and writes a character in that cell.</p>
+        <p>Which character? Whichever one looks like the right brightness &mdash; a dot facing the
+        light gets a heavy <code class="inl">@</code>, a dot facing away gets a faint
+        <code class="inl">.</code></p>
+        <p>If two dots land in the same cell, the nearer one wins. That single rule is what makes
+        the hole in the middle look like a hole instead of see-through. Then it turns the donut a
+        few degrees and does the whole thing again, thirty times a second.</p>
+      </div>
+    </div>
+
+    <div class="col stack t-only">
+      <h3>Two buffers</h3>
+      <pre class="code">char  b[1760];   <i>// 80 &times; 22 framebuffer, memset to 32 (space)</i>
+float z[1760];   <i>// depth buffer, memset to 0 (= infinitely far)</i></pre>
+      <p><code class="inl">80 &times; 22 = 1760</code>. And <code class="inl">memset(z,0,7040)</code> is 1760 floats &times; 4 bytes — the one place the code admits how big a float is.</p>
+    </div>
+
+    <div class="figs2">
+      <figure class="fig">
+        <svg viewBox="0 0 380 250" role="img" aria-label="Torus parameterization: theta sweeps the tube cross-section, phi sweeps the main ring">
+          <ellipse cx="170" cy="128" rx="118" ry="44" class="d-dash"/>
+          <ellipse cx="170" cy="128" rx="118" ry="44" class="d-thin" transform="scale(1,1)"/>
+          <line x1="170" y1="128" x2="288" y2="128" class="d-thin"/>
+          <text x="215" y="122" class="d-lab sm">R2 = 2</text>
+          <circle cx="288" cy="128" r="38" class="d-acc"/>
+          <circle cx="288" cy="128" r="2.5" class="d-accf"/>
+          <line x1="288" y1="128" x2="288" y2="90" class="d-thin"/>
+          <text x="294" y="106" class="d-lab sm">R1 = 1</text>
+          <path d="M310 106 A 28 28 0 0 1 312 148" class="d-acc"/>
+          <path d="M312 148 l -5 -8 l 9 1 z" class="d-accf"/>
+          <text x="322" y="132" class="d-lab ac">&theta;</text>
+          <path d="M76 158 A 118 44 0 0 0 200 170" class="d-acc"/>
+          <path d="M200 170 l -10 -3 l 5 -7 z" class="d-accf"/>
+          <text x="128" y="192" class="d-lab ac">&phi;</text>
+          <circle cx="170" cy="128" r="2.5" class="d-fill"/>
+          <text x="150" y="120" class="d-lab sm">origin</text>
+          <text x="16" y="28" class="d-lab">p = ( &rho;&middot;cos&phi;, &rho;&middot;sin&phi;, sin&theta; )</text>
+          <text x="16" y="46" class="d-lab sm">&rho; = R2 + cos&theta;  &mdash;  distance out from the axis</text>
+          <text x="16" y="234" class="d-lab sm">&theta; steps 0.07 (~90)  &middot;  &phi; steps 0.02 (~314)</text>
+        </svg>
+        <figcaption>
+          The inner loop is the finer one because the main ring has the bigger circumference.
+          Both are oversampled roughly 3&times; so no gaps open between splats.
+        </figcaption>
+      </figure>
+
+      <figure class="fig">
+        <svg viewBox="0 0 380 250" role="img" aria-label="Depth test: two samples land on the same cell, the nearer one wins">
+          <circle cx="34" cy="128" r="7" class="d-stroke"/>
+          <text x="18" y="152" class="d-lab sm">camera</text>
+          <line x1="34" y1="128" x2="360" y2="128" class="d-dash"/>
+          <line x1="96" y1="46" x2="96" y2="210" class="d-thin"/>
+          <text x="102" y="42" class="d-lab sm">char grid</text>
+          <rect x="88" y="120" width="16" height="16" class="d-acc"/>
+          <line x1="34" y1="128" x2="360" y2="66" class="d-thin"/>
+          <line x1="34" y1="128" x2="360" y2="190" class="d-thin"/>
+          <circle cx="212" cy="94" r="4" class="d-accf"/>
+          <text x="200" y="82" class="d-lab ac">near</text>
+          <text x="200" y="70" class="d-lab sm">D = 1/z&prime; big</text>
+          <circle cx="322" cy="76" r="4" class="d-faint"/>
+          <text x="286" y="60" class="d-lab sm">far &mdash; discarded</text>
+          <text x="16" y="28" class="d-lab">if (D &gt; z[o]) { z[o] = D; b[o] = &hellip; }</text>
+          <text x="16" y="234" class="d-lab sm">Without this the far wall of the tube shows through the hole.</text>
+          <line x1="34" y1="128" x2="96" y2="128" class="d-acc"/>
+          <text x="40" y="120" class="d-lab sm">+5</text>
+        </svg>
+        <figcaption>
+          <code class="inl">D = 1/z&prime;</code> does double duty: perspective divide and depth key.
+          Bigger <code class="inl">D</code> means nearer, so the test is a plain <code class="inl">&gt;</code>.
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="col stack">
+      <div class="plainbox p-only">
+        <p><b>Spin, then flatten.</b> Each dot gets rotated, then squashed onto the screen. Things
+        farther away move toward the middle of the frame &mdash; that's all perspective is.</p>
+        <p>Two details that matter: the camera sits a fixed distance back so nothing ever ends up
+        behind it, and the horizontal scale is doubled because text characters are about twice as
+        tall as they are wide. Skip that second one and your donut is an oval.</p>
+      </div>
+      <h3 class="t-only">Rotate, project</h3>
+      <p class="t-only">
+        Apply a rotation about X (angle <code class="inl">A</code>) then about Z (angle <code class="inl">B</code>).
+        The code fuses both into three expressions and never names a matrix:
+      </p>
+      <pre class="code t-only">D = 1 / (c*h*e + f*g + <u>5</u>);        <i>// 1/z&prime;  &mdash; z&prime; = &rho;&middot;sin&phi;&middot;sinA + sin&theta;&middot;cosA + K2</i>
+t =      c*h*g - f*e;             <i>// the y-after-A-rotation intermediate</i>
+x = <u>40</u> + <u>30</u> * D * (l*h*m - t*n);  <i>// K1x &middot; perspective &middot; Rz(B) applied to (&rho;cos&phi;, t)</i>
+y = <u>12</u> + <u>15</u> * D * (l*h*n + t*m);</pre>
+
+      <h4>Magic numbers</h4>
+      <div class="plainbox p-only">
+        <p>The original is full of unexplained numbers. Only four of them matter:</p>
+        <p><b>5</b> &mdash; how far back the camera sits. <b>30 and 15</b> &mdash; horizontal and
+        vertical scale, doubled horizontally for the character shape. <b>40 and 12</b> &mdash; the
+        middle of an 80&times;22 screen. <b>8</b> &mdash; stretches the brightness so it lands
+        exactly on the 12 available characters, never past them.</p>
+      </div>
+      <div class="tw t-only">
+        <table>
+          <thead><tr><th>Value</th><th>Name</th><th>Why exactly that</th></tr></thead>
+          <tbody>
+            <tr><td class="num">+5</td><td>K2 &mdash; camera distance</td><td>Torus spans z &isin; [&minus;3, 3], so z&prime; &isin; [2, 8]. Never zero, never behind the camera. No clipping code needed.</td></tr>
+            <tr><td class="num">30 / 15</td><td>K1x / K1y</td><td>Terminal cells are ~2&times; taller than wide. Double the horizontal scale or the donut renders as an oval.</td></tr>
+            <tr><td class="num">40, 12</td><td>screen center</td><td>Half of 80 &times; 22.</td></tr>
+            <tr><td class="num">8</td><td>luminance gain</td><td>8 &middot; &radic;2 &asymp; 11.31. The ramp is 12 chars, indices 0&ndash;11. Largest integer that can't overflow it.</td></tr>
+            <tr><td class="num">0.07 / 0.02</td><td>&theta; / &phi; step</td><td>Arc length per step &asymp; 0.07 and 0.06 units &rarr; ~0.3 of a cell on screen. ~3&times; oversampled, so no holes.</td></tr>
+            <tr><td class="num">0.00004 / 0.00002</td><td>spin increments</td><td>Applied inside the 1761-iteration print loop: &Delta;A &asymp; 0.070, &Delta;B &asymp; 0.035 per frame. Two incommensurate speeds = the tumble.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Three angles</h3>
+      <div class="plainbox p-only">
+        <p><b>The rotation is three numbers.</b> Dragging just changes them. There's no 3D scene to
+        click into, no model to pick &mdash; which is exactly why drag was easy to add.</p>
+        <p>The original only had two of those numbers: tilt, and spin-like-a-wheel. Neither one
+        turns a shape left and right, which a donut doesn't care about but a photo very much does.
+        So there's a third one now. Sideways drag turns, vertical drag tilts, and letting go throws
+        it.</p>
+      </div>
+      <p class="t-only">
+        <code class="inl">A</code> and <code class="inl">B</code> are plain floats. Dragging just
+        writes to them — no picking, no raycast, no scene graph, because there's no scene. That's
+        the payoff of doing it in math instead of a 3D library.
+      </p>
+      <p class="t-only">
+        One catch: donut.c's two axes are pitch (about X) and <em>roll</em> (about Z), and roll
+        spins the image in the screen plane. A torus is rotationally symmetric so nobody notices,
+        but drag an imported photo sideways and it pinwheels instead of turning. So the prototype
+        adds a third axis — yaw about Y, applied first:
+      </p>
+      <pre class="code t-only">var x0 = px * cc + pz * sc;   <i>// Ry(C), the added axis</i>
+var z0 = pz * cc - px * sc;
+<i>// …then donut.c's Rx(A) and Rz(B), unchanged</i>
+var zp = py * e + z0 * g + dist;</pre>
+      <p class="t-only">
+        Four extra multiplies per point, and the same two lines run again on the normal so lighting
+        follows. Horizontal drag &rarr; <code class="inl">C</code>, vertical drag &rarr;
+        <code class="inl">A</code>. Release seeds a velocity that decays at 0.93/frame, then the
+        auto-spin picks back up underneath it.
+      </p>
+
+      <h3 class="t-only">One dot product</h3>
+      <h3 class="p-only">How lighting works</h3>
+      <div class="plainbox p-only">
+        <p><b>Every dot knows which way it faces.</b> Compare that direction to where the light is.
+        Pointing at the light means bright, which means a heavy character. Pointing away means dark,
+        which means a faint one. That comparison is a single multiply-and-add &mdash; it's the whole
+        lighting model, and it's why the donut reads as a solid object rather than an outline.</p>
+      </div>
+      <pre class="code t-only">int N = 8 * ((f*e - c*d*g)*m - c*d*e - f*g - l*d*n);</pre>
+      <p class="t-only">
+        A torus normal is just the cross-section direction, revolved:
+        <code class="inl">n&#8320; = (cos&theta;cos&phi;, cos&theta;sin&phi;, sin&theta;)</code>.
+        Rotate it by the same A and B, dot with light <code class="inl">L = (0, &minus;1, &minus;1)</code>,
+        and you get that expression exactly. <code class="inl">L</code> is never normalized, which is
+        why the result lands in [&minus;&radic;2, &radic;2] and why the gain is 8.
+      </p>
+      <pre class="code t-only">b[o] = ".,-~:;=!*#$@"[N &gt; 0 ? N : 0];   <i>// N &le; 0 = facing away &rarr; '.'</i></pre>
+
+      <h3>Output loop</h3>
+      <div class="plainbox p-only">
+        <p><b>It never clears the screen.</b> It moves the cursor back to the top-left and types
+        over what's already there. Clearing first is what causes flicker &mdash; for one instant
+        you're looking at a blank frame. Overwriting in place has no such instant.</p>
+      </div>
+      <pre class="code t-only">printf("\x1b[H");                      <i>// cursor home, NOT clear &rarr; no flicker</i>
+for (k = 0; k &lt; 1761; k++) {
+    putchar(k % 80 ? b[k] : 10);       <i>// every 80th char &rarr; newline instead</i>
+    A += 0.00004;
+    B += 0.00002;
+}</pre>
+      <div class="note">
+        <h4>Column zero</h4>
+        <p style="margin:0">
+          <code class="inl">k % 80 ? b[k] : 10</code> spends column 0 on newlines — those cells are
+          never printed. Which is why the clip test is <code class="inl">x &gt; 0</code> and
+          <code class="inl">y &gt; 0</code>, not <code class="inl">&ge;</code>. The screen is really
+          79 columns. Nobody notices.
+        </p>
+      </div>
+      <p class="t-only">
+        <code class="inl">\x1b[2J</code> (clear) fires once, before the loop. Per frame it's only
+        <code class="inl">\x1b[H</code> — overwrite in place, so no tearing. Incrementing A and B
+        inside the print loop is pure golf.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       GAP
+       ══════════════════════════════════════════════════════════ -->
+  <section id="gap">
+    <div class="sec-head">
+      <p class="eyebrow">Gap</p>
+      <div class="col">
+        <h2>What’s missing</h2>
+        <p class="dek">
+          <code class="inl">useAsciiConverter.ts</code> and <code class="inl">kinetic.ts</code> are
+          well past donut.c on shading — 64-char ramp, 6&times;6 supersampling, percentile
+          normalization, Sobel direction quantized into structural glyphs. What's missing is
+          everything <em>upstream of the grid</em>.
+        </p>
+      </div>
+    </div>
+
+    <div class="bleed">
+      <div class="pipe">
+        <div class="pipe__lane">
+          <div class="pipe__node miss"><b>Source</b><span>Shape &rarr; points with position + normal</span></div>
+          <div class="pipe__node miss"><b>Transform</b><span>Rx(A) &middot; Rz(B) on point and normal</span></div>
+          <div class="pipe__node miss"><b>Project</b><span>1/z&prime;, K1 scale, aspect correction</span></div>
+          <div class="pipe__node miss"><b>Depth</b><span>z-buffer, nearest splat wins</span></div>
+          <div class="pipe__node have"><b>Shade</b><span>Supersample, percentile, sigmoid, ramp</span></div>
+          <div class="pipe__node have"><b>Structure</b><span>Sobel magnitude + 8-sector direction</span></div>
+          <div class="pipe__node have"><b>Motion</b><span>Perlin foliage / cloud / fog, birds, petals</span></div>
+          <div class="pipe__node have"><b>Blit</b><span>Uint16Array &rarr; one textContent write</span></div>
+        </div>
+        <div class="pipe__key">
+          <span><i style="background:var(--wash-deep)"></i>Built &mdash; keep as-is</span>
+          <span><i style="background:var(--accent)"></i>Missing &mdash; this is the spike</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col stack">
+      <div class="tw">
+        <table>
+          <thead><tr><th>Stage</th><th>donut.c</th><th>AsciiGallery</th></tr></thead>
+          <tbody>
+            <tr><td>Geometry source</td><td>parametric torus, 28k pts</td><td class="no">none</td></tr>
+            <tr><td>Transform &amp; projection</td><td>Rx &middot; Rz + perspective</td><td class="no">none</td></tr>
+            <tr><td>Depth resolve</td><td>z-buffer</td><td class="no">none</td></tr>
+            <tr><td>Brightness &rarr; glyph</td><td>12-char ramp, n&middot;L</td><td class="yes">64-char, 6&times;6 SS, percentile, sigmoid</td></tr>
+            <tr><td>Structure</td><td class="no">none</td><td class="yes">Sobel dir &rarr; <code class="inl">EDGE_CHARS[dir][band]</code></td></tr>
+            <tr><td>Color</td><td class="no">none</td><td class="yes">nearest-accent, 3 masks</td></tr>
+            <tr><td>Motion</td><td>rigid-body rotation</td><td class="yes">Perlin layers, birds, petals</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <h4>Real difference</h4>
+        <p style="margin:0">
+          Your motion is <strong>2D post-processing of a static grid</strong>. donut.c's motion is
+          <strong>geometry moving in space, re-rasterized every frame</strong>. Closing that gap is
+          the whole spike — and it slots in <em>before</em> your shading stage, so none of the good
+          work gets thrown away.
+        </p>
+      </div>
+
+      <div class="plainbox p-only">
+        <p><b>You built the back half already.</b> Turning brightness into characters, finding edges,
+        picking colors, animating with noise &mdash; that's all done, and it's better than the
+        original donut's version of it.</p>
+        <p>What's missing is everything <em>before</em> that: there's no shape, no camera, no sense
+        of near and far. Your animation moves characters around a flat picture. The donut moves an
+        object through space and re-draws it. Closing that gap slots in ahead of your existing work,
+        so none of it gets thrown away.</p>
+      </div>
+      <h3>Hardcoded presets</h3>
+      <p>
+        <code class="inl">kinetic.ts</code> is 784 lines, and every look lives in a
+        <code class="inl">switch</code> case — <code class="inl">ocean_waves</code>,
+        <code class="inl">flower_wind</code>. Tuning means edit, save, wait for HMR, squint. No
+        parameter surface, no way to A/B, no way to hand a look to someone else. The panel isn't a
+        nice-to-have; it's what converts that switch into data.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       ARCHITECTURE
+       ══════════════════════════════════════════════════════════ -->
+  <section id="arch">
+    <div class="sec-head">
+      <p class="eyebrow">Design</p>
+      <div class="col">
+        <h2>Architecture</h2>
+        <p class="dek">
+          Every source emits the same <code class="inl">PointCloud</code>. After that the rasterizer
+          doesn't know or care whether the shape came from a torus equation, an SVG path you drew,
+          or a PNG you dropped on the canvas. That single contract is the methodology improvement.
+        </p>
+      </div>
+    </div>
+
+    <div class="col stack">
+      <div class="plainbox p-only">
+        <p><b>One rule holds the whole thing together:</b> every kind of input &mdash; an equation,
+        a drawn shape, an uploaded photo &mdash; gets converted into the same plain list of dots.
+        After that, the renderer has no idea where they came from and doesn't need to.</p>
+        <p>That's what makes it a tool instead of four separate demos. Add a new kind of input by
+        writing one small converter; everything downstream already works.</p>
+      </div>
+      <pre class="code">src/lib/ascii/
+  types.ts        <i>Params, PointCloud, Frame</i>
+  <b>sources/</b>        <i>shape &rarr; PointCloud</i>
+    parametric.ts <i>torus / sphere &mdash; donut.c ported verbatim, the reference</i>
+    svgIngest.ts  <i>DOM once &rarr; normalized polylines + arc length</i>
+    harmonics.ts  <i>DFT &rarr; p(t) = Σ cₖe^(2πikt). the shape becomes an equation</i>
+    alphaMask.ts  <i>PNG &rarr; marching squares &rarr; contour &rarr; same cloud</i>
+    heightfield.ts<i>luminance &rarr; z displacement (this page's Image mode)</i>
+  raster.ts       <i>transform &rarr; project &rarr; z-buffer &rarr; ramp</i>
+  post.ts         <i>kinetic.ts layers, un-hardcoded into params</i>
+  render.ts       <i>Uint16Array &rarr; one textContent write per frame</i></pre>
+
+      <h3>The contract</h3>
+      <pre class="code">interface PointCloud {
+  pos:   Float32Array;  <i>// 3n &mdash; x, y, z</i>
+  nrm:   Float32Array;  <i>// 3n &mdash; unit normal, for n&middot;L</i>
+  alb:   Float32Array;  <i>// n  &mdash; 0..1 source brightness (1 for parametric)</i>
+  <b>arc?:  Float32Array</b>;  <i>// n  &mdash; 0..1 along-path position. this is the loader.</i>
+  count: number;
+}</pre>
+      <p>
+        <code class="inl">arc</code> is the field that turns a shape into a <strong>loading
+        view</strong>. Reveal where <code class="inl">arc &lt; progress</code> and it draws itself
+        on. Scatter points by Perlin and lerp them home as <code class="inl">progress &rarr;
+        1</code> and it assembles. Both are about ten lines once the cloud carries arc-length —
+        and neither one touches the rasterizer.
+      </p>
+
+      <h3>SVG paths</h3>
+      <pre class="code">const path = document.createElementNS(SVG_NS, 'path');
+path.setAttribute('d', d);
+const L = path.getTotalLength();
+for (let s = 0; s &lt; L; s += spacing) {
+  const p  = path.getPointAtLength(s);
+  const p2 = path.getPointAtLength(s + 0.5);
+  pts.push({
+    x: p.x, y: p.y, z: 0,
+    nx: -(p2.y - p.y), ny: p2.x - p.x, nz: 0,   <i>// tangent &rarr; normal, free</i>
+    <b>arc: s / L</b>,
+  });
+}</pre>
+
+      <h3>Schema panel</h3>
+      <div class="plainbox p-only">
+        <p><b>The panel builds itself from a list.</b> Each control is one line describing what it
+        is &mdash; a slider from here to there, this label, this plain-English explanation. Adding a
+        knob means adding a line, never building another slider component.</p>
+        <p>That's also why every control in the prototype has a hint under it. The hint is part of
+        the control's definition, not an afterthought.</p>
+      </div>
+      <p class="t-only">
+        Every parameter declares itself. The panel renders from the declaration, so adding a knob is
+        one object literal — never a new slider component. Each one carries a plain-English hint, no
+        graphics vocabulary required.
+      </p>
+      <pre class="code t-only">export const SCHEMA: Group[] = [
+  { label: 'Camera', params: [
+    { kind: 'range', key: 'spinX',      min: -2.5, max: 2.5, step: 0.02,
+      label: 'Tumble &mdash; pitch', hint: "donut.c's A. Radians per second." },
+    { kind: 'range', key: 'charAspect', min: 0.3,  max: 1.1, step: 0.01,
+      label: 'Char aspect',   hint: 'Keeps circles round.' },
+  ]},
+  { label: 'Shading', params: [
+    { kind: 'select', key: 'ramp',  options: RAMPS },
+    { kind: 'vec3',   key: 'light', hint: 'Where the light comes from.' },
+  ]},
+];</pre>
+      <p class="t-only">
+        Values live in a mutable <code class="inl">paramsRef.current</code>, not React state — the
+        rAF loop reads it directly, so dragging a slider never triggers a render. Same trick the
+        panel on this page uses.
+      </p>
+
+      <div class="note">
+        <h4>Preset export</h4>
+        <p style="margin:0">
+          The tuned preset copies out as JSON and gets pasted into <code class="inl">photos.ts</code>
+          as checked-in data. Playground output becomes production input, and the 784-line
+          <code class="inl">switch</code> dies. That's the feature that makes this a tool rather than
+          a toy.
+        </p>
+      </div>
+
+      <h3>Staying fast</h3>
+      <div class="plainbox p-only">
+        <p><b>No shaders needed.</b> The rule is simple: build the list of dots once, reuse the same
+        memory every frame, and write to the page exactly once per frame. Do that and 28,000 dots
+        run at 60fps in ordinary JavaScript. The original ran in C on a 30fps budget &mdash; speed
+        was never the hard part.</p>
+      </div>
+      <ul class="t-only">
+        <li>Point cloud in flat <code class="inl">Float32Array</code>s, built once per shape — never per frame.</li>
+        <li>Pre-allocated <code class="inl">Uint16Array</code> charbuf and <code class="inl">Float32Array</code> zbuf, <code class="inl">.fill()</code> each frame. Zero allocation in the hot loop.</li>
+        <li>One <code class="inl">textContent</code> assignment per frame on a single <code class="inl">&lt;pre&gt;</code>. You already do this — keep it.</li>
+        <li>Sin/cos of the two spin angles computed once per frame, not per point.</li>
+        <li>The prototype above runs ~28k points at 60fps in plain JS. C on a 33fps budget was never the constraint.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       IMPORT FLOW
+       ══════════════════════════════════════════════════════════ -->
+  <section id="flow">
+    <div class="sec-head">
+      <p class="eyebrow">Next</p>
+      <div class="col">
+        <h2>Asset import</h2>
+        <p class="dek">
+          SVG, PNG and JPEG all work in the prototype above &mdash; but they don't take the same
+          route. Raster formats become a luminance heightfield. SVG gets its paths sampled, which
+          is the only route that yields <code class="inl">arc</code>, and therefore the only one
+          that can draw itself on.
+        </p>
+      </div>
+    </div>
+
+    <div class="bleed">
+      <div class="wires">
+        <div class="wire">
+          <div class="wire__cap"><span>Drop</span><b>01</b></div>
+          <div class="wire__body">
+            <div class="wire__rail"><div></div><div></div><div></div><div></div></div>
+            <div class="wire__main">
+              <div class="wire__ghost act">DROP SVG / PNG<br>JPEG / WEBP</div>
+              <div class="wire__dock"><span></span><span></span><span></span><span class="fill"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="wire">
+          <div class="wire__cap"><span>Analyze</span><b>02</b></div>
+          <div class="wire__body">
+            <div class="wire__rail"><div></div><div></div><div></div><div></div></div>
+            <div class="wire__main">
+              <div class="wire__ghost">SNIFF TYPE<br>PICK ADAPTER<br>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</div>
+              <div class="wire__dock"><span></span><span></span><span></span><span class="fill"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="wire">
+          <div class="wire__cap"><span>Land</span><b>03</b></div>
+          <div class="wire__body">
+            <div class="wire__rail"><div></div><div></div><div></div><div></div></div>
+            <div class="wire__main">
+              <div class="wire__ghost">REPLACE SOURCE<br><span style="color:var(--accent)">&mdash; or &mdash;</span><br>OPEN NEW PANE</div>
+              <div class="wire__dock"><span></span><span></span><span></span><span class="fill"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col stack">
+      <div class="note">
+        <h4>File access</h4>
+        <p style="margin:0">
+          Import is automatic everywhere it can be: pick a file, drop one, or &#8984;V. The published
+          page you're reading is the one exception &mdash; it runs in a sandboxed frame with no
+          access to local files, so every read path returns <code class="inl">NotReadableError</code>
+          and <code class="inl">blob:</code> URLs time out. That's the frame, not the code. The
+          <strong>Paste</strong> route exists so the pipeline is still testable here; in the
+          downloaded copy and on your own site, the picker just works.
+        </p>
+      </div>
+
+      <h3>Format routing</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Input</th><th>Adapter</th><th>Yields</th><th>Gotcha</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>SVG &mdash; outline</td>
+              <td><code class="inl">svgPath</code></td>
+              <td>Points along every path, <span class="yes">plus <code class="inl">arc</code></span></td>
+              <td>viewBox may be missing; transforms need <code class="inl">getCTM()</code></td>
+            </tr>
+            <tr>
+              <td>SVG &mdash; solid</td>
+              <td><code class="inl">heightfield</code></td>
+              <td>Filled silhouette from the alpha mask</td>
+              <td>Needs explicit width/height before it will rasterize</td>
+            </tr>
+            <tr>
+              <td>PNG</td>
+              <td><code class="inl">heightfield</code></td>
+              <td>Lit relief; transparent pixels dropped</td>
+              <td>Alpha threshold at 0.35 &mdash; tune per asset</td>
+            </tr>
+            <tr>
+              <td>JPEG / WebP</td>
+              <td><code class="inl">heightfield</code></td>
+              <td>Lit relief, no alpha so full frame</td>
+              <td>Compression noise reads as surface texture</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="t-only">Three SVG traps</h3>
+      <div class="t-only">
+      <p>
+        <strong>No viewBox.</strong> An SVG with only a <code class="inl">viewBox</code> and no
+        width/height reports <code class="inl">naturalWidth === 0</code> in some browsers, so
+        drawing it to canvas silently produces nothing. Fix: parse it, write explicit dimensions,
+        re-serialize, then load. An SVG with neither falls back to
+        <code class="inl">getBBox()</code>.
+      </p>
+      <p>
+        <strong>Transforms.</strong> <code class="inl">getPointAtLength()</code> returns coordinates
+        in the element's own user space, so a group with a <code class="inl">transform</code> lands
+        in the wrong place. Every sample goes through <code class="inl">getCTM()</code> first.
+      </p>
+      <p>
+        <strong>Untrusted markup.</strong> Measuring an SVG means putting it in the DOM, and a
+        dropped file can carry <code class="inl">&lt;script&gt;</code> or
+        <code class="inl">onload=</code>. The prototype strips executable elements, every
+        <code class="inl">on*</code> attribute, and any href that isn't a fragment or a
+        <code class="inl">data:image/</code> URI before injection.
+      </p>
+
+      <h3>Two stages</h3>
+      <div class="plainbox p-only">
+        <p><b>Read the file once, then never look at it again.</b> Opening an SVG and measuring its
+        paths is slow and fiddly, so it happens a single time on import and produces plain lists of
+        numbers. Every slider after that works on the numbers.</p>
+        <p>Before this, nudging any control re-opened the artwork from scratch. That's the thing you
+        spotted, and it was the right call.</p>
+      </div>
+      <p class="t-only">
+        The SVG DOM is touched <strong>exactly once</strong>, at ingest, and what comes out is
+        typed arrays. Nothing downstream — no slider, no frame — ever looks at the uploaded markup
+        again. Same shape of pipeline as the image path:
+      </p>
+      <pre class="code t-only"><b>ingest</b>  markup &rarr; sanitize &rarr; resolve viewBox &rarr; walk geometry
+        &rarr; flatten at a fixed 0.5 SVG units &rarr; normalize to &plusmn;3
+        &rarr; <u>Float32Array polylines + cumulative arc length</u>   <i>&larr; DOM released here</i>
+
+<b>build</b>   polylines &rarr; resample &rarr; normals &rarr; extrude &rarr; PointCloud
+        <i>pure math, re-runnable every param change, zero DOM</i></pre>
+      <p class="t-only">
+        Ingest resolution is deliberately fixed and separate from
+        <code class="inl">spacing</code>. Otherwise every nudge of a slider would re-enter the DOM,
+        which is both slow and the thing you asked to avoid.
+      </p>
+
+      <h3>Algorithm or data</h3>
+      <div class="plainbox p-only">
+        <p><b>Two ways to remember a shape.</b> Either you keep the list of points you traced
+        &mdash; like a rubbing of a coin &mdash; or you find a formula that reproduces it, the way
+        the donut has a formula.</p>
+        <p>For any closed outline, you can actually get a formula. The trick has a scary name
+        (Fourier series) and a friendly idea: <b>any loop can be drawn by stacking spinning
+        circles.</b> One circle draws a circle. Four circles draw a rough blob. Sixty-four circles
+        draw your logo.</p>
+        <p>Which hands you a loading animation for free &mdash; start with a few circles and add
+        more, and the artwork resolves out of a wobble. Try the Harmonics slider on the Path
+        source above; that slider is the number of circles.</p>
+        <p>The one thing it can't do is fills. For solid artwork the next tool is called a distance
+        field, which is also a formula rather than a picture, and which is what lets you thicken an
+        outline or smoothly morph one logo into another.</p>
+      </div>
+      <p class="t-only">
+        Straight answer: an arbitrary uploaded logo has <em>no closed form</em>. The torus has an
+        equation because a person wrote one. Your asset is measurements. But that's not the end of
+        it — there are three ways to hold a shape, and only one of them is really a bitmap:
+      </p>
+      <div class="tw t-only">
+        <table>
+          <thead><tr><th>Representation</th><th>What it is</th><th>Gets you</th><th>Cost</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Raster map</td>
+              <td>A grid of samples</td>
+              <td>Exactness, nothing else</td>
+              <td>Fixed resolution, no shape math</td>
+            </tr>
+            <tr>
+              <td>Polyline + arc</td>
+              <td>Data, but parameterized</td>
+              <td>Resample at any density, reveal, offset</td>
+              <td>Can't interpolate <em>between</em> shapes</td>
+            </tr>
+            <tr>
+              <td><span class="yes">Fourier series</span></td>
+              <td><span class="yes">An actual equation</span></td>
+              <td>Infinite resolution, truncation, morphing</td>
+              <td>One transform up front; closed contours only</td>
+            </tr>
+            <tr>
+              <td>SDF</td>
+              <td>A field you evaluate</td>
+              <td>Fills, thickness, booleans, blends</td>
+              <td>Needs a distance transform; heavier</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="t-only">Shape as equation</h3>
+      <div class="t-only">
+      <p>
+        Take a closed contour as a complex function of arc length,
+        <code class="inl">z(t) = x(t) + i&middot;y(t)</code>, and run a DFT. Now the shape
+        <em>is</em> a parametric equation — the same species of object as the torus:
+      </p>
+      <pre class="code"><i>// the donut</i>
+p(&theta;, &phi;) = ( &rho;cos&phi;, &rho;sin&phi;, sin&theta; )      &rho; = R2 + cos&theta;
+
+<i>// your logo, after one transform</i>
+<b>p(t) = &Sigma; c&#8342; &middot; e^(2&pi;i k t)</b>                  k = &minus;K &hellip; K</pre>
+      <p>
+        Both are evaluated, not looked up. Both give you a point at any <code class="inl">t</code>
+        you ask for, at infinite resolution. The only difference is that the torus's coefficients
+        were chosen by hand and the logo's were measured. Even the normal comes out analytically —
+        differentiate the series instead of differencing neighbours:
+      </p>
+      <pre class="code">dr -= pi * (6.283185 * k);   <i>// d/dt of e^(2πikt) is 2πik·(…)</i>
+di += pr * (6.283185 * k);</pre>
+
+      </div>
+      <div class="note">
+        <h4>Truncation</h4>
+        <p style="margin:0">
+          Keeping fewer terms doesn't crop the shape, it <em>smooths</em> it. K=1 is a circle, K=4
+          is a rough blob, K=64 is the asset. So <strong>the harmonic count is a loading
+          animation</strong> — sweep K upward and the mark resolves out of a circle. Nothing else
+          gives you that for free. Try the Harmonics slider on the Path source above.
+        </p>
+      </div>
+
+      <p class="t-only">
+        The catch, stated plainly: Fourier assumes a closed loop. An open stroke gets treated as
+        closed, so the endpoints join and you get ringing near the seam. Fix is to mirror the path
+        before transforming. Multi-contour logos are fine — each contour gets its own series.
+      </p>
+      <p class="t-only">
+        <strong>SDF is the one to reach for next</strong>, and it's the honest answer for filled
+        artwork. A distance field is also evaluated rather than sampled, and it's what buys you
+        thickness, erosion, boolean combination, and smooth morphs between two logos. It won't give
+        you <code class="inl">arc</code>, so it complements the series rather than replacing it.
+      </p>
+
+      </div>
+      <h3>One-line reveal</h3>
+      <p>
+        Once the cloud carries <code class="inl">arc</code>, the loading animation is a clip in the
+        hot loop. Nothing else in the pipeline changes:
+      </p>
+      <pre class="code">if (arc && arc[i] &gt; P.reveal) continue;   <i>// that's the whole loader</i></pre>
+      <p>
+        Drive <code class="inl">P.reveal</code> from real progress and the mark draws itself on.
+        Try it on the <strong>Path</strong> source above — the Reveal slider is that variable.
+      </p>
+      <p>
+        Analysis should report what it found, because that's what picks the adapter: geometry
+        element count, whether the alpha channel is meaningful, total path length, and the point
+        count it would generate. Then the source choice is a two-option prompt, not a guess.
+      </p>
+      <p>
+        <strong>New pane</strong> is worth building early. Two clouds, two param sets, one shared
+        camera — that's how you compare a tuned preset against its parent, which is the thing the
+        current edit-and-squint loop can't do at all.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SEQUENCE
+       ══════════════════════════════════════════════════════════ -->
+  <section id="seq">
+    <div class="sec-head">
+      <p class="eyebrow">Plan</p>
+      <div class="col">
+        <h2>Build sequence</h2>
+        <p class="dek">
+          Step one is the de-risker. Porting donut.c behind the <code class="inl">PointCloud</code>
+          interface means the whole rig has a known-correct output to check against — if the donut
+          looks right, the rasterizer is right.
+        </p>
+      </div>
+    </div>
+
+    <div class="col">
+      <ol class="seq">
+        <li>
+          <b>Port donut.c behind the PointCloud interface</b>
+          <span>Parametric source, rasterizer, minimal panel. Ship the donut as the default project. Eyeball it against the real thing.</span>
+          <em>~150 lines &middot; proves the rig end to end</em>
+        </li>
+        <li>
+          <b>Schema-driven panel + preset export</b>
+          <span>Groups, hints, live counters, localStorage presets, copy-config. Route at <code class="inl">/lab/ascii</code>, unlisted.</span>
+          <em>~200 lines &middot; no dependencies</em>
+        </li>
+        <li>
+          <b>svgPath source + arc reveal</b>
+          <span>Draw a shape, sample it, animate the reveal by arc-length. This is the loading view you actually wanted.</span>
+          <em>the payoff</em>
+        </li>
+        <li>
+          <b>Asset import &mdash; SVG, PNG, JPEG</b>
+          <span>Type sniff picks the adapter: paths get sampled, rasters get a heightfield. Then new-pane comparison.</span>
+          <em>working above &mdash; needs the analysis report</em>
+        </li>
+        <li>
+          <b>Migrate kinetic.ts into post.ts params</b>
+          <span>One preset at a time. Tune it in the panel, export the JSON back into <code class="inl">photos.ts</code>, delete the switch case.</span>
+          <em>retires 784 lines of hardcoded looks</em>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <footer>FASCIILE &middot; spike &middot; jasonc1.github.io &middot; no shaders</footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // ── Ramps ──────────────────────────────────────────────────────────────
+  var RAMPS = {
+    classic: '.,-~:;=!*#$@',
+    fine:    " .·'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$",
+    blocks:  ' ·:-=+*#%@',
+    dots:    ' .:!/r(l1Z4H9W8$@',
+    binary:  ' 01'
+  };
+
+  // ── State ──────────────────────────────────────────────────────────────
+  var P = {
+    source: 'torus', R1: 1, R2: 2, depth: 1.4, density: 1,
+    spacing: 0.02, extrude: 0, reveal: 1, svgMode: 'outline',
+    repr: 'poly', harmonics: 24,
+    spinX: 0.7, spinY: 0, spinZ: 0.35, dist: 5, zoom: 1, charAspect: 0.6,
+    ramp: 'classic', invert: true, lightX: 0, lightY: -1, lightZ: -1, mix: 0.55
+  };
+
+  var cloud = null;      // { pos, nrm, alb, count }
+  var imgData = null;    // last imported raster image element
+  var svgText = null;    // last imported SVG markup (null = built-in demo path)
+  var shapeData = null;  // ingested polylines — the DOM's only output
+  var A = 0, B = 0, C = 0;         // pitch (X), roll (Z), yaw (Y)
+  var velA = 0, velC = 0;          // drag momentum, radians per frame
+  var dragging = false;
+  var running = true;
+  var cols = 0, rows = 0;
+  var chars = null, zbuf = null;
+  var msAvg = 0;
+
+  var stage    = document.getElementById('stage');
+  var viewport = document.getElementById('viewport');
+  var toolEl   = document.getElementById('tool');
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) running = false;
+
+  // ── Point cloud builders ───────────────────────────────────────────────
+  function buildTorus() {
+    var dT = 0.07 / P.density, dP = 0.02 / P.density;
+    var nT = Math.max(3, Math.ceil(6.283185 / dT));
+    var nP = Math.max(3, Math.ceil(6.283185 / dP));
+    var n = nT * nP;
+    var pos = new Float32Array(n * 3), nrm = new Float32Array(n * 3), alb = new Float32Array(n);
+    var k = 0;
+    for (var a = 0; a < nT; a++) {
+      var th = a * dT, ct = Math.cos(th), st = Math.sin(th);
+      var rho = P.R2 + P.R1 * ct;
+      for (var b = 0; b < nP; b++) {
+        var ph = b * dP, cp = Math.cos(ph), sp = Math.sin(ph);
+        var i3 = k * 3;
+        pos[i3] = rho * cp; pos[i3 + 1] = rho * sp; pos[i3 + 2] = P.R1 * st;
+        nrm[i3] = ct * cp;  nrm[i3 + 1] = ct * sp;  nrm[i3 + 2] = st;
+        alb[k] = 1; k++;
+      }
+    }
+    return { pos: pos, nrm: nrm, alb: alb, count: n };
+  }
+
+  function buildSphere() {
+    var R = P.R1 + P.R2 * 0.5;
+    var d = 0.032 / P.density;
+    var nU = Math.max(4, Math.ceil(3.14159 / d));
+    var nV = Math.max(4, Math.ceil(6.283185 / d));
+    var n = nU * nV;
+    var pos = new Float32Array(n * 3), nrm = new Float32Array(n * 3), alb = new Float32Array(n);
+    var k = 0;
+    for (var a = 0; a < nU; a++) {
+      var u = a * d, su = Math.sin(u), cu = Math.cos(u);
+      for (var b = 0; b < nV; b++) {
+        var v = b * d, i3 = k * 3;
+        var x = su * Math.cos(v), y = su * Math.sin(v), z = cu;
+        pos[i3] = x * R; pos[i3 + 1] = y * R; pos[i3 + 2] = z * R;
+        nrm[i3] = x;     nrm[i3 + 1] = y;     nrm[i3 + 2] = z;
+        alb[k] = 1; k++;
+      }
+    }
+    return { pos: pos, nrm: nrm, alb: alb, count: n };
+  }
+
+  // Luminance heightfield: bright pixels sit closer to the camera.
+  function buildImage(img) {
+    var W = Math.max(24, Math.round(210 * P.density));
+    // ImageBitmap exposes width/height; HTMLImageElement exposes natural*
+    var iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
+    var H = Math.max(24, Math.round(W * (ih / iw)));
+    if (H > 420) { H = 420; W = Math.round(H * (iw / ih)); }
+    var cv = document.createElement('canvas');
+    cv.width = W; cv.height = H;
+    var ctx = cv.getContext('2d', { willReadFrequently: true });
+    ctx.drawImage(img, 0, 0, W, H);
+    var px = ctx.getImageData(0, 0, W, H).data;
+
+    var lum = new Float32Array(W * H), alpha = new Float32Array(W * H);
+    var lo = 1, hi = 0;
+    for (var i = 0; i < W * H; i++) {
+      var p = i * 4;
+      var l = (0.2126 * px[p] + 0.7152 * px[p + 1] + 0.0722 * px[p + 2]) / 255;
+      lum[i] = l; alpha[i] = px[p + 3] / 255;
+      if (alpha[i] > 0.5) { if (l < lo) lo = l; if (l > hi) hi = l; }
+    }
+    var inv = 1 / Math.max(0.001, hi - lo);
+    for (var j = 0; j < W * H; j++) {
+      var v = (lum[j] - lo) * inv;
+      lum[j] = v < 0 ? 0 : v > 1 ? 1 : v;
+    }
+
+    var span = 6, sx = span / W, sy = span * (H / W) / H;
+    var kept = 0;
+    for (var m = 0; m < W * H; m++) if (alpha[m] > 0.35) kept++;
+
+    var pos = new Float32Array(kept * 3), nrm = new Float32Array(kept * 3), alb = new Float32Array(kept);
+    var k = 0;
+    for (var y = 0; y < H; y++) {
+      for (var x = 0; x < W; x++) {
+        var idx = y * W + x;
+        if (alpha[idx] <= 0.35) continue;
+        var xm = x > 0 ? idx - 1 : idx, xp = x < W - 1 ? idx + 1 : idx;
+        var ym = y > 0 ? idx - W : idx, yp = y < H - 1 ? idx + W : idx;
+        // z = -(lum * depth) — bright pushes toward the camera (smaller z')
+        var gx = -(lum[xp] - lum[xm]) * P.depth * 0.5 / sx;
+        var gy = -(lum[yp] - lum[ym]) * P.depth * 0.5 / sy;
+        // outward normal points at the viewer, i.e. toward -z
+        var nx = gx, ny = gy, nz = -1;
+        var len = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
+        var i3 = k * 3;
+        pos[i3]     = (x / W - 0.5) * span;
+        pos[i3 + 1] = (y / H - 0.5) * span * (H / W);
+        pos[i3 + 2] = -(lum[idx] - 0.5) * P.depth;
+        nrm[i3] = nx / len; nrm[i3 + 1] = ny / len; nrm[i3 + 2] = nz / len;
+        alb[k] = lum[idx];
+        k++;
+      }
+    }
+    return { pos: pos, nrm: nrm, alb: alb, count: k };
+  }
+
+  // ── SVG source ─────────────────────────────────────────────────────────
+  // Samples every geometry element with getPointAtLength(). The tangent gives
+  // a normal for free, and s/L gives arc — which is what the reveal reads.
+  var svgHost = null;
+  function svgSandbox() {
+    if (!svgHost) {
+      svgHost = document.createElement('div');
+      svgHost.setAttribute('aria-hidden', 'true');
+      // Off-screen but NOT display:none and NOT zero-sized — getCTM() folds in the
+      // viewBox→viewport scale, so a 0×0 host would collapse every point to the origin.
+      svgHost.style.cssText = 'position:absolute;left:-99999px;top:0;opacity:0;pointer-events:none;';
+      document.body.appendChild(svgHost);
+    }
+    svgHost.textContent = '';
+    return svgHost;
+  }
+
+  // Built-in demo: a three-lobed rose, generated rather than hand-authored.
+  function demoSvg() {
+    var d = '', N = 720;
+    for (var i = 0; i <= N; i++) {
+      var t = i / N * 6.283185;
+      var r = 118 + 58 * Math.cos(3 * t);
+      d += (i ? 'L' : 'M') + (200 + r * Math.cos(t)).toFixed(2) + ' ' + (200 + r * Math.sin(t)).toFixed(2);
+    }
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">' +
+           '<path d="' + d + 'Z" fill="none" stroke="#000"/></svg>';
+  }
+
+  var GEO_SEL = 'path,line,polyline,polygon,rect,circle,ellipse';
+
+  // Imported SVG is untrusted markup that we put in the DOM to measure it.
+  // Drop anything executable or anything that would reach off-page.
+  function sanitizeSvg(markup) {
+    // Exported SVGs routinely carry a BOM, leading whitespace, or markup that
+    // isn't strict XML. Try XML first, then fall back to the HTML parser.
+    var src = String(markup).replace(/^\uFEFF/, '').replace(/^\s+/, '');
+    var root = null, dp = new DOMParser();
+
+    try {
+      var xdoc = dp.parseFromString(src, 'image/svg+xml');
+      if (xdoc && !xdoc.querySelector('parsererror')) {
+        var el = xdoc.documentElement;
+        if (el && el.nodeName.toLowerCase() === 'svg') root = el;
+        else if (el) root = el.querySelector && el.querySelector('svg');
+      }
+    } catch (err) { root = null; }
+
+    if (!root) {
+      try {
+        var hdoc = dp.parseFromString(src, 'text/html');
+        root = hdoc && hdoc.querySelector ? hdoc.querySelector('svg') : null;
+      } catch (err2) { root = null; }
+    }
+    if (!root) return null;
+
+    var kill = root.querySelectorAll('script,foreignObject,iframe,audio,video,animate,set');
+    for (var i = kill.length - 1; i >= 0; i--) kill[i].parentNode.removeChild(kill[i]);
+
+    var all = root.querySelectorAll('*');
+    var scrub = function (el) {
+      var at = el.attributes;
+      for (var a = at.length - 1; a >= 0; a--) {
+        var name = at[a].name, val = at[a].value;
+        if (/^on/i.test(name)) { el.removeAttribute(name); continue; }
+        if (/^(href|xlink:href|src)$/i.test(name)) {
+          var ok = /^#/.test(val) || /^data:image\//i.test(val);
+          if (!ok) el.removeAttribute(name);
+        }
+        if (/^style$/i.test(name) && /url\s*\(/i.test(val)) el.removeAttribute(name);
+      }
+    };
+    scrub(root);
+    for (var j = 0; j < all.length; j++) scrub(all[j]);
+
+    return new XMLSerializer().serializeToString(root);
+  }
+
+  // ══ Stage 1: INGEST — touches the SVG DOM exactly once ═════════════════
+  // Emits normalized polylines with cumulative arc length. After this returns,
+  // nothing downstream ever looks at the DOM again.
+  var FLATTEN = 0.5;   // SVG units per flattening step. Fixed, param-independent.
+
+  function ingestSvg(markup) {
+    var host = svgSandbox();
+    host.innerHTML = markup;
+    var svg = host.querySelector('svg');
+    if (!svg) return null;
+
+    var vbb = svg.viewBox && svg.viewBox.baseVal, vb;
+    if (vbb && vbb.width && vbb.height) {
+      // Pin the viewport to the viewBox so getCTM()'s scale factor is exactly 1.
+      svg.setAttribute('width', vbb.width);
+      svg.setAttribute('height', vbb.height);
+      svg.removeAttribute('preserveAspectRatio');
+      vb = { x: vbb.x, y: vbb.y, w: vbb.width, h: vbb.height };
+    } else {
+      var bb = null;
+      try { bb = svg.getBBox(); } catch (err) { bb = null; }
+      if (!bb || !bb.width) { host.textContent = ''; return null; }
+      vb = { x: bb.x, y: bb.y, w: bb.width, h: bb.height };
+    }
+
+    // Normalize into the same ±3 world span the parametric sources use
+    var span = 6 / Math.max(vb.w, vb.h);
+    var ox = vb.x + vb.w / 2, oy = vb.y + vb.h / 2;
+
+    var shapes = svg.querySelectorAll(GEO_SEL);
+    var contours = [], totalLen = 0;
+
+    for (var s = 0; s < shapes.length; s++) {
+      var el = shapes[s];
+      if (typeof el.getTotalLength !== 'function') continue;
+      var L = 0;
+      try { L = el.getTotalLength(); } catch (err) { continue; }
+      if (!L || !isFinite(L)) continue;
+
+      var ctm = null;
+      try { ctm = el.getCTM(); } catch (err) { ctm = null; }
+
+      var n = Math.max(8, Math.min(20000, Math.round(L / FLATTEN)));
+      var xs = new Float32Array(n + 1), ys = new Float32Array(n + 1);
+      var ok = true;
+      for (var k = 0; k <= n; k++) {
+        var pt;
+        try { pt = el.getPointAtLength(L * k / n); } catch (err) { ok = false; break; }
+        var px = pt.x, py = pt.y;
+        if (ctm) {
+          var tx = ctm.a * px + ctm.c * py + ctm.e;
+          py = ctm.b * px + ctm.d * py + ctm.f;
+          px = tx;
+        }
+        xs[k] = (px - ox) * span;
+        ys[k] = (py - oy) * span;
+      }
+      if (!ok) continue;
+
+      var cum = new Float32Array(n + 1);
+      for (var m = 1; m <= n; m++) {
+        var dx = xs[m] - xs[m - 1], dy = ys[m] - ys[m - 1];
+        cum[m] = cum[m - 1] + Math.sqrt(dx * dx + dy * dy);
+      }
+      if (cum[n] <= 1e-6) continue;
+
+      contours.push({ x: xs, y: ys, cum: cum, total: cum[n], n: n, coef: null });
+      totalLen += cum[n];
+    }
+
+    host.textContent = '';
+    if (!contours.length) return null;
+    return { contours: contours, totalLen: totalLen };
+  }
+
+  // ══ Stage 2: BUILD — pure math on typed arrays, no DOM ═════════════════
+  var _sx = 0, _sy = 0, _dx = 0, _dy = 0;   // scratch outputs
+
+  // Point at arc distance t along a contour, plus the local tangent.
+  function sampleInto(c, t) {
+    var cum = c.cum, lo = 1, hi = c.n;
+    while (lo < hi) { var mid = (lo + hi) >> 1; if (cum[mid] < t) lo = mid + 1; else hi = mid; }
+    var i = lo;
+    var seg = cum[i] - cum[i - 1];
+    var f = seg > 1e-9 ? (t - cum[i - 1]) / seg : 0;
+    var ax = c.x[i - 1], ay = c.y[i - 1], bx = c.x[i], by = c.y[i];
+    _sx = ax + (bx - ax) * f;
+    _sy = ay + (by - ay) * f;
+    _dx = bx - ax;
+    _dy = by - ay;
+  }
+
+  // ── Fourier: the shape becomes a closed-form parametric equation ────────
+  //   p(t) = Σ c[k] · e^(2πi k t)      k = -K … K
+  // Same species of object as the torus equation — just with coefficients
+  // measured from the asset instead of chosen by hand.
+  var MAX_HARM = 64, DFT_M = 512;
+  var TW_C = null, TW_S = null;
+  function twiddle() {
+    if (TW_C) return;
+    TW_C = new Float64Array(DFT_M); TW_S = new Float64Array(DFT_M);
+    for (var m = 0; m < DFT_M; m++) {
+      var a = 6.283185307179586 * m / DFT_M;
+      TW_C[m] = Math.cos(a); TW_S[m] = Math.sin(a);
+    }
+  }
+
+  function coefFor(c) {
+    if (c.coef) return c.coef;
+    twiddle();
+    var zr = new Float64Array(DFT_M), zi = new Float64Array(DFT_M);
+    for (var m = 0; m < DFT_M; m++) {
+      sampleInto(c, c.total * m / DFT_M);
+      zr[m] = _sx; zi[m] = _sy;
+    }
+    var K = MAX_HARM, N = 2 * K + 1;
+    var re = new Float64Array(N), im = new Float64Array(N);
+    for (var idx = 0; idx < N; idx++) {
+      var k = idx - K, ar = 0, ai = 0;
+      for (var q = 0; q < DFT_M; q++) {
+        // e^(-2πi k q / M) via table lookup — no trig in the inner loop
+        var w = ((k * q) % DFT_M + DFT_M) % DFT_M;
+        var ca = TW_C[w], sa = -TW_S[w];
+        ar += zr[q] * ca - zi[q] * sa;
+        ai += zr[q] * sa + zi[q] * ca;
+      }
+      re[idx] = ar / DFT_M; im[idx] = ai / DFT_M;
+    }
+    c.coef = { re: re, im: im, K: K };
+    return c.coef;
+  }
+
+  // Evaluate the truncated series and its analytic derivative at t ∈ [0,1)
+  function evalHarmonic(coef, K, t) {
+    var re = coef.re, im = coef.im, base = coef.K;
+    var zr = 0, zi = 0, dr = 0, di = 0;
+    var lo = base - K, hi = base + K;
+    for (var idx = lo; idx <= hi; idx++) {
+      var k = idx - base;
+      var ang = 6.283185307179586 * k * t;
+      var ca = Math.cos(ang), sa = Math.sin(ang);
+      var cr = re[idx], ci = im[idx];
+      var pr = cr * ca - ci * sa, pi = cr * sa + ci * ca;
+      zr += pr; zi += pi;
+      var w = 6.283185307179586 * k;      // d/dt of e^(2πikt) is 2πik·(…)
+      dr -= pi * w; di += pr * w;
+    }
+    _sx = zr; _sy = zi; _dx = dr; _dy = di;
+  }
+
+  function cloudFromShape(ing) {
+    var step = Math.max(0.004, P.spacing);
+    var useF = P.repr === 'fourier';
+    var cs = ing.contours, counts = [], total = 0;
+
+    for (var a = 0; a < cs.length; a++) {
+      var cnt = Math.max(8, Math.min(40000, Math.round(cs[a].total / step)));
+      counts.push(cnt); total += cnt;
+    }
+
+    var pos = new Float32Array(total * 3), nrm = new Float32Array(total * 3);
+    var alb = new Float32Array(total), arc = new Float32Array(total);
+    var w = 0, arcBase = 0;
+
+    for (var ci = 0; ci < cs.length; ci++) {
+      var c = cs[ci], cnt = counts[ci];
+      var coef = useF ? coefFor(c) : null;
+      for (var k = 0; k < cnt; k++) {
+        var tt = k / cnt;
+        if (useF) evalHarmonic(coef, P.harmonics, tt);
+        else sampleInto(c, c.total * tt);
+
+        var gArc = (arcBase + c.total * tt) / ing.totalLen;
+        var i3 = w * 3;
+        pos[i3]     = _sx;
+        pos[i3 + 1] = _sy;
+        pos[i3 + 2] = (gArc - 0.5) * P.extrude;
+
+        var nx = -_dy, ny = _dx;                  // tangent rotated 90°
+        var len = Math.sqrt(nx * nx + ny * ny);
+        if (len < 1e-9) { nx = 0; ny = 0; len = 1; }
+        nx /= len; ny /= len;
+        var nl = Math.sqrt(nx * nx + ny * ny + 0.3025);
+        nrm[i3] = nx / nl; nrm[i3 + 1] = ny / nl; nrm[i3 + 2] = -0.55 / nl;
+
+        alb[w] = 1; arc[w] = gArc;
+        w++;
+      }
+      arcBase += c.total;
+    }
+    return { pos: pos, nrm: nrm, alb: alb, arc: arc, count: w };
+  }
+
+
+  // Solid mode / fallback: give the SVG explicit pixel dimensions, rasterize it,
+  // and hand it to the heightfield adapter as if it had been a PNG.
+  function svgToImage(markup, cb) {
+    var host = svgSandbox();
+    host.innerHTML = markup;
+    var svg = host.querySelector('svg');
+    if (!svg) { cb(null); return; }
+    var vb = svg.viewBox && svg.viewBox.baseVal;
+    var w = vb && vb.width ? vb.width : (parseFloat(svg.getAttribute('width')) || 400);
+    var h = vb && vb.height ? vb.height : (parseFloat(svg.getAttribute('height')) || 400);
+    var scale = 640 / Math.max(w, h);
+    svg.setAttribute('width', Math.round(w * scale));
+    svg.setAttribute('height', Math.round(h * scale));
+    if (!vb || !vb.width) svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    var out = new XMLSerializer().serializeToString(svg);
+    host.textContent = '';
+    var blob = new Blob([out], { type: 'image/svg+xml;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var img = new Image();
+    img.onload = function () { cb(img); URL.revokeObjectURL(url); };
+    img.onerror = function () { cb(null); URL.revokeObjectURL(url); };
+    img.src = url;
+  }
+
+  function rebuild() {
+    if (P.source === 'path') {
+      // Ingest is cached — param changes never re-touch the SVG DOM
+      if (!shapeData) shapeData = ingestSvg(svgText || demoSvg());
+      cloud = shapeData ? cloudFromShape(shapeData) : buildTorus();
+    } else if (P.source === 'image') {
+      cloud = imgData ? buildImage(imgData) : buildTorus();
+    } else if (P.source === 'sphere') {
+      cloud = buildSphere();
+    } else {
+      cloud = buildTorus();
+    }
+    document.getElementById('h_pts').textContent = fmtK(cloud.count);
+    var cap = document.getElementById('capState');
+    if (cap) {
+      var how = P.source === 'path'
+        ? (P.repr === 'fourier' ? 'harmonics ×' + P.harmonics : 'polyline')
+        : P.source === 'image' ? 'heightfield' : 'parametric';
+      cap.textContent = 'Source: ' + P.source + ' · ' + how + ' · ' + fmtK(cloud.count) + ' points';
+    }
+  }
+
+  function fmtK(n) { return n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1) + 'k' : String(n); }
+
+  // ── Grid sizing ────────────────────────────────────────────────────────
+  function measure() {
+    var probe = document.createElement('span');
+    probe.textContent = new Array(101).join('M');
+    probe.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;';
+    var cs = getComputedStyle(stage);
+    probe.style.font = cs.fontWeight + ' ' + cs.fontSize + '/1 ' + cs.fontFamily;
+    stage.parentNode.appendChild(probe);
+    var cw = probe.getBoundingClientRect().width / 100;
+    probe.parentNode.removeChild(probe);
+    var lh = parseFloat(cs.fontSize);
+
+    var r = viewport.getBoundingClientRect();
+    cols = Math.max(20, Math.floor((r.width - 8) / cw));
+    rows = Math.max(12, Math.floor((r.height - 8) / lh));
+    if (cols * rows > 90000) rows = Math.floor(90000 / cols);
+
+    chars = new Uint16Array(cols * rows);
+    zbuf  = new Float32Array(cols * rows);
+    document.getElementById('h_grid').textContent = cols + '×' + rows;
+    return cw / lh;
+  }
+
+  // ── The rasterizer — donut.c, generalized ──────────────────────────────
+  // Angle integration lives outside draw() so a drag can move the camera
+  // without also advancing the clock.
+  function advance(dt, auto) {
+    if (auto) {
+      A += P.spinX * dt;
+      C += P.spinY * dt;
+      B += P.spinZ * dt;
+    }
+    A += velA; C += velC;
+    velA *= 0.93; velC *= 0.93;
+    if (Math.abs(velA) < 1e-5) velA = 0;
+    if (Math.abs(velC) < 1e-5) velC = 0;
+  }
+
+  var lineBuf = null;
+  function draw() {
+    if (!cloud || !chars) return;
+    var t0 = performance.now();
+
+    var e = Math.sin(A), g = Math.cos(A), sn = Math.sin(B), m = Math.cos(B);
+    var cc = Math.cos(C), sc = Math.sin(C);
+    var K1x = cols * 0.375 * P.zoom;
+    var K1y = K1x * P.charAspect;
+    var cx = cols * 0.5, cy = rows * 0.5;
+
+    var ramp = RAMPS[P.ramp] || RAMPS.classic;
+    var rlen = ramp.length;
+    var rcodes = new Uint16Array(rlen);
+    for (var q = 0; q < rlen; q++) rcodes[q] = ramp.charCodeAt(q);
+
+    var Lx = P.lightX, Ly = P.lightY, Lz = P.lightZ;
+    var Ll = Math.sqrt(Lx * Lx + Ly * Ly + Lz * Lz) || 1;
+    Lx /= Ll; Ly /= Ll; Lz /= Ll;
+
+    var mix = P.source === 'image' ? P.mix : 0;
+    var pos = cloud.pos, nrm = cloud.nrm, alb = cloud.alb, n = cloud.count;
+    var arc = cloud.arc || null;
+    var reveal = P.reveal;
+
+    chars.fill(32);
+    zbuf.fill(0);
+
+    for (var i = 0; i < n; i++) {
+      if (arc && arc[i] > reveal) continue;   // the loading reveal, in one line
+      var i3 = i * 3;
+      var px = pos[i3], py = pos[i3 + 1], pz = pos[i3 + 2];
+
+      var x0 = px * cc + pz * sc;              // Ry(C) — the added yaw axis
+      var z0 = pz * cc - px * sc;
+
+      var zp = py * e + z0 * g + P.dist;       // z′
+      if (zp < 0.2) continue;
+      var D = 1 / zp;
+      var t = py * g - z0 * e;
+
+      var X = (cx + K1x * D * (x0 * m - t * sn)) | 0;
+      if (X < 0 || X >= cols) continue;
+      var Y = (cy + K1y * D * (x0 * sn + t * m)) | 0;
+      if (Y < 0 || Y >= rows) continue;
+
+      var o = Y * cols + X;
+      if (D <= zbuf[o]) continue;              // depth test
+
+      var nx = nrm[i3], ny = nrm[i3 + 1], nz = nrm[i3 + 2];
+      var mx = nx * cc + nz * sc, mz = nz * cc - nx * sc;
+      var ny1 = ny * g - mz * e, nz1 = ny * e + mz * g;
+      var NX = mx * m - ny1 * sn, NY = mx * sn + ny1 * m;
+
+      var lum = NX * Lx + NY * Ly + nz1 * Lz;
+      if (lum < 0) lum = 0;
+      if (mix > 0) lum = lum * (1 - mix) + alb[i] * mix;
+
+      var ci = (lum * rlen) | 0;
+      if (ci >= rlen) ci = rlen - 1;
+      if (P.invert) ci = rlen - 1 - ci;
+
+      zbuf[o] = D;
+      chars[o] = rcodes[ci];
+    }
+
+    if (!lineBuf || lineBuf.length !== cols) lineBuf = new Uint16Array(cols);
+    var out = '';
+    for (var y = 0; y < rows; y++) {
+      lineBuf.set(chars.subarray(y * cols, y * cols + cols));
+      out += String.fromCharCode.apply(null, lineBuf) + (y === rows - 1 ? '' : '\n');
+    }
+    stage.textContent = out;
+
+    var ms = performance.now() - t0;
+    msAvg = msAvg ? msAvg * 0.9 + ms * 0.1 : ms;
+  }
+
+  // ── Loop ───────────────────────────────────────────────────────────────
+  var last = 0, hudTick = 0;
+  function loop(ts) {
+    var dt = last ? Math.min(0.05, (ts - last) / 1000) : 0.016;
+    last = ts;
+    if (dragging) {
+      // pointermove drives the frame — don't advance the clock underneath it
+    } else if (running) {
+      advance(dt, true); draw();
+    } else if (velA !== 0 || velC !== 0) {
+      advance(dt, false); draw();     // coast to a stop even while paused
+    }
+    if (ts - hudTick > 320) {
+      hudTick = ts;
+      document.getElementById('h_ms').textContent = msAvg.toFixed(1);
+    }
+    requestAnimationFrame(loop);
+  }
+
+  // ── Wiring ─────────────────────────────────────────────────────────────
+  function bindRange(id, key, decimals, suffix, rebuilds) {
+    var el = document.getElementById('p_' + id);
+    var out = document.getElementById('v_' + id);
+    if (!el) return;
+    var apply = function () {
+      P[key] = parseFloat(el.value);
+      out.textContent = P[key].toFixed(decimals) + (suffix || '');
+      if (rebuilds) rebuild();
+    };
+    el.addEventListener('input', apply);
+    apply();
+  }
+
+  bindRange('R2', 'R2', 2, '', true);
+  bindRange('R1', 'R1', 2, '', true);
+  bindRange('depth', 'depth', 2, '', true);
+  bindRange('dens', 'density', 2, '×', true);
+  bindRange('space', 'spacing', 3, '', true);
+  bindRange('harm', 'harmonics', 0, '', true);
+  bindRange('extrude', 'extrude', 2, '', true);
+  bindRange('reveal', 'reveal', 3, '');
+  bindRange('sx', 'spinX', 2, '');
+  bindRange('sy', 'spinY', 2, '');
+  bindRange('sz', 'spinZ', 2, '');
+  bindRange('dist', 'dist', 2, '');
+  bindRange('zoom', 'zoom', 2, '');
+  bindRange('asp', 'charAspect', 2, '');
+  bindRange('ly', 'lightY', 2, '');
+  bindRange('lz', 'lightZ', 2, '');
+  bindRange('mix', 'mix', 2, '');
+
+  document.getElementById('p_ramp').addEventListener('change', function (ev) {
+    P.ramp = ev.target.value;
+    if (!running) draw();
+  });
+
+  // Ink polarity — a black terminal wants lit=heavy, a white page wants the reverse.
+  var segLit = document.getElementById('segLit'), segShade = document.getElementById('segShade');
+  function syncInk() {
+    segLit.setAttribute('aria-pressed', String(!P.invert));
+    segShade.setAttribute('aria-pressed', String(P.invert));
+    if (!running) draw();
+  }
+  segLit.addEventListener('click', function () { P.invert = false; syncInk(); });
+  segShade.addEventListener('click', function () { P.invert = true; syncInk(); });
+
+  function stageIsDark() {
+    var root = document.documentElement.getAttribute('data-theme');
+    if (root === 'dark') return true;
+    if (root === 'light') return false;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  P.invert = !stageIsDark();
+  syncInk();
+
+  function syncVisible() {
+    var groups = document.querySelectorAll('[data-only]');
+    for (var i = 0; i < groups.length; i++) {
+      var ok = groups[i].getAttribute('data-only').split(' ').indexOf(P.source) > -1;
+      groups[i].style.display = ok ? '' : 'none';
+    }
+    // The Outline/Solid switch belongs to SVG, not to a source — keep it
+    // reachable in Solid mode so you can switch back.
+    var svgModeCtl = document.getElementById('ctlSvgMode');
+    var svgLive = P.source === 'path' || (P.source === 'image' && svgText);
+    svgModeCtl.style.display = svgLive ? '' : 'none';
+    document.getElementById('ctlHarm').style.display =
+      (P.source === 'path' && P.repr === 'fourier') ? '' : 'none';
+    document.getElementById('projName').textContent =
+      P.source === 'image' ? (svgText ? 'SVG · solid' : 'Raster') :
+      P.source === 'path'  ? (svgText ? 'SVG · outline' : 'Demo path') :
+      P.source === 'sphere' ? 'Sphere' : 'Donut';
+  }
+
+  // Outline / Solid — re-runs the adapter on the stored SVG markup
+  var segOutline = document.getElementById('segOutline'), segSolid = document.getElementById('segSolid');
+  function syncSvgModeButtons() {
+    segOutline.setAttribute('aria-pressed', String(P.svgMode === 'outline'));
+    segSolid.setAttribute('aria-pressed', String(P.svgMode === 'solid'));
+  }
+  function setSvgMode(mode) {
+    if (mode === 'outline') {
+      P.svgMode = 'outline';
+      syncSvgModeButtons();
+      selectSource('path');
+      return;
+    }
+    svgToImage(svgText || demoSvg(), function (img) {
+      if (!img) { fail('Could not rasterize that SVG'); setSvgMode('outline'); return; }
+      P.svgMode = 'solid';
+      syncSvgModeButtons();
+      imgData = img;
+      selectSource('image');
+    });
+  }
+  segOutline.addEventListener('click', function () { setSvgMode('outline'); });
+  segSolid.addEventListener('click', function () { setSvgMode('solid'); });
+
+  // Polyline / Harmonics — swaps the representation, not the asset
+  var segPoly = document.getElementById('segPoly'), segFour = document.getElementById('segFour');
+  function setRepr(kind) {
+    P.repr = kind;
+    segPoly.setAttribute('aria-pressed', String(kind === 'poly'));
+    segFour.setAttribute('aria-pressed', String(kind === 'fourier'));
+    syncVisible();
+    if (kind === 'fourier' && shapeData && !shapeData.contours[0].coef) {
+      // First transform of a complex asset can take a beat — say so.
+      runSteps(DFT_STEPS, function () {
+        rebuild();
+        if (!running) draw();
+        flash('Fourier · ' + shapeData.contours.length + ' contours transformed');
+      }, 'Transforming');
+      return;
+    }
+    rebuild();
+    if (!running) draw();
+  }
+  segPoly.addEventListener('click', function () { setRepr('poly'); });
+  segFour.addEventListener('click', function () { setRepr('fourier'); });
+
+  var segs = document.querySelectorAll('.seg[data-src]');
+
+  function selectSource(name) {
+    P.source = name;
+    for (var q = 0; q < segs.length; q++) {
+      segs[q].setAttribute('aria-pressed', String(segs[q].getAttribute('data-src') === name));
+    }
+    syncVisible();
+    rebuild();
+    if (!running) draw();
+  }
+
+  for (var s = 0; s < segs.length; s++) {
+    segs[s].addEventListener('click', function (ev) {
+      var want = ev.currentTarget.getAttribute('data-src');
+      if (want === 'image' && !imgData) { document.getElementById('fileIn').click(); return; }
+      selectSource(want);
+    });
+  }
+
+  // Play / pause
+  var btnPlay = document.getElementById('btnPlay');
+  function syncPlay() {
+    btnPlay.setAttribute('aria-pressed', String(running));
+    btnPlay.querySelector('.lbl').textContent = running ? 'Pause' : 'Play';
+    btnPlay.querySelector('svg').innerHTML = running
+      ? '<rect x="4" y="3" width="3" height="10" fill="currentColor"/><rect x="9" y="3" width="3" height="10" fill="currentColor"/>'
+      : '<path d="M4 3l9 5-9 5z" fill="currentColor"/>';
+  }
+  btnPlay.addEventListener('click', function () { running = !running; last = 0; syncPlay(); });
+  syncPlay();
+
+  // Ramp cycle
+  var rampKeys = Object.keys(RAMPS);
+  document.getElementById('btnRamp').addEventListener('click', function () {
+    var next = rampKeys[(rampKeys.indexOf(P.ramp) + 1) % rampKeys.length];
+    P.ramp = next;
+    document.getElementById('p_ramp').value = next;
+    if (!running) draw();
+    flash('Ramp: ' + next);
+  });
+
+  // Shuffle — randomizes the look, never the shape
+  document.getElementById('btnRand').addEventListener('click', function () {
+    var set = function (id, val) {
+      var el = document.getElementById('p_' + id);
+      el.value = String(val);
+      el.dispatchEvent(new Event('input'));
+    };
+    set('sx', (Math.random() * 3 - 1.5).toFixed(2));
+    set('sy', (Math.random() * 2 - 1).toFixed(2));
+    set('sz', (Math.random() * 3 - 1.5).toFixed(2));
+    set('ly', (Math.random() * 2.4 - 1.4).toFixed(2));
+    set('lz', (Math.random() * 2.4 - 1.4).toFixed(2));
+    set('zoom', (0.7 + Math.random() * 1.1).toFixed(2));
+    P.ramp = rampKeys[(Math.random() * rampKeys.length) | 0];
+    document.getElementById('p_ramp').value = P.ramp;
+    if (!running) draw();
+    flash('Shuffled');
+  });
+
+  // Export
+  var toast = document.getElementById('toast'), toastT = 0;
+  function flash(msg, ms) {
+    toast.textContent = msg;
+    toast.classList.add('on');
+    clearTimeout(toastT);
+    toastT = setTimeout(function () { toast.classList.remove('on'); }, ms || 1500);
+  }
+  // Errors get longer on screen and the real detail goes to the console.
+  function fail(msg, err) {
+    if (err) console.error('[fasciile] ' + msg, err);
+    flash(msg, 4200);
+  }
+  document.getElementById('btnExport').addEventListener('click', function () {
+    var json = JSON.stringify(P, null, 2);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(json).then(
+        function () { flash('Config copied'); },
+        function () { flash('Copy blocked — see console'); console.log(json); }
+      );
+    } else { console.log(json); flash('Config logged to console'); }
+  });
+
+  // ── Drag to rotate ─────────────────────────────────────────────────────
+  // A, B and C are plain numbers. Dragging just writes to them — no picking,
+  // no raycast, no scene graph. Horizontal → yaw (C), vertical → pitch (A).
+  var DRAG_K = 0.009, lastX = 0, lastY = 0, moved = 0;
+
+  viewport.addEventListener('pointerdown', function (ev) {
+    // Anything interactive must be left alone — setPointerCapture below
+    // retargets the follow-up click to the viewport, which eats button presses.
+    var t = ev.target;
+    if (t.closest && t.closest('.dock, .scrim, .pastebox')) return;
+    if (/^(BUTTON|INPUT|TEXTAREA|SELECT|A|LABEL)$/.test(t.tagName || '')) return;
+    dragging = true; moved = 0;
+    lastX = ev.clientX; lastY = ev.clientY;
+    velA = 0; velC = 0;
+    viewport.classList.add('is-drag');
+    try { viewport.setPointerCapture(ev.pointerId); } catch (err) {}
+  });
+
+  viewport.addEventListener('pointermove', function (ev) {
+    if (!dragging) return;
+    var dx = ev.clientX - lastX, dy = ev.clientY - lastY;
+    lastX = ev.clientX; lastY = ev.clientY;
+    moved += Math.abs(dx) + Math.abs(dy);
+    var rC = dx * DRAG_K, rA = dy * DRAG_K;
+    C += rC; A += rA;
+    velC = rC * 0.55; velA = rA * 0.55;   // seed the throw
+    draw();
+  });
+
+  function endDrag(ev) {
+    if (!dragging) return;
+    dragging = false;
+    viewport.classList.remove('is-drag');
+    try { viewport.releasePointerCapture(ev.pointerId); } catch (err) {}
+    last = 0;
+    if (moved < 3) { velA = 0; velC = 0; }   // a tap shouldn't fling
+  }
+  viewport.addEventListener('pointerup', endDrag);
+  viewport.addEventListener('pointercancel', endDrag);
+  viewport.addEventListener('lostpointercapture', endDrag);
+
+  // Keyboard equivalent — the viewport is focusable, arrows nudge the camera
+  viewport.setAttribute('tabindex', '0');
+  viewport.addEventListener('keydown', function (ev) {
+    var step = ev.shiftKey ? 0.25 : 0.08;
+    if (ev.key === 'ArrowLeft')       { C -= step; }
+    else if (ev.key === 'ArrowRight') { C += step; }
+    else if (ev.key === 'ArrowUp')    { A -= step; }
+    else if (ev.key === 'ArrowDown')  { A += step; }
+    else return;
+    ev.preventDefault();
+    draw();
+  });
+
+  // ── Import + analyze ───────────────────────────────────────────────────
+  var scrim = document.getElementById('scrim');
+  var bar = document.getElementById('bar');
+  var steps = [0, 1, 2, 3].map(function (i) { return document.getElementById('st' + i); });
+
+  // Runs the labelled step sequence, then hands off to `finish`.
+  function runSteps(labels, finish, title) {
+    document.getElementById('scrimTitle').textContent = title || 'Analyzing asset';
+    scrim.classList.add('on');
+    for (var q = 0; q < steps.length; q++) {
+      steps[q].className = 'step';
+      steps[q].lastChild.nodeValue = labels[q] || '';
+      steps[q].style.display = labels[q] ? '' : 'none';
+    }
+    bar.style.width = '0%';
+    var i = 0, total = labels.length;
+    var tick = function () {
+      if (i > 0) steps[i - 1].className = 'step done';
+      if (i < total) {
+        steps[i].className = 'step on';
+        bar.style.width = ((i + 1) / total * 100) + '%';
+        i++;
+        setTimeout(tick, 150);
+        return;
+      }
+      finish();
+      scrim.classList.remove('on');
+    };
+    tick();
+  }
+
+  var SVG_STEPS    = ['Parse SVG, resolve viewBox', 'Walk geometry elements', 'Flatten by arc length', 'Release the DOM'];
+  var DFT_STEPS    = ['Resample contours uniformly', 'Discrete Fourier transform', 'Store 129 coefficients', 'Rebuild from the series'];
+  var RASTER_STEPS = ['Rasterize to sample grid', 'Extract luminance field', 'Derive normals from gradient', 'Build point cloud'];
+
+  function isSvg(file) {
+    return file.type === 'image/svg+xml' || /\.svg$/i.test(file.name || '');
+  }
+
+  function analyze(file) {
+    if (!file) return;
+    if (isSvg(file)) { analyzeSvg(file); return; }
+    if (!/^image\//.test(file.type)) {
+      fail('Needs SVG, PNG, JPEG, WebP or GIF — got "' + (file.type || 'unknown type') + '"');
+      return;
+    }
+    analyzeRaster(file);
+  }
+
+  // Reading a picked file fails in more environments than you'd think —
+  // NotReadableError, sandboxed frames, cloud-backed files. So try every
+  // distinct plumbing path there is and report which one worked.
+  function fileReaderAs(file, method) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload  = function () { resolve(reader.result); };
+      reader.onerror = function () { reject(reader.error || new Error('FileReader failed')); };
+      reader.onabort = function () { reject(new Error('read aborted')); };
+      try { reader[method](file); } catch (err) { reject(err); }
+    });
+  }
+
+  function readTextCascade(file) {
+    var tries = [];
+    if (typeof file.text === 'function') {
+      tries.push(['Blob.text', function () { return file.text(); }]);
+    }
+    if (typeof Response === 'function') {
+      tries.push(['Response.text', function () { return new Response(file).text(); }]);
+    }
+    tries.push(['FileReader.readAsText', function () {
+      return fileReaderAs(file, 'readAsText').then(String);
+    }]);
+    tries.push(['ArrayBuffer + TextDecoder', function () {
+      return fileReaderAs(file, 'readAsArrayBuffer').then(function (buf) {
+        return new TextDecoder('utf-8').decode(new Uint8Array(buf));
+      });
+    }]);
+
+    return new Promise(function (resolve, reject) {
+      var i = 0, errs = [];
+      (function next() {
+        if (i >= tries.length) { reject(errs); return; }
+        var name = tries[i][0], fn = tries[i][1];
+        i++;
+        var pr;
+        try { pr = fn(); } catch (err) { errs.push(name + ': ' + (err.name || err.message)); next(); return; }
+        Promise.resolve(pr).then(function (txt) {
+          if (typeof txt === 'string' && txt.length) {
+            console.log('[fasciile] read succeeded via ' + name + ' (' + txt.length + ' chars)');
+            resolve(txt);
+          } else { errs.push(name + ': empty result'); next(); }
+        }, function (err) {
+          errs.push(name + ': ' + ((err && (err.name || err.message)) || 'error'));
+          next();
+        });
+      })();
+    });
+  }
+
+  // Decode a raster file without depending on blob: URLs where possible.
+  function decodeImage(file, cb) {
+    var viaUrl = function () {
+      var url = URL.createObjectURL(file);
+      var img = new Image();
+      img.onload  = function () { cb(img); URL.revokeObjectURL(url); };
+      img.onerror = function () { URL.revokeObjectURL(url); cb(null); };
+      img.src = url;
+    };
+    if (typeof createImageBitmap === 'function') {
+      var pr;
+      try { pr = createImageBitmap(file); } catch (err) { viaUrl(); return; }
+      Promise.resolve(pr).then(function (bmp) { cb(bmp); }, viaUrl);
+      return;
+    }
+    viaUrl();
+  }
+
+  // Last resort when the bytes can't be read as text: an <img> can still
+  // decode an SVG from a blob URL, so fall through to the raster adapter.
+  function svgRasterFallback(file, why) {
+    decodeImage(file, function (img) {
+      if (!img) {
+        // Nothing could touch the bytes — this frame has no file access at all.
+        markReadsBlocked();
+        fail('No file access in this preview — use Paste. Works normally on your own site.', why);
+        tryClipboard(function () { openPaste(); });
+        return;
+      }
+      svgText = null; shapeData = null; imgData = img;
+      runSteps(RASTER_STEPS, function () {
+        P.svgMode = 'solid';
+        syncSvgModeButtons();
+        selectSource('image');
+        flash('Read failed (' + why + ') — rasterized instead', 3400);
+      }, 'Analyzing SVG');
+    });
+  }
+
+  function analyzeSvg(file) {
+    if (!file.size) { fail('That file is empty (0 bytes)'); return; }
+
+    readTextCascade(file).then(function (raw) {
+      processSvgText(raw, file);
+    }, function (errs) {
+      // Every read path failed. Say so plainly and offer the paste route.
+      console.error('[fasciile] all read strategies failed:\n  ' +
+        (Array.isArray(errs) ? errs.join('\n  ') : errs));
+      var first = Array.isArray(errs) && errs.length ? errs[0].split(': ').pop() : 'unreadable';
+      svgRasterFallback(file, first);
+    });
+  }
+
+  function processSvgText(raw, file) {
+    var markup;
+    try {
+      markup = sanitizeSvg(raw);
+    } catch (err) {
+      fail('SVG parse threw — ' + (err.name || 'error'), err);
+      return;
+    }
+    if (!markup) {
+      // Not valid SVG as text — it may still decode as an image.
+      var head = raw.slice(0, 80).replace(/\s+/g, ' ');
+      console.warn('[fasciile] sanitize rejected; first bytes:', head);
+      svgRasterFallback(file, 'not parseable as SVG');
+      return;
+    }
+
+    try {
+      shapeData = ingestSvg(markup);
+    } catch (err) {
+      fail('Ingest threw — ' + (err.name || 'error'), err);
+      return;
+    }
+
+    if (!shapeData) {
+      // Parsed fine but nothing samplable in it — rasterize the markup.
+      svgToImage(markup, function (img) {
+        if (!img) { fail('No geometry, and rasterizing also failed'); return; }
+        svgText = markup; imgData = img; shapeData = null;
+        runSteps(RASTER_STEPS, function () {
+          P.svgMode = 'solid';
+          syncSvgModeButtons();
+          selectSource('image');
+          flash('No paths — rasterized · ' + fmtK(cloud.count) + ' points', 2600);
+        }, 'Analyzing SVG');
+      });
+      return;
+    }
+    svgText = markup;   // shapeData already built by the ingest above
+    runSteps(SVG_STEPS, function () {
+      setSvgMode('outline');
+      flash('SVG · ' + fmtK(cloud.count) + ' points along path');
+    }, 'Analyzing SVG');
+  }
+
+  function analyzeRaster(file) {
+    decodeImage(file, function (img) {
+      if (!img) { fail('Could not decode that image — the file may be unreadable'); return; }
+      runSteps(RASTER_STEPS, function () {
+        svgText = null; shapeData = null;
+        imgData = img;
+        selectSource('image');
+        flash('Imported · ' + fmtK(cloud.count) + ' points');
+      }, 'Analyzing image');
+    });
+  }
+
+  // ── Paste route — no file I/O at all ───────────────────────────────────
+  var pastebox = document.getElementById('pastebox');
+  var pasteArea = document.getElementById('pasteArea');
+  var readsBlocked = false;
+  try { readsBlocked = localStorage.getItem('fasciile:noread') === '1'; } catch (err) {}
+
+  // Once a real read has failed here, stop routing people through a dead picker.
+  function markReadsBlocked() {
+    readsBlocked = true;
+    try { localStorage.setItem('fasciile:noread', '1'); } catch (err) {}
+    var lbl = document.querySelector('#btnImport .lbl');
+    if (lbl) lbl.textContent = 'Paste SVG';
+    var why = document.getElementById('pasteWhy');
+    if (why) {
+      why.innerHTML = 'This preview frame has no access to local files &mdash; every read path returns ' +
+        '<code>NotReadableError</code>. Nothing to fix in the code: file import works normally in the ' +
+        'downloaded copy and on your own site.';
+    }
+  }
+
+  function openPaste(prefill) {
+    pastebox.classList.add('on');
+    if (prefill) pasteArea.value = prefill;
+    pasteArea.focus();
+    pasteArea.select();
+  }
+  function closePaste() { pastebox.classList.remove('on'); }
+
+  // Try the clipboard first — if it's already SVG, this is a one-click import.
+  function tryClipboard(onMiss) {
+    var nc = navigator.clipboard;
+    if (!nc || typeof nc.readText !== 'function') { onMiss('clipboard unavailable'); return; }
+    var pr;
+    try { pr = nc.readText(); } catch (err) { onMiss('clipboard blocked'); return; }
+    Promise.resolve(pr).then(function (txt) {
+      if (txt && looksLikeSvg(txt)) { closePaste(); useMarkup(txt); }
+      else onMiss(txt && txt.trim() ? 'clipboard has no SVG in it' : 'clipboard is empty');
+    }, function () { onMiss('clipboard permission denied'); });
+  }
+
+  document.getElementById('btnPaste').addEventListener('click', function () {
+    tryClipboard(function () { openPaste(); });
+  });
+  document.getElementById('pasteClip').addEventListener('click', function () {
+    tryClipboard(function (why) { flash(why + ' — paste it below', 2600); pasteArea.focus(); });
+  });
+  document.getElementById('pasteCancel').addEventListener('click', closePaste);
+  document.getElementById('pasteUse').addEventListener('click', function () {
+    var raw = pasteArea.value;
+    if (!raw || !raw.trim()) { fail('Nothing pasted'); return; }
+    closePaste();
+    useMarkup(raw);
+  });
+  pastebox.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape') { closePaste(); }
+    if (ev.key === 'Enter' && (ev.metaKey || ev.ctrlKey)) { document.getElementById('pasteUse').click(); }
+  });
+
+  // Takes SVG markup from anywhere — paste box, clipboard, dropped text.
+  function useMarkup(raw) {
+    var markup = null;
+    try { markup = sanitizeSvg(raw); } catch (err) { markup = null; }
+    if (!markup) { fail("That markup isn't valid SVG"); openPaste(raw); return; }
+    var ing = null;
+    try { ing = ingestSvg(markup); } catch (err) {
+      fail('Ingest threw — ' + (err.name || 'error'), err); return;
+    }
+    if (!ing) { fail('Parsed, but no samplable geometry in it'); return; }
+    shapeData = ing;
+    svgText = markup;
+    runSteps(SVG_STEPS, function () {
+      setSvgMode('outline');
+      flash('SVG · ' + fmtK(cloud.count) + ' points along path');
+    }, 'Analyzing SVG');
+  }
+
+  function looksLikeSvg(txt) {
+    return /<svg[\s>]/i.test(txt.slice(0, 4000));
+  }
+
+  // ⌘V / Ctrl+V — on the document, since a div only receives paste when focused
+  document.addEventListener('paste', function (ev) {
+    var dt = ev.clipboardData;
+    if (!dt) return;
+    var tag = ev.target && ev.target.tagName;
+    if (ev.target !== pasteArea && (tag === 'INPUT' || tag === 'TEXTAREA')) return;
+    if (dt.files && dt.files.length) { ev.preventDefault(); analyze(dt.files[0]); return; }
+    var txt = dt.getData('text/plain') || '';
+    if (looksLikeSvg(txt)) {
+      if (ev.target === pasteArea) return;   // let the textarea handle its own paste
+      ev.preventDefault();
+      useMarkup(txt);
+    }
+  });
+
+  var fileIn = document.getElementById('fileIn');
+  document.getElementById('btnImport').addEventListener('click', function () {
+    if (readsBlocked) { tryClipboard(function () { openPaste(); }); return; }
+    // Reset BEFORE opening, never after the change event — clearing an input
+    // while an async read is in flight can invalidate the File's backing blob
+    // (surfaces as NotReadableError), and it still allows re-picking the same file.
+    fileIn.value = '';
+    fileIn.click();
+  });
+  fileIn.addEventListener('change', function (ev) {
+    if (ev.target.files && ev.target.files[0]) analyze(ev.target.files[0]);
+  });
+
+  ['dragenter', 'dragover'].forEach(function (ev) {
+    viewport.addEventListener(ev, function (e) { e.preventDefault(); viewport.classList.add('is-drop'); });
+  });
+  ['dragleave', 'drop'].forEach(function (ev) {
+    viewport.addEventListener(ev, function (e) { e.preventDefault(); viewport.classList.remove('is-drop'); });
+  });
+  viewport.addEventListener('drop', function (e) {
+    var dt = e.dataTransfer;
+    if (!dt) return;
+    if (dt.files && dt.files.length) { analyze(dt.files[0]); return; }
+    // Some apps hand over SVG as plain text rather than a file
+    var txt = dt.getData ? (dt.getData('text/plain') || '') : '';
+    if (looksLikeSvg(txt)) useMarkup(txt);
+  });
+
+  // ── Reading mode — plain vs technical ──────────────────────────────────
+  var modePlain = document.getElementById('modePlain');
+  var modeTech  = document.getElementById('modeTech');
+  var modeNote  = document.getElementById('modeNote');
+
+  function setMode(mode) {
+    document.body.setAttribute('data-read', mode);
+    modePlain.setAttribute('aria-pressed', String(mode === 'plain'));
+    modeTech.setAttribute('aria-pressed', String(mode === 'tech'));
+    modeNote.textContent = mode === 'plain'
+      ? 'Plain — no math required'
+      : 'Technical — full derivations';
+
+    // Swap the panel hints too, so the tool matches the prose
+    var hints = document.querySelectorAll('.ctl__hint[data-plain]');
+    for (var i = 0; i < hints.length; i++) {
+      var el = hints[i];
+      if (!el.getAttribute('data-tech')) el.setAttribute('data-tech', el.innerHTML);
+      el.innerHTML = mode === 'plain' ? el.getAttribute('data-plain') : el.getAttribute('data-tech');
+    }
+    try { localStorage.setItem('fasciile:read', mode); } catch (err) {}
+  }
+  modePlain.addEventListener('click', function () { setMode('plain'); });
+  modeTech.addEventListener('click', function () { setMode('tech'); });
+
+  if (readsBlocked) markReadsBlocked();
+
+  var savedMode = 'plain';
+  try { savedMode = localStorage.getItem('fasciile:read') || 'plain'; } catch (err) {}
+  setMode(savedMode === 'tech' ? 'tech' : 'plain');
+
+  // ── Boot ───────────────────────────────────────────────────────────────
+  function boot() {
+    var measured = measure();
+    var aspEl = document.getElementById('p_asp');
+    if (measured && isFinite(measured)) {
+      aspEl.value = String(Math.min(1.1, Math.max(0.3, measured)).toFixed(2));
+      aspEl.dispatchEvent(new Event('input'));
+    }
+    syncSvgModeButtons();
+    segPoly.setAttribute('aria-pressed', String(P.repr === 'poly'));
+    segFour.setAttribute('aria-pressed', String(P.repr === 'fourier'));
+    syncVisible();
+    rebuild();
+    draw();
+  }
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(boot);
+  } else {
+    boot();
+  }
+  boot();
+
+  var rt = 0;
+  new ResizeObserver(function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () { measure(); draw(); }, 100);
+  }).observe(toolEl);
+
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

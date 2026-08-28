@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { ROUTE_PATHS } from "./src/routes";
 
@@ -59,6 +59,31 @@ function staticRouteShells(routes) {
   };
 }
 
+// Pages serves `public/<name>/index.html` for a bare `/<name>` request, but the
+// dev server hands extensionless paths to the SPA fallback instead. This makes
+// dev match production for static pages under public/ (e.g. /fasciile-prd).
+// Dev only — the build needs no equivalent, since Pages does this natively.
+function staticPagesDev() {
+  return {
+    name: "static-pages-dev",
+    apply: "serve",
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const match = (req.url || "").match(/^\/([\w-]+)\/?(?:[?#].*)?$/);
+        if (match) {
+          const file = resolve("public", match[1], "index.html");
+          if (existsSync(file)) {
+            res.setHeader("Content-Type", "text/html; charset=utf-8");
+            res.end(readFileSync(file));
+            return;
+          }
+        }
+        next();
+      });
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [react(), staticRouteShells(ROUTE_PATHS)],
+  plugins: [react(), staticPagesDev(), staticRouteShells(ROUTE_PATHS)],
 });
