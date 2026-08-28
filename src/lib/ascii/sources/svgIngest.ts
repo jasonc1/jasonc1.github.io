@@ -29,62 +29,146 @@ function getSandbox(): HTMLDivElement {
   return sandbox;
 }
 
+/** Elements that can execute, fetch, or animate geometry out from under us. */
+const DROP_ELEMENTS =
+  'script,foreignObject,iframe,audio,video,animate,animateTransform,animateMotion,set,handler,listener,feImage';
+
+/** Attributes whose value may be a url(), which must stay same-document. */
+const URL_VALUED_ATTRS = new Set([
+  'fill',
+  'stroke',
+  'filter',
+  'mask',
+  'clip-path',
+  'marker',
+  'marker-start',
+  'marker-mid',
+  'marker-end',
+  'cursor',
+]);
+
+/** True for a url(...) that points off-page rather than at this document. */
+function isOffPageUrl(value: string): boolean {
+  return /url\s*\(/i.test(value) && !/url\s*\(\s*['"]?#/i.test(value);
+}
+
+function scrubElement(el: Element): void {
+  for (const attr of Array.from(el.attributes)) {
+    const name = attr.name;
+    const value = attr.value;
+    const lower = name.toLowerCase();
+
+    if (/^on/i.test(name)) {
+      el.removeAttribute(name);
+    } else if (/^(href|xlink:href|src)$/i.test(name)) {
+      if (!/^#/.test(value) && !/^data:image\//i.test(value)) el.removeAttribute(name);
+    } else if (lower === 'style') {
+      if (isOffPageUrl(value) || /@import/i.test(value)) el.removeAttribute(name);
+    } else if (URL_VALUED_ATTRS.has(lower) && isOffPageUrl(value)) {
+      // e.g. filter="url(https://...)" — a paint server we did not author.
+      el.removeAttribute(name);
+    }
+  }
+}
+
 /**
- * Imported SVG is untrusted markup that we put in the DOM to measure it, so a
- * dropped file could carry <script> or onload=. Strip anything executable or
- * anything that would reach off-page, then re-serialize.
+ * Strip off-page references out of a <style> block without dropping the block.
+ *
+ * <style> is kept because CSS here can carry `transform`, which moves geometry
+ * we are about to measure; deleting it would silently change the sampled shape.
+ * Only the parts that would reach the network are removed.
+ */
+function scrubStyleText(el: Element): void {
+  const text = el.textContent ?? '';
+  if (!/@import|url\s*\(/i.test(text)) return;
+  el.textContent = text
+    .replace(/@import[^;}]*;?/gi, '')
+    .replace(/url\s*\(\s*(['"]?)(?!#)[^)]*\1\s*\)/gi, 'none');
+}
+
+/**
+ * Parse untrusted SVG markup and return a scrubbed root element.
+ *
+ * This is the only way markup should ever become a node. Returning an element
+ * rather than a string is deliberate: the caller adopts this node directly, so
+ * the markup is never handed back to the HTML parser. Sanitizing with one
+ * parser and re-inserting with another is the classic mutation-XSS shape, and
+ * `innerHTML` used to be exactly how this module put SVG in the page.
  *
  * Returns null if the input is not SVG at all.
  */
-export function sanitizeSvg(markup: string): string | null {
+export function sanitizeSvgElement(markup: string): SVGSVGElement | null {
   // Exports routinely carry a BOM, leading whitespace, or markup that is not
-  // strict XML. Try XML first, then fall back to the forgiving HTML parser.
-  const src = String(markup).replace(/^﻿/, '').replace(/^\s+/, '');
+  // strict XML.
+  const src = String(markup).replace(/^\uFEFF/, '').replace(/^\s+/, '');
   const parser = new DOMParser();
   let root: Element | null = null;
 
+  // The HTML parser is the primary path on purpose. It applies HTML's foreign
+  // content rules, so `<svg>` with no xmlns — very common in exported and
+  // hand-pasted markup — still lands in the SVG namespace. The XML parser
+  // leaves that same input in the null namespace, where the element gets no
+  // layout and getBBox()/getCTM() report nothing, so no geometry is sampled.
+  // parseFromString() builds an inert document: no scripts run, nothing loads.
   try {
-    const xml = parser.parseFromString(src, 'image/svg+xml');
-    if (!xml.querySelector('parsererror')) {
-      const el = xml.documentElement;
-      root = el?.nodeName.toLowerCase() === 'svg' ? el : (el?.querySelector('svg') ?? null);
-    }
+    root = parser.parseFromString(src, 'text/html').querySelector('svg');
   } catch {
     root = null;
   }
 
+  // Strict XML documents that the HTML parser cannot find an <svg> in.
   if (!root) {
     try {
-      root = parser.parseFromString(src, 'text/html').querySelector('svg');
+      const xml = parser.parseFromString(src, 'image/svg+xml');
+      if (!xml.querySelector('parsererror')) {
+        const el = xml.documentElement;
+        root = el?.nodeName.toLowerCase() === 'svg' ? el : (el?.querySelector('svg') ?? null);
+      }
     } catch {
       root = null;
     }
   }
   if (!root) return null;
 
-  for (const el of Array.from(
-    root.querySelectorAll('script,foreignObject,iframe,audio,video,animate,set'),
-  )) {
+  for (const el of Array.from(root.querySelectorAll(DROP_ELEMENTS))) {
     el.parentNode?.removeChild(el);
   }
+  for (const el of Array.from(root.querySelectorAll('style'))) scrubStyleText(el);
 
-  const scrub = (el: Element) => {
-    for (const attr of Array.from(el.attributes)) {
-      const { name, value } = attr;
-      if (/^on/i.test(name)) {
-        el.removeAttribute(name);
-      } else if (/^(href|xlink:href|src)$/i.test(name)) {
-        if (!/^#/.test(value) && !/^data:image\//i.test(value)) el.removeAttribute(name);
-      } else if (/^style$/i.test(name) && /url\s*\(/i.test(value)) {
-        el.removeAttribute(name);
-      }
-    }
-  };
-  scrub(root);
-  for (const el of Array.from(root.querySelectorAll('*'))) scrub(el);
+  scrubElement(root);
+  for (const el of Array.from(root.querySelectorAll('*'))) scrubElement(el);
 
-  return new XMLSerializer().serializeToString(root);
+  return root as SVGSVGElement;
 }
+
+/**
+ * String form of {@link sanitizeSvgElement}, for callers that only need to know
+ * whether the input is usable SVG.
+ */
+export function sanitizeSvg(markup: string): string | null {
+  const root = sanitizeSvgElement(markup);
+  return root ? new XMLSerializer().serializeToString(root) : null;
+}
+
+/**
+ * Put already-sanitized markup in the measuring sandbox and hand back its root.
+ *
+ * Adopts the parsed node instead of assigning innerHTML, so untrusted markup is
+ * never round-tripped through the HTML parser.
+ */
+/** Drop the measured markup once its geometry has been read out. */
+function clearSandbox(): void {
+  if (sandbox) sandbox.textContent = '';
+}
+
+function mountForMeasurement(markup: string): SVGSVGElement | null {
+  const root = sanitizeSvgElement(markup);
+  if (!root) return null;
+  const host = getSandbox();
+  host.replaceChildren(document.importNode(root, true));
+  return host.querySelector('svg');
+}
+
 
 /**
  * Stage one: touch the SVG DOM exactly once.
@@ -95,9 +179,7 @@ export function sanitizeSvg(markup: string): string | null {
  * flattening step is independent of any user parameter.
  */
 export function ingestSvg(markup: string): ShapeData | null {
-  const host = getSandbox();
-  host.innerHTML = markup;
-  const svg = host.querySelector('svg');
+  const svg = mountForMeasurement(markup);
   if (!svg) return null;
 
   const box = svg.viewBox?.baseVal;
@@ -120,7 +202,7 @@ export function ingestSvg(markup: string): ShapeData | null {
       bounds = null;
     }
     if (!bounds || !bounds.width) {
-      host.textContent = '';
+      clearSandbox();
       return null;
     }
     ({ x: vx, y: vy, width: vw, height: vh } = bounds);
@@ -191,7 +273,7 @@ export function ingestSvg(markup: string): ShapeData | null {
     totalLength += cum[segments];
   }
 
-  host.textContent = '';
+  clearSandbox();
   return contours.length ? { contours, totalLength } : null;
 }
 
@@ -203,9 +285,7 @@ export function ingestSvg(markup: string): ShapeData | null {
  */
 export function svgToImage(markup: string): Promise<HTMLImageElement | null> {
   return new Promise((resolve) => {
-    const host = getSandbox();
-    host.innerHTML = markup;
-    const svg = host.querySelector('svg');
+    const svg = mountForMeasurement(markup);
     if (!svg) {
       resolve(null);
       return;
@@ -219,7 +299,7 @@ export function svgToImage(markup: string): Promise<HTMLImageElement | null> {
     if (!box?.width) svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
 
     const serialized = new XMLSerializer().serializeToString(svg);
-    host.textContent = '';
+    clearSandbox(); // geometry is captured; the markup can go
 
     const url = URL.createObjectURL(
       new Blob([serialized], { type: 'image/svg+xml;charset=utf-8' }),
