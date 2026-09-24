@@ -23,12 +23,16 @@ const legacy = (
 );
 
 export const StratRoulette = () => {
-  const summaryText = `StratRoulette (SR) has been a side project that I've been working on with
-      my good friend Justin Chen. SR has been a meaningful success for Justin
-      with it's first launch back in 2013, and we've been working on it during
-      the start of the COVID-19 pandemic to redesign and re-haul the whole UI as
-      well as backend. I serve as design lead but my main focus is still design
-      systems, where I create and build the component library.`;
+  const summaryText = `StratRoulette (SR) is a side project I've worked on with my good friend
+      Justin Chen — a community platform where players submit and roll strats
+      for competitive e-sports titles like CounterStrike and Valorant. First
+      launched in 2013, it ran for 7 years before we committed to a full
+      redesign at the start of the COVID-19 pandemic, rebuilding both the UI
+      and the backend. This is the second redesign attempt; the 2017 one
+      shipped designs but stalled out. I serve as design lead, though my main
+      focus is the design system: the color system, type ramp, form inputs, and
+      component library that let Justin build features instead of re-deciding
+      layout every time.`;
 
   const StratRouletteContent = [
     {
@@ -37,10 +41,10 @@ export const StratRoulette = () => {
         <List
           size="Body"
           listItems={[
-            "Designed and implemented components for design system",
-            "Designed all the flows and interactions of the app (mobile + desktop)",
-            "Created logo, brand identity, and landing page",
-            "Main driver of product and design strategy",
+            "Built the Roulette design system from scratch — color system, type ramp (Voyage for display, Inter for body), and form inputs — so feature work stopped re-deciding layout each time",
+            "Designed every flow and interaction across 2 platforms, mobile and desktop",
+            "Created the logo, brand identity, and landing page",
+            "Main driver of product and design strategy on a platform running since 2013",
           ]}
         ></List>,
       ],

@@ -36,13 +36,11 @@ export const Rosetta = () => {
     <div className="summary-text-link">
       <Text
         size="Body"
-        text={`The Rosetta Design system team was small yet mighty at Handsahke, a b2b2c student network/job platform and eventual Handshake AI data labelling platform - I had the pleasure to work with a design technologist like myself: Suleiman Ali Shakir, who has become a very close friend of mine over the year I worked with him. Despite all odds, we were able to deliver so much together, educate EPD on best practices, run workshops, host office hours, and set up Handshake Core for Handshake AI consolidation. With the help of about 4 FE platform engineers, we supported a team of ~35 designers, more than 100 frontend engineers, and 5+ BUs across handshake.`}
+        text={`Rosetta is the design system at Handshake, a b2b2c student network/job platform and eventual Handshake AI data-labelling platform. The team was small yet mighty: two design technologists — me and Suleiman Ali Shakir, who has become a very close friend over the year we worked together. With about 4 FE platform engineers behind us, the two of us supported ~35 designers, 100+ frontend engineers, and 5+ BUs on a 10+ year old codebase. In that year we shipped bi-weekly Figma library releases, delivered a platform-wide token consolidation and visual language refresh in a single quarter (3 months from leadership workshop to migration), ran two quarters of card parity work across every b2b2c surface, held weekly company-open office hours, ran quarterly onboarding for every new designer and intern, and built Recitation — a Chrome extension plus Figma companion that caught legacy styles and detached components a year before Figma's own 2025 schema announcement.`}
       />
       {Suleiman}
     </div>
   );
-
-  // `The Rosetta Design system team was small yet mighty at Handsahke, a b2b2c student network/job platform and eventual Handshake AI data labelling platform - I had the pleasure to work with a design technologist like myself: Suleiman Ali Shakir, who has become a very close friend of mine over the year I worked with him. Despite all odds, we were able to deliver so much together, educate EPD on best practices, run workshops, host office hours, and set up Handshake Core for Handshake AI consolidation. With the help of about 4 FE platform engineers, we supported a team of ~35 designers, more than 100 frontend engineers, and 5+ BUs across handshake.`
 
   const RosettaContent = [
     {
@@ -51,15 +49,16 @@ export const Rosetta = () => {
         <List
           size="Body"
           listItems={[
-            "Managed bi-weekly releases of Figma Library across design org of ~35 designers",
-            "Ran quarterly onboarding sessions for interns and new hires including: Intro to Rosetta, How to Dev Mode, and more",
-            "Ran weekly office hours - public to the whole company to discuss progress, get feedback, and unblock designers and engineers",
-            "Mentored design interns and helped coach incoming designers and created self service onboarding file to get designers setup",
+            "Shipped bi-weekly Figma library releases serving ~35 designers, 100+ frontend engineers, and 5+ BUs — as 1 of 2 design technologists on the system",
+            "Delivered a platform-wide token consolidation and visual language refresh across EPD in a single quarter — 3 months from the leadership workshop to shipped migration — and presented it at EPD All Hands",
+            "Ran two quarters of card parity work, auditing card sprawl across the entire b2b2c surface, consolidating one-offs, and realigning Figma functionality with code",
+            "Co-created Recitation: a Chrome extension that flags legacy styles, tokens, and components inside a 10+ year old codebase, plus a Figma companion that lints component detaches — built a year ahead of Figma's 2025 schema announcement",
+            "Ran quarterly onboarding sessions for every new hire and intern: Intro to Rosetta, How to Dev Mode, and more",
+            "Ran weekly office hours, open to the whole company, to share progress, gather feedback, and unblock designers and engineers",
+            "Mentored design interns and built a self-serve onboarding Figma file so designer ramp-up scaled past 1:1 time",
             "Triaged bugs, escalations, and daily requests from engineering, product, and design",
-            "Consolidated Figma library documentation with updated template, and contribution processes for team: branch review, icon contributions, etc",
+            "Consolidated fragmented Figma documentation into one template, with contribution processes for branch review, icon contributions, and more",
             "Contributions: cards, date pickers, tokens, selectInputs, TextInputs/TextAreas + variants, Popovers, and many more",
-            "Delivered token consolidation and visual language refresh across EPD within a quarter and presented work to EPD All Hands",
-            "Co-created Recitation: a chrome extension to highlight legacy styles, tokens, components in code and a companion figma app to track detached components",
           ]}
         ></List>,
       ],

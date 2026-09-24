@@ -16,10 +16,16 @@ export const Haven = () => {
       />
     </Link>
   );
-  const summaryText = ` Haven is a figma plugin I built to help product designers document and
-      protect their explorations and archived screens as well as tagging screens
-      for better handoff. Haven was a small side project and an opportunity to
-      explore tooling for the Product design team within Figma.`;
+  const summaryText = `Haven was Blend's first published Figma plugin, built to help product
+      designers document and protect their explorations and archived screens and
+      to tag screens for cleaner handoff. It ships 2 overlay types —
+      EXPLORATION and ARCHIVE, both auto-resizing to the selected frames — and 3
+      tag labels: Needs Review, Prod Ready, and a custom option. The problem it
+      solves is concrete: with short design turnarounds, years-old explorations
+      were being mistaken for current specs, causing throwaway work from a
+      simple mix-up. Haven started as a side project and an excuse to learn the
+      Figma plugin API, and became a way to extend Design Technology's support
+      into Product Design beyond design systems.`;
 
   const HavenContent = [
     {
@@ -28,11 +34,12 @@ export const Haven = () => {
         <List
           size="Body"
           listItems={[
-            "Proposed side project to work on based on needs of Product Designers",
-            "Researched and experimented with Figma’s API",
-            "Developed, designed, and published Blend’s first Figma Plugin",
-            "Carefully researched and planned out rollout of plugin",
-            "Educated brand and product designers on the plugin’s capabilities",
+            "Designed, developed, and published Blend’s first Figma plugin, end to end and solo",
+            "Shipped 2 auto-resizing overlay types (EXPLORATION, ARCHIVE) and 3 frame tags (Needs Review, Prod Ready, custom)",
+            "Proposed the project myself, scoped from observed Product Designer pain points",
+            "Researched and experimented with Figma’s plugin API from scratch",
+            "Carefully researched and planned the plugin rollout",
+            "Educated both brand and product designers on the plugin’s capabilities",
             "Gathered feedback to iterate and ideate new features",
           ]}
         ></List>,

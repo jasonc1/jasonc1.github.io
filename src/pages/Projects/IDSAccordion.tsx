@@ -20,13 +20,16 @@ export const IDSAccordion = () => {
     <div className="summary-text-link">
       <Text
         size="Body"
-        text={`During my time as a software engineer at Intuit, I came across an
-        opportunity to contribute to an upcoming design system: Intuit Design
-        System [IDS]. This was one of my first experience in design systems: what
-        started as a spike thus evolved into a journey to contribute a new
-        component do a design system as an engineer. I had the pleasure of taking
-        a component from early design concepts, to prototyping, and finally
-        implementing a production ready accordion.`}
+        text={`As a software engineer at Intuit I found an opportunity to contribute to
+        an upcoming design system: Intuit Design System [IDS]. What started as a
+        spike became my first design systems work — taking a single component
+        from early design concepts through prototyping to a production-ready
+        accordion, shipped in QuickBooks Payments Onboarding (including the
+        Chase flow) in front of millions of QuickBooks customers. I built it to
+        be consumed beyond my own team: engineers from 2 external business units
+        adopted and extended it, and it landed as an IDS lab component needing
+        only 2 consuming teams plus code coverage to graduate into the system
+        proper and ship automatically in every Intuit project.`}
       />
       {Intuit}
     </div>
@@ -39,13 +42,15 @@ export const IDSAccordion = () => {
         <List
           size="Body"
           listItems={[
-            "Architected and Implemented component",
-            "Provide technical and interaction feedback",
-            "Created hi-fi prototypes",
-            "Implemented Accessibility support",
-            "Integrated component into IDS review process",
-            "Consumeed & implemented accordion in product",
-            "Worked with engineers from 2 external BUs to support and extend component",
+            "Architected and implemented the component end to end, from design concept to production",
+            "Shipped it into QuickBooks Payments Onboarding — including the Chase flow — in front of millions of QuickBooks customers",
+            "Supported engineers from 2 external business units adopting and extending the component, replacing what would have been 3 parallel builds of the same thing",
+            "Upgraded the project to React 16 to support the implementation",
+            "Implemented accessibility support to Intuit's standards, working with the accessibility team",
+            "Collaborated with motion designers so easing matched Intuit's new motion design guidelines — neither easing nor a11y existed in the original Sketch designs",
+            "Built customizable theming so the component matched each Intuit product",
+            "Created hi-fi prototypes and provided technical and interaction feedback",
+            "Integrated the component into the IDS review process and onto the graduation track",
           ]}
         ></List>,
       ],

@@ -14,14 +14,19 @@ import Cover from "../../assets/images/projects/Vesta/Cover.png";
 import ModalSubcomponents from "../../assets/images/projects/Vesta/Subcomponents.png";
 
 export const Vesta = () => {
-  const summaryText = `Vesta is an LOS (loan origination system) which is what loan officers use
-      to process loans and manage their work. I was asked to contract part time
-      to create Vesta's very first design system. Luckily, there were already
-      some visual assets figured out like colors, type, and icons, but they
-      needed some organization so that they could be used to flesh out the rest
-      of the components. My time at Vesta so far has been to flesh out the 'v1'
-      of the design system so that the rest of the product designers and
-      frontend engineers can focus on building their product faster.`;
+  const summaryText = `Vesta is an LOS (loan origination system) — the software loan officers use
+      to process loans and manage their work. I was brought on part time, as a
+      contractor, to build Vesta's very first design system from zero over 6
+      months. Some visual assets existed already — colors, type, icons — but
+      unorganized and unusable as a foundation. I restructured those into
+      tokens on an 8pt half grid, then shipped the v1 library: an in-house
+      subset of Material UI icons, a base text input extended into every input
+      variant, a base modal with swappable subcomponents, navigational
+      elements, and the pattern documentation around them. The base-component
+      approach is the point: each new variant is a pre-configured instance of a
+      base rather than a new component to maintain, so the product designers
+      and frontend engineers can build product faster without the library
+      sprawling.`;
 
   const VestaContent = [
     {
@@ -30,12 +35,13 @@ export const Vesta = () => {
         <List
           size="Body"
           listItems={[
-            "Audited product flows to document patterns",
-            "Created and maintained design system from the ground up: starting from basic icons, typography, colors, and grid",
-            "Collaborated weekly with product design team for feedback and presentation of components",
-            "Created inputs, modals, navigational elements, and more",
-            "Documented patterns and working best practices within the figma library",
-            "Collaborated with Engineering to ensure React prop alignemnt and FE best practices",
+            "Built Vesta's first design system from the ground up over a 6-month part-time contract: icons, typography, colors, and an 8pt half grid",
+            "Audited every product flow to document existing patterns before designing a single component — including a full modal audit that collapsed the sprawl into one base modal",
+            "Architected base components (base_input, base_modal) so each variant ships as a pre-configured instance rather than a separately maintained component",
+            "Shipped inputs, modals, navigational elements, and an in-house icon subset maintained for flexibility",
+            "Collaborated weekly with the product design team for feedback and component presentation",
+            "Documented patterns and working best practices inside the Figma library",
+            "Collaborated with Engineering to ensure React prop alignment and FE best practices",
           ]}
         ></List>,
       ],

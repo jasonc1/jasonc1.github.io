@@ -9,14 +9,18 @@ import product_illustrations_type from "../../../assets/images/projects/ProductI
 import { Text } from "../../../components/text/text.component";
 
 export const ProductIllustrations = () => {
-  const summaryText = `Product Illustrations in Figma was a project where I helped the Brand
-      design team migrate svg assets from Illustrator to Figma. The hope was
-      that we could leverage Figma variants/components to create product
-      illustrations faster within Figma as opposed to Illustrator. The main
-      gripe was that Illustrator took too long to open and most of our workflow
-      within the Design team was shifting towards Figma. The experiment was also
-      to see if exported product illustrations (as SVG) from Figma would work
-      well with After Effects with Bodymovin (for Lottie).`;
+  const summaryText = `I migrated the Brand design team's product illustration assets from
+      Illustrator into a single Figma component library, collapsing a
+      multi-file, copy-paste-between-documents workflow into instance swapping
+      inside one file. Building an illustration used to mean opening a slow
+      Illustrator master file and copying vectors between documents; with
+      Figma variants and components it became assembly from a maintained
+      library, in the tool the Design team had already shifted to. I also
+      consolidated the free-form type styles the old workflow had let sprawl,
+      and validated the whole pipeline end to end — exporting sample
+      illustrations as SVG and handing them to the brand team to confirm they
+      survived After Effects and Bodymovin, since the design team leans heavily
+      on Lottie for animation.`;
 
   const ProductIllustrationsContent = [
     {
@@ -25,9 +29,11 @@ export const ProductIllustrations = () => {
         <List
           size="Body"
           listItems={[
-            "Migrating SVG assets from Illustrator to Figma",
-            "Consolidating type styles and components",
-            "Assisting and verifying outcomes with the Brand design team",
+            "Migrated the full product illustration SVG asset set from Illustrator into one maintained Figma component library",
+            "Consolidated free-form type styles into a defined set, ending the per-illustration drift the Illustrator workflow allowed",
+            "Validated the Figma → SVG → After Effects → Bodymovin → Lottie pipeline end to end with sample illustrations before the team committed to it",
+            "Worked around Illustrator-to-Figma migration losses (clipping masks, typographic elements) that broke a straight SVG import",
+            "Assisted and verified outcomes with the Brand design team",
           ]}
         ></List>,
       ],

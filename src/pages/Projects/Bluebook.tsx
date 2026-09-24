@@ -20,7 +20,7 @@ import ChipsUsage from "../../assets/images/projects/Bluebook/ChipsUsage.png";
 import ChipsUserTestProto from "../../assets/images/projects/Bluebook/ChipsUserTestProto.png";
 
 export const Bluebook = () => {
-  const summaryText = `During my time at Everlaw, I led and oversaw the Bluebook design system. Notable accomplishments include reducing development time from 4-6 quarters down to 1-2 quarters per component, a storybook migration, and many design system components ranging from interactive tags to table filtering, pagination and loading states. I was brought on to Everlaw to primarily help the company speed up React adoption, modernizing the entire platform across multiple products, and consolidating legacy patterns. Additionally, I helped champion and drive accessibility and advocated for more product design and engineering to scope, implement, and iterate more collaboratively.`;
+  const summaryText = `I led the Bluebook design system at Everlaw for 20 months as DS Lead. The headline result: component delivery dropped from 4-6 quarters to 1-2 quarters each, by replacing one monolithic handoff with a phased, iterative contribution process. Alongside that I drove the migration to Storybook 7 as the system's documentation home (retiring ZeroHeight), converged the platform off a 10pt grid onto an 8pt half-grid with a shared spacing vocabulary, and shipped foundational components: table filtering, pagination, skeleton loading states, listboxes, chips/counter tags, and tokens. I was brought on to speed up React adoption, modernize the platform across multiple products, and consolidate legacy patterns; I also championed accessibility and pushed product design and engineering to scope, implement, and iterate together. The work earned a Product org-wide spot award in Q1 2024.`;
 
   const BluebookContent = [
     {
@@ -29,13 +29,15 @@ export const Bluebook = () => {
         <List
           size="Body"
           listItems={[
-            "Managed entire design system ranging from process, documentation, design QA, and implementation",
-            "Reimagined collaboration, spec, and design qa process between FE squad and design system squad members",
-            "Championed storybook adoption and migration for documentation over ZeroHeight",
-            "Mentored junior design system squad members",
-            "Contributed foundational atomic elements, key components, and consolidated design debt and one-off patterns",
-            "Wholistically improved the platform via component adoption while balancing immediate product feature support",
-            "Roadmapped quarterly planning and ran weekly office hours",
+            "Cut component delivery from 4-6 quarters to 1-2 quarters by rebuilding the contribution process into a phased, iterative model",
+            "Owned the entire design system end to end across a 20-month tenure: process, documentation, design QA, and implementation",
+            "Championed the Storybook (SB7) migration, consolidating documentation off ZeroHeight onto one live reference site written in .mdx",
+            "Converged the platform from a 10pt grid onto an 8pt half-grid, and defined a shared spacing vocabulary + guidelines so design and engineering describe layouts the same way",
+            "Shipped foundational components — table filtering, pagination, skeleton loading, chips/counter tags, listboxes, tokens — while retiring one-off patterns and design debt",
+            "Ran user testing on the chips/labels flow: a core but confusing UX with intermediary states (added-but-not-saved), and shipped the revised pattern",
+            "Reimagined the collaboration, spec, and design QA process between the FE squad and design system squad members",
+            "Mentored junior design system squad members, ran quarterly roadmap planning, and held weekly office hours",
+            "Improved the platform holistically via component adoption while balancing immediate product feature support across multiple Everlaw products",
           ]}
         ></List>,
       ],

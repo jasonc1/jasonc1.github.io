@@ -16,13 +16,24 @@ export const AbstractMigrate = () => {
       <Text size="Body-bold" text="Abstract's API" />
     </a>
   );
-  const summaryText = `This was a quarter long initiative where the design technology team fully
-  sunset Abstract in roughly a quarter by leveraging ${AbstractAPI}. Over my
-  first year at blend, the Product Design team slowly moved onto Figma, and
-  in Q1 of 2020, we set out to migrate all of the legacy Sketch files into
-  Box. I created a script that helped save 100s of hours of each product
-  designer's time that would have been spent manually moving the files to
-  Box. Over 750 sketch files were migrated with the script.`;
+  const summaryText = (
+    <div className="summary-text-link">
+      <Text
+        size="Body"
+        text={`A quarter-long initiative where the design technology team fully sunset
+      Abstract — after two prior failed attempts — by leveraging Abstract's
+      API. Over my first year at Blend the Product Design team slowly moved
+      onto Figma, and in Q1 2020 we set out to migrate every legacy Sketch
+      file into Box. I wrote a Node.js script that migrated 750+ Sketch files
+      across roughly 100 Abstract projects, saving hundreds of hours of
+      product designer time that would otherwise have gone to downloading and
+      moving files by hand. By then designers were spending only ~10% of their
+      time in Sketch, mostly referencing old files rather than designing, so
+      the migration also ended the Abstract subscription outright.`}
+      />
+      {AbstractAPI}
+    </div>
+  );
   const AbstractMigrateContent = [
     {
       section: "Responsibilities",
@@ -30,10 +41,10 @@ export const AbstractMigrate = () => {
         <List
           size="Body"
           listItems={[
-            "Created rollout plan fo sunsetting Abstract",
-            "Created a node.js script leveraging Abstract’s API to programmatically download files",
-            "Defined structure for labelling files",
-            "Held monthly power hours to tag and archive legacy sketch files",
+            "Wrote a Node.js script against Abstract’s API that programmatically downloaded and migrated 750+ Sketch files across ~100 projects, saving hundreds of hours of designer time",
+            "Created the quarter-long rollout plan that fully sunset Abstract and ended the subscription, after two prior attempts had failed",
+            "Defined the structure for labelling and archiving migrated files",
+            "Held monthly power hours to tag and archive legacy Sketch files with the Product Design team",
           ]}
         ></List>,
       ],

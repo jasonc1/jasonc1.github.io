@@ -18,19 +18,19 @@ import icon_doc from "../../assets/images/projects/Ink/icon_doc.png";
 import { Text } from "../../components/text/text.component";
 
 export const Ink = () => {
-  const summaryText = `During my time at Carta, I had the pleasant opportunity to make an impact
-  on the design system. Taking my experiences from Blend, I was able to help
-  lead the Ink on Figma 'team', which just comprised of one visual designer
-  and a few other DTs to help maintain the library. Every week, I met with
-  the team to break down and assign work for updating the library or helping
-  out with the rebrand effort. As a group, wee set up guidelines for
-  maintaining the library and made sure that it stayed up to date. On top of
-  that, I made numerous contributions to the codebase ranging from helping
-  with the sass to styled-components migration, extending components,
-  updating backstop tests, and improving documentation. Lastly, I drove the
-  creation and adoption of a storybook react framework that came with an
-  optimized webpack config, storybook addons pre-installed, and more to help
-  other DTs or FE engineers adopt storybook for their library/project.`;
+  const summaryText = `Over a year at Carta I improved UI health for the Employee/Shareholder
+  experience by 50% across the pillar's 4 products. Taking my experience from
+  Blend, I led the 'Ink on Figma' team — one visual designer and a few other
+  DTs — meeting weekly to break down and assign library updates and the
+  company-wide rebrand effort. We set the guidelines that kept the Figma
+  library in parity with code, including a PR check that forces a library
+  update whenever a DT ships a UI change to the codebase. On top of that I
+  shipped multiple components and prototypes per quarter and contributed to
+  the codebase itself: the sass to styled-components migration, component
+  extensions, backstop test updates, and documentation. Lastly, I drove the
+  creation and adoption of a Storybook + React template with an optimized
+  webpack config and addons pre-installed, so other DTs and FE engineers
+  could adopt Storybook without rebuilding the setup each time.`;
 
   const InkContent = [
     {
@@ -39,15 +39,15 @@ export const Ink = () => {
         <List
           size="Body"
           listItems={[
-            "Active contributor to the ink codebase: refactoring, improvements, documentation",
-            "Led Ink on Figma working group to ensure parity with code and maintain the figma library",
-            "Coordinated releases with code and figma library",
-            "Brought forth PR check to update figma library whenever a DT makes a ui change to the codebase",
-            "Introduced Storybook to the Employee/Shareholder pillar and created a tiered library to house recipes of ink components",
-            "Collaborated with other DTs to share storybook react template",
-            "Created employee-library in figma for designers",
-            "improved UI health for Employee/Shareholder experience by 50%",
-            "Sunsetted all other vestigial and unsupported figma library files",
+            "Improved UI health for the Employee/Shareholder experience by 50%, across the pillar's 4 products",
+            "Led the Ink on Figma working group — 1 visual designer + several DTs — with weekly work breakdown to keep the Figma library at parity with code",
+            "Shipped multiple components and prototypes per quarter, including the company-wide rebrand rollout",
+            "Introduced a PR check that updates the Figma library whenever a DT ships a UI change to the codebase, closing the design/code drift loop",
+            "Coordinated releases across the code package and the Figma library",
+            "Introduced Storybook to the Employee/Shareholder pillar and created a tiered library to house recipes of Ink components",
+            "Co-created a shared Storybook + React template (optimized webpack config, addons pre-installed) adopted by other DTs across the monorepo and bootstrapped projects",
+            "Active contributor to the Ink codebase: sass to styled-components migration, component extensions, backstop tests, documentation",
+            "Created the employee-library in Figma for designers and sunsetted every vestigial, unsupported Figma library file",
           ]}
         ></List>,
       ],

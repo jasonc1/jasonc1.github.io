@@ -22,13 +22,14 @@ const ExerciseStatusProto = (
 );
 
 export const ExerciseStatus = () => {
-  const summaryText = `A common frustration that user's have with Carta is
-      how slow the process is to exercise an option grant. Exercising options
-      can take roughly a week and is a multistep process: user submits exercise
-      request, Admin approves/rejects, payment, certificate issued, and lastly
-      user signs certificate. The task was to revamp the exercise status for
-      more transparency behind the status as opposed to simply saying "pending"
-      or "cancelled."`;
+  const summaryText = `A common frustration users have with Carta is how slow it is to exercise an
+      option grant: roughly a week, across 5 steps — user submits the exercise
+      request, admin approves or rejects, payment, certificate issued, and
+      finally the user signs the certificate. Through all of it the UI surfaced
+      exactly 3 words: "pending," "cancelled," or "completed." A cancelled
+      exercise showed no reason at all, so the user's only recourse was to
+      email their admin. The task was to revamp exercise status into a
+      transparent tracker that exposes all 5 steps and every error state.`;
 
   const ExerciseStatusContent = [
     {
@@ -38,11 +39,12 @@ export const ExerciseStatus = () => {
           ordered
           size="Body"
           listItems={[
-            "Built a dynamic and end to end hi-fidelity prototype",
-            "Explored ways to customize the Tracker component provided by the design system",
-            "Collaborated with product designer to bring vision to life",
-            "Provided feedback around error states and edge cases",
-            "Provided ui feedback around tracker content and typography",
+            "Built a dynamic, end-to-end hi-fidelity prototype mapping all 5 steps of the week-long exercise flow",
+            "Explored ways to customize the Tracker component from the Ink design system, proving the new experience was buildable with zero net-new components",
+            "Collaborated with the product designer to bring the vision to life",
+            "Mapped and provided feedback on every status, error state, and edge case in the flow",
+            "Provided UI feedback around tracker content and typography",
+            "Prototype de-risked the work enough for it to be scoped into the Q4 roadmap",
           ]}
         ></List>,
       ],
