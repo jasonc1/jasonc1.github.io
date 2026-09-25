@@ -23,11 +23,10 @@ export const Sapling = () => {
         <List
           size="Body"
           listItems={[
-            "Built the Figma plugin that automates and instantiates the 7-page file structure, removing the manual setup from every net-new file",
-            "Audited existing Figma files across the Product Design team and highlighted areas of improvement",
-            "Project planned and set goals for the initiative",
-            "Created and presented the proposal to the Product Design team",
-            "Defined how Figma teams, projects, and files map to EPD cohorts, features, and initiatives",
+            "Figma plugin instantiating a 7-page file structure in one run",
+            "Audited the Product Design team's files to find the drift",
+            "Ended 2 years of free-form file organisation",
+            "Mapped Figma teams, projects and files to EPD cohorts and initiatives",
           ]}
         ></List>,
       ],

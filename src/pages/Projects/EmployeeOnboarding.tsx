@@ -41,12 +41,12 @@ export const EmployeeOnboarding = () => {
           ordered
           size="Body"
           listItems={[
-            "Shipped a flow that improved signups by 10%",
-            "Built 3 end-to-end hi-fidelity prototypes, one per variation of where 2FA and equity education sit in the flow",
-            "Leveraged existing Ink components while providing UI suggestions, keeping net-new component count at zero",
-            "Pixel-perfect attention to detail to call out one-offs and clean up the design spec before handoff",
-            "Validated designs through user testing as well as coded functionality",
-            "Design QA-ed the flow for release",
+            "+10% signups on the shipped flow",
+            "3 end-to-end hi-fi prototypes, one per 2FA and equity-education placement",
+            "0 net-new components — built entirely from Ink",
+            "Cleaned up spec one-offs before handoff",
+            "Validated by user testing and coded functionality",
+            "Design QA for release",
           ]}
         ></List>,
       ],

@@ -33,6 +33,7 @@ export const Text = ({
     Header: size === "Header",
     Body: size === "Body",
     "Body-bold": size === "Body-bold",
+    Caption: size === "Caption",
   });
 
   const renderText = (size: string) => {

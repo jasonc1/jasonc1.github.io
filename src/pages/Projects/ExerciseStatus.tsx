@@ -39,12 +39,10 @@ export const ExerciseStatus = () => {
           ordered
           size="Body"
           listItems={[
-            "Built a dynamic, end-to-end hi-fidelity prototype mapping all 5 steps of the week-long exercise flow",
-            "Explored ways to customize the Tracker component from the Ink design system, proving the new experience was buildable with zero net-new components",
-            "Collaborated with the product designer to bring the vision to life",
-            "Mapped and provided feedback on every status, error state, and edge case in the flow",
-            "Provided UI feedback around tracker content and typography",
-            "Prototype de-risked the work enough for it to be scoped into the Q4 roadmap",
+            "Prototyped all 5 steps of the week-long exercise flow",
+            "0 net-new components — customised the Ink Tracker",
+            "Mapped every status, error state and edge case",
+            "Scoped into the Q4 roadmap off the back of the prototype",
           ]}
         ></List>,
       ],

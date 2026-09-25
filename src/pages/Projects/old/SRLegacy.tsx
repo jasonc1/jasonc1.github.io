@@ -33,10 +33,11 @@ export const SRLegacy = () => {
           ordered
           size="Body"
           listItems={[
-            "Lead product designer on the 2017 redesign, 2 years after SR took off on word of mouth in 2015",
-            "Created the branding identity from nothing — the original app shipped with no branding, layout system, or information hierarchy",
-            "Designed all flows and interactions, including 3 core surfaces (landing page, activity feed, strat contribution) and user accounts for saving, discussion, and voting",
-            "Built the layout and common UI component foundation so feature development stopped being blocked on design decisions",
+            "Lead product designer on the 2017 redesign",
+            "Brand identity from nothing — the original shipped with none",
+            "3 core surfaces: landing, activity feed, strat contribution",
+            "User accounts for saving, discussion and voting",
+            "Layout and component foundation to unblock feature work",
           ]}
         ></List>,
       ],

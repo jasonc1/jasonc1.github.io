@@ -64,3 +64,76 @@
     padding: 80px 16px 80px 16px;
   }
 }
+
+// ── Case study type scale & rhythm ───────────────────────────────────────
+// Three roles, three sizes, three tones: section labels at full strength,
+// body at 75%, captions at 50%. Body steps down from the site-wide 16px and
+// captions step down again, so the roles separate by size as well as tone —
+// previously body and captions were both 16px, which read as one undifferentiated
+// block. Scoped to .prose so the home page keeps the larger Body.
+.prose {
+  // Measure. GeistMono runs wide: the 960px column was ~115 characters a line,
+  // roughly double a comfortable measure. Figures stay full width.
+  .prose-summary > .text,
+  .prose-block > .text,
+  .text-list {
+    max-width: 68ch;
+  }
+
+  // Lede — the summary is the one piece of body copy that gets to be large,
+  // so the page opens on a clear step down from the Display title.
+  .prose-summary > .Body {
+    font-size: 16px;
+    line-height: 28px;
+  }
+
+  .Body,
+  .Body-bold {
+    font-size: 14px;
+    line-height: 24px;
+  }
+
+  // 75% body, 100% headings, 50% captions.
+  .prose-summary > .Body,
+  .prose-block > .Body,
+  .text-list .Body {
+    opacity: 0.75;
+  }
+
+  .Header {
+    opacity: 1;
+    font-weight: 600;
+  }
+
+  .image-with-caption .Caption {
+    opacity: 0.5;
+  }
+
+  // Links carry their own colour and must not be dimmed with the body around them.
+  .action-link .text,
+  a .text {
+    opacity: 1;
+  }
+
+  .text-list {
+    li {
+      margin-bottom: 4px;
+    }
+  }
+}
+
+// Section rhythm. 16px left every section butting against the next; the label
+// needs room above it to read as a new section rather than another paragraph.
+.prose .prose-block {
+  margin-bottom: 72px;
+}
+
+@media only screen and (max-width: 770px) {
+  .prose .prose-block {
+    margin-bottom: 48px;
+  }
+  .prose .prose-summary > .Body {
+    font-size: 16px;
+    line-height: 26px;
+  }
+}

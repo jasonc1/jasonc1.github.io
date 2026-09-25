@@ -20,7 +20,9 @@ export const Prose = ({
           <Text size="Body" text={date} weight="light" />
         </div>
 
-        <Text size="Body" text={summary} marginBottom={8} />
+        <div className="prose-summary">
+          <Text size="Body" text={summary} marginBottom={8} />
+        </div>
       </div>
       {content.map((c) => {
         if (c.section && c.content) {

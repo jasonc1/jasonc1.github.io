@@ -29,11 +29,10 @@ export const ProductIllustrations = () => {
         <List
           size="Body"
           listItems={[
-            "Migrated the full product illustration SVG asset set from Illustrator into one maintained Figma component library",
-            "Consolidated free-form type styles into a defined set, ending the per-illustration drift the Illustrator workflow allowed",
-            "Validated the Figma → SVG → After Effects → Bodymovin → Lottie pipeline end to end with sample illustrations before the team committed to it",
-            "Worked around Illustrator-to-Figma migration losses (clipping masks, typographic elements) that broke a straight SVG import",
-            "Assisted and verified outcomes with the Brand design team",
+            "Migrated the full SVG asset set from Illustrator into one Figma library",
+            "Consolidated free-form type styles into a defined set",
+            "Validated Figma → SVG → After Effects → Bodymovin → Lottie end to end",
+            "Worked around clipping-mask and type losses that broke a straight import",
           ]}
         ></List>,
       ],

@@ -41,11 +41,10 @@ export const WaitTaskV2 = () => {
         <List
           size="Body"
           listItems={[
-            "Built a hi-fi ReactJS prototype in a matter of days, saving several weeks of engineering development time",
-            "Replaced a static 30-second spinner with a 3-stage dynamic loading experience",
-            "Collaborated with Design to work through step-by-step transitions between each stage",
-            "Collaborated with Engineering on handoff and walked them through the prototype code",
-            "Aided Engineering in making the prototype code production ready",
+            "Hi-fi React prototype in days — saved several weeks of dev time",
+            "30-second spinner → a 3-stage dynamic loading experience",
+            "Worked the stage-to-stage transitions with Design",
+            "Walked Engineering through the prototype code for handoff",
           ]}
         ></List>,
       ],

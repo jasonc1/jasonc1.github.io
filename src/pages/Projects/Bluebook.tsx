@@ -29,15 +29,14 @@ export const Bluebook = () => {
         <List
           size="Body"
           listItems={[
-            "Cut component delivery from 4-6 quarters to 1-2 quarters by rebuilding the contribution process into a phased, iterative model",
-            "Owned the entire design system end to end across a 20-month tenure: process, documentation, design QA, and implementation",
-            "Championed the Storybook (SB7) migration, consolidating documentation off ZeroHeight onto one live reference site written in .mdx",
-            "Converged the platform from a 10pt grid onto an 8pt half-grid, and defined a shared spacing vocabulary + guidelines so design and engineering describe layouts the same way",
-            "Shipped foundational components — table filtering, pagination, skeleton loading, chips/counter tags, listboxes, tokens — while retiring one-off patterns and design debt",
-            "Ran user testing on the chips/labels flow: a core but confusing UX with intermediary states (added-but-not-saved), and shipped the revised pattern",
-            "Reimagined the collaboration, spec, and design QA process between the FE squad and design system squad members",
-            "Mentored junior design system squad members, ran quarterly roadmap planning, and held weekly office hours",
-            "Improved the platform holistically via component adoption while balancing immediate product feature support across multiple Everlaw products",
+            "4-6 quarters → 1-2 quarters per component, via a phased contribution process",
+            "DS Lead for 20 months — process, documentation, design QA, implementation",
+            "Storybook SB7 migration, retiring ZeroHeight for one .mdx reference site",
+            "10pt grid → 8pt half-grid, with a shared spacing vocabulary",
+            "Shipped table filtering, pagination, skeleton loading, chips, listboxes, tokens",
+            "User-tested the chips flow — a core UX with added-but-not-saved states",
+            "Mentored junior squad members; quarterly roadmaps, weekly office hours",
+            "Product org-wide spot award, Q1 2024",
           ]}
         ></List>,
       ],

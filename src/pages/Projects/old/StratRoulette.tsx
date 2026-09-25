@@ -41,10 +41,10 @@ export const StratRoulette = () => {
         <List
           size="Body"
           listItems={[
-            "Built the Roulette design system from scratch — color system, type ramp (Voyage for display, Inter for body), and form inputs — so feature work stopped re-deciding layout each time",
-            "Designed every flow and interaction across 2 platforms, mobile and desktop",
-            "Created the logo, brand identity, and landing page",
-            "Main driver of product and design strategy on a platform running since 2013",
+            "Roulette design system — colour, type ramp (Voyage + Inter), form inputs",
+            "Every flow and interaction across mobile and desktop",
+            "Logo, brand identity and landing page",
+            "Product and design lead on a platform running since 2013",
           ]}
         ></List>,
       ],

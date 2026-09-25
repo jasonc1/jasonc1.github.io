@@ -41,10 +41,12 @@ export const AbstractMigrate = () => {
         <List
           size="Body"
           listItems={[
-            "Wrote a Node.js script against Abstract’s API that programmatically downloaded and migrated 750+ Sketch files across ~100 projects, saving hundreds of hours of designer time",
-            "Created the quarter-long rollout plan that fully sunset Abstract and ended the subscription, after two prior attempts had failed",
-            "Defined the structure for labelling and archiving migrated files",
-            "Held monthly power hours to tag and archive legacy Sketch files with the Product Design team",
+            "750+ Sketch files across ~100 projects, migrated by script",
+            "Hundreds of designer hours saved",
+            "Node.js script against Abstract's API — the first version that could download",
+            "Quarter-long rollout that ended the subscription, after 2 failed attempts",
+            "File labelling and archive structure",
+            "Monthly power hours with the Product Design team",
           ]}
         ></List>,
       ],

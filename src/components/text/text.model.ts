@@ -1,5 +1,5 @@
 import type { JSX } from "react";
-export type typeSizes = "Display" | "Subheader" | "Header" | "Body" | "Body-bold";
+export type typeSizes = "Display" | "Subheader" | "Header" | "Body" | "Body-bold" | "Caption";
 export interface ITextProps {
   color?: string;
   size: typeSizes;

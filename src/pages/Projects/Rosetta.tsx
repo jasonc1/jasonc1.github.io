@@ -49,16 +49,16 @@ export const Rosetta = () => {
         <List
           size="Body"
           listItems={[
-            "Shipped bi-weekly Figma library releases serving ~35 designers, 100+ frontend engineers, and 5+ BUs — as 1 of 2 design technologists on the system",
-            "Delivered a platform-wide token consolidation and visual language refresh across EPD in a single quarter — 3 months from the leadership workshop to shipped migration — and presented it at EPD All Hands",
-            "Ran two quarters of card parity work, auditing card sprawl across the entire b2b2c surface, consolidating one-offs, and realigning Figma functionality with code",
-            "Co-created Recitation: a Chrome extension that flags legacy styles, tokens, and components inside a 10+ year old codebase, plus a Figma companion that lints component detaches — built a year ahead of Figma's 2025 schema announcement",
-            "Ran quarterly onboarding sessions for every new hire and intern: Intro to Rosetta, How to Dev Mode, and more",
-            "Ran weekly office hours, open to the whole company, to share progress, gather feedback, and unblock designers and engineers",
-            "Mentored design interns and built a self-serve onboarding Figma file so designer ramp-up scaled past 1:1 time",
-            "Triaged bugs, escalations, and daily requests from engineering, product, and design",
-            "Consolidated fragmented Figma documentation into one template, with contribution processes for branch review, icon contributions, and more",
-            "Contributions: cards, date pickers, tokens, selectInputs, TextInputs/TextAreas + variants, Popovers, and many more",
+            "1 of 2 design technologists supporting ~35 designers, 100+ FE engineers, 5+ BUs",
+            "Bi-weekly Figma library releases",
+            "Platform-wide token + visual language refresh shipped in 1 quarter — 3 months from workshop to migration",
+            "2 quarters of card parity across the whole b2b2c surface",
+            "Recitation — Chrome extension linting a 10+ year old codebase, 1 year ahead of Figma's 2025 schema",
+            "Quarterly onboarding for every new hire and intern",
+            "Weekly office hours, open company-wide",
+            "Self-serve onboarding file — designer ramp-up past 1:1 time",
+            "Presented the token migration at EPD All Hands",
+            "Shipped: cards, date pickers, tokens, selectInputs, TextInputs/TextAreas, popovers",
           ]}
         ></List>,
       ],

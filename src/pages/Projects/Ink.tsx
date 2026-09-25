@@ -39,15 +39,15 @@ export const Ink = () => {
         <List
           size="Body"
           listItems={[
-            "Improved UI health for the Employee/Shareholder experience by 50%, across the pillar's 4 products",
-            "Led the Ink on Figma working group — 1 visual designer + several DTs — with weekly work breakdown to keep the Figma library at parity with code",
-            "Shipped multiple components and prototypes per quarter, including the company-wide rebrand rollout",
-            "Introduced a PR check that updates the Figma library whenever a DT ships a UI change to the codebase, closing the design/code drift loop",
+            "+50% UI health across the pillar's 4 products",
+            "Led Ink on Figma — 1 visual designer + several DTs, weekly cadence",
+            "Multiple components and prototypes per quarter, plus the company-wide rebrand",
+            "PR check forcing a Figma library update on every DT UI change",
             "Coordinated releases across the code package and the Figma library",
-            "Introduced Storybook to the Employee/Shareholder pillar and created a tiered library to house recipes of Ink components",
-            "Co-created a shared Storybook + React template (optimized webpack config, addons pre-installed) adopted by other DTs across the monorepo and bootstrapped projects",
-            "Active contributor to the Ink codebase: sass to styled-components migration, component extensions, backstop tests, documentation",
-            "Created the employee-library in Figma for designers and sunsetted every vestigial, unsupported Figma library file",
+            "Introduced Storybook to the Employee/Shareholder pillar",
+            "Shared Storybook + React template, adopted by other DTs",
+            "sass → styled-components migration, backstop tests, documentation",
+            "Sunsetted every vestigial Figma library file",
           ]}
         ></List>,
       ],

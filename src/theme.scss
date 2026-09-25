@@ -61,6 +61,14 @@ $scale10: 80px;
   letter-spacing: 0.06em;
 }
 
+@mixin Caption {
+  font-family: "GeistMono";
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0.01em;
+}
+
 @mixin Body {
   font-family: "GeistMono";
   font-weight: 300;

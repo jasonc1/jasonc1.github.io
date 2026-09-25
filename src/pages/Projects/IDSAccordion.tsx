@@ -42,15 +42,14 @@ export const IDSAccordion = () => {
         <List
           size="Body"
           listItems={[
-            "Architected and implemented the component end to end, from design concept to production",
-            "Shipped it into QuickBooks Payments Onboarding — including the Chase flow — in front of millions of QuickBooks customers",
-            "Supported engineers from 2 external business units adopting and extending the component, replacing what would have been 3 parallel builds of the same thing",
-            "Upgraded the project to React 16 to support the implementation",
-            "Implemented accessibility support to Intuit's standards, working with the accessibility team",
-            "Collaborated with motion designers so easing matched Intuit's new motion design guidelines — neither easing nor a11y existed in the original Sketch designs",
-            "Built customizable theming so the component matched each Intuit product",
-            "Created hi-fi prototypes and provided technical and interaction feedback",
-            "Integrated the component into the IDS review process and onto the graduation track",
+            "Architected and shipped the component, concept → production",
+            "Live in QuickBooks Payments Onboarding (incl. Chase), for millions of customers",
+            "Adopted and extended by 2 external business units",
+            "Upgraded the project to React 16",
+            "Accessibility to Intuit standards, with the a11y team",
+            "Motion easing matched to Intuit's guidelines — absent from the original Sketch designs",
+            "Theming to match each Intuit product",
+            "On the IDS graduation track: 2 consuming teams + code coverage",
           ]}
         ></List>,
       ],

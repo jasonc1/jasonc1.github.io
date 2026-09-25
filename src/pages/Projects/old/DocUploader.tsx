@@ -22,10 +22,10 @@ export const DocUploader = () => {
         <List
           size="Body"
           listItems={[
-            "Implemented the complete frontend of the feature, shipped end to end in roughly 4 weeks",
-            "Cut identity verification from a 24-48 hour customer-care phone and fax loop to a self-serve upload, for the ~10% of Payments signups that require an ID document",
-            "Collaborated with design, customer success, and back-end engineers to roll out the feature",
-            "Spec-ed out interaction edge cases and error handling across the upload flow",
+            "Full frontend shipped end to end in ~4 weeks",
+            "24-48 hour phone-and-fax verification → self-serve upload",
+            "Served the ~10% of Payments signups needing ID verification",
+            "Edge cases and error handling across the upload flow",
           ]}
         ></List>,
       ],

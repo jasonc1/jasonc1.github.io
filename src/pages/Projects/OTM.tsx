@@ -56,12 +56,12 @@ export const OTM = () => {
           ordered
           size="Body"
           listItems={[
-            "Built a dynamic, end-to-end hi-fidelity prototype covering all 6 stages of the OTM flow, out of production-level React components",
-            "Architected a theming layer that re-skinned colors and branding per client, letting one prototype serve every white-labeled sales demo (RBC among them)",
-            "Shipped iterations across 3 prototyping stacks — ReactJS, FramerX, and ProtoPie — evaluating each for the team",
-            "Served as the Design team's dedicated prototyper on the project for 6 months",
-            "Explored and designed the loading state experience for a long-running underwriting process",
-            "Ideated new interactions and produced demos for user tests",
+            "Dedicated prototyper on the Design team for 6 months",
+            "All 6 stages of the OTM flow, in production-level React",
+            "Theming layer re-skinned the entire demo per client (RBC among them)",
+            "3 prototyping stacks evaluated: React, FramerX, ProtoPie",
+            "Loading-state design for a long-running underwriting process",
+            "Demos for sales and for user tests",
           ]}
         ></List>,
       ],

@@ -34,13 +34,11 @@ export const Haven = () => {
         <List
           size="Body"
           listItems={[
-            "Designed, developed, and published Blend’s first Figma plugin, end to end and solo",
-            "Shipped 2 auto-resizing overlay types (EXPLORATION, ARCHIVE) and 3 frame tags (Needs Review, Prod Ready, custom)",
-            "Proposed the project myself, scoped from observed Product Designer pain points",
-            "Researched and experimented with Figma’s plugin API from scratch",
-            "Carefully researched and planned the plugin rollout",
-            "Educated both brand and product designers on the plugin’s capabilities",
-            "Gathered feedback to iterate and ideate new features",
+            "Blend's first published Figma plugin — designed, built and shipped solo",
+            "2 auto-resizing overlays (EXPLORATION, ARCHIVE) and 3 frame tags",
+            "Proposed and scoped from observed Product Designer pain points",
+            "Learned the Figma plugin API from scratch",
+            "Planned the rollout; trained brand and product designers",
           ]}
         ></List>,
       ],

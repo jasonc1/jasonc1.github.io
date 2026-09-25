@@ -35,13 +35,12 @@ export const Vesta = () => {
         <List
           size="Body"
           listItems={[
-            "Built Vesta's first design system from the ground up over a 6-month part-time contract: icons, typography, colors, and an 8pt half grid",
-            "Audited every product flow to document existing patterns before designing a single component — including a full modal audit that collapsed the sprawl into one base modal",
-            "Architected base components (base_input, base_modal) so each variant ships as a pre-configured instance rather than a separately maintained component",
-            "Shipped inputs, modals, navigational elements, and an in-house icon subset maintained for flexibility",
-            "Collaborated weekly with the product design team for feedback and component presentation",
-            "Documented patterns and working best practices inside the Figma library",
-            "Collaborated with Engineering to ensure React prop alignment and FE best practices",
+            "Vesta's first design system, 0 → v1 over a 6-month part-time contract",
+            "8pt half grid, in-house icon subset, full type and colour tokens",
+            "Audited every product flow before designing — including a full modal audit",
+            "base_input and base_modal — variants ship as configured instances, not new components",
+            "Weekly component reviews with the product design team",
+            "React prop alignment agreed with Engineering",
           ]}
         ></List>,
       ],

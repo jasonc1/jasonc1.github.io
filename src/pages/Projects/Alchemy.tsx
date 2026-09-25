@@ -29,13 +29,12 @@ export const Alchemy = () => {
         <List
           size="Body"
           listItems={[
-            "Founding member of the Alchemy design system, establishing the unified foundation that supported Blend’s growth from 400 to 1,000+ employees",
-            "Consolidated fragmented per-product component libraries into one themeable system serving both the enterprise and consumer product families",
-            "Established the 3-tier theming architecture with Engineering: primitives, semantics, and component-level overrides",
-            "Established design tokens: typography, colors, icons, and basic grid structure",
-            "Designed components with theming and accessibility in mind, and wrote their documentation",
-            "Synthesized the vision for a themeable design system after several prior failed attempts at Blend, folding in each one’s learnings",
-            "Collaborated with the brand team to put together concepts for a reference site",
+            "Founding member — the foundation supported Blend's 400 → 1,000+ employee growth",
+            "Consolidated fragmented per-product libraries into 1 themeable system",
+            "3-tier theming architecture: primitives, semantics, component overrides",
+            "Design tokens: typography, colour, icons, grid",
+            "Components built for theming and accessibility, with documentation",
+            "Reference site concepts with the brand team",
           ]}
         ></List>,
       ],
