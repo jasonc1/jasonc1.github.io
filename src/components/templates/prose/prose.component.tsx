@@ -1,6 +1,7 @@
 import { IProjectsProps } from "./prose.model";
 import { Text } from "../../text/text.component";
 import { theme } from "../../../colors.js";
+import { formatDateRange } from "../../../utils/formatDateRange";
 import "./prose.style.scss";
 
 export const Prose = ({
@@ -17,7 +18,7 @@ export const Prose = ({
         {image ? <img src={image} alt={image_caption} /> : <br />}
         <div className="block-header">
           <Text size="Display" text={title} />
-          <Text size="Body" text={date} weight="light" />
+          <Text size="Body" text={formatDateRange(date)} weight="light" />
         </div>
 
         <div className="prose-summary">

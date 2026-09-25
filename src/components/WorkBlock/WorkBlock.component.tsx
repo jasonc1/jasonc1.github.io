@@ -3,6 +3,7 @@ import { IWorkBlockProps } from "./WorkBlock.model";
 import { Text } from "../text/text.component";
 import "./workblock.style.scss";
 import { Link } from "react-router-dom";
+import { formatDateRange } from "../../utils/formatDateRange";
 
 export const WorkBlock = ({ detail, link }: IWorkBlockProps) => {
   return (
@@ -40,7 +41,7 @@ export const WorkBlock = ({ detail, link }: IWorkBlockProps) => {
               <Text
                 size="Body"
                 color={theme.primary}
-                text={detail.duration}
+                text={formatDateRange(detail.duration)}
                 weight="light"
               />
             </div>

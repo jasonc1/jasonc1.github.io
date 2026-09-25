@@ -103,26 +103,41 @@
     line-height: 26px;
   }
 
-  // 75% body, 100% headings, 50% captions.
+  // 75% body, 100% headings, 50% captions — carried by colour, not opacity.
+  // Opacity on a parent cannot be undone by a child, so a metric inside body
+  // copy could never return to full black while the paragraph was dimmed.
   .prose-summary > .Body,
   .prose-block > .Body,
   .text-list .Body {
-    opacity: 0.75;
+    color: rgba(29, 29, 29, 0.75);
   }
 
   .Header {
-    opacity: 1;
+    color: theme.$primary;
     font-weight: 600;
   }
 
   .image-with-caption .Caption {
-    opacity: 0.5;
+    color: rgba(29, 29, 29, 0.5);
   }
 
   // Links carry their own colour and must not be dimmed with the body around them.
   .action-link .text,
   a .text {
-    opacity: 1;
+    color: inherit;
+  }
+
+  // The measurable half of a sentence, at full strength against 75% body copy.
+  .prose-summary .metric,
+  .prose-block .metric,
+  .text-list .metric {
+    color: #000;
+  }
+
+  // Captions stay one even tone, and the date beside the title is not a metric.
+  .image-with-caption .metric,
+  .block-header .metric {
+    color: inherit;
   }
 
   .text-list {
