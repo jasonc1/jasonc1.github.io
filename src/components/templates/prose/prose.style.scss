@@ -1,10 +1,15 @@
 @use "../../../theme.scss";
 
 .prose {
-  // Extra bottom padding for fixed ProjectBar (48px bar + 24px breathing room)
-  padding: 96px 240px 288px 240px;
+  // Extra bottom padding for fixed ProjectBar (48px bar + 24px breathing room).
+  // The gutter was a flat 240px at every width above 1000px, so at ~1100px it
+  // ate 44% of the screen while the text column starved. It now scales with the
+  // viewport, and the column is sized so body copy fills it instead of stopping
+  // short of it.
+  padding-block: 96px 288px;
+  padding-inline: clamp(20px, 6vw, 80px);
   align-items: center;
-  max-width: 1440px;
+  max-width: 980px;
   margin: 0 auto;
   i {
     display: block;
@@ -54,13 +59,134 @@
 
 @media only screen and (max-width: 1000px) {
   .prose {
-    padding: 120px 24px 120px 24px;
+    padding-block: 120px;
   }
 }
 
 @media only screen and (max-width: 770px) {
   .prose {
     // Top: nav clearance. Bottom: 48px ProjectBar + 32px breathing room.
-    padding: 80px 16px 80px 16px;
+    padding-block: 80px;
+  }
+}
+
+// ── Case study type scale & rhythm ───────────────────────────────────────
+// Three roles, three sizes, three tones: section labels at full strength,
+// body at 75%, captions at 50%. Body steps down from the site-wide 16px and
+// captions step down again, so the roles separate by size as well as tone —
+// previously body and captions were both 16px, which read as one undifferentiated
+// block. Scoped to .prose so the home page keeps the larger Body.
+.prose {
+  // .text is inline-flex globally, which is right for inline labels and wrong
+  // for paragraphs: it shrink-wraps, so body copy breaks early inside a list
+  // item and overflows the column at phone widths. Paragraphs and captions are
+  // blocks. Links are left alone — they rely on the inline-flex behaviour.
+  .prose-summary > .Body,
+  .prose-block > .Body,
+  .text-list .Body,
+  .image-with-caption .Caption {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  // Lede — the summary is the one piece of body copy that gets to be large,
+  // so the page opens on a clear step down from the Display title.
+  .prose-summary > .Body {
+    font-size: 16px;
+    line-height: 28px;
+  }
+
+  .Body,
+  .Body-bold {
+    font-size: 14px;
+    line-height: 26px;
+  }
+
+  // 75% body, 100% headings, 50% captions — carried by colour, not opacity.
+  // Opacity on a parent cannot be undone by a child, so a metric inside body
+  // copy could never return to full black while the paragraph was dimmed.
+  .prose-summary > .Body,
+  .prose-block > .Body,
+  .text-list .Body {
+    color: rgba(29, 29, 29, 0.75);
+  }
+
+  .Header {
+    color: theme.$primary;
+    font-weight: 600;
+  }
+
+  .image-with-caption .Caption {
+    color: rgba(29, 29, 29, 0.5);
+  }
+
+  // Links carry their own colour and must not be dimmed with the body around them.
+  .action-link .text,
+  a .text {
+    color: inherit;
+  }
+
+  // The measurable half of a sentence, at full strength against 75% body copy.
+  .prose-summary .metric,
+  .prose-block .metric,
+  .text-list .metric {
+    color: #000;
+  }
+
+  // Captions stay one even tone, and the date beside the title is not a metric.
+  .image-with-caption .metric,
+  .block-header .metric {
+    color: inherit;
+  }
+
+  .text-list {
+    li {
+      margin-bottom: 4px;
+    }
+  }
+}
+
+// Section rhythm. 16px left every section butting against the next; the label
+// needs room above it to read as a new section rather than another paragraph.
+.prose .prose-block {
+  margin-bottom: 72px;
+}
+
+@media only screen and (max-width: 770px) {
+  .prose .prose-block {
+    margin-bottom: 48px;
+  }
+  .prose .prose-summary > .Body {
+    font-size: 16px;
+    line-height: 26px;
+  }
+}
+
+// Title and date share one row via space-between with no gap, so a long title
+// ("Eterna & Pegasus DS", "Intuit Design Systems Accordion") runs straight into
+// the date at any width where it nearly fills the row — the 770px stack rule
+// comes far too late to catch it. A gap guarantees they never touch, and wrap
+// lets the date drop to its own line instead of crushing against the title.
+// Scoped to .prose so the home page work blocks are untouched.
+.prose .block-header {
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 32px;
+
+  // Display carries a 72px line-height against 48px type, which is fine on one
+  // line and far too loose once a long title wraps to two.
+  .Display {
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+}
+
+// Below the stacking breakpoint the title and date each take their own line.
+// This has to come after workblock.style.scss's own 770px rule to win the
+// cascade, since both selectors carry the same specificity.
+@media only screen and (max-width: 770px) {
+  .prose .block-header {
+    display: block;
   }
 }

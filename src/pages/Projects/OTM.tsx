@@ -29,15 +29,20 @@ export const OTM = () => {
     <div className="summary-text-link">
       <Text
         size="Body"
-        text={` One-tap Mobile aka OTM is a proof of concept to reimagine the buying
-        process for homeowners. My goal was to leverage production level
-        components to build the highest fidelity proof of concept (mobile only)
-        to not only test out new experiences but also to provide the engineers a
-        higher fidelity mock up to build off of since the One Tap experience was
-        heavy on interactions and content. Over the course of the project, I
-        built multiple iterations of the project ranging from sales demos and
-        prototypes for user studies leveraging mostly ReactJS but also exploring
-        alternative prototyping tooling solutions like FramerX and ProtoPie.`}
+        text={` One-Tap Mobile (OTM) was Blend's 2019 company vision made testable: get
+        a homebuyer a mortgage preapproval letter in one tap. As the dedicated
+        prototyper on the Design team for 6 months, I built the highest-fidelity
+        mobile proof of concept possible out of production-level React
+        components, so the prototype doubled as an engineering handoff artifact
+        for an experience far too interaction- and content-heavy to spec in
+        static mocks. I shipped multiple iterations across 3 prototyping stacks
+        — ReactJS primarily, plus FramerX and ProtoPie — covering the full
+        6-stage flow from financial-institution login through consent, a long
+        data-processing loading state, buying-power education, and the
+        preapproval letter itself. Because Blend's consumer products are
+        white-labeled, I architected a theming layer that re-skinned the entire
+        demo per client, which is how the same prototype served tailor-made
+        sales demos (RBC among them) and user-study sessions.`}
       />
       {ForumDemo}
     </div>
@@ -51,13 +56,12 @@ export const OTM = () => {
           ordered
           size="Body"
           listItems={[
-            "Built a dynamic and end to end hi-fidelity prototype",
-            "Explored and designed loading state experience",
-            "Ideated new interactions",
-            "Produced tailor made sales demos for clients",
-            "Produced demos for user tests",
-            "Leveraged production level react components",
-            "Architected a system to change colors and branding for sales demos",
+            "Dedicated prototyper on the Design team for 6 months",
+            "All 6 stages of the OTM flow, in production-level React",
+            "Theming layer re-skinned the entire demo per client (RBC among them)",
+            "3 prototyping stacks evaluated: React, FramerX, ProtoPie",
+            "Loading-state design for a long-running underwriting process",
+            "Demos for sales and for user tests",
           ]}
         ></List>,
       ],

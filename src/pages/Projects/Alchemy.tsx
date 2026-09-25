@@ -11,16 +11,16 @@ import Alchemy_theme_object from "../../assets/images/projects/Alchemy/Alchemy_t
 import { Text } from "../../components/text/text.component";
 
 export const Alchemy = () => {
-  const summaryText = `Alchemy design system is an ongoing design system effort at Blend to
-      create a unified design system that can be extensively customized and
-      themed to be utilized in Blend’s various product families. Alchemy is the
-      product of numerous attempts to establish design systems at Blend, thus
-      leveraging all of Blend’s learnings and past attempts. Alchemy’s main goal
-      is to act as one sole component library that both enterprise and consumer
-      products can use to design and build with. The Alchemy design system is
-      unique due to the fact that it takes on a “system for systems” approach
-      since it leverages theming in order to produce visually distinct and
-      unique components that basically act as one to many design systems.`;
+  const summaryText = `Alchemy is Blend’s unified design system, and I was a founding member of
+      the effort — the foundation it established supported Blend’s growth from
+      400 to 1,000+ employees. Alchemy consolidated Blend’s fragmented
+      per-product component libraries into one system that both enterprise and
+      consumer products design and build with. It is the product of numerous
+      prior attempts to establish a design system at Blend, folding in every
+      one of those learnings. What makes it unique is the “system for systems”
+      approach: a three-tier theme object — primitives, semantics, and
+      component-level overrides — lets one codebase render visually distinct
+      component sets that effectively act as one-to-many design systems.`;
 
   const AlchemyContent = [
     {
@@ -29,12 +29,12 @@ export const Alchemy = () => {
         <List
           size="Body"
           listItems={[
-            "Designed components with theming and accessibility in mind",
-            "Created documentation for such components",
-            "Synthesized a vision for a themeable design system to meet Blend’s product needs",
-            "Collaborated with the brand team to put together concepts for a reference site",
-            "Collaborated with Engineering to establish foundations for theming architecture",
-            "Established design tokens: typography, colors, icons, and basic grid structure",
+            "Founding member — the foundation supported Blend's 400 → 1,000+ employee growth",
+            "Consolidated fragmented per-product libraries into 1 themeable system",
+            "3-tier theming architecture: primitives, semantics, component overrides",
+            "Design tokens: typography, colour, icons, grid",
+            "Components built for theming and accessibility, with documentation",
+            "Reference site concepts with the brand team",
           ]}
         ></List>,
       ],
@@ -106,7 +106,7 @@ export const Alchemy = () => {
   return (
     <Projects
       title="Alchemy"
-      date="April 2020 - Present"
+      date="April 2020 - October 2021"
       summary={summaryText}
       content={AlchemyContent}
       image={Alchemy_cover}

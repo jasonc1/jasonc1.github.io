@@ -23,14 +23,15 @@ const EmployeeOnboardingProto = (
 );
 
 export const EmployeeOnboarding = () => {
-  const summaryText = `Prototyping played a crucial role in the design of the new onboarding
-      flow. Three prototypes were created so that we could validate the new flow
-      with the integration of 2FA upon account creation. The new onboarding flow
-      would also collect more data up front so that users wouldn't have to input
-      additional info when it came to do actions like exercising their stock
-      options. Thus an interactive prototype was created to test the feasibility
-      of the new experience, to iterate on different variations, and to user
-      test.`;
+  const summaryText = `The onboarding flow I prototyped and QA'd shipped with a 10% improvement in
+      signups. Prototyping was what got it there: I built 3 end-to-end hi-fi
+      prototypes so we could validate integrating 2FA at account creation
+      without guessing at the cost to conversion. Each variation moved 2FA and
+      equity education to a different point in the flow, and the new flow also
+      collects more data up front so users don't have to re-enter information
+      later when they exercise their stock options. The prototypes let us test
+      feasibility of the frontend, iterate across variations, and user test —
+      all before engineering committed to a build.`;
 
   const ExerciseStatusContent = [
     {
@@ -40,11 +41,12 @@ export const EmployeeOnboarding = () => {
           ordered
           size="Body"
           listItems={[
-            "Built a total of 3 end to end hi-fidelity prototypes",
-            "Leveraged existing ink componets while providing suggestions for the UI",
-            "Pixel perfect attention to detail to call out one-offs or to clean up design spec",
-            "Validated designs through user testing as well as coding functionality",
-            "Design QA-ed for release",
+            "+10% signups on the shipped flow",
+            "3 end-to-end hi-fi prototypes, one per 2FA and equity-education placement",
+            "0 net-new components — built entirely from Ink",
+            "Cleaned up spec one-offs before handoff",
+            "Validated by user testing and coded functionality",
+            "Design QA for release",
           ]}
         ></List>,
       ],

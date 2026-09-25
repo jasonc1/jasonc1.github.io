@@ -21,13 +21,14 @@ export const WaitTaskV2 = () => {
     <div className="summary-text-link">
       <Text
         size="Body"
-        text={`Wait Task V2 is a project where prototyping was leveraged to flesh out a
-        loading experience through code. A hi-fi prototype was made in a matter of
-        days to help the Design team figure out transitions, content, and
-        technical constraints. The prototype was coded in ReactJS and served as a
-        not only a working sandbox for designers to see the experience in real
-        time but also a handoff item for engineering and thus saving several weeks
-        of development time.`}
+        text={`Wait Task V2 turned a 30-second spinner into a dynamic, informative
+        loading experience for home insurance customers. I built the hi-fi
+        prototype in ReactJS in a matter of days, which let the Design team
+        resolve transitions, content, and technical constraints across all 3
+        stages of the wait task before a single production line was written. It
+        served as both a working sandbox for designers to see the experience in
+        real time and a handoff artifact engineers could read the code of —
+        saving several weeks of development time.`}
       />
       {prototype}
     </div>
@@ -40,10 +41,10 @@ export const WaitTaskV2 = () => {
         <List
           size="Body"
           listItems={[
-            "Created a hi-fi prototype with ReactJS",
-            "Collaborated with Design to work through step by step transitions",
-            "Collaborated with Engineering for hand off and walked through code",
-            "Aided Engineering in making code production ready",
+            "Hi-fi React prototype in days — saved several weeks of dev time",
+            "30-second spinner → a 3-stage dynamic loading experience",
+            "Worked the stage-to-stage transitions with Design",
+            "Walked Engineering through the prototype code for handoff",
           ]}
         ></List>,
       ],

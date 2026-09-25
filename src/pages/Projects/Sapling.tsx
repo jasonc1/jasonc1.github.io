@@ -6,10 +6,15 @@ import sapling from "../../assets/images/projects/Sapling/sapling.png";
 import { Text } from "../../components/text/text.component";
 
 export const Sapling = () => {
-  const summaryText = `Sapling is a figma plugin that creates a set page structure and cover page
-      for new figma files. This came as a result of an initiative to ensure
-      consistency amongst every designer's figma files for better organization
-      as well as collaboration with our cross functional partners.`;
+  const summaryText = `Sapling is a Figma plugin that instantiates a standard 7-page structure and
+      cover page into any new Figma file with one run. It came out of an
+      initiative to end two years of free-form file organization across the
+      Product Design team — after the move off Sketch + Abstract, every
+      designer's files were laid out differently, and files moved between Figma
+      teams constantly as priorities and team structure changed. Standardizing
+      the page structure meant any designer or cross-functional partner could
+      open any file and know where production screens, specs, WIP, and archives
+      live.`;
 
   const SaplingContent = [
     {
@@ -18,10 +23,10 @@ export const Sapling = () => {
         <List
           size="Body"
           listItems={[
-            "Project planned and set goals for the initiative",
-            "Audited existing files and highlighted areas of improvement",
-            "Created proposal for product design team",
-            "Created Figma plugin to automate & instantiate file structure",
+            "Figma plugin instantiating a 7-page file structure in one run",
+            "Audited the Product Design team's files to find the drift",
+            "Ended 2 years of free-form file organisation",
+            "Mapped Figma teams, projects and files to EPD cohorts and initiatives",
           ]}
         ></List>,
       ],
