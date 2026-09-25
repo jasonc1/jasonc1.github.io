@@ -25,6 +25,7 @@ import SRLegacy from "./pages/Projects/old/SRLegacy";
 import StratRoulette from "./pages/Projects/old/StratRoulette";
 import ProductIllustrations from "./pages/Projects/old/ProductIllustrations";
 import Rosetta from "./pages/Projects/Rosetta";
+import Noho from "./pages/Projects/Noho";
 import ResumeRedirect from "./pages/Resume/ResumeRedirect";
 
 // The FASCIILE engine is ~32 kB and reachable from exactly one route, so it is
@@ -132,7 +133,7 @@ const AppContent = () => {
         />
         <Route path="/brag" element={<UnderConstruction />} />
         <Route path="/rosetta" element={<Rosetta />} />
-        <Route path="/noho" element={<UnderConstruction />} />
+        <Route path="/noho" element={<Noho />} />
         <Route path="/bluebook" element={<Bluebook />} />
         <Route path="/ink" element={<Ink />} />
         <Route path="/vesta" element={<Vesta />} />
