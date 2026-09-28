@@ -28,6 +28,10 @@
   @include theme.Body-bold;
 }
 
+.Caption {
+  @include theme.Caption;
+}
+
 // .display-1 {
 //   @include display-1;
 // }

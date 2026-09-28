@@ -6,10 +6,14 @@ import { List } from "../../../components/list/list.component";
 import { ImageWithCaption } from "../../../components/ImageWithCaption/ImageWithCaption.component";
 import { Text } from "../../../components/text/text.component";
 export const DocUploader = () => {
-  const summaryText = `DocUploader was a feature that was created based on a huge customer pain
-    point: providing ID documentation so that the customer could be verified
-    for using Payments with Quickbooks. This project took roughly 4 weeks to
-    implement, test, and release end to end.`;
+  const summaryText = `DocUploader replaced a 24-48 hour phone-and-fax identity verification
+    process with self-serve upload, for the ~10% of QuickBooks Payments signups
+    required to provide an ID document. I implemented the complete frontend and
+    shipped it end to end — implementation, testing, and release — in roughly 4
+    weeks. The old path meant calling customer care and faxing or emailing
+    sensitive documents; the new one lets a customer pick their document type,
+    drag and drop or photograph it on mobile, preview the thumbnail at full
+    scale before committing, and get confirmation immediately.`;
 
   const DocUploaderContent = [
     {
@@ -18,9 +22,10 @@ export const DocUploader = () => {
         <List
           size="Body"
           listItems={[
-            "Implement complete front end of feature",
-            "Collaborated with design, customer success, and back-end engineers to roll out feature",
-            "Spec-ed out interaction edge cases and error handling",
+            "Full frontend shipped end to end in ~4 weeks",
+            "24-48 hour phone-and-fax verification → self-serve upload",
+            "Served the ~10% of Payments signups needing ID verification",
+            "Edge cases and error handling across the upload flow",
           ]}
         ></List>,
       ],

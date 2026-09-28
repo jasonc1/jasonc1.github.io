@@ -1,6 +1,7 @@
 import { IProjectsProps } from "./prose.model";
 import { Text } from "../../text/text.component";
 import { theme } from "../../../colors.js";
+import { formatDateRange } from "../../../utils/formatDateRange";
 import "./prose.style.scss";
 
 export const Prose = ({
@@ -17,10 +18,12 @@ export const Prose = ({
         {image ? <img src={image} alt={image_caption} /> : <br />}
         <div className="block-header">
           <Text size="Display" text={title} />
-          <Text size="Body" text={date} weight="light" />
+          <Text size="Body" text={formatDateRange(date)} weight="light" />
         </div>
 
-        <Text size="Body" text={summary} marginBottom={8} />
+        <div className="prose-summary">
+          <Text size="Body" text={summary} marginBottom={8} />
+        </div>
       </div>
       {content.map((c) => {
         if (c.section && c.content) {

@@ -23,7 +23,7 @@ const noho: IWorkBlockProps = {
   detail: {
     project: "NOHO patient portal",
     company: "NOHO Labs",
-    role: "Founding Designer",
+    role: "Founding design engineer",
     duration: "September 2025 - present",
     description:
       "Founding designer & employee #3 for NOHO Labs, an 8VC Build (portfolio) company. Overseeing all things design from revamping brand site, creating the PEGASUS Design System, and most importantly spearheading the NOHO Patient Portal.",
@@ -37,7 +37,7 @@ const rosetta: IWorkBlockProps = {
   detail: {
     project: "Rosetta design system",
     company: "Handshake",
-    role: "Senior product designer",
+    role: "Senior product designer, DS",
     duration: "Aug 2024 - September 2025",
     description:
       "One of two core contributors of the Rosetta Design system including: atomic foundations, Inputs, Cards, a11y, and more. Improved platform-wide visual language via updating and consolidating UI alongside advocating and teaching design system principles across EPD.",
@@ -65,7 +65,7 @@ const bluebook: IWorkBlockProps = {
   detail: {
     project: "Bluebook design system",
     company: "Everlaw",
-    role: "Lead product designer",
+    role: "Senior product designer, DS lead",
     duration: "Jan 2023 - Aug 2024",
     description:
       "Lead the Bluebook design system effort, evolved engineering and design collaboration & processes, migrated documentation to storybook, spearheaded planning, and delivered key components.",
