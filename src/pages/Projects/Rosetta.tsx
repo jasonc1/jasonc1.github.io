@@ -36,7 +36,7 @@ export const Rosetta = () => {
     <div className="summary-text-link">
       <Text
         size="Body"
-        text={`Rosetta is the design system at Handshake, a b2b2c student network/job platform and eventual Handshake AI data-labelling platform. The team was small yet mighty: two design technologists — me and Suleiman Ali Shakir, who has become a very close friend over the year we worked together. With about 4 FE platform engineers behind us, the two of us supported ~35 designers, 100+ frontend engineers, and 5+ BUs on a 10+ year old codebase. In that year we shipped bi-weekly Figma library releases, delivered a platform-wide token consolidation and visual language refresh in a single quarter (3 months from leadership workshop to migration), ran two quarters of card parity work across every b2b2c surface, held weekly company-open office hours, ran quarterly onboarding for every new designer and intern, and built Recitation — a Chrome extension plus Figma companion that caught legacy styles and detached components a year before Figma's own 2025 schema announcement.`}
+        text={`Rosetta is the design system at Handshake, a b2b2c student network/job platform and eventual Handshake AI data-labelling platform. The team was small yet mighty: two design technologists — me and Suleiman Ali Shakir, who has become a very close friend over the year we worked together. With about 4 FE platform engineers behind us, the two of us supported ~35 designers, 100+ frontend engineers, and 5+ BUs on a 10+ year old codebase. In that year we refactored the token architecture from 102 tokens down to 27 — a 74% reduction — migrated and deprecated 5+ legacy components, shipped bi-weekly Figma library releases, delivered a platform-wide token consolidation and visual language refresh in a single quarter (3 months from leadership workshop to migration), ran two quarters of card parity work across every b2b2c surface, held weekly company-open office hours, ran quarterly onboarding for every new designer and intern, and built Recitation — a Chrome extension plus Figma companion that caught legacy styles and detached components a year before Figma's own 2025 schema announcement.`}
       />
       {Suleiman}
     </div>
@@ -51,6 +51,8 @@ export const Rosetta = () => {
           listItems={[
             "1 of 2 design technologists supporting ~35 designers, 100+ FE engineers, 5+ BUs",
             "Bi-weekly Figma library releases",
+            "Refactored the token architecture: 102 → 27 tokens, a 74% reduction",
+            "Migrated and deprecated 5+ legacy components",
             "Platform-wide token + visual language refresh shipped in 1 quarter — 3 months from workshop to migration",
             "2 quarters of card parity across the whole b2b2c surface",
             "Recitation — Chrome extension linting a 10+ year old codebase, 1 year ahead of Figma's 2025 schema",

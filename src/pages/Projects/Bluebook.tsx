@@ -20,7 +20,7 @@ import ChipsUsage from "../../assets/images/projects/Bluebook/ChipsUsage.png";
 import ChipsUserTestProto from "../../assets/images/projects/Bluebook/ChipsUserTestProto.png";
 
 export const Bluebook = () => {
-  const summaryText = `I led the Bluebook design system at Everlaw for 20 months as DS Lead. The headline result: component delivery dropped from 4-6 quarters to 1-2 quarters each, by replacing one monolithic handoff with a phased, iterative contribution process. Alongside that I drove the migration to Storybook 7 as the system's documentation home (retiring ZeroHeight), converged the platform off a 10pt grid onto an 8pt half-grid with a shared spacing vocabulary, and shipped foundational components: table filtering, pagination, skeleton loading states, listboxes, chips/counter tags, and tokens. I was brought on to speed up React adoption, modernize the platform across multiple products, and consolidate legacy patterns; I also championed accessibility and pushed product design and engineering to scope, implement, and iterate together. The work earned a Product org-wide spot award in Q1 2024.`;
+  const summaryText = `I led the Bluebook design system at Everlaw as DS Lead. The headline result: component delivery dropped from 4-6 quarters to 1-2 quarters each, by replacing one monolithic handoff with a phased, iterative contribution process. Alongside that I drove the migration to Storybook 7 as the system's documentation home (retiring ZeroHeight), converged the platform off a 10pt grid onto an 8pt half-grid with a shared spacing vocabulary, and shipped foundational components: table filtering, pagination, skeleton loading states, listboxes, chips/counter tags, and tokens. I was brought on to speed up React adoption, modernize the platform across multiple products, and consolidate legacy patterns; I also championed accessibility and pushed product design and engineering to scope, implement, and iterate together. The work earned a Product org-wide spot award in Q1 2024.`;
 
   const BluebookContent = [
     {
@@ -30,8 +30,8 @@ export const Bluebook = () => {
           size="Body"
           listItems={[
             "4-6 quarters → 1-2 quarters per component, via a phased contribution process",
-            "DS Lead for 20 months — process, documentation, design QA, implementation",
-            "Storybook SB7 migration, retiring ZeroHeight for one .mdx reference site",
+            "Authored and contributed to 8+ components",
+            "Consolidated 2 documentation systems into 1 — Storybook SB7, retiring ZeroHeight",
             "10pt grid → 8pt half-grid, with a shared spacing vocabulary",
             "Shipped table filtering, pagination, skeleton loading, chips, listboxes, tokens",
             "User-tested the chips flow — a core UX with added-but-not-saved states",
