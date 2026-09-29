@@ -94,7 +94,7 @@ const vesta: IWorkBlockProps = {
     project: "Vesta design system",
     company: "Vesta / Contract",
     role: "Design technologist",
-    duration: "Oct 2022 - present",
+    duration: "Contract",
     description:
       "Established Vesta’s initial design system with atomic design principles. Audited existing components and engineering patterns to create Figma designs in parity.",
     img: VestaLogo,

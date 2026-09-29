@@ -92,7 +92,7 @@ export const Vesta = () => {
   return (
     <Projects
       title="Vesta"
-      date="Oct 2022 - Present, contract"
+      date="Contract"
       summary={summaryText}
       image={Cover}
       image_caption="Vesta's ui-kit cover in Figma, with a small legend for progress per page"

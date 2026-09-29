@@ -40,6 +40,7 @@ export const formatDateRange = (input: string): string =>
       (word) => MONTHS[word.toLowerCase()] ?? word
     )
     .replace(/\bpresent\b/gi, "PRESENT")
+    .replace(/\bcontract\b/gi, "CONTRACT")
     // Only a dash with space on both sides joins a range; nothing else in these
     // strings uses one, and this leaves hyphenated words alone.
     .replace(/\s+[-–—]\s+/g, " → ");
