@@ -14,19 +14,14 @@ import Cover from "../../assets/images/projects/Vesta/Cover.png";
 import ModalSubcomponents from "../../assets/images/projects/Vesta/Subcomponents.png";
 
 export const Vesta = () => {
-  const summaryText = `Vesta is an LOS (loan origination system) — the software loan officers use
-      to process loans and manage their work. I was brought on part time, as a
-      contractor, to build Vesta's very first design system from zero over 6
-      months. Some visual assets existed already — colors, type, icons — but
-      unorganized and unusable as a foundation. I restructured those into
-      tokens on an 8pt half grid, then shipped the v1 library: an in-house
-      subset of Material UI icons, a base text input extended into every input
-      variant, a base modal with swappable subcomponents, navigational
-      elements, and the pattern documentation around them. The base-component
-      approach is the point: each new variant is a pre-configured instance of a
-      base rather than a new component to maintain, so the product designers
-      and frontend engineers can build product faster without the library
-      sprawling.`;
+  const summaryText = `Vesta is an LOS — the software loan officers use to process loans and manage
+      their work. I was brought on part time, as a contractor, to build their
+      very first design system from zero. Existing colours, type and icons were
+      unorganised and unusable as a foundation, so I restructured them into tokens
+      on an 8pt half grid and shipped the v1 library: inputs, modals, navigational
+      elements and the patterns around them. The base-component approach is the
+      point — each variant ships as a configured instance of a base rather than a
+      new component to maintain.`;
 
   const VestaContent = [
     {

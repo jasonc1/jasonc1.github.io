@@ -20,7 +20,13 @@ import ChipsUsage from "../../assets/images/projects/Bluebook/ChipsUsage.png";
 import ChipsUserTestProto from "../../assets/images/projects/Bluebook/ChipsUserTestProto.png";
 
 export const Bluebook = () => {
-  const summaryText = `I led the Bluebook design system at Everlaw as DS Lead. The headline result: component delivery dropped from 4-6 quarters to 1-2 quarters each, by replacing one monolithic handoff with a phased, iterative contribution process. Alongside that I drove the migration to Storybook 7 as the system's documentation home (retiring ZeroHeight), converged the platform off a 10pt grid onto an 8pt half-grid with a shared spacing vocabulary, and shipped foundational components: table filtering, pagination, skeleton loading states, listboxes, chips/counter tags, and tokens. I was brought on to speed up React adoption, modernize the platform across multiple products, and consolidate legacy patterns; I also championed accessibility and pushed product design and engineering to scope, implement, and iterate together. The work earned a Product org-wide spot award in Q1 2024.`;
+  const summaryText = `I led the Bluebook design system at Everlaw as DS Lead. Component delivery
+      dropped from 4-6 quarters to 1-2 quarters each, by replacing one monolithic
+      handoff with a phased, iterative contribution process. I authored and
+      contributed to 8+ components — table filtering, pagination, skeleton
+      loading, listboxes, chips and tokens — consolidated 2 documentation systems
+      into 1 on Storybook, and converged the platform onto an 8pt half-grid. The
+      work earned a Product org-wide spot award in Q1 2024.`;
 
   const BluebookContent = [
     {

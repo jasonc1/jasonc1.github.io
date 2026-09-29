@@ -7,14 +7,12 @@ import { Text } from "../../components/text/text.component";
 
 export const Sapling = () => {
   const summaryText = `Sapling is a Figma plugin that instantiates a standard 7-page structure and
-      cover page into any new Figma file with one run. It came out of an
-      initiative to end two years of free-form file organization across the
-      Product Design team — after the move off Sketch + Abstract, every
-      designer's files were laid out differently, and files moved between Figma
-      teams constantly as priorities and team structure changed. Standardizing
-      the page structure meant any designer or cross-functional partner could
-      open any file and know where production screens, specs, WIP, and archives
-      live.`;
+      cover page into any new file in one run. It ended two years of free-form
+      file organisation across the Product Design team, where every designer laid
+      files out differently and files moved between Figma teams as priorities
+      shifted. Standardising the structure meant any designer or cross-functional
+      partner could open any file and know where production screens, specs, WIP
+      and archives live.`;
 
   const SaplingContent = [
     {

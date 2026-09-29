@@ -21,14 +21,13 @@ export const WaitTaskV2 = () => {
     <div className="summary-text-link">
       <Text
         size="Body"
-        text={`Wait Task V2 turned a 30-second spinner into a dynamic, informative
-        loading experience for home insurance customers. I built the hi-fi
-        prototype in ReactJS in a matter of days, which let the Design team
-        resolve transitions, content, and technical constraints across all 3
-        stages of the wait task before a single production line was written. It
-        served as both a working sandbox for designers to see the experience in
-        real time and a handoff artifact engineers could read the code of —
-        saving several weeks of development time.`}
+        text={`Wait Task V2 turned a 30-second spinner into a 3-stage dynamic loading
+        experience for home insurance customers. I built the hi-fi React prototype
+        in a matter of days, which let Design resolve transitions, content and
+        technical constraints before a single production line was written. It
+        served as both a working sandbox for designers and a handoff artifact
+        engineers could read the code of — saving several weeks of development
+        time.`}
       />
       {prototype}
     </div>

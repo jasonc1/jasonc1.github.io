@@ -10,17 +10,12 @@ import { Text } from "../../../components/text/text.component";
 
 export const ProductIllustrations = () => {
   const summaryText = `I migrated the Brand design team's product illustration assets from
-      Illustrator into a single Figma component library, collapsing a
-      multi-file, copy-paste-between-documents workflow into instance swapping
-      inside one file. Building an illustration used to mean opening a slow
-      Illustrator master file and copying vectors between documents; with
-      Figma variants and components it became assembly from a maintained
-      library, in the tool the Design team had already shifted to. I also
-      consolidated the free-form type styles the old workflow had let sprawl,
-      and validated the whole pipeline end to end — exporting sample
-      illustrations as SVG and handing them to the brand team to confirm they
-      survived After Effects and Bodymovin, since the design team leans heavily
-      on Lottie for animation.`;
+      Illustrator into a single Figma component library, collapsing a multi-file,
+      copy-paste-between-documents workflow into instance swapping inside one
+      file. I also consolidated the free-form type styles the old workflow had let
+      sprawl. Then I validated the pipeline end to end — exporting sample
+      illustrations as SVG and confirming they survived After Effects and
+      Bodymovin, since the design team leans heavily on Lottie.`;
 
   const ProductIllustrationsContent = [
     {

@@ -16,16 +16,13 @@ export const Haven = () => {
       />
     </Link>
   );
-  const summaryText = `Haven was Blend's first published Figma plugin, built to help product
-      designers document and protect their explorations and archived screens and
-      to tag screens for cleaner handoff. It ships 2 overlay types —
-      EXPLORATION and ARCHIVE, both auto-resizing to the selected frames — and 3
-      tag labels: Needs Review, Prod Ready, and a custom option. The problem it
-      solves is concrete: with short design turnarounds, years-old explorations
-      were being mistaken for current specs, causing throwaway work from a
-      simple mix-up. Haven started as a side project and an excuse to learn the
-      Figma plugin API, and became a way to extend Design Technology's support
-      into Product Design beyond design systems.`;
+  const summaryText = `Haven was Blend's first published Figma plugin — designed, built and shipped
+      solo. It adds 2 auto-resizing overlays, EXPLORATION and ARCHIVE, plus 3
+      frame tags, so designers can protect exploratory work and label screens for
+      handoff. The problem was concrete: with short turnarounds, years-old
+      explorations were being mistaken for current specs and causing throwaway
+      work. It began as an excuse to learn the Figma plugin API and became Design
+      Technology's first tooling built for Product Design.`;
 
   const HavenContent = [
     {

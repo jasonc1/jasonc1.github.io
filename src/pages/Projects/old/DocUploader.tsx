@@ -9,11 +9,9 @@ export const DocUploader = () => {
   const summaryText = `DocUploader replaced a 24-48 hour phone-and-fax identity verification
     process with self-serve upload, for the ~10% of QuickBooks Payments signups
     required to provide an ID document. I implemented the complete frontend and
-    shipped it end to end — implementation, testing, and release — in roughly 4
-    weeks. The old path meant calling customer care and faxing or emailing
-    sensitive documents; the new one lets a customer pick their document type,
-    drag and drop or photograph it on mobile, preview the thumbnail at full
-    scale before committing, and get confirmation immediately.`;
+    shipped it end to end — implementation, testing and release — in roughly 4
+    weeks. Customers now pick their document type, drag and drop or photograph
+    it, preview the thumbnail at full scale, and get confirmation immediately.`;
 
   const DocUploaderContent = [
     {
