@@ -16,8 +16,8 @@ import ModalSubcomponents from "../../assets/images/projects/Vesta/Subcomponents
 export const Vesta = () => {
   const summaryText = `Vesta is an LOS (loan origination system) — the software loan officers use
       to process loans and manage their work. I was brought on part time, as a
-      contractor, to build Vesta's very first design system from zero over 6
-      months. Some visual assets existed already — colors, type, icons — but
+      contractor, to build Vesta's very first design system from zero. Some
+      visual assets existed already — colors, type, icons — but
       unorganized and unusable as a foundation. I restructured those into
       tokens on an 8pt half grid, then shipped the v1 library: an in-house
       subset of Material UI icons, a base text input extended into every input
@@ -35,7 +35,7 @@ export const Vesta = () => {
         <List
           size="Body"
           listItems={[
-            "Vesta's first design system, 0 → v1 over a 6-month part-time contract",
+            "Vesta's first design system, built 0 → v1 on a part-time contract",
             "8pt half grid, in-house icon subset, full type and colour tokens",
             "Audited every product flow before designing — including a full modal audit",
             "base_input and base_modal — variants ship as configured instances, not new components",
@@ -92,7 +92,7 @@ export const Vesta = () => {
   return (
     <Projects
       title="Vesta"
-      date="March 2022 - August 2022, contract"
+      date="Contract"
       summary={summaryText}
       image={Cover}
       image_caption="Vesta's ui-kit cover in Figma, with a small legend for progress per page"
