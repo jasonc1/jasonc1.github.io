@@ -27,8 +27,12 @@ export const Prose = ({
       </div>
       {content.map((c) => {
         if (c.section && c.content) {
+          const slug = c.section
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-|-$/g, "");
           return (
-            <div className="prose-block">
+            <div className={`prose-block prose-block--${slug}`} key={slug}>
               <Text size="Header" caps text={c.section} />
               {c.content.map((contentBlock) => {
                 return contentBlock;

@@ -123,18 +123,12 @@
     color: inherit;
   }
 
-  // The measurable half of a sentence, at full strength against 75% body copy.
-  .prose-summary .metric,
-  .prose-block .metric,
-  .text-list .metric {
+  // Highlights are scoped to Responsibilities. The summary and the narrative
+  // sections read as prose, so emphasis there would fight the sentence rather
+  // than help it scan. Everywhere else .metric spans render as plain text.
+  .prose-block--responsibilities .metric {
     color: #000;
     font-weight: 500;
-  }
-
-  // Captions stay one even tone, and the date beside the title is not a metric.
-  .image-with-caption .metric,
-  .block-header .metric {
-    color: inherit;
   }
 
   .text-list {
