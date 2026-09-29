@@ -5,6 +5,14 @@
   margin-bottom: 40px;
   text-align: center;
   width: 100%;
+
+  // Captions read as body text — same tone, smaller size. Size carries the
+  // hierarchy, so the tone does not need to as well. At 50% they measured
+  // 3.28:1 against white, under the 4.5:1 WCAG AA floor for text this size;
+  // matching body at 75% clears it comfortably (7.34:1).
+  .Caption {
+    color: rgba(29, 29, 29, 0.75);
+  }
   img {
     margin-bottom: 8px;
     border: theme.$border-width solid rgba(0, 0, 0, 0.15);
