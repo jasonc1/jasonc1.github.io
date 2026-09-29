@@ -20,16 +20,12 @@ export const AbstractMigrate = () => {
     <div className="summary-text-link">
       <Text
         size="Body"
-        text={`A quarter-long initiative where the design technology team fully sunset
-      Abstract — after two prior failed attempts — by leveraging Abstract's
-      API. Over my first year at Blend the Product Design team slowly moved
-      onto Figma, and in Q1 2020 we set out to migrate every legacy Sketch
-      file into Box. I wrote a Node.js script that migrated 750+ Sketch files
-      across roughly 100 Abstract projects, saving hundreds of hours of
-      product designer time that would otherwise have gone to downloading and
-      moving files by hand. By then designers were spending only ~10% of their
-      time in Sketch, mostly referencing old files rather than designing, so
-      the migration also ended the Abstract subscription outright.`}
+        text={`A Node.js script against Abstract's API migrated 750+ Sketch files across
+      ~100 projects into Box, saving hundreds of hours of designer time. Two
+      earlier attempts to sunset Abstract had failed, because until then the API
+      could list files but not download them. By Q1 2020 designers were spending
+      only ~10% of their time in Sketch, mostly referencing old work — so the
+      quarter-long rollout ended the tool and the subscription with it.`}
       />
       {AbstractAPI}
     </div>

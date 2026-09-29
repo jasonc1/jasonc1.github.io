@@ -22,14 +22,13 @@ const ExerciseStatusProto = (
 );
 
 export const ExerciseStatus = () => {
-  const summaryText = `A common frustration users have with Carta is how slow it is to exercise an
-      option grant: roughly a week, across 5 steps — user submits the exercise
-      request, admin approves or rejects, payment, certificate issued, and
-      finally the user signs the certificate. Through all of it the UI surfaced
-      exactly 3 words: "pending," "cancelled," or "completed." A cancelled
-      exercise showed no reason at all, so the user's only recourse was to
-      email their admin. The task was to revamp exercise status into a
-      transparent tracker that exposes all 5 steps and every error state.`;
+  const summaryText = `Exercising an option grant at Carta takes roughly a week across 5 steps, and
+      the UI surfaced exactly 3 words for all of it: pending, cancelled, or
+      completed. A cancelled exercise gave no reason at all, leaving users to
+      email their admin to find out why. I prototyped a tracker that exposes
+      every step and error state, built entirely from the Ink design system's
+      Tracker component. The prototype de-risked the work enough to be scoped
+      into the Q4 roadmap.`;
 
   const ExerciseStatusContent = [
     {

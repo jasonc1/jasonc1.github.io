@@ -11,16 +11,14 @@ import Alchemy_theme_object from "../../assets/images/projects/Alchemy/Alchemy_t
 import { Text } from "../../components/text/text.component";
 
 export const Alchemy = () => {
-  const summaryText = `Alchemy is Blend’s unified design system, and I was a founding member of
-      the effort — the foundation it established supported Blend’s growth from
-      400 to 1,000+ employees. Alchemy consolidated Blend’s fragmented
-      per-product component libraries into one system that both enterprise and
-      consumer products design and build with. It is the product of numerous
-      prior attempts to establish a design system at Blend, folding in every
-      one of those learnings. What makes it unique is the “system for systems”
-      approach: a three-tier theme object — primitives, semantics, and
-      component-level overrides — lets one codebase render visually distinct
-      component sets that effectively act as one-to-many design systems.`;
+  const summaryText = `Alchemy is Blend's unified design system, and I was a founding member — the
+      foundation it established supported Blend's growth from 400 to 1,000+
+      employees. It consolidated fragmented per-product component libraries into
+      one system serving both the enterprise and consumer product families. The
+      approach is a system for systems: a three-tier theme object of primitives,
+      semantics and component-level overrides lets one codebase render
+      drastically different visual languages — which white-labeled consumer
+      products require.`;
 
   const AlchemyContent = [
     {

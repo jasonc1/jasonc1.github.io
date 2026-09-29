@@ -20,16 +20,14 @@ export const IDSAccordion = () => {
     <div className="summary-text-link">
       <Text
         size="Body"
-        text={`As a software engineer at Intuit I found an opportunity to contribute to
-        an upcoming design system: Intuit Design System [IDS]. What started as a
-        spike became my first design systems work — taking a single component
-        from early design concepts through prototyping to a production-ready
-        accordion, shipped in QuickBooks Payments Onboarding (including the
-        Chase flow) in front of millions of QuickBooks customers. I built it to
-        be consumed beyond my own team: engineers from 2 external business units
-        adopted and extended it, and it landed as an IDS lab component needing
-        only 2 consuming teams plus code coverage to graduate into the system
-        proper and ship automatically in every Intuit project.`}
+        text={`My first design systems work, done as a software engineer: one accordion
+      taken from early concept through prototyping to production, shipped in
+      QuickBooks Payments Onboarding — including the Chase flow — in front of
+      millions of customers. I built it to be consumed beyond my own team, and
+      engineers from 2 external business units adopted and extended it rather
+      than rebuilding the same thing. It landed as an IDS lab component, needing
+      only 2 consuming teams and code coverage to graduate into the system
+      proper.`}
       />
       {Intuit}
     </div>

@@ -29,20 +29,14 @@ export const OTM = () => {
     <div className="summary-text-link">
       <Text
         size="Body"
-        text={` One-Tap Mobile (OTM) was Blend's 2019 company vision made testable: get
-        a homebuyer a mortgage preapproval letter in one tap. As the dedicated
-        prototyper on the Design team for 6 months, I built the highest-fidelity
-        mobile proof of concept possible out of production-level React
-        components, so the prototype doubled as an engineering handoff artifact
-        for an experience far too interaction- and content-heavy to spec in
-        static mocks. I shipped multiple iterations across 3 prototyping stacks
-        — ReactJS primarily, plus FramerX and ProtoPie — covering the full
-        6-stage flow from financial-institution login through consent, a long
-        data-processing loading state, buying-power education, and the
-        preapproval letter itself. Because Blend's consumer products are
-        white-labeled, I architected a theming layer that re-skinned the entire
-        demo per client, which is how the same prototype served tailor-made
-        sales demos (RBC among them) and user-study sessions.`}
+        text={`One-Tap Mobile was Blend's 2019 company vision made testable: a mortgage
+        preapproval letter in one tap. As the Design team's dedicated prototyper
+        for 6 months, I built the highest-fidelity mobile proof of concept
+        possible out of production-level React components, so the prototype
+        doubled as the engineering handoff for an experience far too
+        interaction-heavy to spec in static mocks. A theming layer re-skinned the
+        entire demo per client, which is how one prototype served both
+        tailor-made sales demos and user-study sessions.`}
       />
       {ForumDemo}
     </div>

@@ -49,6 +49,81 @@ const UNITS = [
   "pages?",
   "signups?",
   "changes?",
+  "systems?",
+  "librar(?:y|ies)",
+  "patterns?",
+  "flows?",
+  "screens?",
+  "extensions?",
+].join("|");
+
+// Named things worth emphasising alongside the numbers: tools, design systems,
+// clients and typefaces. Curated rather than pattern-matched, so sentence-initial
+// verbs ("Shipped", "Audited") and generic nouns ("Design", "Product") stay plain.
+// Longer phrases lead so they win the alternation.
+const KEYWORDS = [
+  // Verbs and concepts that carry the claim. First letter is case-flexible so
+  // they match both at the start of a bullet and mid-sentence.
+  "[Cc]onsolidated",
+  "[Aa]rchitected",
+  "[Aa]ccessibility",
+  "[Ee]ngineering",
+  "[Mm]igrated",
+  "[Aa]uthored",
+  "[Ss]hipped",
+  "[Tt]heming",
+  "After Effects",
+  "Material UI",
+  "styled-components",
+  "Node\\.js",
+  "Storybook",
+  "ZeroHeight",
+  "Chromatic",
+  "Illustrator",
+  "Bodymovin",
+  "TypeScript",
+  "Playwright",
+  "changesets",
+  "FramerX",
+  "ProtoPie",
+  "Recitation",
+  "QuickBooks",
+  "Handshake",
+  "Bluebook",
+  "Alchemy",
+  "Pegasus",
+  "Composer",
+  "Rosetta",
+  "Sapling",
+  "Everlaw",
+  "Tracker",
+  "Roulette",
+  "Bodymovin",
+  "Lottie",
+  "Sketch",
+  "Abstract",
+  "Figma",
+  "React",
+  "Redux",
+  "Chrome",
+  "Intuit",
+  "Voyage",
+  "Vesta",
+  "Chase",
+  "Haven",
+  "Blend",
+  "Carta",
+  "ALUNA",
+  "Inter",
+  "NOHO",
+  "sass",
+  "SB7",
+  "SVG",
+  "API",
+  "EPD",
+  "IDS",
+  "OTM",
+  "Ink",
 ].join("|");
 
 const NUM = "\\d[\\d,]*(?:\\.\\d+)?";
@@ -71,6 +146,11 @@ const METRIC = new RegExp(
     `\\b\\d+-[A-Za-z]+\\b`,
     // 500+ users, ~35 designers, 4-6 quarters, 3 end-to-end hi-fi prototypes
     `~?\\b${NUM}(?:-\\d+)?\\+?\\s+(?:[A-Za-z][\\w-]*\\s+){0,2}?(?:${UNITS})\\b`,
+    // the destination of a consolidation: "2 systems into 1"
+    `(?<=\\b(?:into|down to)\\s)\\d+\\b`,
+    // named tools, systems and clients
+    `\\b(?:${KEYWORDS})\\b`,
+    `\\.mdx\\b`,
   ].join("|"),
   "g"
 );

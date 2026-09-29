@@ -23,16 +23,14 @@ const legacy = (
 );
 
 export const StratRoulette = () => {
-  const summaryText = `StratRoulette (SR) is a side project I've worked on with my good friend
-      Justin Chen — a community platform where players submit and roll strats
-      for competitive e-sports titles like CounterStrike and Valorant. First
-      launched in 2013, it ran for 7 years before we committed to a full
-      redesign at the start of the COVID-19 pandemic, rebuilding both the UI
-      and the backend. This is the second redesign attempt; the 2017 one
-      shipped designs but stalled out. I serve as design lead, though my main
-      focus is the design system: the color system, type ramp, form inputs, and
-      component library that let Justin build features instead of re-deciding
-      layout every time.`;
+  const summaryText = `StratRoulette is a side project I've worked on with my good friend Justin
+      Chen — a community platform where players submit and roll strats for
+      competitive e-sports titles like CounterStrike and Valorant. First launched
+      in 2013, it ran for 7 years before we committed to a full redesign at the
+      start of the COVID-19 pandemic, rebuilding both the UI and the backend. I
+      serve as design lead, though my main focus is the design system: the colour
+      system, type ramp and form inputs that let Justin build features instead of
+      re-deciding layout every time.`;
 
   const StratRouletteContent = [
     {

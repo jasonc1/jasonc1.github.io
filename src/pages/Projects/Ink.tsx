@@ -19,18 +19,13 @@ import { Text } from "../../components/text/text.component";
 
 export const Ink = () => {
   const summaryText = `Over a year at Carta I improved UI health for the Employee/Shareholder
-  experience by 50% across the pillar's 4 products. Taking my experience from
-  Blend, I led the 'Ink on Figma' team — one visual designer and a few other
-  DTs — meeting weekly to break down and assign library updates and the
-  company-wide rebrand effort. We set the guidelines that kept the Figma
-  library in parity with code, including a PR check that forces a library
-  update whenever a DT ships a UI change to the codebase. On top of that I
-  shipped multiple components and prototypes per quarter and contributed to
-  the codebase itself: the sass to styled-components migration, component
-  extensions, backstop test updates, and documentation. Lastly, I drove the
-  creation and adoption of a Storybook + React template with an optimized
-  webpack config and addons pre-installed, so other DTs and FE engineers
-  could adopt Storybook without rebuilding the setup each time.`;
+  experience by 50% across the pillar's 4 products. I led the 'Ink on Figma'
+  team — one visual designer and a few other DTs — and set the guidelines that
+  kept the Figma library in parity with code, including a PR check that forces
+  a library update whenever a DT ships a UI change. I shipped multiple
+  components and prototypes per quarter alongside the company-wide rebrand. A
+  Storybook + React template I built let other DTs adopt Storybook without
+  rebuilding the setup each time.`;
 
   const InkContent = [
     {

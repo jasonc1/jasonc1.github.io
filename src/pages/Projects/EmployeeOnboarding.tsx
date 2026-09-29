@@ -24,14 +24,12 @@ const EmployeeOnboardingProto = (
 
 export const EmployeeOnboarding = () => {
   const summaryText = `The onboarding flow I prototyped and QA'd shipped with a 10% improvement in
-      signups. Prototyping was what got it there: I built 3 end-to-end hi-fi
-      prototypes so we could validate integrating 2FA at account creation
-      without guessing at the cost to conversion. Each variation moved 2FA and
-      equity education to a different point in the flow, and the new flow also
-      collects more data up front so users don't have to re-enter information
-      later when they exercise their stock options. The prototypes let us test
-      feasibility of the frontend, iterate across variations, and user test —
-      all before engineering committed to a build.`;
+      signups. I built 3 end-to-end hi-fi prototypes, each placing 2FA and equity
+      education at a different point in the flow, so we could validate 2FA at
+      account creation without guessing at the cost to conversion. Every
+      variation was assembled from existing Ink components — zero net-new. The
+      prototypes carried feasibility, iteration and user testing before
+      engineering committed to a build.`;
 
   const ExerciseStatusContent = [
     {

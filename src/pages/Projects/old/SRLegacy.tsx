@@ -13,17 +13,13 @@ import SRLegacy_logo_6 from "../../../assets/images/projects/SRLegacy/SRLegacy_l
 import SRLegacy_logo_final from "../../../assets/images/projects/SRLegacy/SRLegacy_logo_final.svg";
 
 export const SRLegacy = () => {
-  const summaryText = `StratRoulette [SR] is a project created by my good friend Justin Chen from
-  CMU — essentially "spin the wheel" for how to play a game, in this case
-  CounterStrike. This is the 2017 redesign: SR took off around 2015 on word of
-  mouth alone, and by 2017 it had outgrown a UI bootstrapped with no branding,
-  layout, or information hierarchy, which was blocking further feature work. I
-  was brought in to pioneer SR's identity and design the foundation — layouts,
-  common UI components, and user flows — so Justin could spend his time on
-  features instead of interface decisions. I designed 3 core surfaces (landing
-  page, activity feed, and strat contribution) plus user accounts for saving,
-  discussing, and voting on content, borrowing conventions from apps like
-  SoundCloud. I also take part in the frontend development in React.`;
+  const summaryText = `StratRoulette is "spin the wheel" for how to play a game — in this case
+  CounterStrike — created by my good friend Justin Chen from CMU. This is the
+  2017 redesign: SR took off around 2015 on word of mouth alone, and by 2017 had
+  outgrown a UI bootstrapped with no branding, layout or information hierarchy,
+  which was blocking further feature work. I created the identity and designed 3
+  core surfaces — landing page, activity feed and strat contribution — plus user
+  accounts for saving, discussing and voting on content.`;
 
   const SRLegacyContent = [
     {
